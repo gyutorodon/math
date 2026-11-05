@@ -665,10 +665,13 @@ function makeStepper(el,A,aug=0,title){
   show(); return {steps};
 }
 // ページ内の <div class="stepper" data-m="1,2;3,4" data-aug="1"> を自動で動かす
-document.querySelectorAll(".stepper[data-m]").forEach(el=>{
-  const A=el.dataset.m.split(";").map(r=>r.split(",").map(x=>Q.parse(x)));
-  makeStepper(el,A,+(el.dataset.aug||0),el.dataset.title);
-});
+function initSteppers(){
+  document.querySelectorAll(".stepper[data-m]:not(.stp)").forEach(el=>{
+    const A=el.dataset.m.split(";").map(r=>r.split(",").map(x=>Q.parse(x)));
+    makeStepper(el,A,+(el.dataset.aug||0),el.dataset.title);
+  });
+}
+initSteppers();
 
 </script>
 <script>

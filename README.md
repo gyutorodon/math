@@ -6,6 +6,8 @@
 
 各ページは HTML ファイル1つで完結しています（外部ライブラリなし）。ブラウザで直接開いてください。
 
+7回分をまとめて読むときは [linear-algebra-IIA-all.html](linear-algebra/linear-algebra-IIA-all.html)（1ファイルに全回を収録）を開いてください。
+
 | 回 | ページ | 内容 |
 |---|---|---|
 | 1 | [01-vector-space.html](linear-algebra/01-vector-space.html) | 線形空間の公理、部分空間の判定 |
