@@ -1,0 +1,2228 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>線形代数IIA 解説（第1〜7回）</title>
+<style>
+:root{
+  --bg:#f7f6f2; --card:#ffffff; --fg:#1d2127; --muted:#5d6672; --line:#d8dbe0; --soft:#eef0f3;
+  --accent:#2453c9; --accent-soft:#e8eefc;
+  --def:#2453c9; --def-bg:#edf2fd;
+  --thm:#1d7f49; --thm-bg:#eaf6ef;
+  --warn:#b8620a; --warn-bg:#fdf3e4;
+  --bad:#c0392b; --bad-bg:#fbeceb; --good:#1d7f49; --good-bg:#e9f6ee;
+  --c1:#2453c9; --c2:#d0336a; --c3:#d9800b; --c4:#1d8a52; --c5:#7b4bc4;
+  --grid:#e3e5e9; --axis:#8a929c;
+  --mathfont:"Times New Roman","STIX Two Text","Cambria Math","Noto Serif",Times,serif;
+  color-scheme:light dark;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#14161a; --card:#1c1f24; --fg:#e5e7ea; --muted:#a2a9b3; --line:#363b43; --soft:#252930;
+    --accent:#7ea3ff; --accent-soft:#1f2a44;
+    --def:#7ea3ff; --def-bg:#1a2338;
+    --thm:#5fcf8f; --thm-bg:#16291e;
+    --warn:#f0a54a; --warn-bg:#2e2412;
+    --bad:#ff7b6e; --bad-bg:#341b19; --good:#5fcf8f; --good-bg:#16291e;
+    --c1:#7ea3ff; --c2:#ff6f9c; --c3:#f5a742; --c4:#5fcf8f; --c5:#b58cff;
+    --grid:#2a2f36; --axis:#6b737e;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);
+  font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP","Yu Gothic UI","Yu Gothic","Meiryo",system-ui,sans-serif;
+  font-size:16.5px;line-height:1.85;}
+.wrap{max-width:860px;margin:0 auto;padding:24px 16px 64px}
+a{color:var(--accent)}
+header.top{margin-bottom:28px}
+.crumb{font-size:.85rem;color:var(--muted);letter-spacing:.04em}
+h1{font-size:1.75rem;line-height:1.4;margin:.2em 0 .4em}
+.lead{color:var(--muted);margin:0 0 1em}
+.toc{display:flex;flex-wrap:wrap;gap:6px 8px;font-size:.88rem}
+.toc a{display:inline-block;padding:3px 10px;border:1px solid var(--line);border-radius:999px;text-decoration:none;color:var(--fg);background:var(--card)}
+.toc a:hover{border-color:var(--accent);color:var(--accent)}
+.toc a.demo-link{border-color:var(--accent);color:var(--accent)}
+section{margin:0 0 40px}
+h2{font-size:1.35rem;margin:0 0 .7em;padding-bottom:.3em;border-bottom:2px solid var(--line)}
+h3{font-size:1.08rem;margin:1.6em 0 .5em}
+p{margin:.6em 0}
+ul,ol{padding-left:1.4em;margin:.5em 0}
+li{margin:.2em 0}
+strong{color:var(--fg)}
+.muted{color:var(--muted)}
+.small{font-size:.88rem}
+
+/* ---- 数式 ---- */
+.doc i,.mi,.dm i,.box i{font-family:var(--mathfont);font-style:italic;font-size:1.08em}
+.vec{font-family:var(--mathfont);font-weight:700;font-style:italic;font-size:1.08em}
+.rm{font-family:var(--mathfont);font-style:normal}
+.dm{display:block;text-align:center;margin:.9em 0;overflow-x:auto;overflow-y:hidden;padding:.25em 0;line-height:1.6}
+.dm.left{text-align:left}
+.eqs{display:grid;grid-template-columns:auto auto;justify-content:center;column-gap:.4em;row-gap:.25em;align-items:center}
+.eqs>span:nth-child(odd){text-align:right}
+.eqs>span:nth-child(even){text-align:left}
+.frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;margin:0 .12em;line-height:1.15;font-size:.9em}
+.frac>span:first-child{border-bottom:1px solid currentColor;padding:0 .2em .05em}
+.frac>span:last-child{padding:.05em .2em 0}
+.mat{display:inline-flex;vertical-align:middle;align-items:stretch;margin:.1em .15em;line-height:1.35}
+.mat::before,.mat::after{content:"";width:.32em;border:1.4px solid currentColor;flex:none}
+.mat::before{border-right:none}
+.mat::after{border-left:none}
+.mat.det::before,.mat.det::after{border-top:none;border-bottom:none;width:.18em}
+.mat.det::after{border-right-width:1.4px}
+.mat>.g{display:grid;grid-template-columns:repeat(var(--c),auto);column-gap:.75em;row-gap:.12em;padding:.2em .35em;align-items:center;justify-items:center}
+.mat .hl{background:var(--accent-soft);border-radius:4px;padding:0 .2em;outline:1px solid var(--accent)}
+.mat .pv{color:var(--c2);font-weight:700}
+.nw{display:inline-block;max-width:100%;text-indent:0}
+
+/* ---- 枠 ---- */
+.box{border:1.5px solid var(--line);border-left-width:6px;border-radius:10px;padding:12px 16px;margin:18px 0;background:var(--card)}
+.box-t{font-weight:700;margin-bottom:.3em}
+.box.def{border-color:var(--def);background:var(--def-bg)}
+.box.def .box-t{color:var(--def)}
+.box.thm{border-color:var(--thm);background:var(--thm-bg)}
+.box.thm .box-t{color:var(--thm)}
+.box.warn{border-color:var(--warn);background:var(--warn-bg)}
+.box.warn .box-t{color:var(--warn)}
+.box.note{border-color:var(--line);border-left-color:var(--muted)}
+.box ol,.box ul{margin:.3em 0}
+.ax{display:grid;grid-template-columns:auto 1fr;column-gap:.8em;row-gap:.15em;margin:.4em 0}
+.ax>b{font-weight:700;white-space:nowrap}
+.ex{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:16px 0}
+.ex-t{font-weight:700;color:var(--accent);margin-bottom:.2em}
+.mis{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:14px 0}
+.mis .bad,.mis .good{border-radius:6px;padding:6px 10px;margin:.4em 0}
+.mis .bad{background:var(--bad-bg)}
+.mis .good{background:var(--good-bg)}
+.mis .bad::before{content:"✗ よくある誤り　";color:var(--bad);font-weight:700}
+.mis .good::before{content:"✓ 正しくは　";color:var(--good);font-weight:700}
+.prob{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:16px 0}
+.prob-t{font-weight:700;margin-bottom:.2em}
+details{margin-top:10px;border-top:1px dashed var(--line);padding-top:8px}
+summary{cursor:pointer;color:var(--accent);font-weight:700;list-style:none;display:inline-block;padding:4px 12px;border:1px solid var(--accent);border-radius:999px;font-size:.92rem}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▶ ";font-size:.8em}
+details[open] summary::before{content:"▼ "}
+details[open] summary{margin-bottom:8px}
+.check{color:var(--muted);font-size:.92rem}
+
+/* ---- デモ ---- */
+.demo{border:2px solid var(--accent);border-radius:14px;padding:14px 16px 16px;margin:22px 0;background:var(--card)}
+.demo-t{font-weight:700;color:var(--accent);font-size:1.05rem;margin-bottom:.3em}
+.demo-t::before{content:"▶ 動かしてみよう　"}
+.demo-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:700px){.demo-grid{grid-template-columns:minmax(0,1fr)}}
+.plot{width:100%;max-width:440px;aspect-ratio:1/1;display:block;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:10px;touch-action:none;user-select:none;-webkit-user-select:none;overflow:hidden}
+.plot text{font-family:var(--mathfont);font-style:italic}
+.ctrl{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin:8px 0}
+.ctrl label{display:inline-flex;align-items:center;gap:6px}
+select,button,input{font:inherit;color:inherit}
+select{max-width:100%;min-width:0}
+.ctrl label{flex-wrap:wrap;max-width:100%}
+select,input[type=text],input:not([type]){background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:3px 6px}
+button{background:var(--accent-soft);color:var(--accent);border:1px solid var(--accent);border-radius:8px;padding:4px 12px;cursor:pointer;font-size:.92rem}
+button:hover{background:var(--accent);color:var(--card)}
+button.on{background:var(--accent);color:var(--card)}
+input[type=range]{accent-color:var(--accent);width:150px;max-width:100%}
+input.num{width:3.6em;text-align:center;padding:2px 2px}
+input.bad{border-color:var(--bad);background:var(--bad-bg)}
+.minput{display:inline-flex;vertical-align:middle;margin:2px 4px}
+.minput::before,.minput::after{content:"";width:.4em;border:1.5px solid currentColor;flex:none}
+.minput::before{border-right:none}.minput::after{border-left:none}
+.minput>.g{display:grid;grid-template-columns:repeat(var(--c),auto);gap:4px;padding:4px}
+.out{background:var(--soft);border-radius:10px;padding:10px 12px;margin:10px 0;overflow-x:auto}
+.out .row{margin:.3em 0}
+.ok{color:var(--good);font-weight:700}
+.ng{color:var(--bad);font-weight:700}
+.tag{display:inline-block;padding:1px 10px;border-radius:999px;font-weight:700;font-size:.92rem}
+.tag.ok{background:var(--good-bg)}
+.tag.ng{background:var(--bad-bg)}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.88rem;color:var(--muted);margin:6px 0}
+.legend span::before{content:"";display:inline-block;width:12px;height:4px;border-radius:2px;background:var(--k);margin-right:5px;vertical-align:middle}
+table.t{border-collapse:collapse;margin:8px 0;font-size:.95rem}
+table.t th,table.t td{border:1px solid var(--line);padding:4px 10px;text-align:center}
+table.t th{background:var(--soft)}
+.tablewrap{overflow-x:auto}
+footer.pn{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:16px;margin-top:40px;font-size:.92rem}
+footer.pn a{text-decoration:none}
+@media (max-width:520px){
+  body{font-size:15.5px}
+  h1{font-size:1.45rem}
+  .box,.ex,.mis,.prob,.demo{padding:10px 12px}
+}
+.sl{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:4px 14px}
+.sl label{display:flex;align-items:center;gap:6px}
+.sl input[type=range]{flex:1;min-width:0;width:auto}
+.sv{min-width:2.8em;text-align:right;font-variant-numeric:tabular-nums}
+.demo-grid.eq{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+@media (max-width:700px){.demo-grid.eq{grid-template-columns:minmax(0,1fr)}}
+/* 教科書に合わせて行列は丸かっこ */
+.mat::before,.mat::after,.minput::before,.minput::after{border:none;width:.38em}
+.mat::before,.minput::before{border-left:1.5px solid currentColor;border-radius:.6em 0 0 .6em / 50% 0 0 50%}
+.mat::after,.minput::after{border-right:1.5px solid currentColor;border-radius:0 .6em .6em 0 / 0 50% 50% 0}
+.mat.det::before,.mat.det::after{border-radius:0;width:.18em}
+.prob-t .src{font-weight:400;font-size:.8rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin-left:6px;white-space:nowrap}
+/* 1手ずつ */
+.stp{border:1.5px dashed var(--accent);border-radius:10px;padding:10px 12px;margin:12px 0;background:var(--card)}
+.stp-head{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;color:var(--accent)}
+.stp-count{color:var(--muted);font-size:.88rem;font-variant-numeric:tabular-nums}
+.stp-desc{min-height:3.4em;margin:6px 0;padding:6px 10px;background:var(--soft);border-radius:8px}
+.stp-mat{text-align:center;overflow-x:auto;padding:4px 0}
+.stp-btn{justify-content:center;margin-bottom:0}
+.smat{display:inline-grid;grid-template-columns:auto .45em repeat(calc(var(--c,1)),auto) .45em;column-gap:.7em;row-gap:.2em;align-items:center;justify-items:center;line-height:1.4;font-size:1.05em}
+.smat .sp{align-self:stretch;width:.45em}
+.smat .sp.l{border-left:1.5px solid currentColor;border-radius:.6em 0 0 .6em / 50% 0 0 50%}
+.smat .sp.r{border-right:1.5px solid currentColor;border-radius:0 .6em .6em 0 / 0 50% 50% 0}
+.smat .rl{color:var(--muted);font-size:.85em;margin-right:-.3em}
+.smat .chg{background:var(--warn-bg);border-radius:4px;padding:0 .25em;outline:1px solid var(--warn)}
+.smat .pv{color:var(--c2);font-weight:700}
+.smat .vb{border-left:1.5px solid var(--muted);padding-left:.6em;margin-left:-.3em}
+.mat .vb{border-left:1.2px solid currentColor;padding-left:.5em}
+/* 要点・ひとこと・用語 */
+.box.points{border-color:var(--accent);background:var(--accent-soft)}
+.box.points .box-t{color:var(--accent)}
+.box.points ol{margin:.2em 0;padding-left:1.4em}
+.box.howto{border-color:var(--thm);background:var(--card)}
+.box.howto .box-t{color:var(--thm)}
+.plain{background:var(--card);border-radius:8px;padding:6px 10px;margin:.4em 0 .6em;font-size:.95rem}
+.plain::before{content:"ひとことで言うと　";font-weight:700;color:var(--warn)}
+.gloss{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:.3em 0}
+.gloss dt{font-weight:700;white-space:nowrap}
+.gloss dt small{display:block;font-weight:400;color:var(--muted);font-size:.78rem}
+.gloss dd{margin:0}
+@media (max-width:520px){.gloss{grid-template-columns:1fr}.gloss dd{margin:0 0 6px .8em}}
+.figrow{display:grid;grid-template-columns:repeat(var(--n,3),minmax(0,1fr));gap:10px;margin:12px 0}
+.figrow .plot{max-width:none}
+.figrow figcaption{font-size:.85rem;text-align:center;color:var(--muted);margin-top:4px;line-height:1.5}
+.figrow figure{margin:0}
+.cd{display:grid;grid-template-columns:auto auto auto;align-items:center;justify-content:center;gap:6px 14px;margin:14px 0;text-align:center}
+.cd .node{border:1.5px solid var(--line);border-radius:8px;padding:4px 14px;background:var(--card)}
+.cd .ar{color:var(--muted);font-size:.9rem;line-height:1.2}
+.cd .node{white-space:nowrap}
+@media (max-width:520px){.cd{font-size:.8rem;column-gap:6px}.cd .node{padding:3px 6px}}
+
+h3.sec{font-size:1.35rem;margin:0 0 .7em;padding-bottom:.3em;border-bottom:2px solid var(--line)}
+h4{font-size:1.08rem;margin:1.6em 0 .5em}
+.unit{margin:0 0 72px;scroll-margin-top:8px}
+.unit-head{border-top:6px solid var(--accent);padding-top:14px;margin-bottom:22px}
+.unit-head h2{font-size:1.6rem;margin:.1em 0 .3em;border:none;padding:0}
+.unit-end{text-align:right;font-size:.92rem}
+section{scroll-margin-top:8px}
+.maintoc{list-style:none;padding:0;margin:16px 0 40px;display:grid;gap:10px}
+.maintoc a{display:block;text-decoration:none;color:var(--fg);background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.maintoc a:hover{border-color:var(--accent)}
+.maintoc b{color:var(--accent);margin-right:.4em}
+.maintoc span{display:block;font-size:.88rem;color:var(--muted);line-height:1.6}
+.totop{position:fixed;right:14px;bottom:14px;background:var(--accent);color:var(--card);text-decoration:none;border-radius:999px;padding:8px 14px;font-size:.88rem;box-shadow:0 2px 8px rgba(0,0,0,.25);z-index:10}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top" id="top">
+<div class="crumb">線形代数IIA</div>
+<h1>線形代数IIA 解説（第1〜7回まとめ）</h1>
+<p class="lead">線形空間から表現行列まで、7回分の解説を1つのページにまとめました。各回は「直感 → 定義 → 具体例 → よくある間違い → 練習問題」の順です。図や計算機は実際に動かせます。</p>
+</header>
+<nav aria-label="全体の目次"><ol class="maintoc"><li><a href="#u1"><b>第1回</b>線形空間と部分空間<span>「足し算」と「実数倍」ができる集まりを、まとめて線形空間と呼びます。矢印だけでなく、多項式・関数・行列も同じ仲間として扱えるようになります。</span></a></li><li><a href="#u2"><b>第2回</b>1次独立と1次従属<span>ベクトルの組に「むだ」があるかどうかを判定します。むだのない組を1次独立、むだのある組を1次従属といいます。判定は同次連立1次方程式を解くことに帰着します。</span></a></li><li><a href="#u3"><b>第3回</b>基底・次元・座標<span>基底は空間の「ものさし（座標軸）」の選び方、次元はそのものさしの本数です。同じベクトルでも、基底を変えると座標の数値が変わります。</span></a></li><li><a href="#u4"><b>第4回</b>基底変換と座標変換<span>同じベクトルを2種類の基底で測ると、座標の数値が変わります。その「換算表」が変換行列 P です。P の作り方と、座標の変換公式 x = Px′ を学びます。</span></a></li><li><a href="#u5"><b>第5回</b>線形写像<span>「和」と「スカラー倍」を保つ写像を線形写像といいます。平面では、方眼を「平行で等間隔な方眼」に移し、原点を動かさない変換です。</span></a></li><li><a href="#u6"><b>第6回</b>像と核・次元定理<span>線形写像で「実際に届く先」が像 Im f、「0 につぶれるもの」が核 Ker f です。両者の次元の間には、次元定理という美しい関係があります。</span></a></li><li><a href="#u7"><b>第7回</b>表現行列<span>線形写像を、基底を決めて「座標の計算」に翻訳したものが表現行列です。作り方の3ステップと、基底を変えたときの公式 A′ = Q⁻¹AP を学びます。</span></a></li></ol></nav>
+<script>
+"use strict";
+/* ===== 有理数（分数を誤差なく計算する） ===== */
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){const t=a%b;a=b;b=t;}return a;}
+class Q{
+  constructor(n,d=1){
+    if(d===0) throw new Error("division by zero");
+    if(d<0){n=-n;d=-d;}
+    const g=gcd(n,d)||1; this.n=n/g; this.d=d/g;
+    if(this.n===0) this.n=0; // -0 を避ける
+  }
+  static of(x){return x instanceof Q?x:new Q(x,1);}
+  static parse(s){
+    s=String(s).trim().replace(/[−ー－–]/g,"-").replace(/＋/g,"+").replace(/／/g,"/");
+    if(s==="") return null;
+    let m=s.match(/^([+-]?\d+)\s*\/\s*([+-]?\d+)$/);
+    if(m){const d=parseInt(m[2],10); if(d===0) return null; return new Q(parseInt(m[1],10),d);}
+    m=s.match(/^([+-]?)(\d*)(?:\.(\d+))?$/);
+    if(m&&(m[2]||m[3])){
+      const k=(m[3]||"").length, den=Math.pow(10,k);
+      const num=parseInt((m[2]||"0")+(m[3]||""),10)*(m[1]==="-"?-1:1);
+      return new Q(num,den);
+    }
+    return null;
+  }
+  add(o){o=Q.of(o);return new Q(this.n*o.d+o.n*this.d,this.d*o.d);}
+  sub(o){o=Q.of(o);return new Q(this.n*o.d-o.n*this.d,this.d*o.d);}
+  mul(o){o=Q.of(o);return new Q(this.n*o.n,this.d*o.d);}
+  div(o){o=Q.of(o);return new Q(this.n*o.d,this.d*o.n);}
+  neg(){return new Q(-this.n,this.d);}
+  isZero(){return this.n===0;}
+  eq(o){o=Q.of(o);return this.n===o.n&&this.d===o.d;}
+  val(){return this.n/this.d;}
+  str(){const s=this.n<0?"−":"";const a=Math.abs(this.n);return this.d===1?s+a:s+a+"/"+this.d;}
+  html(){
+    const s=this.n<0?"−":""; const a=Math.abs(this.n);
+    if(this.d===1) return s+a;
+    return s+'<span class="frac"><span>'+a+'</span><span>'+this.d+'</span></span>';
+  }
+}
+const q=(n,d=1)=>new Q(n,d);
+const toQ=x=>x instanceof Q?x:(typeof x==="number"?numToQ(x):Q.parse(x));
+function numToQ(x){ // 小数→分数（小さい分母で近似）
+  if(Number.isInteger(x)) return q(x);
+  for(let d=2;d<=1000;d++){const n=Math.round(x*d); if(Math.abs(n/d-x)<1e-9) return q(n,d);}
+  return q(Math.round(x*1e6),1e6);
+}
+
+/* ===== 行列（Q の2次元配列） ===== */
+const LA={
+  Qm(A){return A.map(r=>r.map(toQ));},
+  clone(A){return A.map(r=>r.slice());},
+  id(n){return Array.from({length:n},(_,i)=>Array.from({length:n},(_,j)=>q(i===j?1:0)));},
+  T(A){return A[0].map((_,j)=>A.map(r=>r[j]));},
+  col(A,j){return A.map(r=>r[j]);},
+  fromCols(cols){return cols[0].map((_,i)=>cols.map(c=>c[i]));},
+  mul(A,B){return A.map(r=>B[0].map((_,j)=>r.reduce((s,a,k)=>s.add(a.mul(B[k][j])),q(0))));},
+  mv(A,x){return A.map(r=>r.reduce((s,a,k)=>s.add(a.mul(x[k])),q(0)));},
+  isZeroVec(x){return x.every(v=>v.isZero());},
+  rref(A0){
+    const A=LA.clone(A0), m=A.length, n=A[0].length, piv=[]; let r=0;
+    for(let c=0;c<n&&r<m;c++){
+      let p=-1; for(let i=r;i<m;i++){if(!A[i][c].isZero()){p=i;break;}}
+      if(p<0) continue;
+      [A[r],A[p]]=[A[p],A[r]];
+      const k=A[r][c]; A[r]=A[r].map(v=>v.div(k));
+      for(let i=0;i<m;i++){ if(i!==r&&!A[i][c].isZero()){const f=A[i][c]; A[i]=A[i].map((v,j)=>v.sub(f.mul(A[r][j])));} }
+      piv.push(c); r++;
+    }
+    return {R:A,piv};
+  },
+  rank(A){return LA.rref(A).piv.length;},
+  nullspace(A){
+    const {R,piv}=LA.rref(A), n=A[0].length, free=[];
+    for(let j=0;j<n;j++) if(!piv.includes(j)) free.push(j);
+    return free.map(f=>{
+      const x=Array.from({length:n},()=>q(0)); x[f]=q(1);
+      piv.forEach((p,i)=>{x[p]=R[i][f].neg();});
+      // 分母を払って整数ベクトルに
+      let L=1; x.forEach(v=>{L=L/gcd(L,v.d)*v.d;});
+      const y=x.map(v=>v.mul(L)); let G=0; y.forEach(v=>{G=gcd(G,v.n);});
+      return G>1?y.map(v=>v.div(G)):y;
+    });
+  },
+  det(A0){
+    const A=LA.clone(A0), n=A.length; let d=q(1);
+    for(let c=0;c<n;c++){
+      let p=-1; for(let i=c;i<n;i++) if(!A[i][c].isZero()){p=i;break;}
+      if(p<0) return q(0);
+      if(p!==c){[A[c],A[p]]=[A[p],A[c]]; d=d.neg();}
+      d=d.mul(A[c][c]);
+      for(let i=c+1;i<n;i++){const f=A[i][c].div(A[c][c]); A[i]=A[i].map((v,j)=>v.sub(f.mul(A[c][j])));}
+    }
+    return d;
+  },
+  inv(A){
+    const n=A.length, M=A.map((r,i)=>r.concat(LA.id(n)[i]));
+    const {R,piv}=LA.rref(M);
+    if(piv.length<n||piv[n-1]!==n-1) return null;
+    return R.map(r=>r.slice(n));
+  }
+};
+
+/* ===== HTML 生成 ===== */
+const H=x=>(x instanceof Q)?x.html():(typeof x==="number"?toQ(x).html():String(x));
+function matHTML(A,opt={}){
+  const c=A[0].length; let s='<span class="mat'+(opt.det?' det':'')+'"><span class="g" style="--c:'+c+'">';
+  A.forEach((r,i)=>r.forEach((v,j)=>{
+    const cls=opt.cls?opt.cls(i,j):"";
+    s+='<span'+(cls?' class="'+cls+'"':'')+'>'+H(v)+'</span>';
+  }));
+  return s+'</span></span>';
+}
+const vecHTML=(x,opt)=>matHTML(x.map(v=>[v]),opt);
+const rowVecHTML=x=>"("+x.map(H).join(", ")+")";
+
+/* ===== 行列の入力欄 ===== */
+function matrixInput(container,m,n,values,onchange){
+  container.innerHTML=""; const wrap=document.createElement("span"); wrap.className="minput";
+  const g=document.createElement("span"); g.className="g"; g.style.setProperty("--c",n); wrap.appendChild(g);
+  const inputs=[];
+  for(let i=0;i<m;i++){inputs.push([]);for(let j=0;j<n;j++){
+    const inp=document.createElement("input"); inp.className="num"; inp.setAttribute("inputmode","text");
+    inp.setAttribute("aria-label",(i+1)+"行"+(j+1)+"列"); inp.autocomplete="off";
+    const v=values&&values[i]&&values[i][j]!==undefined?values[i][j]:0;
+    inp.value=(v instanceof Q)?v.str().replace("−","-"):String(v);
+    inp.addEventListener("input",()=>{onchange&&onchange();});
+    g.appendChild(inp); inputs[i].push(inp);
+  }}
+  container.appendChild(wrap);
+  return {
+    get(){let ok=true; const A=inputs.map(r=>r.map(inp=>{const v=Q.parse(inp.value); inp.classList.toggle("bad",!v); if(!v) ok=false; return v;})); return ok?A:null;},
+    set(vals){inputs.forEach((r,i)=>r.forEach((inp,j)=>{const v=vals[i][j]; inp.value=(v instanceof Q)?v.str().replace("−","-"):String(v); inp.classList.remove("bad");}));}
+  };
+}
+
+/* ===== 平面の図（SVG） ===== */
+const SVGNS="http://www.w3.org/2000/svg";
+function sv(tag,attrs,parent,style){
+  const e=document.createElementNS(SVGNS,tag);
+  for(const k in attrs) e.setAttribute(k,attrs[k]);
+  if(style) for(const k in style) e.style[k]=style[k];
+  if(parent) parent.appendChild(e); return e;
+}
+class Plane{
+  constructor(svg,opt={}){
+    this.svg=svg; this.R=opt.R||5; this.W=400; this.s=this.W/(2*this.R);
+    svg.setAttribute("viewBox","0 0 400 400");
+    this.gGrid=sv("g",{},svg); this.gMain=sv("g",{},svg); this.gTop=sv("g",{},svg);
+    this.handles=[]; if(opt.grid!==false) this.drawGrid();
+  }
+  X(x){return this.W/2+x*this.s;} Y(y){return this.W/2-y*this.s;}
+  drawGrid(){
+    const g=this.gGrid, R=this.R;
+    for(let k=-R;k<=R;k++){
+      sv("line",{x1:this.X(k),y1:0,x2:this.X(k),y2:this.W,"stroke-width":1},g,{stroke:"var(--grid)"});
+      sv("line",{x1:0,y1:this.Y(k),x2:this.W,y2:this.Y(k),"stroke-width":1},g,{stroke:"var(--grid)"});
+    }
+    sv("line",{x1:0,y1:this.Y(0),x2:this.W,y2:this.Y(0),"stroke-width":1.5},g,{stroke:"var(--axis)"});
+    sv("line",{x1:this.X(0),y1:0,x2:this.X(0),y2:this.W,"stroke-width":1.5},g,{stroke:"var(--axis)"});
+    this.text([R-0.35,0.35],"x","var(--axis)",{size:14,anchor:"end",layer:g});
+    this.text([0.3,R-0.55],"y","var(--axis)",{size:14,layer:g});
+    for(const k of [-R+1,R-1]){ if(k===0) continue;
+      this.text([k,-0.55],String(k).replace("-","−"),"var(--axis)",{size:11,anchor:"middle",italic:false,layer:g});
+      this.text([-0.25,k-0.12],String(k).replace("-","−"),"var(--axis)",{size:11,anchor:"end",italic:false,layer:g});
+    }
+  }
+  clear(){this.gMain.replaceChildren();}
+  line(p,r,color,o={}){
+    return sv("line",{x1:this.X(p[0]),y1:this.Y(p[1]),x2:this.X(r[0]),y2:this.Y(r[1]),"stroke-width":o.width||2,"stroke-linecap":"round"},o.layer||this.gMain,
+      {stroke:color,strokeDasharray:o.dash||"",opacity:o.opacity==null?1:o.opacity});
+  }
+  infLine(p,d,color,o={}){
+    const L=Math.hypot(d[0],d[1]); if(L<1e-12) return;
+    const t=4*this.R/L; return this.line([p[0]-t*d[0],p[1]-t*d[1]],[p[0]+t*d[0],p[1]+t*d[1]],color,o);
+  }
+  poly(pts,fill,o={}){
+    return sv("polygon",{points:pts.map(p=>this.X(p[0])+","+this.Y(p[1])).join(" ")},o.layer||this.gMain,
+      {fill:fill,fillOpacity:o.opacity==null?0.18:o.opacity,stroke:o.stroke||"none",strokeWidth:o.sw||1.5,strokeDasharray:o.dash||""});
+  }
+  circle(c,r,fill,o={}){
+    return sv("circle",{cx:this.X(c[0]),cy:this.Y(c[1]),r:r*this.s},o.layer||this.gMain,{fill:fill,fillOpacity:o.opacity==null?0.18:o.opacity,stroke:o.stroke||"none",strokeWidth:1.5});
+  }
+  arrow(p,r,color,o={}){
+    const x1=this.X(p[0]),y1=this.Y(p[1]),x2=this.X(r[0]),y2=this.Y(r[1]);
+    const L=Math.hypot(x2-x1,y2-y1), g=sv("g",{},o.layer||this.gMain,{opacity:o.opacity==null?1:o.opacity});
+    if(L<0.5){ sv("circle",{cx:x1,cy:y1,r:4},g,{fill:color}); }
+    else{
+      const ux=(x2-x1)/L,uy=(y2-y1)/L,h=Math.min(12,L*0.6),w=h*0.45;
+      sv("line",{x1,y1,x2:x2-ux*h*0.8,y2:y2-uy*h*0.8,"stroke-width":o.width||3,"stroke-linecap":"round"},g,{stroke:color,strokeDasharray:o.dash||""});
+      sv("polygon",{points:`${x2},${y2} ${x2-ux*h-uy*w},${y2-uy*h+ux*w} ${x2-ux*h+uy*w},${y2-uy*h-ux*w}`},g,{fill:color});
+    }
+    if(o.label){
+      const lx=x2+(o.ldx==null?8:o.ldx), ly=y2+(o.ldy==null?-8:o.ldy);
+      const t=sv("text",{x:lx,y:ly,"font-size":15,"font-weight":700},g,{fill:color,paintOrder:"stroke",stroke:"var(--card)",strokeWidth:"4px",strokeLinejoin:"round"});
+      t.innerHTML=o.label;
+    }
+    return g;
+  }
+  text(p,str,color,o={}){
+    const t=sv("text",{x:this.X(p[0])+(o.dx||0),y:this.Y(p[1])+(o.dy||0),"font-size":o.size||14,"text-anchor":o.anchor||"start"},o.layer||this.gMain,
+      {fill:color,fontStyle:o.italic===false?"normal":"italic",paintOrder:"stroke",stroke:"var(--card)",strokeWidth:"3px",strokeLinejoin:"round",fontWeight:o.bold?"700":"400"});
+    t.innerHTML=str; return t;
+  }
+  toWorld(ev){
+    const pt=this.svg.createSVGPoint(); pt.x=ev.clientX; pt.y=ev.clientY;
+    const p=pt.matrixTransform(this.svg.getScreenCTM().inverse());
+    return [(p.x-this.W/2)/this.s,(this.W/2-p.y)/this.s];
+  }
+  // ドラッグできる点：get() で現在位置、set([x,y]) で更新
+  handle(get,set,color,o={}){
+    const g=sv("g",{},this.gTop,{cursor:"grab"});
+    const hit=sv("circle",{r:20},g,{fill:"transparent"});
+    const dot=sv("circle",{r:8,"stroke-width":2.5},g,{fill:"var(--card)",stroke:color});
+    const snap=o.snap||1, R=this.R-0.3;
+    const h={sync:()=>{const p=get(); for(const c of [hit,dot]){c.setAttribute("cx",this.X(p[0]));c.setAttribute("cy",this.Y(p[1]));}}};
+    let drag=false;
+    g.addEventListener("pointerdown",e=>{drag=true;g.setPointerCapture(e.pointerId);g.style.cursor="grabbing";e.preventDefault();});
+    g.addEventListener("pointermove",e=>{ if(!drag) return;
+      let [x,y]=this.toWorld(e);
+      x=Math.max(-R,Math.min(R,Math.round(x/snap)*snap)); y=Math.max(-R,Math.min(R,Math.round(y/snap)*snap));
+      x=+x.toFixed(6); y=+y.toFixed(6);
+      const p=get(); if(p[0]!==x||p[1]!==y){ set([x,y]); }
+    });
+    const end=()=>{drag=false;g.style.cursor="grab";};
+    g.addEventListener("pointerup",end); g.addEventListener("pointercancel",end);
+    this.handles.push(h); h.sync(); return h;
+  }
+  syncHandles(){this.handles.forEach(h=>h.sync());}
+}
+// 一次結合の式  c1 a1 + c2 a2 + ...  （names は HTML の配列）
+function combHTML(cs,names){
+  let s="";
+  cs.forEach((c,i)=>{ c=toQ(c); if(c.isZero()) return;
+    const neg=c.n<0, a=neg?c.neg():c, co=a.eq(1)?"":a.html();
+    s+=(s===""?(neg?"−":""):(neg?" − ":" + "))+co+names[i];
+  });
+  return s===""?"0":s;
+}
+const fmt=x=>H(toQ(Math.abs(x)<1e-12?0:x));
+const $=s=>document.querySelector(s);
+
+/* ===== 行基本変形を1手ずつ記録する ===== */
+const ROWN="①②③④⑤⑥⑦⑧";
+function rrefSteps(A0,aug=0){
+  const A=LA.clone(A0), m=A.length, n=A[0].length, nL=n-aug, steps=[]; let r=0;
+  const push=(desc,rows,piv)=>steps.push({M:LA.clone(A),desc,rows:rows||[],piv:piv||null});
+  push("スタート：この行列を簡約化（階段行列に）していきます。",[]);
+  for(let c=0;c<nL&&r<m;c++){
+    let p=-1; for(let i=r;i<m;i++){if(!A[i][c].isZero()){p=i;break;}}
+    if(p<0){ push(`第${c+1}列は ${ROWN[r]} 行目から下がすべて 0 なので、この列はとばして右の列へ進みます。`,[]); continue; }
+    if(p!==r){ [A[r],A[p]]=[A[p],A[r]]; push(`${ROWN[r]} と ${ROWN[p]} を入れかえます（第${c+1}列の先頭に 0 でない数を持ってくるため）。`,[r,p],[r,c]); }
+    const k=A[r][c];
+    if(!k.eq(1)){ A[r]=A[r].map(v=>v.div(k)); push(`${ROWN[r]} を ${q(1).div(k).html()} 倍します（先頭を 1 にするため）。`,[r],[r,c]); }
+    for(let i=0;i<m;i++){ if(i===r||A[i][c].isZero()) continue;
+      const f=A[i][c]; A[i]=A[i].map((v,j)=>v.sub(f.mul(A[r][j])));
+      const a=f.n<0?f.neg():f, co=a.eq(1)?"":` の ${a.html()} 倍`;
+      const d=f.n>0?`${ROWN[i]} から ${ROWN[r]}${co} を引きます`:`${ROWN[i]} に ${ROWN[r]}${co} を足します`;
+      push(`${d}（第${c+1}列の ${ROWN[i]} 行目を 0 にするため）。`,[i],[r,c]);
+    }
+    r++;
+  }
+  push("完成です。各行の先頭が 1 で、その上下がすべて 0 になりました（簡約化された行列）。",[]);
+  return steps;
+}
+function stepMatHTML(M,aug,rows,piv){
+  const m=M.length,n=M[0].length; let s=`<span class="smat" style="--m:${m};--c:${n}">`;
+  s+=`<span class="sp l" style="grid-row:1/${m+1};grid-column:2"></span><span class="sp r" style="grid-row:1/${m+1};grid-column:${n+3}"></span>`;
+  for(let i=0;i<m;i++){
+    s+=`<span class="rl" style="grid-row:${i+1};grid-column:1">${ROWN[i]}</span>`;
+    for(let j=0;j<n;j++){
+      const cl=[rows.includes(i)?"chg":"", piv&&piv[0]===i&&piv[1]===j?"pv":"", aug&&j===n-aug?"vb":""].filter(Boolean).join(" ");
+      s+=`<span class="${cl}" style="grid-row:${i+1};grid-column:${j+3}">${H(M[i][j])}</span>`;
+    }
+  }
+  return s+"</span>";
+}
+function makeStepper(el,A,aug=0,title){
+  const steps=rrefSteps(A,aug); let k=0;
+  el.classList.add("stp");
+  el.innerHTML=`<div class="stp-head"><b>${title||"簡約化を1手ずつ見る"}</b><span class="stp-count"></span></div>
+    <div class="stp-desc"></div><div class="stp-mat"></div>
+    <div class="ctrl stp-btn"><button data-a="0">最初へ</button><button data-a="-1">◀ 前へ</button><button data-a="1" class="on">次へ ▶</button><button data-a="9">最後へ</button></div>`;
+  const show=()=>{const st=steps[k];
+    el.querySelector(".stp-count").textContent=`${k} / ${steps.length-1} 手`;
+    el.querySelector(".stp-desc").innerHTML=st.desc;
+    el.querySelector(".stp-mat").innerHTML=stepMatHTML(st.M,aug,st.rows,st.piv);};
+  el.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{const a=+b.dataset.a;
+    k=a===0?0:a===9?steps.length-1:Math.max(0,Math.min(steps.length-1,k+a)); show();}));
+  show(); return {steps};
+}
+// ページ内の <div class="stepper" data-m="1,2;3,4" data-aug="1"> を自動で動かす
+function initSteppers(){
+  document.querySelectorAll(".stepper[data-m]:not(.stp)").forEach(el=>{
+    const A=el.dataset.m.split(";").map(r=>r.split(",").map(x=>Q.parse(x)));
+    makeStepper(el,A,+(el.dataset.aug||0),el.dataset.title);
+  });
+}
+initSteppers();
+
+</script>
+<main class="doc">
+<article class="unit" id="u1">
+<div class="unit-head">
+<div class="crumb">第1回</div>
+<h2>線形空間と部分空間</h2>
+<p class="lead">「足し算」と「実数倍」ができる集まりを、まとめて線形空間と呼びます。矢印だけでなく、多項式・関数・行列も同じ仲間として扱えるようになります。</p>
+<nav class="toc" aria-label="第1回の目次"><a href="#u1-s1">1. 何の話か（直感）</a><a href="#u1-s2">2. 定義</a><a href="#u1-s3">3. 具体例</a><a href="#u1-s4">4. よくある間違い</a><a href="#u1-s5">5. 練習問題</a><a class="demo-link" href="#u1-demo">▶ 動かしてみよう</a></nav>
+</div>
+<div class="box points"><div class="box-t">この回のポイント（まずここだけ押さえましょう）</div><ol><li><b>線形空間</b>＝「足し算」と「実数倍」が自由にできる集まり。多項式・関数・行列も「ベクトル」の仲間です。</li><li><b>部分空間</b>かどうかは3条件で判定：(S1) <b class="vec">0</b> を含む、(S2) 足しても外に出ない、(S3) 実数倍しても外に出ない。</li><li>「部分空間である」は文字を使って証明、「部分空間でない」は反例を1つ挙げれば示せます。</li></ol></div>
+<section id="u1-s1">
+<h3 class="sec">1. 何の話か（直感）</h3>
+<p>高校では、ベクトルを「向きと大きさをもつ矢印」として学びました。しかし線形代数で大事なのは、矢印の形そのものではなく、次の2つの操作ができることです。</p>
+<ul>
+<li><strong>足し算</strong>：2つのものを足すと、同じ種類のものになる</li>
+<li><strong>実数倍（スカラー倍）</strong>：実数をかけると、同じ種類のものになる</li>
+</ul>
+<p>たとえば多項式 <span class="nw">1 + 2<i>x</i></span> と <span class="nw">3 − <i>x</i></span> は、足すと <span class="nw">4 + <i>x</i></span>、2倍すると <span class="nw">2 + 4<i>x</i></span> になります。これは係数を並べたベクトル (1, 2)、(3, −1) の計算とまったく同じです。</p>
+<p>そこで「足し算とスカラー倍が、いつもの計算規則を満たす集合」を<strong>線形空間（ベクトル空間）</strong>と呼び、その要素をすべて<strong>ベクトル</strong>と呼ぶことにします。こうしておけば、ℝ² で成り立つ定理が、多項式や関数にもそのまま使えるようになります。</p>
+<p>さらに、線形空間の中にある「小さな線形空間」を<strong>部分空間</strong>といいます。ℝ² の中では、<strong>原点を通る直線</strong>が代表例です。原点を通らない直線や、半分だけの領域は部分空間になりません。その理由を、下の定義と「動かしてみよう」で確かめます。</p>
+<div class="figrow" style="--n:3"><figure><svg class="plot" id="u1-f1a" role="img" aria-label="原点を通る直線"></svg><figcaption>原点を通る直線<br><span class="ok">○ 部分空間</span></figcaption></figure><figure><svg class="plot" id="u1-f1b" role="img" aria-label="原点を通らない直線"></svg><figcaption>原点を通らない直線<br><span class="ng">× <b class="vec">0</b> を含まない</span></figcaption></figure><figure><svg class="plot" id="u1-f1c" role="img" aria-label="第1象限"></svg><figcaption>第1象限<br><span class="ng">× −1 倍で外に出る</span></figcaption></figure></div>
+<div class="box note"><div class="box-t">用語メモ</div><dl class="gloss"><dt>線形空間<small>せんけいくうかん</small></dt><dd>足し算とスカラー倍ができて、ふだんの計算ルールが使える集合。ベクトル空間ともいいます。</dd><dt>スカラー<small></small></dt><dd>ベクトルにかける「ただの数」。この授業では実数です。</dd><dt>零ベクトル <b class="vec">0</b><small>れいベクトル</small></dt><dd>足しても相手が変わらないベクトル。空間ごとに中身が違います（数ベクトルなら (0,…,0)、行列なら零行列）。</dd><dt>部分空間<small>ぶぶんくうかん</small></dt><dd>線形空間の中にある、それだけで線形空間になっている部分。</dd><dt>閉じている<small>とじている</small></dt><dd>計算した結果が、その集合の外に出ないこと。</dd></dl></div>
+</section>
+
+<section id="u1-s2">
+<h3 class="sec">2. 定義</h3>
+<div class="box def">
+<div class="box-t">定義 1（線形空間）</div>
+<p class="plain">足し算とスカラー倍ができて、ふだんの計算ルール（交換法則・分配法則など）がそのまま使える集合です。8条件は「いつもの計算ができる」ことを細かく書いたものなので、丸暗記より意味をつかむことを優先しましょう。</p>
+<p>集合 <i>V</i> に、和 <span class="nw"><b class="vec">u</b> + <b class="vec">v</b> ∈ <i>V</i></span> とスカラー倍 <span class="nw"><i>c</i><b class="vec">v</b> ∈ <i>V</i></span>（<i>c</i> ∈ ℝ）が定められていて、すべての <span class="nw"><b class="vec">u</b>, <b class="vec">v</b>, <b class="vec">w</b> ∈ <i>V</i></span>、<span class="nw"><i>c</i>, <i>d</i> ∈ ℝ</span> について次の8条件が成り立つとき、<i>V</i> を（ℝ 上の）<strong>線形空間</strong>といいます。</p>
+<div class="ax">
+<b>(V1)</b><span>(<span class="nw"><b class="vec">u</b> + <b class="vec">v</b>) + <b class="vec">w</b> = <b class="vec">u</b> + (<b class="vec">v</b> + <b class="vec">w</b>)</span>　（結合法則）</span>
+<b>(V2)</b><span><span class="nw"><b class="vec">u</b> + <b class="vec">v</b> = <b class="vec">v</b> + <b class="vec">u</b></span>　（交換法則）</span>
+<b>(V3)</b><span><span class="nw"><b class="vec">v</b> + <b class="vec">0</b> = <b class="vec">v</b></span> となる<strong>零ベクトル</strong> <b class="vec">0</b> ∈ <i>V</i> が存在する</span>
+<b>(V4)</b><span>各 <b class="vec">v</b> に対し <span class="nw"><b class="vec">v</b> + (−<b class="vec">v</b>) = <b class="vec">0</b></span> となる<strong>逆ベクトル</strong> −<b class="vec">v</b> ∈ <i>V</i> が存在する</span>
+<b>(V5)</b><span><span class="nw"><i>c</i>(<b class="vec">u</b> + <b class="vec">v</b>) = <i>c</i><b class="vec">u</b> + <i>c</i><b class="vec">v</b></span></span>
+<b>(V6)</b><span><span class="nw">(<i>c</i> + <i>d</i>)<b class="vec">v</b> = <i>c</i><b class="vec">v</b> + <i>d</i><b class="vec">v</b></span></span>
+<b>(V7)</b><span><span class="nw">(<i>cd</i>)<b class="vec">v</b> = <i>c</i>(<i>d</i><b class="vec">v</b>)</span></span>
+<b>(V8)</b><span><span class="nw">1<b class="vec">v</b> = <b class="vec">v</b></span></span>
+</div>
+<p class="small muted">教科書によっては零ベクトルを <b class="vec">o</b> と書きます。このページでは <b class="vec">0</b> と書きますが、同じものです。</p>
+<p class="small muted">和とスカラー倍の結果がまた <i>V</i> に入ること（<i>V</i> の中で「閉じている」こと）も、定義の前提に含まれています。</p>
+</div>
+
+<div class="box def">
+<div class="box-t">定義 2（部分空間）</div>
+<p class="plain">大きな線形空間の中にあって、それだけで線形空間になっている部分です。</p>
+<p>線形空間 <i>V</i> の部分集合 <i>W</i> が、<i>V</i> と同じ和・スカラー倍によってそれ自身線形空間になるとき、<i>W</i> を <i>V</i> の<strong>部分空間</strong>といいます。</p>
+</div>
+
+<p>8条件を毎回すべて確かめるのは大変です。しかし (V1)(V2)(V5)〜(V8) は <i>V</i> で成り立っているので、<i>W</i> でも自動的に成り立ちます。確かめるべきなのは次の3つだけです。</p>
+
+<div class="box thm">
+<div class="box-t">定理（部分空間の判定：3条件）</div>
+<p class="plain">原点（<b class="vec">0</b>）を含み、足しても実数倍しても外に出なければ部分空間です。</p>
+<p><i>V</i> の部分集合 <i>W</i> が部分空間であるための必要十分条件は、次の3つが成り立つことです。</p>
+<div class="ax">
+<b>(S1)</b><span><span class="nw"><b class="vec">0</b> ∈ <i>W</i></span>　（零ベクトルを含む）</span>
+<b>(S2)</b><span><span class="nw"><b class="vec">u</b>, <b class="vec">v</b> ∈ <i>W</i> ならば <b class="vec">u</b> + <b class="vec">v</b> ∈ <i>W</i></span>　（和で閉じている）</span>
+<b>(S3)</b><span><span class="nw"><b class="vec">u</b> ∈ <i>W</i>, <i>c</i> ∈ ℝ ならば <i>c</i><b class="vec">u</b> ∈ <i>W</i></span>　（スカラー倍で閉じている）</span>
+</div>
+<p class="small muted">(S3) で <i>c</i> = −1 とすれば逆ベクトルが <i>W</i> に入るので (V4) も成り立ちます。</p>
+</div>
+<div class="box note">
+<div class="box-t">判定の進め方</div>
+<ul>
+<li><strong>部分空間であることを示す</strong>とき：<em>任意の</em> <b class="vec">u</b>, <b class="vec">v</b>, <i>c</i> について (S1)〜(S3) を文字で証明します。</li>
+<li><strong>部分空間でないことを示す</strong>とき：(S1)〜(S3) のどれかが崩れる<em>具体例（反例）を1つ</em>挙げれば十分です。</li>
+</ul>
+</div>
+</section>
+
+<section id="u1-s3">
+<h3 class="sec">3. 具体例</h3>
+<div class="ex">
+<div class="ex-t">例 1：数ベクトル空間 ℝⁿ</div>
+<p><i>n</i> 個の実数の組全体 <span class="nw">ℝⁿ = { (<i>x</i><sub>1</sub>, …, <i>x</i><sub><i>n</i></sub>) | <i>x</i><sub><i>i</i></sub> ∈ ℝ }</span> は、成分ごとの和とスカラー倍で線形空間になります。零ベクトルは (0, …, 0) です。</p>
+<div class="dm"><span class="mat"><span class="g" style="--c:1"><span><i>x</i><sub>1</sub></span><span>⋮</span><span><i>x</i><sub><i>n</i></sub></span></span></span> + <span class="mat"><span class="g" style="--c:1"><span><i>y</i><sub>1</sub></span><span>⋮</span><span><i>y</i><sub><i>n</i></sub></span></span></span> = <span class="mat"><span class="g" style="--c:1"><span><i>x</i><sub>1</sub> + <i>y</i><sub>1</sub></span><span>⋮</span><span><i>x</i><sub><i>n</i></sub> + <i>y</i><sub><i>n</i></sub></span></span></span>，　<i>c</i> <span class="mat"><span class="g" style="--c:1"><span><i>x</i><sub>1</sub></span><span>⋮</span><span><i>x</i><sub><i>n</i></sub></span></span></span> = <span class="mat"><span class="g" style="--c:1"><span><i>cx</i><sub>1</sub></span><span>⋮</span><span><i>cx</i><sub><i>n</i></sub></span></span></span></div>
+</div>
+
+<div class="ex">
+<div class="ex-t">例 2：多項式の空間 ℝ[<i>x</i>]<sub><i>n</i></sub></div>
+<p><i>n</i> 次<strong>以下</strong>の実数係数の多項式全体を ℝ[<i>x</i>]<sub><i>n</i></sub> と書きます。</p>
+<div class="dm">ℝ[<i>x</i>]<sub>2</sub> = { <i>a</i> + <i>bx</i> + <i>cx</i>² | <i>a</i>, <i>b</i>, <i>c</i> ∈ ℝ }</div>
+<p>2次以下どうしを足しても、実数倍しても2次以下なので、ℝ[<i>x</i>]<sub>2</sub> は線形空間です。零ベクトルは<strong>多項式 0</strong>（すべての係数が 0）です。</p>
+<p class="small muted">注意：「ちょうど2次の多項式全体」は線形空間になりません。<span class="nw"><i>x</i>² + (−<i>x</i>² + <i>x</i>) = <i>x</i></span> は2次ではないからです（和で閉じていない）。</p>
+</div>
+
+<div class="ex">
+<div class="ex-t">例 3：関数の空間</div>
+<p>実数全体で定義された実数値関数全体を <i>F</i>(ℝ) とします。和とスカラー倍を</p>
+<div class="dm">(<i>f</i> + <i>g</i>)(<i>x</i>) = <i>f</i>(<i>x</i>) + <i>g</i>(<i>x</i>)，　(<i>cf</i>)(<i>x</i>) = <i>c</i> · <i>f</i>(<i>x</i>)</div>
+<p>と「各点ごと」に定めると、<i>F</i>(ℝ) は線形空間です。零ベクトルは<strong>恒等的に 0 の関数</strong> <span class="nw"><i>o</i>(<i>x</i>) = 0</span> です。sin <i>x</i> や e<sup><i>x</i></sup> も、この空間の「ベクトル」です。</p>
+</div>
+
+<div class="ex">
+<div class="ex-t">例 4：行列の空間 <i>M</i><sub><i>m</i>,<i>n</i></sub>(ℝ)</div>
+<p><i>m</i> × <i>n</i> 実行列全体は、成分ごとの和とスカラー倍で線形空間です。零ベクトルは零行列 <i>O</i> です。</p>
+<div class="dm"><span class="mat"><span class="g" style="--c:2"><span>1</span><span>2</span><span>3</span><span>4</span></span></span> + <span class="mat"><span class="g" style="--c:2"><span>0</span><span>−1</span><span>5</span><span>2</span></span></span> = <span class="mat"><span class="g" style="--c:2"><span>1</span><span>1</span><span>8</span><span>6</span></span></span>，　3<span class="mat"><span class="g" style="--c:2"><span>1</span><span>2</span><span>3</span><span>4</span></span></span> = <span class="mat"><span class="g" style="--c:2"><span>3</span><span>6</span><span>9</span><span>12</span></span></span></div>
+</div>
+
+<div class="ex">
+<div class="ex-t">例 5：部分空間であることの証明</div>
+<p><span class="nw"><i>W</i> = { <b class="vec">x</b> ∈ ℝ³ | <i>x</i><sub>1</sub> + 2<i>x</i><sub>2</sub> − <i>x</i><sub>3</sub> = 0 }</span> は ℝ³ の部分空間です（原点を通る平面）。</p>
+<ul>
+<li>(S1)　0 + 2·0 − 0 = 0 なので <b class="vec">0</b> ∈ <i>W</i>。</li>
+<li>(S2)　<b class="vec">x</b>, <b class="vec">y</b> ∈ <i>W</i> とすると <span class="nw">(<i>x</i><sub>1</sub>+<i>y</i><sub>1</sub>) + 2(<i>x</i><sub>2</sub>+<i>y</i><sub>2</sub>) − (<i>x</i><sub>3</sub>+<i>y</i><sub>3</sub>)</span> <span class="nw">= (<i>x</i><sub>1</sub>+2<i>x</i><sub>2</sub>−<i>x</i><sub>3</sub>) + (<i>y</i><sub>1</sub>+2<i>y</i><sub>2</sub>−<i>y</i><sub>3</sub>) = 0 + 0 = 0</span>。よって <b class="vec">x</b> + <b class="vec">y</b> ∈ <i>W</i>。</li>
+<li>(S3)　<span class="nw"><i>cx</i><sub>1</sub> + 2<i>cx</i><sub>2</sub> − <i>cx</i><sub>3</sub> = <i>c</i>(<i>x</i><sub>1</sub>+2<i>x</i><sub>2</sub>−<i>x</i><sub>3</sub>) = <i>c</i> · 0 = 0</span>。よって <i>c</i><b class="vec">x</b> ∈ <i>W</i>。</li>
+</ul>
+<p class="small muted">同じ議論で、同次連立1次方程式 <i>A</i><b class="vec">x</b> = <b class="vec">0</b> の解全体はいつも部分空間になります（解空間）。</p>
+</div>
+
+<div class="ex">
+<div class="ex-t">例 6：部分空間でないことの証明（反例を1つ）</div>
+<ul>
+<li><span class="nw"><i>W</i> = { (<i>x</i>, <i>y</i>) | <i>x</i> + <i>y</i> = 1 }</span>：(0, 0) は 0 + 0 ≠ 1 なので <b class="vec">0</b> ∉ <i>W</i>。(S1) が不成立。</li>
+<li><span class="nw"><i>W</i> = { (<i>x</i>, <i>y</i>) | <i>xy</i> = 0 }</span>（2本の座標軸）：(1, 0), (0, 1) ∈ <i>W</i> ですが、和 (1, 1) は 1·1 ≠ 0 なので <i>W</i> に入りません。(S2) が不成立。</li>
+<li><span class="nw"><i>W</i> = { (<i>x</i>, <i>y</i>) | <i>x</i> ≥ 0, <i>y</i> ≥ 0 }</span>（第1象限）：(1, 1) ∈ <i>W</i> ですが、(−1)·(1, 1) = (−1, −1) ∉ <i>W</i>。(S3) が不成立。</li>
+</ul>
+</div>
+
+<div class="demo" id="u1-demo">
+<div class="demo-t">部分空間かどうかを確かめる</div>
+<p class="small">集合 <i>W</i> を選び、図の <span style="color:var(--c1)">●<b class="vec">u</b></span> と <span style="color:var(--c2)">●<b class="vec">v</b></span> をドラッグして <i>W</i> の中に置いてください。和 <b class="vec">u</b> + <b class="vec">v</b> とスカラー倍 <i>c</i><b class="vec">u</b> が <i>W</i> に入るかを自動で判定します（点は 0.5 刻みで動きます）。</p>
+<div class="ctrl"><label>集合 <i>W</i>：<select id="u1-setSel"></select></label></div>
+<div class="demo-grid">
+<div><svg class="plot" id="u1-pl1" role="img" aria-label="部分空間の判定の図"></svg>
+<div class="legend"><span style="--k:var(--c4)">W</span><span style="--k:var(--c1)">u</span><span style="--k:var(--c2)">v</span><span style="--k:var(--c5)">u + v</span><span style="--k:var(--c3)">cu</span></div></div>
+<div>
+<div class="ctrl"><label>スカラー <i>c</i> = <b id="u1-cval">−1</b></label><input type="range" id="u1-cr" min="-3" max="3" step="0.5" value="-1" aria-label="スカラー c"></div>
+<div class="out" id="u1-res1"></div>
+<div class="ctrl"><button id="u1-auto">反例を自動で探す（300回）</button></div>
+<div class="small" id="u1-auto-msg"></div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="u1-s4">
+<h3 class="sec">4. よくある間違い</h3>
+<div class="mis">
+<p class="bad"><b class="vec">0</b> ∈ <i>W</i> を確かめたので、<i>W</i> は部分空間である。</p>
+<p class="good">(S1) は<strong>必要条件の1つ</strong>にすぎません。<i>xy</i> = 0 の集合は原点を含みますが、和で閉じていないので部分空間ではありません。3条件すべてが必要です。</p>
+</div>
+<div class="mis">
+<p class="bad">(1, 2) と (2, 4) を足したら (3, 6) で、<i>W</i> に入ったので「和で閉じている」。</p>
+<p class="good">「閉じている」ことは<strong>任意の</strong> <b class="vec">u</b>, <b class="vec">v</b> について示す必要があります。具体例でうまくいっても証明になりません。文字でおいて計算しましょう。一方、閉じて<em>いない</em>ことは反例1つで示せます。</p>
+</div>
+<div class="mis">
+<p class="bad">関数の空間の零ベクトルは「数の 0」である。</p>
+<p class="good">零ベクトルはその空間の要素です。関数の空間なら<strong>恒等的に 0 の関数</strong>、行列の空間なら<strong>零行列 <i>O</i></strong>、多項式の空間なら<strong>多項式 0</strong> です。</p>
+</div>
+<div class="mis">
+<p class="bad">「ちょうど <i>n</i> 次の多項式全体」も線形空間である。</p>
+<p class="good">零多項式を含まず、和で次数が下がることもあるので線形空間ではありません。線形空間になるのは「<i>n</i> 次<strong>以下</strong>」の多項式全体 ℝ[<i>x</i>]<sub><i>n</i></sub> です。</p>
+</div>
+<div class="mis">
+<p class="bad">第1象限は和で閉じているので部分空間である。</p>
+<p class="good">スカラー倍は<strong>負の数</strong>もかけます。(S3) で <i>c</i> = −1 を試すと外に出るので、部分空間ではありません。</p>
+</div>
+</section>
+
+<section id="u1-s5">
+<h3 class="sec">5. 練習問題</h3>
+<div class="box howto"><div class="box-t">解き方の手順：部分空間かどうかの判定</div><ol><li>まず <b class="vec">0</b> が <i>W</i> に入るか確かめます。入らなければ、その時点で「部分空間でない」と結論できます。</li><li>条件が「1次式 = 0」の形（定数項・2乗・積・不等号・「整数」などがない）なら、部分空間である見込みが高いです。<b class="vec">u</b>, <b class="vec">v</b> を文字でおいて (S2)(S3) を証明します。</li><li>不等号・2乗・積・「整数」などがあれば、反例を探します。<b>−1 倍</b>、<b><span class="frac"><span>1</span><span>2</span></span> 倍</b>、<b>2つのベクトルの和</b>を試すと見つかりやすいです。</li></ol></div>
+<div class="prob">
+<div class="prob-t">問題 1 <span class="src">教科書 練習問題4 [A] 5 の類題</span></div>
+<p>次の ℝ³ の部分集合は部分空間になるか判定してください。</p>
+<p>(1) <span class="nw"><i>W</i><sub>1</sub> = { <b class="vec">x</b> | <i>x</i><sub>1</sub> + <i>x</i><sub>3</sub> = 0 }</span>　(2) <span class="nw"><i>W</i><sub>2</sub> = { <b class="vec">x</b> | <i>x</i><sub>1</sub> ≥ <i>x</i><sub>2</sub> }</span><br>(3) <span class="nw"><i>W</i><sub>3</sub> = { <b class="vec">x</b> | <i>x</i><sub>1</sub> = 2<i>x</i><sub>3</sub> }</span>　(4) <span class="nw"><i>W</i><sub>4</sub> = { <b class="vec">x</b> | <i>x</i><sub>1</sub>, <i>x</i><sub>2</sub>, <i>x</i><sub>3</sub> は整数 }</span></p>
+<details><summary>解答を見る</summary>
+<p><strong>(1) 部分空間です。</strong>(S1) 0 + 0 = 0。(S2) <b class="vec">x</b>, <b class="vec">y</b> ∈ <i>W</i><sub>1</sub> なら <span class="nw">(<i>x</i><sub>1</sub> + <i>y</i><sub>1</sub>) + (<i>x</i><sub>3</sub> + <i>y</i><sub>3</sub>) = (<i>x</i><sub>1</sub> + <i>x</i><sub>3</sub>) + (<i>y</i><sub>1</sub> + <i>y</i><sub>3</sub>) = 0</span>。(S3) <span class="nw"><i>cx</i><sub>1</sub> + <i>cx</i><sub>3</sub> = <i>c</i>(<i>x</i><sub>1</sub> + <i>x</i><sub>3</sub>) = 0</span>。</p>
+<p><strong>(2) 部分空間ではありません。</strong>(1, 0, 0) ∈ <i>W</i><sub>2</sub>（1 ≥ 0）ですが、<span class="nw">(−1) · (1, 0, 0) = (−1, 0, 0)</span> は −1 ≥ 0 を満たさないので <i>W</i><sub>2</sub> に入りません（スカラー倍で閉じていない）。</p>
+<p><strong>(3) 部分空間です。</strong>(S1) 0 = 2·0。(S2) <span class="nw"><i>x</i><sub>1</sub> + <i>y</i><sub>1</sub> = 2<i>x</i><sub>3</sub> + 2<i>y</i><sub>3</sub> = 2(<i>x</i><sub>3</sub> + <i>y</i><sub>3</sub>)</span>。(S3) <span class="nw"><i>cx</i><sub>1</sub> = <i>c</i> · 2<i>x</i><sub>3</sub> = 2(<i>cx</i><sub>3</sub>)</span>。</p>
+<p><strong>(4) 部分空間ではありません。</strong>和では閉じていますが、(1, 0, 0) ∈ <i>W</i><sub>4</sub> に実数 <span class="frac"><span>1</span><span>2</span></span> をかけた <span class="nw">(<span class="frac"><span>1</span><span>2</span></span>, 0, 0)</span> は <i>W</i><sub>4</sub> に入りません。スカラーは<strong>すべての実数</strong>をとることに注意しましょう。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 2 <span class="src">教科書 練習問題4 [B] 4 の類題</span></div>
+<p>2次の実行列全体 <i>M</i><sub>2</sub> の次の部分集合は、部分空間になるか判定してください。</p>
+<p>(1) <span class="nw"><i>W</i><sub>1</sub> = { <i>A</i> | <sup>t</sup><i>A</i> = −<i>A</i> }</span>（交代行列）　(2) <span class="nw"><i>W</i><sub>2</sub> = { <i>A</i> | <i>A</i>² = <i>O</i> }</span>　(3) <span class="nw"><i>W</i><sub>3</sub> = { <i>A</i> | tr <i>A</i> = 0 }</span></p>
+<details><summary>解答を見る</summary>
+<p><strong>(1) 部分空間です。</strong>(S1) <span class="nw"><sup>t</sup><i>O</i> = <i>O</i> = −<i>O</i></span>。(S2) <span class="nw"><sup>t</sup>(<i>A</i> + <i>B</i>) = <sup>t</sup><i>A</i> + <sup>t</sup><i>B</i> = −<i>A</i> − <i>B</i> = −(<i>A</i> + <i>B</i>)</span>。(S3) <span class="nw"><sup>t</sup>(<i>cA</i>) = <i>c</i> <sup>t</sup><i>A</i> = −<i>cA</i></span>。</p>
+<p><strong>(2) 部分空間ではありません。</strong><span class="nw"><i>A</i> = <span class="mat"><span class="g" style="--c:2"><span>0</span><span>1</span><span>0</span><span>0</span></span></span></span>, <span class="nw"><i>B</i> = <span class="mat"><span class="g" style="--c:2"><span>0</span><span>0</span><span>1</span><span>0</span></span></span></span> はどちらも 2乗すると <i>O</i> ですが、</p>
+<div class="dm">(<i>A</i> + <i>B</i>)² = <span class="mat"><span class="g" style="--c:2"><span>0</span><span>1</span><span>1</span><span>0</span></span></span>² = <span class="mat"><span class="g" style="--c:2"><span>1</span><span>0</span><span>0</span><span>1</span></span></span> ≠ <i>O</i></div>
+<p>なので和で閉じていません。</p>
+<p><strong>(3) 部分空間です。</strong>tr <i>O</i> = 0。<span class="nw">tr(<i>A</i> + <i>B</i>) = tr <i>A</i> + tr <i>B</i> = 0</span>、<span class="nw">tr(<i>cA</i>) = <i>c</i> tr <i>A</i> = 0</span>。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 3 <span class="src">教科書 練習問題4 [B] 9 の類題</span></div>
+<p><i>B</i> を <i>n</i> 次行列とするとき、<span class="nw"><i>AB</i> = <i>BA</i></span> を満たす <i>n</i> 次行列 <i>A</i> の全体 <i>W</i> は、<i>n</i> 次行列全体のつくる線形空間 <i>M</i><sub><i>n</i></sub> の部分空間であることを示してください。</p>
+<details><summary>解答を見る</summary>
+<ul>
+<li>(S1)　<span class="nw"><i>OB</i> = <i>O</i> = <i>BO</i></span> なので <i>O</i> ∈ <i>W</i>。</li>
+<li>(S2)　<i>A</i><sub>1</sub>, <i>A</i><sub>2</sub> ∈ <i>W</i> なら <span class="nw">(<i>A</i><sub>1</sub> + <i>A</i><sub>2</sub>)<i>B</i> = <i>A</i><sub>1</sub><i>B</i> + <i>A</i><sub>2</sub><i>B</i> = <i>BA</i><sub>1</sub> + <i>BA</i><sub>2</sub> = <i>B</i>(<i>A</i><sub>1</sub> + <i>A</i><sub>2</sub>)</span>。</li>
+<li>(S3)　<span class="nw">(<i>cA</i>)<i>B</i> = <i>c</i>(<i>AB</i>) = <i>c</i>(<i>BA</i>) = <i>B</i>(<i>cA</i>)</span>。</li>
+</ul>
+<p>よって <i>W</i> は部分空間です。行列の分配法則とスカラー倍の性質だけで示せることを確認しましょう。</p>
+</details>
+</div>
+</section>
+<p class="unit-end"><a href="#top">↑ 全体の目次に戻る</a></p>
+</article>
+<script>
+(function(){
+const ROOT=document.getElementById("u1");
+const $=s=>ROOT.querySelector(s.replace(/#([\w-]+)/g,"#u1-$1"));
+const EPS=1e-9;
+const R5=4.5;
+const half=()=>Math.round((Math.random()*2-1)*R5*2)/2;
+const SETS=[
+  {name:"W₁：y = 2x（原点を通る直線）",has:(x,y)=>Math.abs(y-2*x)<EPS,u:[1,2],v:[-1.5,-3],
+   draw:P=>P.infLine([0,0],[1,2],"var(--c4)",{width:6,opacity:0.35}),
+   sample:()=>{const t=Math.round((Math.random()*4-2)*2)/2;return [t,2*t];}},
+  {name:"W₂：y = 2x + 1（原点を通らない直線）",has:(x,y)=>Math.abs(y-2*x-1)<EPS,u:[0,1],v:[1,3],
+   draw:P=>P.infLine([0,1],[1,2],"var(--c4)",{width:6,opacity:0.35}),
+   sample:()=>{const t=Math.round((Math.random()*3.5-2)*2)/2;return [t,2*t+1];}},
+  {name:"W₃：x ≥ 0 かつ y ≥ 0（第1象限）",has:(x,y)=>x>=-EPS&&y>=-EPS,u:[1,2],v:[2.5,0.5],
+   draw:P=>P.poly([[0,0],[6,0],[6,6],[0,6]],"var(--c4)",{opacity:0.16}),
+   sample:()=>[Math.abs(half()),Math.abs(half())]},
+  {name:"W₄：xy = 0（2本の座標軸）",has:(x,y)=>Math.abs(x*y)<EPS,u:[2,0],v:[0,1.5],
+   draw:P=>{P.infLine([0,0],[1,0],"var(--c4)",{width:6,opacity:0.35});P.infLine([0,0],[0,1],"var(--c4)",{width:6,opacity:0.35});},
+   sample:()=>Math.random()<0.5?[half(),0]:[0,half()]},
+  {name:"W₅：x² + y² ≤ 4（半径2の円板）",has:(x,y)=>x*x+y*y<=4+EPS,u:[1,1],v:[-1,1.5],
+   draw:P=>P.circle([0,0],2,"var(--c4)",{opacity:0.16,stroke:"var(--c4)"}),
+   sample:()=>{let p;do{p=[Math.round((Math.random()*4-2)*2)/2,Math.round((Math.random()*4-2)*2)/2];}while(p[0]*p[0]+p[1]*p[1]>4);return p;}},
+];
+const sel=$("#setSel");
+SETS.forEach((s,i)=>{const o=document.createElement("option");o.value=i;o.textContent=s.name;sel.appendChild(o);});
+const P=new Plane($("#pl1"),{R:5});
+let S=SETS[0], u=S.u.slice(), v=S.v.slice(), c=-1;
+P.handle(()=>u,p=>{u=p;render();},"var(--c1)",{snap:0.5});
+P.handle(()=>v,p=>{v=p;render();},"var(--c2)",{snap:0.5});
+const pt=p=>"("+fmt(p[0])+", "+fmt(p[1])+")";
+const mark=b=>b?'<span class="ok">✓ 入る</span>':'<span class="ng">✗ 入らない</span>';
+function render(){
+  P.clear(); S.draw(P);
+  const s=[u[0]+v[0],u[1]+v[1]], cu=[c*u[0],c*u[1]];
+  P.line(u,s,"var(--c5)",{dash:"5 5",width:1.5,opacity:0.7});
+  P.line(v,s,"var(--c5)",{dash:"5 5",width:1.5,opacity:0.7});
+  P.arrow([0,0],cu,"var(--c3)",{label:"cu",width:5,opacity:0.85});
+  P.arrow([0,0],s,"var(--c5)",{label:"u+v"});
+  P.arrow([0,0],u,"var(--c1)",{label:"u"});
+  P.arrow([0,0],v,"var(--c2)",{label:"v"});
+  P.syncHandles();
+  const h0=S.has(0,0),hu=S.has(...u),hv=S.has(...v),hs=S.has(...s),hc=S.has(...cu);
+  let t='<table class="t"><tr><th></th><th>値</th><th><i>W</i> に</th></tr>';
+  t+=`<tr><td>{{0}}</td><td>(0, 0)</td><td>${mark(h0)}</td></tr>`;
+  t+=`<tr><td style="color:var(--c1)"><b class="vec">u</b></td><td>${pt(u)}</td><td>${mark(hu)}</td></tr>`;
+  t+=`<tr><td style="color:var(--c2)"><b class="vec">v</b></td><td>${pt(v)}</td><td>${mark(hv)}</td></tr>`;
+  t+=`<tr><td style="color:var(--c5)"><b class="vec">u</b> + <b class="vec">v</b></td><td>${pt(s)}</td><td>${mark(hs)}</td></tr>`;
+  t+=`<tr><td style="color:var(--c3)"><i>c</i><b class="vec">u</b></td><td>${pt(cu)}</td><td>${mark(hc)}</td></tr></table>`;
+  t=t.replace("{{0}}",'<b class="vec">0</b>');
+  let msg;
+  if(!h0) msg='<span class="tag ng">部分空間ではない</span> 零ベクトルが <i>W</i> に入っていません（S1 不成立）。';
+  else if(!hu||!hv) msg='まず <b class="vec">u</b> と <b class="vec">v</b> を <i>W</i> の中（緑の部分）に置いてください。';
+  else if(!hs) msg='<span class="tag ng">反例発見</span> <b class="vec">u</b>, <b class="vec">v</b> ∈ <i>W</i> なのに <b class="vec">u</b> + <b class="vec">v</b> ∉ <i>W</i>。和で閉じていません（S2 不成立）。';
+  else if(!hc) msg='<span class="tag ng">反例発見</span> <b class="vec">u</b> ∈ <i>W</i> なのに <i>c</i><b class="vec">u</b> ∉ <i>W</i>。スカラー倍で閉じていません（S3 不成立）。';
+  else msg='この <b class="vec">u</b>, <b class="vec">v</b>, <i>c</i> では <i>W</i> からはみ出しませんでした。<span class="muted">（これだけでは部分空間とは言えません。すべての場合で成り立つことの証明が必要です）</span>';
+  $("#res1").innerHTML=t+'<div class="row">'+msg+'</div>';
+}
+sel.addEventListener("change",()=>{S=SETS[+sel.value];u=S.u.slice();v=S.v.slice();$("#auto-msg").textContent="";render();});
+$("#cr").addEventListener("input",e=>{c=+e.target.value;$("#cval").innerHTML=fmt(c);render();});
+$("#auto").addEventListener("click",()=>{
+  if(!S.has(0,0)){$("#auto-msg").innerHTML='零ベクトルが入っていないので、それだけで部分空間ではありません。';return;}
+  const cs=[-3,-2,-1.5,-1,-0.5,0.5,1.5,2,3];
+  for(let k=0;k<300;k++){
+    const a=S.sample(),b=S.sample(),cc=cs[Math.floor(Math.random()*cs.length)];
+    if(!S.has(a[0]+b[0],a[1]+b[1])||!S.has(cc*a[0],cc*a[1])){
+      u=a;v=b;c=cc;$("#cr").value=c;$("#cval").innerHTML=fmt(c);render();
+      $("#auto-msg").innerHTML=`<span class="ng">${k+1}回目で反例が見つかりました。</span>図と表を見てください。`;return;
+    }
+  }
+  $("#auto-msg").innerHTML='<span class="ok">300回試しても反例は見つかりませんでした。</span>部分空間である可能性が高いです（確定させるには定理の3条件を証明します）。';
+});
+render();
+
+(function(){const mk=id=>new Plane($(id),{R:3});
+const a=mk("#f1a"); a.infLine([0,0],[1,2],"var(--c4)",{width:7,opacity:0.45}); a.arrow([0,0],[1,2],"var(--c1)"); a.arrow([0,0],[-0.75,-1.5],"var(--c1)");
+const b=mk("#f1b"); b.infLine([0,1],[1,2],"var(--c4)",{width:7,opacity:0.45}); b.circle([0,0],0.22,"var(--bad)",{opacity:1});
+const c=mk("#f1c"); c.poly([[0,0],[4,0],[4,4],[0,4]],"var(--c4)",{opacity:0.22}); c.arrow([0,0],[1.5,1],"var(--c1)"); c.arrow([0,0],[-1.5,-1],"var(--bad)");})();
+})();
+</script>
+<article class="unit" id="u2">
+<div class="unit-head">
+<div class="crumb">第2回</div>
+<h2>1次独立と1次従属</h2>
+<p class="lead">ベクトルの組に「むだ」があるかどうかを判定します。むだのない組を1次独立、むだのある組を1次従属といいます。判定は同次連立1次方程式を解くことに帰着します。</p>
+<nav class="toc" aria-label="第2回の目次"><a href="#u2-s1">1. 何の話か（直感）</a><a href="#u2-s2">2. 定義</a><a href="#u2-s3">3. 具体例</a><a href="#u2-s4">4. よくある間違い</a><a href="#u2-s5">5. 練習問題</a><a class="demo-link" href="#u2-demo">▶ 動かしてみよう</a></nav>
+</div>
+<div class="box points"><div class="box-t">この回のポイント（まずここだけ押さえましょう）</div><ol><li><b>1次独立</b>＝「むだがない」：どのベクトルも、ほかのベクトルの組み合わせでは作れない状態です。</li><li>判定はベクトルを<b>列に並べた行列 <i>A</i></b> で行います。<b>rank <i>A</i> = 本数</b>なら独立です（正方行列なら |<i>A</i>| ≠ 0 でも判定できます）。</li><li>図で見ると、ℝ² の2本が<b>同一直線上</b>、ℝ³ の3本が<b>同一平面上</b>にあると従属です。</li></ol></div>
+<section id="u2-s1">
+<h3 class="sec">1. 何の話か（直感）</h3>
+<p>ベクトルをいくつか持っているとき、「その中のどれかが、ほかのベクトルの組み合わせで作れてしまう」なら、そのベクトルは<strong>むだ</strong>です。持っていなくても、同じものが作れるからです。</p>
+<ul>
+<li>ℝ² の2本のベクトルが<strong>同一直線上</strong>にあると、片方はもう片方の定数倍です。2本あっても「1方向」にしか進めません。</li>
+<li>ℝ³ の3本のベクトルが<strong>同一平面上</strong>にあると、どれか1本は残り2本の組み合わせで作れます。3本あっても「平面」の中しか動けません。</li>
+</ul>
+<p>むだがない状態を<strong>1次独立</strong>、むだがある状態を<strong>1次従属</strong>といいます。図で言えば、ℝ² では2本が作る平行四辺形の面積、ℝ³ では3本が作る平行六面体の体積が 0 になるかどうかです。下の「動かしてみよう」で、ベクトルを動かして確かめてください。</p>
+
+<div class="box note"><div class="box-t">用語メモ</div><dl class="gloss"><dt>1次結合<small>いちじけつごう</small></dt><dd>ベクトルをそれぞれ実数倍して足したもの。<span class="nw"><i>c</i><sub>1</sub><b class="vec">a</b><sub>1</sub> + <i>c</i><sub>2</sub><b class="vec">a</b><sub>2</sub></span> など。</dd><dt>1次関係<small>いちじかんけい</small></dt><dd>「1次結合 = <b class="vec">0</b>」という形の式。</dd><dt>自明な<small>じめいな</small></dt><dd>「当たり前の」という意味。係数がすべて 0 の1次関係のことです。</dd><dt>rank<small>ランク・階数</small></dt><dd>簡約化したときの、0 でない行の数（＝ピボットの数）。</dd><dt>ピボット<small></small></dt><dd>簡約化した行列で、各行のいちばん左にある 1。</dd></dl></div>
+<div class="demo" id="u2-demo">
+<div class="demo-t">同一直線上・同一平面上になる様子を見る</div>
+<h4 style="margin-top:.4em">(A) ℝ² の2本のベクトル</h4>
+<p class="small"><span style="color:var(--c1)">●<b class="vec">a</b><sub>1</sub></span>、<span style="color:var(--c3)">●<b class="vec">a</b><sub>2</sub></span> をドラッグしてください（格子点に吸着します）。色の付いた平行四辺形の面積が det(<span class="nw"><b class="vec">a</b><sub>1</sub> <b class="vec">a</b><sub>2</sub></span>) の絶対値です。</p>
+<div class="demo-grid">
+<svg class="plot" id="u2-pl2" role="img" aria-label="2本のベクトルの図"></svg>
+<div class="out" id="u2-res2"></div>
+</div>
+<h4>(B) ℝ³ の3本のベクトル</h4>
+<p class="small">成分を変えてください（▲▼ で 1 ずつ動かせます）。図はドラッグすると回転します。<b class="vec">a</b><sub>1</sub>, <b class="vec">a</b><sub>2</sub> が張る平面を緑で表示しています。</p>
+<div class="ctrl" id="u2-v3in"></div>
+<div class="ctrl"><button data-p="0">独立な例</button><button data-p="1">同一平面上</button><button data-p="2">同一直線上</button><button id="u2-nudge"><b class="vec">a</b><sub>3</sub> を平面に近づける</button></div>
+<div class="demo-grid">
+<svg class="plot" id="u2-pl3" role="img" aria-label="3本のベクトルの立体図"></svg>
+<div class="out" id="u2-res3"></div>
+</div>
+<div id="u2-st3"></div>
+</div>
+</section>
+
+<section id="u2-s2">
+<h3 class="sec">2. 定義</h3>
+<div class="box def">
+<div class="box-t">定義（1次結合・1次関係）</div>
+<p>ベクトル <b class="vec">a</b><sub>1</sub>, …, <b class="vec">a</b><sub><i>k</i></sub> と実数 <i>c</i><sub>1</sub>, …, <i>c</i><sub><i>k</i></sub> に対し、<span class="nw"><i>c</i><sub>1</sub><b class="vec">a</b><sub>1</sub> + ⋯ + <i>c</i><sub><i>k</i></sub><b class="vec">a</b><sub><i>k</i></sub></span> を<strong>1次結合</strong>（線形結合）といいます。また</p>
+<div class="dm"><i>c</i><sub>1</sub><b class="vec">a</b><sub>1</sub> + <i>c</i><sub>2</sub><b class="vec">a</b><sub>2</sub> + ⋯ + <i>c</i><sub><i>k</i></sub><b class="vec">a</b><sub><i>k</i></sub> = <b class="vec">0</b>　　(★)</div>
+<p>の形の式を<strong>1次関係</strong>といいます。<i>c</i><sub>1</sub> = ⋯ = <i>c</i><sub><i>k</i></sub> = 0 なら (★) はいつも成り立ちます（<strong>自明な1次関係</strong>）。</p>
+</div>
+<div class="box def">
+<div class="box-t">定義（1次独立・1次従属）</div>
+<p class="plain">「係数を全部 0 にする以外に、足して <b class="vec">0</b> にする方法がない」のが独立、「ほかにもある」のが従属です。</p>
+<ul>
+<li>(★) を満たす <span class="nw">(<i>c</i><sub>1</sub>, …, <i>c</i><sub><i>k</i></sub>)</span> が <span class="nw"><i>c</i><sub>1</sub> = ⋯ = <i>c</i><sub><i>k</i></sub> = 0</span> <strong>しかない</strong>とき、<b class="vec">a</b><sub>1</sub>, …, <b class="vec">a</b><sub><i>k</i></sub> は<strong>1次独立</strong>であるといいます。</li>
+<li>少なくとも1つは 0 でない <span class="nw">(<i>c</i><sub>1</sub>, …, <i>c</i><sub><i>k</i></sub>)</span> で (★) が成り立つとき、<strong>1次従属</strong>であるといいます。</li>
+</ul>
+</div>
+<div class="box thm">
+<div class="box-t">定理 1（従属の言いかえ）</div>
+<p><b class="vec">a</b><sub>1</sub>, …, <b class="vec">a</b><sub><i>k</i></sub> が1次従属 ⇔ どれか1つのベクトルが、残りのベクトルの1次結合で書ける。</p>
+<p class="small muted">理由：<i>c</i><sub><i>j</i></sub> ≠ 0 なら (★) を <i>c</i><sub><i>j</i></sub> で割って移項すると <span class="nw"><b class="vec">a</b><sub><i>j</i></sub> = −Σ<sub><i>i</i>≠<i>j</i></sub> (<i>c</i><sub><i>i</i></sub>/<i>c</i><sub><i>j</i></sub>) <b class="vec">a</b><sub><i>i</i></sub></span> となります。</p>
+</div>
+<div class="box thm">
+<div class="box-t">定理 2（連立方程式による判定）</div>
+<p class="plain">ベクトルを列に並べて簡約化し、ピボットが本数ぶんあれば独立です。</p>
+<p><b class="vec">a</b><sub>1</sub>, …, <b class="vec">a</b><sub><i>k</i></sub> ∈ ℝⁿ を<strong>列</strong>に並べた <i>n</i> × <i>k</i> 行列を <span class="nw"><i>A</i> = (<b class="vec">a</b><sub>1</sub> ⋯ <b class="vec">a</b><sub><i>k</i></sub>)</span> とすると、(★) は同次連立1次方程式 <span class="nw"><i>A</i><b class="vec">c</b> = <b class="vec">0</b></span>（<b class="vec">c</b> = <sup>t</sup>(<i>c</i><sub>1</sub>, …, <i>c</i><sub><i>k</i></sub>)）です。よって</p>
+<div class="dm">1次独立　⇔　<i>A</i><b class="vec">c</b> = <b class="vec">0</b> の解が <b class="vec">c</b> = <b class="vec">0</b> だけ　⇔　rank <i>A</i> = <i>k</i></div>
+<ul>
+<li><i>k</i> = <i>n</i>（正方行列）のときは：1次独立 ⇔ det <i>A</i> ≠ 0（教科書の記号では |<i>A</i>| ≠ 0）</li>
+<li><i>k</i> &gt; <i>n</i> のときは：rank <i>A</i> ≤ <i>n</i> &lt; <i>k</i> なので<strong>必ず1次従属</strong></li>
+</ul>
+</div>
+</section>
+
+<section id="u2-s3">
+<h3 class="sec">3. 具体例</h3>
+<div class="ex">
+<div class="ex-t">例 1：ℝ² の2本（従属）</div>
+<p><span class="nw"><b class="vec">a</b><sub>1</sub> = (1, 2)</span>, <span class="nw"><b class="vec">a</b><sub>2</sub> = (2, 4)</span> は <span class="nw"><b class="vec">a</b><sub>2</sub> = 2<b class="vec">a</b><sub>1</sub></span> なので、<span class="nw">2<b class="vec">a</b><sub>1</sub> − <b class="vec">a</b><sub>2</sub> = <b class="vec">0</b></span> という自明でない1次関係があります。よって1次従属です。実際 <span class="nw">det <span class="mat"><span class="g" style="--c:2"><span>1</span><span>2</span><span>2</span><span>4</span></span></span> = 4 − 4 = 0</span>。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 2：ℝ³ の3本（独立）</div>
+<p><span class="nw"><b class="vec">a</b><sub>1</sub> = (1, 1, 0)</span>, <span class="nw"><b class="vec">a</b><sub>2</sub> = (0, 1, 1)</span>, <span class="nw"><b class="vec">a</b><sub>3</sub> = (1, 0, 1)</span>。<span class="nw"><i>c</i><sub>1</sub><b class="vec">a</b><sub>1</sub> + <i>c</i><sub>2</sub><b class="vec">a</b><sub>2</sub> + <i>c</i><sub>3</sub><b class="vec">a</b><sub>3</sub> = <b class="vec">0</b></span> を成分で書くと</p>
+<div class="dm"><span class="eqs"><span><i>c</i><sub>1</sub> + <i>c</i><sub>3</sub></span><span>= 0</span><span><i>c</i><sub>1</sub> + <i>c</i><sub>2</sub></span><span>= 0</span><span><i>c</i><sub>2</sub> + <i>c</i><sub>3</sub></span><span>= 0</span></span></div>
+<p>1式目と2式目から <span class="nw"><i>c</i><sub>3</sub> = −<i>c</i><sub>1</sub></span>, <span class="nw"><i>c</i><sub>2</sub> = −<i>c</i><sub>1</sub></span>。3式目に入れると <span class="nw">−2<i>c</i><sub>1</sub> = 0</span> より <i>c</i><sub>1</sub> = 0、したがって <span class="nw"><i>c</i><sub>1</sub> = <i>c</i><sub>2</sub> = <i>c</i><sub>3</sub> = 0</span>。1次独立です（det = 2 ≠ 0 でも確認できます）。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 3：ℝ³ の3本（従属）— 行基本変形で判定</div>
+<p><span class="nw"><b class="vec">a</b><sub>1</sub> = (1, 2, 3)</span>, <span class="nw"><b class="vec">a</b><sub>2</sub> = (2, −1, 1)</span>, <span class="nw"><b class="vec">a</b><sub>3</sub> = (3, 1, 4)</span> を列に並べて簡約化します。</p>
+<div class="dm"><i>A</i> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>2</span><span>3</span><span>2</span><span>−1</span><span>1</span><span>3</span><span>1</span><span>4</span></span></span> → <span class="mat"><span class="g" style="--c:3"><span>1</span><span>2</span><span>3</span><span>0</span><span>−5</span><span>−5</span><span>0</span><span>−5</span><span>−5</span></span></span> → <span class="mat"><span class="g" style="--c:3"><span>1</span><span>0</span><span>1</span><span>0</span><span>1</span><span>1</span><span>0</span><span>0</span><span>0</span></span></span></div>
+<div class="stepper" data-m="1,2,3;2,-1,1;3,1,4" data-aug="0"></div>
+<p>rank <i>A</i> = 2 &lt; 3 なので1次従属です。最後の行列から <span class="nw"><i>c</i><sub>1</sub> = −<i>t</i></span>, <span class="nw"><i>c</i><sub>2</sub> = −<i>t</i></span>, <span class="nw"><i>c</i><sub>3</sub> = <i>t</i></span>。<i>t</i> = 1 として <span class="nw">−<b class="vec">a</b><sub>1</sub> − <b class="vec">a</b><sub>2</sub> + <b class="vec">a</b><sub>3</sub> = <b class="vec">0</b></span>、つまり <span class="nw"><b class="vec">a</b><sub>3</sub> = <b class="vec">a</b><sub>1</sub> + <b class="vec">a</b><sub>2</sub></span>（3本は同一平面上）です。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 4：多項式（独立）</div>
+<p>ℝ[<i>x</i>]<sub>2</sub> の 1, 1 + <i>x</i>, 1 + <i>x</i> + <i>x</i>² について、</p>
+<div class="dm"><i>c</i><sub>1</sub> · 1 + <i>c</i><sub>2</sub>(1 + <i>x</i>) + <i>c</i><sub>3</sub>(1 + <i>x</i> + <i>x</i>²) = (<i>c</i><sub>1</sub> + <i>c</i><sub>2</sub> + <i>c</i><sub>3</sub>) + (<i>c</i><sub>2</sub> + <i>c</i><sub>3</sub>)<i>x</i> + <i>c</i><sub>3</sub><i>x</i>² = 0</div>
+<p>が多項式として 0 なので、各係数が 0：<i>c</i><sub>3</sub> = 0, <i>c</i><sub>2</sub> = 0, <i>c</i><sub>1</sub> = 0。1次独立です。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 5：関数（独立）</div>
+<p>sin <i>x</i>, cos <i>x</i> について、すべての <i>x</i> で <span class="nw"><i>c</i><sub>1</sub> sin <i>x</i> + <i>c</i><sub>2</sub> cos <i>x</i> = 0</span> とします。<i>x</i> = 0 を代入すると <i>c</i><sub>2</sub> = 0、<i>x</i> = π/2 を代入すると <i>c</i><sub>1</sub> = 0。よって1次独立です。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 6：本数が多すぎる（必ず従属）</div>
+<p>ℝ³ の4本 (1, 0, 0), (0, 1, 0), (0, 0, 1), (1, 2, 3) は、定理2より（4 &gt; 3）計算しなくても1次従属です。実際 <span class="nw">(1, 2, 3) = 1·(1, 0, 0) + 2·(0, 1, 0) + 3·(0, 0, 1)</span>。</p>
+</div>
+</section>
+
+<section id="u2-s4">
+<h3 class="sec">4. よくある間違い</h3>
+<div class="mis">
+<p class="bad">ℝ³ の3本で、どの2本も平行でないから1次独立である。</p>
+<p class="good">3本が<strong>同一平面上</strong>にあれば従属です。たとえば (1, 0, 0), (0, 1, 0), (1, 1, 0) はどの2本も平行ではありませんが、(1, 1, 0) = (1, 0, 0) + (0, 1, 0) なので従属です。</p>
+</div>
+<div class="mis">
+<p class="bad"><span class="nw"><i>c</i><sub>1</sub> = <i>c</i><sub>2</sub> = <i>c</i><sub>3</sub> = 0</span> を代入すると (★) が成り立つので、1次独立である。</p>
+<p class="good">自明な解 <b class="vec">c</b> = <b class="vec">0</b> はどんなベクトルでも成り立ちます。示すべきなのは「(★) が成り立つ<strong>ならば</strong> <i>c</i><sub>1</sub> = ⋯ = 0」という向きです。(★) を仮定して係数を求めましょう。</p>
+</div>
+<div class="mis">
+<p class="bad"><b class="vec">0</b> を含む組でも、ほかのベクトルが独立なら全体も独立である。</p>
+<p class="good"><b class="vec">0</b> を含む組は<strong>必ず従属</strong>です。<span class="nw">1 · <b class="vec">0</b> + 0 · <b class="vec">a</b><sub>2</sub> + ⋯ = <b class="vec">0</b></span> が自明でない1次関係だからです。</p>
+</div>
+<div class="mis">
+<p class="bad">ベクトルを行に並べて簡約化し、その結果から係数 <i>c</i><sub><i>i</i></sub> を読み取る。</p>
+<p class="good">rank（独立かどうか）は行に並べても列に並べても同じですが、<strong>1次関係の係数を読み取るには列に並べた</strong> <i>A</i><b class="vec">c</b> = <b class="vec">0</b> を解く必要があります。</p>
+</div>
+</section>
+
+<section id="u2-s5">
+<h3 class="sec">5. 練習問題</h3>
+<div class="box howto"><div class="box-t">解き方の手順：1次独立かどうかの判定</div><ol><li>ベクトルを<b>列</b>に並べて行列 <i>A</i> を作ります。</li><li><i>A</i> を簡約化して rank <i>A</i> を求めます（正方行列なら |<i>A</i>| を計算しても構いません）。</li><li>rank = 本数 なら独立、rank &lt; 本数 なら従属です。</li><li>従属のときは、簡約化した行列から <i>A</i><b class="vec">c</b> = <b class="vec">0</b> の解を読み取り、1次関係を書きます（自由変数を 1 とおくと簡単です）。</li></ol><p class="small" style="margin-bottom:0"><b>文字のベクトル（<b class="vec">a</b>, <b class="vec">b</b>, <b class="vec">c</b> など）の証明問題</b>は、「<i>x</i>(…) + <i>y</i>(…) + <i>z</i>(…) = <b class="vec">0</b> とおく → <b class="vec">a</b>, <b class="vec">b</b>, <b class="vec">c</b> ごとにまとめる → 独立性から各係数 = 0 → 連立方程式を解く」の順に進めます。</p></div>
+<div class="prob">
+<div class="prob-t">問題 1 <span class="src">教科書 練習問題4 [A] 11 の類題</span></div>
+<p>ℝ³ のベクトル <span class="nw"><b class="vec">a</b> = <span class="mat"><span class="g" style="--c:1"><span>1</span><span>0</span><span>2</span></span></span>, <b class="vec">b</b> = <span class="mat"><span class="g" style="--c:1"><span>2</span><span>1</span><span>3</span></span></span>, <b class="vec">c</b> = <span class="mat"><span class="g" style="--c:1"><span>0</span><span>1</span><span>−1</span></span></span></span> について、<b class="vec">a</b>, <b class="vec">b</b>, <b class="vec">c</b> は1次独立か、また ℝ³ を生成するかを調べてください。さらに、<b class="vec">v</b> = <sup>t</sup>(<i>v</i><sub>1</sub>, <i>v</i><sub>2</sub>, <i>v</i><sub>3</sub>) が ⟨<b class="vec">a</b>, <b class="vec">b</b>, <b class="vec">c</b>⟩ に属するための条件を求めてください。</p>
+<details><summary>解答を見る</summary>
+<div class="dm"><span class="mat"><span class="g" style="--c:3"><span>1</span><span>2</span><span>0</span><span>0</span><span>1</span><span>1</span><span>2</span><span>3</span><span>−1</span></span></span> → <span class="mat"><span class="g" style="--c:3"><span>1</span><span>2</span><span>0</span><span>0</span><span>1</span><span>1</span><span>0</span><span>−1</span><span>−1</span></span></span> → <span class="mat"><span class="g" style="--c:3"><span>1</span><span>0</span><span>−2</span><span>0</span><span>1</span><span>1</span><span>0</span><span>0</span><span>0</span></span></span></div>
+<div class="stepper" data-m="1,2,0;0,1,1;2,3,-1" data-aug="0"></div>
+<p>rank = 2 &lt; 3 なので<strong>1次従属</strong>で、<strong>ℝ³ を生成しません</strong>。最後の行列から <span class="nw">2<b class="vec">a</b> − <b class="vec">b</b> + <b class="vec">c</b> = <b class="vec">0</b></span>、つまり <span class="nw"><b class="vec">c</b> = <b class="vec">b</b> − 2<b class="vec">a</b></span> なので、<span class="nw">⟨<b class="vec">a</b>, <b class="vec">b</b>, <b class="vec">c</b>⟩ = ⟨<b class="vec">a</b>, <b class="vec">b</b>⟩</span>（原点を通る平面）です。</p>
+<p><b class="vec">v</b> ∈ ⟨<b class="vec">a</b>, <b class="vec">b</b>⟩ となる条件は、<span class="nw"><i>s</i><b class="vec">a</b> + <i>t</i><b class="vec">b</b> = <b class="vec">v</b></span> が解をもつことです。拡大係数行列を変形すると</p>
+<div class="dm"><span class="mat"><span class="g" style="--c:3"><span>1</span><span>2</span><span><i>v</i><sub>1</sub></span><span>0</span><span>1</span><span><i>v</i><sub>2</sub></span><span>2</span><span>3</span><span><i>v</i><sub>3</sub></span></span></span> → <span class="mat"><span class="g" style="--c:3"><span>1</span><span>2</span><span><i>v</i><sub>1</sub></span><span>0</span><span>1</span><span><i>v</i><sub>2</sub></span><span>0</span><span>−1</span><span><i>v</i><sub>3</sub> − 2<i>v</i><sub>1</sub></span></span></span> → <span class="mat"><span class="g" style="--c:3"><span>1</span><span>2</span><span><i>v</i><sub>1</sub></span><span>0</span><span>1</span><span><i>v</i><sub>2</sub></span><span>0</span><span>0</span><span><i>v</i><sub>3</sub> − 2<i>v</i><sub>1</sub> + <i>v</i><sub>2</sub></span></span></span></div>
+<p>解をもつのは最後の行が 0 = 0 のとき、つまり <strong><span class="nw">2<i>v</i><sub>1</sub> − <i>v</i><sub>2</sub> − <i>v</i><sub>3</sub> = 0</span></strong> です。</p>
+<p class="check">確認：<b class="vec">a</b> は 2 − 0 − 2 = 0、<b class="vec">b</b> は 4 − 1 − 3 = 0、<b class="vec">c</b> は 0 − 1 + 1 = 0 で、どれも条件を満たします。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 2</div>
+<p><span class="nw">(1, 1, <i>a</i>)</span>, <span class="nw">(1, <i>a</i>, 1)</span>, <span class="nw">(<i>a</i>, 1, 1)</span> が1次従属になるような実数 <i>a</i> をすべて求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>3本を列に並べた行列式が 0 になる <i>a</i> を求めます。</p>
+<div class="dm"><span class="mat det"><span class="g" style="--c:3"><span>1</span><span>1</span><span><i>a</i></span><span>1</span><span><i>a</i></span><span>1</span><span><i>a</i></span><span>1</span><span>1</span></span></span> = (<i>a</i> − 1) − (1 − <i>a</i>) + <i>a</i>(1 − <i>a</i>²) = −(<i>a</i> − 1)²(<i>a</i> + 2)</div>
+<p>よって <strong><i>a</i> = 1, −2</strong>。</p>
+<p class="check">確認：<i>a</i> = 1 なら3本とも (1, 1, 1)。<i>a</i> = −2 なら3本の和が (0, 0, 0)。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 3 <span class="src">教科書 練習問題4 [B] 5, 6 の類題</span></div>
+<p><b class="vec">a</b><sub>1</sub>, <b class="vec">a</b><sub>2</sub>, <b class="vec">a</b><sub>3</sub> が1次独立であるとします。</p>
+<p>(1) <span class="nw"><b class="vec">a</b><sub>1</sub> − <b class="vec">a</b><sub>2</sub>, <b class="vec">a</b><sub>2</sub> − <b class="vec">a</b><sub>3</sub>, <b class="vec">a</b><sub>3</sub></span> も1次独立であることを示してください。<br>(2) <span class="nw"><b class="vec">a</b><sub>1</sub> − <b class="vec">a</b><sub>2</sub>, <b class="vec">a</b><sub>2</sub> − <b class="vec">a</b><sub>3</sub>, <b class="vec">a</b><sub>3</sub> − <b class="vec">a</b><sub>1</sub></span> は1次従属であることを示してください。</p>
+<details><summary>解答を見る</summary>
+<p>(1) <span class="nw"><i>x</i>(<b class="vec">a</b><sub>1</sub> − <b class="vec">a</b><sub>2</sub>) + <i>y</i>(<b class="vec">a</b><sub>2</sub> − <b class="vec">a</b><sub>3</sub>) + <i>z</i><b class="vec">a</b><sub>3</sub> = <b class="vec">0</b></span> と仮定して整理すると</p>
+<div class="dm"><i>x</i><b class="vec">a</b><sub>1</sub> + (<i>y</i> − <i>x</i>)<b class="vec">a</b><sub>2</sub> + (<i>z</i> − <i>y</i>)<b class="vec">a</b><sub>3</sub> = <b class="vec">0</b></div>
+<p><b class="vec">a</b><sub>1</sub>, <b class="vec">a</b><sub>2</sub>, <b class="vec">a</b><sub>3</sub> は1次独立なので <span class="nw"><i>x</i> = 0, <i>y</i> − <i>x</i> = 0, <i>z</i> − <i>y</i> = 0</span>。順に解いて <span class="nw"><i>x</i> = <i>y</i> = <i>z</i> = 0</span>。よって1次独立です。</p>
+<p>(2) 3本をすべて足すと <span class="nw">(<b class="vec">a</b><sub>1</sub> − <b class="vec">a</b><sub>2</sub>) + (<b class="vec">a</b><sub>2</sub> − <b class="vec">a</b><sub>3</sub>) + (<b class="vec">a</b><sub>3</sub> − <b class="vec">a</b><sub>1</sub>) = <b class="vec">0</b></span>。係数 (1, 1, 1) は 0 でないので、これは自明でない1次関係です。よって1次従属です。</p>
+</details>
+</div>
+</section>
+<p class="unit-end"><a href="#top">↑ 全体の目次に戻る</a></p>
+</article>
+<script>
+(function(){
+const ROOT=document.getElementById("u2");
+const $=s=>ROOT.querySelector(s.replace(/#([\w-]+)/g,"#u2-$1"));
+const A1="<b class='vec'>a</b><sub>1</sub>",A2="<b class='vec'>a</b><sub>2</sub>",A3="<b class='vec'>a</b><sub>3</sub>",ZERO="<b class='vec'>0</b>";
+function statusHTML(cols,n){
+  const A=LA.fromCols(cols.map(c=>c.map(toQ))), k=cols.length, r=LA.rank(A);
+  const names=[A1,A2,A3].slice(0,k);
+  let s=`<div class="row"><i>A</i> = (${names.join(" ")}) = ${matHTML(A)}</div>`;
+  if(k===n) s+=`<div class="row">det <i>A</i> = ${LA.det(A).html()}</div>`;
+  s+=`<div class="row">rank <i>A</i> = ${r}</div>`;
+  if(r===k){ s+=`<div class="row"><span class="tag ok">1次独立</span> 自明な1次関係しかありません。</div>`; }
+  else{
+    const c=LA.nullspace(A)[0];
+    let shape = n===2 ? (r===1?"2本は同一直線上にあります。":"2本とも零ベクトルです。") :
+      (r===2?"3本は同一平面上にあります。":(r===1?"3本は同一直線上にあります。":"すべて零ベクトルです。"));
+    s+=`<div class="row"><span class="tag ng">1次従属</span> ${shape}</div><div class="row">1次関係の例：${combHTML(c,names)} = ${ZERO}</div>`;
+  }
+  return s;
+}
+/* (A) 2次元 */
+const P2=new Plane($("#pl2"),{R:5});
+let a=[[3,1],[1,2]];
+function render2(){
+  P2.clear();
+  const [p,r]=a, s=[p[0]+r[0],p[1]+r[1]], d=p[0]*r[1]-p[1]*r[0];
+  P2.poly([[0,0],p,s,r],Math.abs(d)<1e-9?"var(--c2)":"var(--c4)",{opacity:0.22});
+  if(Math.abs(d)<1e-9){ const dir=(p[0]||p[1])?p:r; if(dir[0]||dir[1]) P2.infLine([0,0],dir,"var(--c2)",{width:2,dash:"6 5",opacity:0.8}); }
+  P2.arrow([0,0],p,"var(--c1)",{label:"a₁"});
+  P2.arrow([0,0],r,"var(--c3)",{label:"a₂"});
+  P2.syncHandles();
+  $("#res2").innerHTML=statusHTML(a,2)+`<div class="row small muted">平行四辺形の面積 = |det <i>A</i>| = ${fmt(Math.abs(d))}</div>`;
+}
+P2.handle(()=>a[0],p=>{a[0]=p;render2();},"var(--c1)");
+P2.handle(()=>a[1],p=>{a[1]=p;render2();},"var(--c3)");
+render2();
+
+/* (B) 3次元 */
+const PRE=[[[2,0,1],[0,2,1],[1,1,3]],[[2,0,1],[0,2,1],[2,2,2]],[[1,1,1],[2,2,2],[-1,-1,-1]]];
+let b=PRE[0].map(r=>r.slice());
+const box=$("#v3in"), inp=[];
+["a₁","a₂","a₃"].forEach((nm,i)=>{
+  const lab=document.createElement("label"); lab.innerHTML=`<span class="nw"><b class="vec">a</b><sub>${i+1}</sub> = (</span>`; inp.push([]);
+  for(let j=0;j<3;j++){
+    const e=document.createElement("input"); e.type="number"; e.min=-4; e.max=4; e.step=1; e.className="num";
+    e.setAttribute("aria-label",nm+"の第"+(j+1)+"成分");
+    e.addEventListener("input",()=>{const v=parseInt(e.value,10); if(!isNaN(v)){b[i][j]=Math.max(-4,Math.min(4,v)); render3();}});
+    lab.appendChild(e); inp[i].push(e);
+    if(j<2) lab.appendChild(document.createTextNode(","));
+  }
+  lab.appendChild(document.createTextNode(")"));
+  box.appendChild(lab);
+});
+function syncInputs(){b.forEach((r,i)=>r.forEach((v,j)=>{inp[i][j].value=v;}));}
+ROOT.querySelectorAll("[data-p]").forEach(btn=>btn.addEventListener("click",()=>{b=PRE[+btn.dataset.p].map(r=>r.slice());syncInputs();render3();}));
+$("#nudge").addEventListener("click",()=>{ // a3 を a1+a2 に1歩ずつ近づける
+  const tgt=[0,1,2].map(j=>b[0][j]+b[1][j]);
+  for(let j=0;j<3;j++){ if(b[2][j]<tgt[j]) b[2][j]++; else if(b[2][j]>tgt[j]) b[2][j]--; }
+  b[2]=b[2].map(v=>Math.max(-4,Math.min(4,v))); syncInputs(); render3();
+});
+const svg3=$("#pl3"); svg3.setAttribute("viewBox","0 0 400 400");
+let yaw=-0.6, pitch=0.35; const SC=34;
+function proj(p){
+  const x=p[0]*Math.cos(yaw)-p[1]*Math.sin(yaw), y=p[0]*Math.sin(yaw)+p[1]*Math.cos(yaw);
+  return [200+SC*x, 200-SC*(p[2]*Math.cos(pitch)+y*Math.sin(pitch))];
+}
+function line3(g,p,r,color,o={}){const A=proj(p),B=proj(r);return sv("line",{x1:A[0],y1:A[1],x2:B[0],y2:B[1],"stroke-width":o.w||1.5,"stroke-linecap":"round"},g,{stroke:color,strokeDasharray:o.dash||"",opacity:o.op==null?1:o.op});}
+function arrow3(g,r,color,label){
+  const A=proj([0,0,0]),B=proj(r); const L=Math.hypot(B[0]-A[0],B[1]-A[1]);
+  if(L<1){sv("circle",{cx:A[0],cy:A[1],r:5},g,{fill:color});return;}
+  const ux=(B[0]-A[0])/L,uy=(B[1]-A[1])/L,h=Math.min(12,L*0.6),w=h*0.45;
+  sv("line",{x1:A[0],y1:A[1],x2:B[0]-ux*h*0.8,y2:B[1]-uy*h*0.8,"stroke-width":3.2,"stroke-linecap":"round"},g,{stroke:color});
+  sv("polygon",{points:`${B[0]},${B[1]} ${B[0]-ux*h-uy*w},${B[1]-uy*h+ux*w} ${B[0]-ux*h+uy*w},${B[1]-uy*h-ux*w}`},g,{fill:color});
+  const t=sv("text",{x:B[0]+7,y:B[1]-7,"font-size":15,"font-weight":700},g,{fill:color,fontStyle:"italic",paintOrder:"stroke",stroke:"var(--card)",strokeWidth:"4px"}); t.textContent=label;
+}
+const sub=(p,r)=>p.map((v,i)=>v-r[i]),dot=(p,r)=>p.reduce((s,v,i)=>s+v*r[i],0),scl=(c,p)=>p.map(v=>c*v),nrm=p=>Math.hypot(...p);
+let k3=""; function render3(){ const kk=JSON.stringify(b); if(kk!==k3){k3=kk; makeStepper($("#st3"),LA.fromCols(b.map(c=>c.map(toQ))),0,"この3本を列に並べた行列 A を1手ずつ簡約化");}
+  svg3.replaceChildren(); const g=sv("g",{},svg3);
+  // 床の格子（z=0）
+  for(let k=-4;k<=4;k++){line3(g,[k,-4,0],[k,4,0],"var(--grid)");line3(g,[-4,k,0],[4,k,0],"var(--grid)");}
+  [[[5,0,0],"x"],[[0,5,0],"y"],[[0,0,5],"z"]].forEach(([e,nm])=>{line3(g,scl(-1,e),e,"var(--axis)",{w:1.3});const p=proj(e);const t=sv("text",{x:p[0]+4,y:p[1]-4,"font-size":13},g,{fill:"var(--axis)",fontStyle:"italic"});t.textContent=nm;});
+  // a1, a2 の張る平面（またはその直線）
+  const u=b[0],v=b[1];
+  if(nrm(u)>0||nrm(v)>0){
+    const e1=nrm(u)>0?scl(1/nrm(u),u):scl(1/nrm(v),v);
+    let w=sub(v,scl(dot(v,e1),e1)); if(nrm(w)<1e-9) w=sub(u,scl(dot(u,e1),e1));
+    if(nrm(w)>1e-9){
+      const e2=scl(1/nrm(w),w), K=3.2, c=[[1,1],[1,-1],[-1,-1],[-1,1]].map(([s,t])=>e1.map((x,i)=>K*(s*x+t*e2[i])));
+      sv("polygon",{points:c.map(p=>proj(p).join(",")).join(" ")},g,{fill:"var(--c4)",fillOpacity:0.18,stroke:"var(--c4)",strokeOpacity:0.5});
+    } else line3(g,scl(-5,e1),scl(5,e1),"var(--c4)",{w:5,op:0.35});
+  }
+  // a3 から平面へのかげ（z=0 への垂線）
+  b.forEach((p,i)=>{ if(p[2]!==0) line3(g,p,[p[0],p[1],0],["var(--c1)","var(--c3)","var(--c2)"][i],{dash:"3 4",op:0.5}); });
+  arrow3(g,b[0],"var(--c1)","a₁"); arrow3(g,b[1],"var(--c3)","a₂"); arrow3(g,b[2],"var(--c2)","a₃");
+  const d=LA.det(LA.fromCols(b.map(c=>c.map(toQ))));
+  $("#res3").innerHTML=statusHTML(b,3)+`<div class="row small muted">平行六面体の体積 = |det <i>A</i>| = ${d.n<0?d.neg().html():d.html()}</div>`;
+}
+let rot=null;
+svg3.addEventListener("pointerdown",e=>{rot=[e.clientX,e.clientY];svg3.setPointerCapture(e.pointerId);});
+svg3.addEventListener("pointermove",e=>{if(!rot)return; yaw+=(e.clientX-rot[0])*0.01; pitch=Math.max(-1.2,Math.min(1.4,pitch+(e.clientY-rot[1])*0.01)); rot=[e.clientX,e.clientY]; render3();});
+svg3.addEventListener("pointerup",()=>{rot=null;}); svg3.addEventListener("pointercancel",()=>{rot=null;});
+syncInputs(); render3();
+})();
+</script>
+<article class="unit" id="u3">
+<div class="unit-head">
+<div class="crumb">第3回</div>
+<h2>基底・次元・座標</h2>
+<p class="lead">基底は空間の「ものさし（座標軸）」の選び方、次元はそのものさしの本数です。同じベクトルでも、基底を変えると座標の数値が変わります。</p>
+<nav class="toc" aria-label="第3回の目次"><a href="#u3-s1">1. 何の話か（直感）</a><a href="#u3-s2">2. 定義</a><a href="#u3-s3">3. 具体例</a><a href="#u3-s4">4. よくある間違い</a><a href="#u3-s5">5. 練習問題</a><a class="demo-link" href="#u3-demo">▶ 動かしてみよう</a></nav>
+</div>
+<div class="box points"><div class="box-t">この回のポイント（まずここだけ押さえましょう）</div><ol><li><b>基底</b>＝「1次独立」かつ「全体を生成する」ベクトルの組。空間の「ものさし（座標軸）」です。</li><li><b>次元</b>＝基底のベクトルの本数。どの基底を選んでも同じ数になります。</li><li><b>座標</b>は基底によって変わります。座標を求めることは、<span class="nw"><i>x</i><sub>1</sub><b class="vec">b</b><sub>1</sub> + ⋯ + <i>x</i><sub><i>n</i></sub><b class="vec">b</b><sub><i>n</i></sub> = <b class="vec">v</b></span> を解くことです。</li></ol></div>
+<section id="u3-s1">
+<h3 class="sec">1. 何の話か（直感）</h3>
+<p>平面上の点を (3, 1) のように2つの数で表せるのは、「<i>x</i> 方向に1目盛り」「<i>y</i> 方向に1目盛り」という2本のものさし <span class="nw"><b class="vec">e</b><sub>1</sub> = (1, 0)</span>, <span class="nw"><b class="vec">e</b><sub>2</sub> = (0, 1)</span> を決めているからです。</p>
+<p>しかし、ものさしは斜めでも、長さがばらばらでも構いません。条件は次の2つだけです。</p>
+<ul>
+<li><strong>むだがない</strong>（1次独立）：どのものさしも、ほかのものさしで代用できない</li>
+<li><strong>足りている</strong>（生成する）：空間のどのベクトルも、ものさしの組み合わせで表せる</li>
+</ul>
+<p>この2条件を満たすものさしの組を<strong>基底</strong>、その本数を<strong>次元</strong>といいます。ℝ² の基底はどう選んでも必ず2本です。そして、ベクトルを基底の組み合わせで表したときの係数が<strong>座標</strong>です。同じ矢印でも、ものさしを変えれば座標は変わります。下の図で確かめましょう。</p>
+
+<div class="box note"><div class="box-t">用語メモ</div><dl class="gloss"><dt>生成する<small>せいせいする</small></dt><dd>1次結合で、空間のすべてのベクトルを作れること。「張る」ともいいます。</dd><dt>⟨<b class="vec">a</b><sub>1</sub>, …, <b class="vec">a</b><sub><i>k</i></sub>⟩<small></small></dt><dd><b class="vec">a</b><sub>1</sub>, …, <b class="vec">a</b><sub><i>k</i></sub> の1次結合全体。これらが張る（生成する）部分空間です。</dd><dt>基底<small>きてい</small></dt><dd>むだがなく（独立）、足りている（生成する）ベクトルの組。</dd><dt>次元<small>じげん</small></dt><dd>基底の本数。「自由に動ける方向の数」です。</dd><dt>座標<small>ざひょう</small></dt><dd>ベクトルを基底の1次結合で表したときの係数の組。</dd></dl></div>
+<div class="demo" id="u3-demo">
+<div class="demo-t">基底を変えると座標が変わる</div>
+<p class="small">基底を選ぶと、その基底の「斜めの方眼」が表示されます。<span style="color:var(--c5)">●<b class="vec">x</b></span> をドラッグしてベクトルを変えられます。<span style="color:var(--c1)">●<b class="vec">b</b><sub>1</sub></span>, <span style="color:var(--c2)">●<b class="vec">b</b><sub>2</sub></span> をドラッグすると、自分で基底を決められます。</p>
+<div class="ctrl"><label>基底：<select id="u3-bsel"></select></label></div>
+<div class="demo-grid">
+<div><svg class="plot" id="u3-pl" role="img" aria-label="基底と座標の図"></svg>
+<div class="legend"><span style="--k:var(--c1)">b₁ 方向</span><span style="--k:var(--c2)">b₂ 方向</span><span style="--k:var(--c5)">x</span></div></div>
+<div><div class="out" id="u3-res"></div><div class="tablewrap" id="u3-tbl"></div></div>
+</div>
+<div id="u3-st03"></div>
+</div>
+</section>
+
+<section id="u3-s2">
+<h3 class="sec">2. 定義</h3>
+<div class="box def">
+<div class="box-t">定義 1（生成する部分空間）</div>
+<p><b class="vec">a</b><sub>1</sub>, …, <b class="vec">a</b><sub><i>k</i></sub> の1次結合全体</p>
+<div class="dm">⟨<b class="vec">a</b><sub>1</sub>, …, <b class="vec">a</b><sub><i>k</i></sub>⟩ = { <i>c</i><sub>1</sub><b class="vec">a</b><sub>1</sub> + ⋯ + <i>c</i><sub><i>k</i></sub><b class="vec">a</b><sub><i>k</i></sub> | <i>c</i><sub><i>i</i></sub> ∈ ℝ }</div>
+<p>は部分空間です。これを <b class="vec">a</b><sub>1</sub>, …, <b class="vec">a</b><sub><i>k</i></sub> が<strong>生成する（張る）部分空間</strong>といいます。<span class="nw"><i>V</i> = ⟨<b class="vec">a</b><sub>1</sub>, …, <b class="vec">a</b><sub><i>k</i></sub>⟩</span> のとき、<b class="vec">a</b><sub>1</sub>, …, <b class="vec">a</b><sub><i>k</i></sub> は <i>V</i> を<strong>生成する</strong>といいます。</p>
+</div>
+<div class="box def">
+<div class="box-t">定義 2（基底）</div>
+<p class="plain">「むだがない（1次独立）」かつ「足りている（生成する）」ベクトルの組です。</p>
+<p>線形空間 <i>V</i> のベクトルの組 <span class="nw">(<b class="vec">b</b><sub>1</sub>, …, <b class="vec">b</b><sub><i>n</i></sub>)</span> が次の2条件を満たすとき、<i>V</i> の<strong>基底</strong>といいます。</p>
+<div class="ax">
+<b>(B1)</b><span><b class="vec">b</b><sub>1</sub>, …, <b class="vec">b</b><sub><i>n</i></sub> は<strong>1次独立</strong>である</span>
+<b>(B2)</b><span><b class="vec">b</b><sub>1</sub>, …, <b class="vec">b</b><sub><i>n</i></sub> は <i>V</i> を<strong>生成する</strong></span>
+</div>
+</div>
+<div class="box thm">
+<div class="box-t">定理 1（次元）</div>
+<p class="plain">空間の中を「自由に動ける方向の数」が次元です。基底の選び方を変えても変わりません。</p>
+<p><i>V</i> の基底に含まれるベクトルの本数は、基底の選び方によらず一定です。この本数を <i>V</i> の<strong>次元</strong>といい、<span class="nw">dim <i>V</i></span> と書きます。ただし <span class="nw">dim { <b class="vec">0</b> } = 0</span> と約束します。</p>
+</div>
+<div class="box def">
+<div class="box-t">定義 3（座標）</div>
+<p class="plain"><b class="vec">v</b> を基底で表したときの係数の組です。基底を変えると座標も変わります。</p>
+<p>(<b class="vec">b</b><sub>1</sub>, …, <b class="vec">b</b><sub><i>n</i></sub>) を <i>V</i> の基底とすると、各 <b class="vec">v</b> ∈ <i>V</i> は</p>
+<div class="dm"><b class="vec">v</b> = <i>x</i><sub>1</sub><b class="vec">b</b><sub>1</sub> + <i>x</i><sub>2</sub><b class="vec">b</b><sub>2</sub> + ⋯ + <i>x</i><sub><i>n</i></sub><b class="vec">b</b><sub><i>n</i></sub></div>
+<p>と<strong>ただ1通りに</strong>表せます。この係数を並べた <span class="nw"><sup>t</sup>(<i>x</i><sub>1</sub>, …, <i>x</i><sub><i>n</i></sub>) ∈ ℝⁿ</span> を、基底に関する <b class="vec">v</b> の<strong>座標</strong>（座標ベクトル）といいます。</p>
+<p class="small muted">1通りである理由：2通り <span class="nw">Σ<i>x</i><sub><i>i</i></sub><b class="vec">b</b><sub><i>i</i></sub> = Σ<i>y</i><sub><i>i</i></sub><b class="vec">b</b><sub><i>i</i></sub></span> に書けたとすると <span class="nw">Σ(<i>x</i><sub><i>i</i></sub> − <i>y</i><sub><i>i</i></sub>)<b class="vec">b</b><sub><i>i</i></sub> = <b class="vec">0</b></span>。1次独立なので <span class="nw"><i>x</i><sub><i>i</i></sub> = <i>y</i><sub><i>i</i></sub></span>。</p>
+</div>
+<div class="box thm">
+<div class="box-t">定理 2（次元がわかっているとき）</div>
+<p><span class="nw">dim <i>V</i> = <i>n</i></span> とします。<i>V</i> の <i>n</i> 本のベクトルについて、</p>
+<div class="dm">1次独立である　⇔　<i>V</i> を生成する　⇔　基底である</div>
+<p>つまり本数が次元と一致していれば、(B1) と (B2) の<strong>片方を確かめるだけ</strong>で基底だとわかります。特に ℝⁿ の <i>n</i> 本は「列に並べた行列の行列式 ≠ 0」なら基底です。</p>
+</div>
+</section>
+
+<section id="u3-s3">
+<h3 class="sec">3. 具体例</h3>
+<div class="ex">
+<div class="ex-t">例 1：ℝⁿ の標準基底</div>
+<p><span class="nw"><b class="vec">e</b><sub>1</sub> = (1, 0, …, 0)</span>, …, <span class="nw"><b class="vec">e</b><sub><i>n</i></sub> = (0, …, 0, 1)</span> は ℝⁿ の基底（<strong>標準基底</strong>）で、<span class="nw">dim ℝⁿ = <i>n</i></span>。標準基底に関する座標は、ベクトルの成分そのものです。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 2：ℝ² の別の基底と座標</div>
+<p><span class="nw"><b class="vec">b</b><sub>1</sub> = (1, 1)</span>, <span class="nw"><b class="vec">b</b><sub>2</sub> = (−1, 1)</span> は <span class="nw">det <span class="mat"><span class="g" style="--c:2"><span>1</span><span>−1</span><span>1</span><span>1</span></span></span> = 2 ≠ 0</span> なので基底です（定理2）。<span class="nw"><b class="vec">v</b> = (3, 1)</span> の座標を求めるには <span class="nw"><i>x</i><sub>1</sub><b class="vec">b</b><sub>1</sub> + <i>x</i><sub>2</sub><b class="vec">b</b><sub>2</sub> = <b class="vec">v</b></span> を解きます。</p>
+<div class="dm"><span class="eqs"><span><i>x</i><sub>1</sub> − <i>x</i><sub>2</sub></span><span>= 3</span><span><i>x</i><sub>1</sub> + <i>x</i><sub>2</sub></span><span>= 1</span></span>　⇒　<i>x</i><sub>1</sub> = 2,　<i>x</i><sub>2</sub> = −1</div>
+<div class="stepper" data-m="1,-1,3;1,1,1" data-aug="1" data-title="[b₁ b₂ | v] を1手ずつ簡約化 → 右側が座標"></div>
+<p>よってこの基底に関する座標は <span class="nw">(2, −1)</span> です。標準基底での座標 (3, 1) とは違う数になります。</p>
+<p class="check">確認：<span class="nw">2(1, 1) − (−1, 1) = (3, 1)</span>。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 3：多項式の空間</div>
+<p>ℝ[<i>x</i>]<sub>2</sub> の基底として (1, <i>x</i>, <i>x</i>²) がとれるので <span class="nw">dim ℝ[<i>x</i>]<sub>2</sub> = 3</span>（一般に <span class="nw">dim ℝ[<i>x</i>]<sub><i>n</i></sub> = <i>n</i> + 1</span>）。<span class="nw"><i>f</i> = 3 − <i>x</i> + 2<i>x</i>²</span> の座標は (3, −1, 2) です。</p>
+<p>別の基底 (1, <i>x</i> − 1, (<i>x</i> − 1)²) をとると、<span class="nw"><i>x</i>² = 1 + 2(<i>x</i> − 1) + (<i>x</i> − 1)²</span> なので、<i>x</i>² の座標は (0, 0, 1) から (1, 2, 1) に変わります。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 4：行列の空間</div>
+<p><i>M</i><sub>2</sub>(ℝ) の基底として</p>
+<div class="dm"><i>E</i><sub>11</sub> = <span class="mat"><span class="g" style="--c:2"><span>1</span><span>0</span><span>0</span><span>0</span></span></span>,　<i>E</i><sub>12</sub> = <span class="mat"><span class="g" style="--c:2"><span>0</span><span>1</span><span>0</span><span>0</span></span></span>,　<i>E</i><sub>21</sub> = <span class="mat"><span class="g" style="--c:2"><span>0</span><span>0</span><span>1</span><span>0</span></span></span>,　<i>E</i><sub>22</sub> = <span class="mat"><span class="g" style="--c:2"><span>0</span><span>0</span><span>0</span><span>1</span></span></span></div>
+<p>がとれるので <span class="nw">dim <i>M</i><sub>2</sub>(ℝ) = 4</span>。<span class="nw"><span class="mat"><span class="g" style="--c:2"><span><i>a</i></span><span><i>b</i></span><span><i>c</i></span><span><i>d</i></span></span></span> = <i>aE</i><sub>11</sub> + <i>bE</i><sub>12</sub> + <i>cE</i><sub>21</sub> + <i>dE</i><sub>22</sub></span> です。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 5：部分空間の基底と次元</div>
+<p><span class="nw"><i>W</i> = { <b class="vec">x</b> ∈ ℝ³ | <i>x</i><sub>1</sub> + 2<i>x</i><sub>2</sub> − <i>x</i><sub>3</sub> = 0 }</span>。<span class="nw"><i>x</i><sub>3</sub> = <i>x</i><sub>1</sub> + 2<i>x</i><sub>2</sub></span> なので、<i>x</i><sub>1</sub> = <i>s</i>, <i>x</i><sub>2</sub> = <i>t</i> とおくと</p>
+<div class="dm"><b class="vec">x</b> = <span class="mat"><span class="g" style="--c:1"><span><i>s</i></span><span><i>t</i></span><span><i>s</i> + 2<i>t</i></span></span></span> = <i>s</i><span class="mat"><span class="g" style="--c:1"><span>1</span><span>0</span><span>1</span></span></span> + <i>t</i><span class="mat"><span class="g" style="--c:1"><span>0</span><span>1</span><span>2</span></span></span></div>
+<p>この2本は <i>W</i> を生成し、第1・第2成分を見れば1次独立です。よって基底は (1, 0, 1), (0, 1, 2) で、<span class="nw">dim <i>W</i> = 2</span>（平面）です。</p>
+</div>
+</section>
+
+<section id="u3-s4">
+<h3 class="sec">4. よくある間違い</h3>
+<div class="mis">
+<p class="bad">(1, 0), (0, 1), (1, 1) は ℝ² を生成するので基底である。</p>
+<p class="good">生成はしますが、(1, 1) = (1, 0) + (0, 1) なので1次独立ではありません。基底は<strong>独立かつ生成</strong>の両方が必要です。ℝ² の基底は必ず2本です。</p>
+</div>
+<div class="mis">
+<p class="bad">ベクトル (3, 1) の座標は、どんな基底でも (3, 1) である。</p>
+<p class="good">(3, 1) は<strong>標準基底</strong>に関する座標です。基底 ((1, 1), (−1, 1)) に関する座標は (2, −1) です。座標は基底を決めて初めて決まります。</p>
+</div>
+<div class="mis">
+<p class="bad">基底 (<b class="vec">b</b><sub>1</sub>, <b class="vec">b</b><sub>2</sub>) と (<b class="vec">b</b><sub>2</sub>, <b class="vec">b</b><sub>1</sub>) は同じなので、座標も同じ。</p>
+<p class="good">座標を考えるときの基底は<strong>順番つき</strong>です。順番を入れ替えると座標の成分も入れ替わります。</p>
+</div>
+<div class="mis">
+<p class="bad">ℝ³ の中の、式1本で定まる部分空間 <i>W</i> は「式が1本だから1次元」。</p>
+<p class="good">式は自由度を<strong>減らす</strong>ものです。独立な式が1本なら <span class="nw">dim <i>W</i> = 3 − 1 = 2</span>。基底を実際に求めて本数を数えるのが確実です。</p>
+</div>
+<div class="mis">
+<p class="bad">零空間 { <b class="vec">0</b> } の基底は <b class="vec">0</b> なので、次元は 1。</p>
+<p class="good"><b class="vec">0</b> だけの組は1次従属なので基底になれません。{ <b class="vec">0</b> } の基底は空集合で、<span class="nw">dim { <b class="vec">0</b> } = 0</span> です。</p>
+</div>
+</section>
+
+<section id="u3-s5">
+<h3 class="sec">5. 練習問題</h3>
+<div class="box howto"><div class="box-t">解き方の手順：基底・次元・座標を求める</div><ol><li><b>部分空間の基底と次元</b>：条件式を連立方程式として簡約化し、自由変数を <i>s</i>, <i>t</i>, … とおいて <span class="nw"><b class="vec">x</b> = <i>s</i>(…) + <i>t</i>(…)</span> の形にします。出てきたベクトルが基底、その本数が次元です。</li><li><b>与えられた組が基底かどうか</b>：本数が次元と同じなら、1次独立かどうかだけ確かめれば十分です（ℝⁿ なら行列式 ≠ 0）。</li><li><b>座標</b>：基底を列に並べ、右に <b class="vec">v</b> を付けた拡大係数行列 <span class="nw">[<b class="vec">b</b><sub>1</sub> ⋯ <b class="vec">b</b><sub><i>n</i></sub> | <b class="vec">v</b>]</span> を簡約化します。<span class="nw">[<i>E</i> | <b class="vec">x</b>]</span> になったら、右側の <b class="vec">x</b> が座標です。</li></ol></div>
+<div class="prob">
+<div class="prob-t">問題 1 <span class="src">教科書 練習問題4 [A] 12 の類題</span></div>
+<p>ℝ⁴ の次の部分空間の次元と基底を求めてください。</p>
+<p>(1) <span class="nw"><i>W</i><sub>1</sub> = { <b class="vec">x</b> ∈ ℝ⁴ | <i>x</i><sub>1</sub> − <i>x</i><sub>2</sub> = 0,　<i>x</i><sub>3</sub> + 2<i>x</i><sub>4</sub> = 0 }</span></p>
+<p>(2) <span class="nw"><i>W</i><sub>2</sub> = { <b class="vec">x</b> ∈ ℝ⁴ | <span class="mat"><span class="g" style="--c:4"><span>1</span><span>1</span><span>2</span><span>1</span><span>2</span><span>1</span><span>3</span><span>4</span><span>1</span><span>0</span><span>1</span><span>3</span></span></span><b class="vec">x</b> = <b class="vec">0</b> }</span></p>
+<details><summary>解答を見る</summary>
+<p>(1) <span class="nw"><i>x</i><sub>2</sub> = <i>x</i><sub>1</sub></span>, <span class="nw"><i>x</i><sub>3</sub> = −2<i>x</i><sub>4</sub></span>。<span class="nw"><i>x</i><sub>1</sub> = <i>s</i>, <i>x</i><sub>4</sub> = <i>t</i></span> とおくと</p>
+<div class="dm"><b class="vec">x</b> = <i>s</i><span class="mat"><span class="g" style="--c:1"><span>1</span><span>1</span><span>0</span><span>0</span></span></span> + <i>t</i><span class="mat"><span class="g" style="--c:1"><span>0</span><span>0</span><span>−2</span><span>1</span></span></span></div>
+<p>基底はこの2本、<strong>dim <i>W</i><sub>1</sub> = 2</strong>。</p>
+<p>(2) 係数行列を簡約化します。</p>
+<div class="dm"><span class="mat"><span class="g" style="--c:4"><span>1</span><span>1</span><span>2</span><span>1</span><span>2</span><span>1</span><span>3</span><span>4</span><span>1</span><span>0</span><span>1</span><span>3</span></span></span> → <span class="mat"><span class="g" style="--c:4"><span>1</span><span>1</span><span>2</span><span>1</span><span>0</span><span>−1</span><span>−1</span><span>2</span><span>0</span><span>−1</span><span>−1</span><span>2</span></span></span> → <span class="mat"><span class="g" style="--c:4"><span>1</span><span>0</span><span>1</span><span>3</span><span>0</span><span>1</span><span>1</span><span>−2</span><span>0</span><span>0</span><span>0</span><span>0</span></span></span></div>
+<div class="stepper" data-m="1,1,2,1;2,1,3,4;1,0,1,3" data-aug="0"></div>
+<p>自由変数 <span class="nw"><i>x</i><sub>3</sub> = <i>s</i>, <i>x</i><sub>4</sub> = <i>t</i></span> とおくと <span class="nw"><i>x</i><sub>1</sub> = −<i>s</i> − 3<i>t</i></span>, <span class="nw"><i>x</i><sub>2</sub> = −<i>s</i> + 2<i>t</i></span> なので</p>
+<div class="dm"><b class="vec">x</b> = <i>s</i><span class="mat"><span class="g" style="--c:1"><span>−1</span><span>−1</span><span>1</span><span>0</span></span></span> + <i>t</i><span class="mat"><span class="g" style="--c:1"><span>−3</span><span>2</span><span>0</span><span>1</span></span></span></div>
+<p>基底はこの2本、<strong>dim <i>W</i><sub>2</sub> = 2</strong>（= 4 − rank）。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 2 <span class="src">教科書 練習問題4 [A] 13 の類題</span></div>
+<p>2次以下の多項式全体のつくる線形空間 ℝ[<i>x</i>]<sub>2</sub> において、<span class="nw">{1 + <i>x</i>, 1 − <i>x</i>, <i>x</i>² + 1}</span> は基底になることを示してください。また、この基底に関する <span class="nw">3 + <i>x</i> + 2<i>x</i>²</span> の座標を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p><span class="nw"><i>a</i>(1 + <i>x</i>) + <i>b</i>(1 − <i>x</i>) + <i>c</i>(<i>x</i>² + 1) = (<i>a</i> + <i>b</i> + <i>c</i>) + (<i>a</i> − <i>b</i>)<i>x</i> + <i>cx</i>²</span> です。</p>
+<p><strong>1次独立</strong>：これが 0 なら <span class="nw"><i>c</i> = 0</span>, <span class="nw"><i>a</i> − <i>b</i> = 0</span>, <span class="nw"><i>a</i> + <i>b</i> + <i>c</i> = 0</span>。よって <span class="nw"><i>a</i> = <i>b</i> = <i>c</i> = 0</span>。</p>
+<p>dim ℝ[<i>x</i>]<sub>2</sub> = 3 で、3本の1次独立なベクトルなので基底です（定理2）。</p>
+<p><strong>座標</strong>：<span class="nw">3 + <i>x</i> + 2<i>x</i>²</span> と係数を比べて <span class="nw"><i>c</i> = 2</span>, <span class="nw"><i>a</i> − <i>b</i> = 1</span>, <span class="nw"><i>a</i> + <i>b</i> = 1</span>。よって <span class="nw"><i>a</i> = 1, <i>b</i> = 0, <i>c</i> = 2</span>、座標は <strong>(1, 0, 2)</strong>。</p>
+<p class="check">確認：<span class="nw">(1 + <i>x</i>) + 2(<i>x</i>² + 1) = 3 + <i>x</i> + 2<i>x</i>²</span>。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 3 <span class="src">教科書 練習問題4 [A] 15 の類題</span></div>
+<p>ℝ³ のベクトル <span class="nw"><b class="vec">a</b><sub>1</sub> = <span class="mat"><span class="g" style="--c:1"><span>1</span><span>0</span><span>1</span></span></span>, <b class="vec">a</b><sub>2</sub> = <span class="mat"><span class="g" style="--c:1"><span>0</span><span>1</span><span>1</span></span></span>, <b class="vec">a</b><sub>3</sub> = <span class="mat"><span class="g" style="--c:1"><span>1</span><span>1</span><span>0</span></span></span>, <b class="vec">a</b><sub>4</sub> = <span class="mat"><span class="g" style="--c:1"><span>1</span><span>−1</span><span>1</span></span></span></span> に対して <span class="nw"><i>W</i><sub>1</sub> = ⟨<b class="vec">a</b><sub>1</sub>, <b class="vec">a</b><sub>2</sub>⟩</span>, <span class="nw"><i>W</i><sub>2</sub> = ⟨<b class="vec">a</b><sub>3</sub>, <b class="vec">a</b><sub>4</sub>⟩</span> とおくとき、<i>W</i><sub>1</sub> + <i>W</i><sub>2</sub> と <i>W</i><sub>1</sub> ∩ <i>W</i><sub>2</sub> のそれぞれの次元と基底を求めてください。</p>
+<p class="small muted">ここで <span class="nw"><i>W</i><sub>1</sub> + <i>W</i><sub>2</sub> = { <b class="vec">w</b><sub>1</sub> + <b class="vec">w</b><sub>2</sub> | <b class="vec">w</b><sub>1</sub> ∈ <i>W</i><sub>1</sub>, <b class="vec">w</b><sub>2</sub> ∈ <i>W</i><sub>2</sub> } = ⟨<b class="vec">a</b><sub>1</sub>, <b class="vec">a</b><sub>2</sub>, <b class="vec">a</b><sub>3</sub>, <b class="vec">a</b><sub>4</sub>⟩</span>（和空間）です。</p>
+<details><summary>解答を見る</summary>
+<p><strong><i>W</i><sub>1</sub> + <i>W</i><sub>2</sub></strong>：4本を列に並べた行列の rank を調べると 3 です（たとえば <b class="vec">a</b><sub>1</sub>, <b class="vec">a</b><sub>2</sub>, <b class="vec">a</b><sub>3</sub> を並べた行列式は <span class="nw">1·(0 − 1) − 0 + 1·(0 − 1) = −2 ≠ 0</span>）。よって <span class="nw"><i>W</i><sub>1</sub> + <i>W</i><sub>2</sub> = ℝ³</span>、<strong>次元 3</strong>、基底は <b class="vec">a</b><sub>1</sub>, <b class="vec">a</b><sub>2</sub>, <b class="vec">a</b><sub>3</sub>（標準基底でも可）。</p>
+<p><strong><i>W</i><sub>1</sub> ∩ <i>W</i><sub>2</sub></strong>：<span class="nw"><i>s</i><b class="vec">a</b><sub>1</sub> + <i>t</i><b class="vec">a</b><sub>2</sub> = <i>u</i><b class="vec">a</b><sub>3</sub> + <i>v</i><b class="vec">a</b><sub>4</sub></span> とおくと、成分で</p>
+<div class="dm"><i>s</i> = <i>u</i> + <i>v</i>,　<i>t</i> = <i>u</i> − <i>v</i>,　<i>s</i> + <i>t</i> = <i>v</i></div>
+<p>1式目と2式目を足すと <span class="nw"><i>s</i> + <i>t</i> = 2<i>u</i></span> なので <span class="nw"><i>v</i> = 2<i>u</i></span>、すると <span class="nw"><i>s</i> = 3<i>u</i>, <i>t</i> = −<i>u</i></span>。共通のベクトルは</p>
+<div class="dm">3<i>u</i><b class="vec">a</b><sub>1</sub> − <i>u</i><b class="vec">a</b><sub>2</sub> = <i>u</i><span class="mat"><span class="g" style="--c:1"><span>3</span><span>−1</span><span>2</span></span></span></div>
+<p>よって <span class="nw"><i>W</i><sub>1</sub> ∩ <i>W</i><sub>2</sub> = ⟨(3, −1, 2)⟩</span>、<strong>次元 1</strong>。</p>
+<p class="check">確認（次元公式）：<span class="nw">dim(<i>W</i><sub>1</sub> + <i>W</i><sub>2</sub>) = dim <i>W</i><sub>1</sub> + dim <i>W</i><sub>2</sub> − dim(<i>W</i><sub>1</sub> ∩ <i>W</i><sub>2</sub>)</span> に当てはめると <span class="nw">3 = 2 + 2 − 1</span> ✓</p>
+</details>
+</div>
+</section>
+<p class="unit-end"><a href="#top">↑ 全体の目次に戻る</a></p>
+</article>
+<script>
+(function(){
+const ROOT=document.getElementById("u3");
+const $=s=>ROOT.querySelector(s.replace(/#([\w-]+)/g,"#u3-$1"));
+const PRE=[
+  {name:"標準基底 e₁=(1,0), e₂=(0,1)",b:[[1,0],[0,1]]},
+  {name:"b₁=(1,1), b₂=(−1,1)",b:[[1,1],[-1,1]]},
+  {name:"b₁=(2,1), b₂=(1,2)",b:[[2,1],[1,2]]},
+  {name:"b₁=(1,0), b₂=(1,1)",b:[[1,0],[1,1]]},
+  {name:"自分で決める（図の点を動かす）",b:null},
+];
+const sel=$("#bsel");
+PRE.forEach((p,i)=>{const o=document.createElement("option");o.value=i;o.textContent=p.name;sel.appendChild(o);});
+const P=new Plane($("#pl"),{R:5});
+let B=PRE[1].b.map(r=>r.slice()), x=[3,1]; sel.value=1;
+function coords(B,x){ // B = [b1,b2]（各 [x,y]）
+  const M=LA.fromCols(B.map(c=>c.map(toQ))), Mi=LA.inv(M);
+  return Mi?LA.mv(Mi,x.map(toQ)):null;
+}
+const V=(n)=>`<b class="vec">${n}</b>`;
+let k03=""; function render(){ const kk=JSON.stringify([B,x]); if(kk!==k03){k03=kk; makeStepper($("#st03"),[[B[0][0],B[1][0],x[0]],[B[0][1],B[1][1],x[1]]].map(r=>r.map(toQ)),1,"座標を求める：[b₁ b₂ | x] を1手ずつ簡約化 → 右側が座標");}
+  P.clear();
+  const [b1,b2]=B, c=coords(B,x);
+  if(c){
+    for(let k=-12;k<=12;k++){
+      P.infLine([k*b1[0],k*b1[1]],b2,"var(--c2)",{width:k===0?2:1,opacity:k===0?0.55:0.28});
+      P.infLine([k*b2[0],k*b2[1]],b1,"var(--c1)",{width:k===0?2:1,opacity:k===0?0.55:0.28});
+    }
+    const c1=c[0].val(),c2=c[1].val(), m=[c1*b1[0],c1*b1[1]];
+    P.arrow([0,0],m,"var(--c1)",{width:2.5,opacity:0.6,dash:"6 4"});
+    P.arrow(m,x,"var(--c2)",{width:2.5,opacity:0.6,dash:"6 4"});
+  }
+  P.arrow([0,0],b1,"var(--c1)",{label:"b₁",width:4});
+  P.arrow([0,0],b2,"var(--c2)",{label:"b₂",width:4});
+  P.arrow([0,0],x,"var(--c5)",{label:"x",width:3.5});
+  P.syncHandles();
+  let s=`<div class="row">${V("b")}<sub>1</sub> = ${rowVecHTML(b1.map(toQ))},　${V("b")}<sub>2</sub> = ${rowVecHTML(b2.map(toQ))}</div>`;
+  s+=`<div class="row">${V("x")} = ${rowVecHTML(x.map(toQ))}（標準基底での座標）</div>`;
+  if(!c){ s+=`<div class="row"><span class="tag ng">基底ではありません</span> ${V("b")}<sub>1</sub>, ${V("b")}<sub>2</sub> が同一直線上にある（1次従属）ので、座標が決まりません。</div>`; }
+  else{
+    s+=`<div class="row"><span class="tag ok">基底です</span> det = ${LA.det(LA.fromCols(B.map(v=>v.map(toQ)))).html()} ≠ 0</div>`;
+    s+=`<div class="row" style="font-size:1.08em">${V("x")} = ${combHTML(c,[V("b")+"<sub>1</sub>",V("b")+"<sub>2</sub>"])}</div>`;
+    s+=`<div class="row">この基底に関する座標：<b>${rowVecHTML(c)}</b></div>`;
+  }
+  $("#res").innerHTML=s;
+  // 全プリセットでの座標の比較
+  let t='<table class="t"><tr><th>基底</th><th>{{x}} の座標</th></tr>'.replace("{{x}}",V("x"));
+  PRE.forEach((p,i)=>{ const bb=p.b||(sel.value==="4"?B:null); if(!bb) return; const cc=coords(bb,x);
+    t+=`<tr${String(i)===sel.value?' style="background:var(--accent-soft)"':''}><td class="small">${p.name.replace(/（.*）/,"")}</td><td>${cc?rowVecHTML(cc):"—"}</td></tr>`; });
+  $("#tbl").innerHTML='<p class="small muted" style="margin-bottom:0">同じ '+V("x")+' の、基底ごとの座標：</p>'+t+'</table>';
+}
+P.handle(()=>B[0],p=>{B[0]=p;sel.value=4;render();},"var(--c1)");
+P.handle(()=>B[1],p=>{B[1]=p;sel.value=4;render();},"var(--c2)");
+P.handle(()=>x,p=>{x=p;render();},"var(--c5)",{snap:0.5});
+sel.addEventListener("change",()=>{const p=PRE[+sel.value]; if(p.b) B=p.b.map(r=>r.slice()); render();});
+render();
+})();
+</script>
+<article class="unit" id="u4">
+<div class="unit-head">
+<div class="crumb">第4回</div>
+<h2>基底変換と座標変換</h2>
+<p class="lead">同じベクトルを2種類の基底で測ると、座標の数値が変わります。その「換算表」が変換行列 P です。P の作り方と、座標の変換公式 x = Px′ を学びます。</p>
+<nav class="toc" aria-label="第4回の目次"><a href="#u4-s1">1. 何の話か（直感）</a><a href="#u4-s2">2. 定義</a><a href="#u4-s3">3. 具体例</a><a href="#u4-s4">4. よくある間違い</a><a href="#u4-s5">5. 練習問題</a><a class="demo-link" href="#u4-demo">▶ 動かしてみよう</a></nav>
+</div>
+<div class="box points"><div class="box-t">この回のポイント（まずここだけ押さえましょう）</div><ol><li>変換行列 <i>P</i> の第 <i>j</i> 列＝新しい基底 <b class="vec">b</b>′<sub><i>j</i></sub> を<b>古い基底で表した係数</b>です。</li><li>座標は<b>逆向き</b>に変わります：<span class="nw"><b class="vec">x</b> = <i>P</i><b class="vec">x</b>′</span>（つまり <span class="nw"><b class="vec">x</b>′ = <i>P</i><sup>−1</sup><b class="vec">x</b></span>）。</li><li>ℝⁿ では <span class="nw"><i>P</i> = <i>B</i><sup>−1</sup><i>B</i>′</span>。実際には <span class="nw">[<i>B</i> | <i>B</i>′]</span> を簡約化すると右側に <i>P</i> が出てきます。</li></ol></div>
+<section id="u4-s1">
+<h3 class="sec">1. 何の話か（直感）</h3>
+<p>長さを「メートル」で測るか「フィート」で測るかで数値が変わるように、ベクトルも基底（ものさし）を変えると座標の数値が変わります。第3回で見たとおり、<span class="nw"><b class="vec">v</b> = (3, 1)</span> は標準基底では (3, 1)、基底 ((1, 1), (−1, 1)) では (2, −1) でした。</p>
+<div class="figrow" style="--n:2"><figure><svg class="plot" id="u4-f4a" role="img" aria-label="標準基底での座標"></svg><figcaption>標準基底 <b class="vec">e</b><sub>1</sub>, <b class="vec">e</b><sub>2</sub> で測ると<br><b>(3, 1)</b>（3<b class="vec">e</b><sub>1</sub> + <b class="vec">e</b><sub>2</sub>）</figcaption></figure><figure><svg class="plot" id="u4-f4b" role="img" aria-label="別の基底での座標"></svg><figcaption><b class="vec">b</b><sub>1</sub> = (1, 1), <b class="vec">b</b><sub>2</sub> = (−1, 1) で測ると<br><b>(2, −1)</b>（2<b class="vec">b</b><sub>1</sub> − <b class="vec">b</b><sub>2</sub>）</figcaption></figure></div>
+<p>基底を変えるたびに連立方程式を解くのは大変です。そこで、</p>
+<ol>
+<li>「新しい基底の各ベクトルを、古い基底で表すと何か」を1つの行列 <i>P</i>（<strong>基底の変換行列</strong>）にまとめておき、</li>
+<li>座標の換算は行列のかけ算 <span class="nw"><b class="vec">x</b> = <i>P</i><b class="vec">x</b>′</span> で済ませる</li>
+</ol>
+<p>というのが今回の話です。ポイントは、<strong>基底は <i>P</i> で「古い→新しい」に変わるのに、座標は逆向きの式になる</strong>ことです。下の計算機で確かめてみましょう。</p>
+<div class="box note"><div class="box-t">用語メモ</div><dl class="gloss"><dt>基底変換<small>きていへんかん</small></dt><dd>使う基底を、別の基底に取りかえること。</dd><dt>変換行列 <i>P</i><small>へんかんぎょうれつ</small></dt><dd>新しい基底を古い基底で表したときの係数を、列に並べた行列。</dd><dt>正則<small>せいそく</small></dt><dd>逆行列をもつこと（|<i>P</i>| ≠ 0）。変換行列は必ず正則です。</dd><dt>拡大係数行列<small>かくだいけいすうぎょうれつ</small></dt><dd>行列の右に、縦線で区切って別の列を付け加えたもの。連立方程式をまとめて解くときに使います。</dd></dl></div>
+</section>
+
+<section id="u4-s2">
+<h3 class="sec">2. 定義</h3>
+<p>線形空間 <i>V</i> の2組の基底を <span class="nw"><i>B</i> = (<b class="vec">b</b><sub>1</sub>, …, <b class="vec">b</b><sub><i>n</i></sub>)</span>（古い基底）、<span class="nw"><i>B</i>′ = (<b class="vec">b</b>′<sub>1</sub>, …, <b class="vec">b</b>′<sub><i>n</i></sub>)</span>（新しい基底）とします。</p>
+<div class="box def">
+<div class="box-t">定義（基底の変換行列）</div>
+<p class="plain">新しいものさしを、古いものさしで測った数値を列に並べた表です。</p>
+<p>新しい基底の各ベクトルを古い基底の1次結合で表します。</p>
+<div class="dm"><b class="vec">b</b>′<sub><i>j</i></sub> = <i>p</i><sub>1<i>j</i></sub><b class="vec">b</b><sub>1</sub> + <i>p</i><sub>2<i>j</i></sub><b class="vec">b</b><sub>2</sub> + ⋯ + <i>p</i><sub><i>nj</i></sub><b class="vec">b</b><sub><i>n</i></sub>　　(<i>j</i> = 1, …, <i>n</i>)</div>
+<p>この係数を<strong>第 <i>j</i> 列</strong>に並べた <i>n</i> 次正方行列 <span class="nw"><i>P</i> = (<i>p</i><sub><i>ij</i></sub>)</span> を、<i>B</i> から <i>B</i>′ への<strong>基底の変換行列</strong>といいます。まとめて書くと</p>
+<div class="dm">(<b class="vec">b</b>′<sub>1</sub> ⋯ <b class="vec">b</b>′<sub><i>n</i></sub>) = (<b class="vec">b</b><sub>1</sub> ⋯ <b class="vec">b</b><sub><i>n</i></sub>) <i>P</i></div>
+<p>つまり <strong><i>P</i> の第 <i>j</i> 列 = <b class="vec">b</b>′<sub><i>j</i></sub> の <i>B</i> に関する座標</strong> です。<i>P</i> は必ず正則です。</p>
+</div>
+<div class="box thm">
+<div class="box-t">定理（座標変換の公式）</div>
+<p class="plain">「新しい座標 <b class="vec">x</b>′ に <i>P</i> をかけると古い座標 <b class="vec">x</b> になる」と覚えましょう。逆向き（古い→新しい）は <i>P</i><sup>−1</sup> です。</p>
+<p><b class="vec">v</b> ∈ <i>V</i> の <i>B</i> に関する座標を <b class="vec">x</b>、<i>B</i>′ に関する座標を <b class="vec">x</b>′ とすると</p>
+<div class="dm" style="font-size:1.12em"><b class="vec">x</b> = <i>P</i><b class="vec">x</b>′，　　<b class="vec">x</b>′ = <i>P</i><sup>−1</sup><b class="vec">x</b></div>
+<p class="small muted">証明：<span class="nw"><b class="vec">v</b> = (<b class="vec">b</b>′<sub>1</sub> ⋯ <b class="vec">b</b>′<sub><i>n</i></sub>)<b class="vec">x</b>′ = (<b class="vec">b</b><sub>1</sub> ⋯ <b class="vec">b</b><sub><i>n</i></sub>)<i>P</i><b class="vec">x</b>′</span>。一方 <span class="nw"><b class="vec">v</b> = (<b class="vec">b</b><sub>1</sub> ⋯ <b class="vec">b</b><sub><i>n</i></sub>)<b class="vec">x</b></span>。座標はただ1通りなので <span class="nw"><b class="vec">x</b> = <i>P</i><b class="vec">x</b>′</span>。</p>
+</div>
+<div class="box note">
+<div class="box-t">ℝⁿ での求め方</div>
+<p><i>V</i> = ℝⁿ なら、基底のベクトルを列に並べた行列を同じ記号 <i>B</i>, <i>B</i>′ で表すと、<span class="nw"><i>B</i>′ = <i>BP</i></span> なので</p>
+<div class="dm"><i>P</i> = <i>B</i><sup>−1</sup><i>B</i>′</div>
+<p>実際の計算では、<span class="nw">[<i>B</i> | <i>B</i>′]</span>（<i>B</i> の右に <i>B</i>′ を並べた行列）を簡約化すると <span class="nw">[<i>E</i> | <i>P</i>]</span> になります。<i>B</i><sup>−1</sup> を別に求める必要はありません。</p>
+<p>特に <i>B</i> が標準基底なら <span class="nw"><i>P</i> = <i>B</i>′</span>（新しい基底をそのまま列に並べたもの）です。</p>
+</div>
+</section>
+
+<section id="u4-s3">
+<h3 class="sec">3. 具体例</h3>
+
+<div class="demo" id="u4-demo">
+<div class="demo-t">2つの基底で座標を換算する計算機</div>
+<p class="small">基底 <i>B</i>, <i>B</i>′ のベクトルを<strong>列</strong>として入力してください。<b class="vec">v</b> の <i>B</i> 座標 <b class="vec">x</b> から、変換行列 <i>P</i> と <i>B</i>′ 座標 <b class="vec">x</b>′ を計算します。分数（例 <code>1/2</code>）も入力できます。2次元のときは図の <span style="color:var(--c5)">●<b class="vec">v</b></span> をドラッグしても変えられます。</p>
+<div class="ctrl"><label>次元：<select id="u4-dim"><option value="2">ℝ²</option><option value="3">ℝ³</option></select></label>
+<label>例：<select id="u4-pre"></select></label></div>
+<div class="ctrl" style="align-items:center"><span class="nw"><i>B</i> = <span id="u4-inB"></span></span><span class="nw"><i>B</i>′ = <span id="u4-inB2"></span></span><span class="nw"><b class="vec">x</b> = <span id="u4-inX"></span></span></div>
+<div class="demo-grid" id="u4-dgrid">
+<div id="u4-plotwrap"><svg class="plot" id="u4-pl" role="img" aria-label="2つの基底による座標の図"></svg>
+<div class="legend"><span style="--k:var(--c1)">B の方眼</span><span style="--k:var(--c3)">B′ の方眼</span><span style="--k:var(--c5)">v</span></div></div>
+<div class="out" id="u4-res"></div>
+</div>
+<div id="u4-st04"></div>
+</div>
+
+<div class="ex">
+<div class="ex-t">例 1：標準基底から新しい基底へ</div>
+<p><i>B</i> = 標準基底、<span class="nw"><i>B</i>′ = ((1, 1), (−1, 1))</span>。<i>B</i> が標準基底なので</p>
+<div class="dm"><i>P</i> = <span class="mat"><span class="g" style="--c:2"><span>1</span><span>−1</span><span>1</span><span>1</span></span></span>，　<i>P</i><sup>−1</sup> = <span class="frac"><span>1</span><span>2</span></span><span class="mat"><span class="g" style="--c:2"><span>1</span><span>1</span><span>−1</span><span>1</span></span></span></div>
+<p><span class="nw"><b class="vec">v</b> = (3, 1)</span> の <i>B</i>′ 座標は <span class="nw"><b class="vec">x</b>′ = <i>P</i><sup>−1</sup><span class="mat"><span class="g" style="--c:1"><span>3</span><span>1</span></span></span> = <span class="frac"><span>1</span><span>2</span></span><span class="mat"><span class="g" style="--c:1"><span>4</span><span>−2</span></span></span> = <span class="mat"><span class="g" style="--c:1"><span>2</span><span>−1</span></span></span></span>。第3回の例2と一致します。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 2：どちらも標準基底でないとき</div>
+<p><span class="nw"><i>B</i> = ((1, 0), (1, 1))</span>, <span class="nw"><i>B</i>′ = ((1, 1), (−1, 1))</span>。</p>
+<div class="dm"><i>P</i> = <i>B</i><sup>−1</sup><i>B</i>′ = <span class="mat"><span class="g" style="--c:2"><span>1</span><span>−1</span><span>0</span><span>1</span></span></span><span class="mat"><span class="g" style="--c:2"><span>1</span><span>−1</span><span>1</span><span>1</span></span></span> = <span class="mat"><span class="g" style="--c:2"><span>0</span><span>−2</span><span>1</span><span>1</span></span></span></div>
+<div class="stepper" data-m="1,1,1,-1;0,1,1,1" data-aug="2" data-title="[B | B′] を1手ずつ簡約化 → 右側が P"></div>
+<p>列の意味を確かめると、<span class="nw"><b class="vec">b</b>′<sub>1</sub> = 0<b class="vec">b</b><sub>1</sub> + 1<b class="vec">b</b><sub>2</sub> = (1, 1)</span>、<span class="nw"><b class="vec">b</b>′<sub>2</sub> = −2<b class="vec">b</b><sub>1</sub> + <b class="vec">b</b><sub>2</sub> = (−1, 1)</span> で正しいです。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 3：多項式の空間</div>
+<p>ℝ[<i>x</i>]<sub>2</sub> で <span class="nw"><i>B</i> = (1, <i>x</i>, <i>x</i>²)</span>, <span class="nw"><i>B</i>′ = (1, <i>x</i> − 1, (<i>x</i> − 1)²)</span>。新しい基底を古い基底で表すと</p>
+<div class="dm"><span class="eqs"><span>1</span><span>= 1 · 1 + 0 · <i>x</i> + 0 · <i>x</i>²</span><span><i>x</i> − 1</span><span>= −1 · 1 + 1 · <i>x</i> + 0 · <i>x</i>²</span><span>(<i>x</i> − 1)²</span><span>= 1 · 1 − 2 · <i>x</i> + 1 · <i>x</i>²</span></span></div>
+<p>係数を<strong>列</strong>に並べて <span class="nw"><i>P</i> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>−1</span><span>1</span><span>0</span><span>1</span><span>−2</span><span>0</span><span>0</span><span>1</span></span></span></span>。<i>x</i>² の <i>B</i> 座標は (0, 0, 1)、<i>B</i>′ 座標は <span class="nw"><i>x</i>² = 1 + 2(<i>x</i> − 1) + (<i>x</i> − 1)²</span> より (1, 2, 1) です。</p>
+<p class="check">確認：<span class="nw"><i>P</i><span class="mat"><span class="g" style="--c:1"><span>1</span><span>2</span><span>1</span></span></span> = <span class="mat"><span class="g" style="--c:1"><span>1 − 2 + 1</span><span>2 − 2</span><span>1</span></span></span> = <span class="mat"><span class="g" style="--c:1"><span>0</span><span>0</span><span>1</span></span></span></span> となり、<span class="nw"><b class="vec">x</b> = <i>P</i><b class="vec">x</b>′</span> が成り立っています。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 4：基底変換を2回続けると</div>
+<p><i>B</i> → <i>B</i>′ の変換行列が <i>P</i>、<i>B</i>′ → <i>B</i>″ の変換行列が <i>Q</i> なら、<i>B</i> → <i>B</i>″ の変換行列は <strong><i>PQ</i></strong> です。また <i>B</i>′ → <i>B</i> の変換行列は <strong><i>P</i><sup>−1</sup></strong> です。</p>
+<p class="small muted">理由：<span class="nw">(<i>B</i>″) = (<i>B</i>′)<i>Q</i> = (<i>B</i>)<i>PQ</i></span>。</p>
+</div>
+</section>
+
+<section id="u4-s4">
+<h3 class="sec">4. よくある間違い</h3>
+<div class="mis">
+<p class="bad">基底が <i>P</i> で変わるので、座標も <span class="nw"><b class="vec">x</b>′ = <i>P</i><b class="vec">x</b></span> で変わる。</p>
+<p class="good">座標は<strong>逆向き</strong>に変わります：<span class="nw"><b class="vec">x</b> = <i>P</i><b class="vec">x</b>′</span>、つまり <span class="nw"><b class="vec">x</b>′ = <i>P</i><sup>−1</sup><b class="vec">x</b></span>。ものさしを2倍の長さにすると、測った数値は半分になるのと同じです。</p>
+</div>
+<div class="mis">
+<p class="bad"><b class="vec">b</b>′<sub><i>j</i></sub> の係数を <i>P</i> の第 <i>j</i> <strong>行</strong>に並べる。</p>
+<p class="good">第 <i>j</i> <strong>列</strong>に並べます。<span class="nw">(<b class="vec">b</b>′<sub>1</sub> ⋯ <b class="vec">b</b>′<sub><i>n</i></sub>) = (<b class="vec">b</b><sub>1</sub> ⋯ <b class="vec">b</b><sub><i>n</i></sub>)<i>P</i></span> を成分で書くと列になることを確認しましょう。</p>
+</div>
+<div class="mis">
+<p class="bad">ℝⁿ で <span class="nw"><i>P</i> = <i>B</i>′<i>B</i><sup>−1</sup></span> と計算する。</p>
+<p class="good"><span class="nw"><i>B</i>′ = <i>BP</i></span> から <span class="nw"><i>P</i> = <i>B</i><sup>−1</sup><i>B</i>′</span> です。行列のかけ算は順番を変えられません。</p>
+</div>
+<div class="mis">
+<p class="bad">答えが合っているか不安でも、そのまま提出する。</p>
+<p class="good"><strong>検算は簡単</strong>です。<span class="nw"><i>P</i><b class="vec">x</b>′</span> を計算して <b class="vec">x</b> に戻るか、または <span class="nw"><i>x</i>′<sub>1</sub><b class="vec">b</b>′<sub>1</sub> + ⋯ + <i>x</i>′<sub><i>n</i></sub><b class="vec">b</b>′<sub><i>n</i></sub></span> が元のベクトルになるかを確かめましょう。</p>
+</div>
+</section>
+
+<section id="u4-s5">
+<h3 class="sec">5. 練習問題</h3>
+<div class="box howto"><div class="box-t">解き方の手順：変換行列と座標の変換</div><ol><li>新しい基底の各ベクトル <b class="vec">b</b>′<sub><i>j</i></sub> を、古い基底の1次結合で表します（ℝⁿ なら <span class="nw">[<i>B</i> | <i>B</i>′]</span> を簡約化して <span class="nw">[<i>E</i> | <i>P</i>]</span>）。</li><li>係数を<b>列</b>に並べたものが <i>P</i> です。</li><li>新しい座標は <span class="nw"><b class="vec">x</b>′ = <i>P</i><sup>−1</sup><b class="vec">x</b></span>。逆行列を作るより、<span class="nw"><i>P</i><b class="vec">x</b>′ = <b class="vec">x</b></span> を連立方程式として解く方が楽なことも多いです。</li><li>検算：<span class="nw"><i>x</i>′<sub>1</sub><b class="vec">b</b>′<sub>1</sub> + ⋯ + <i>x</i>′<sub><i>n</i></sub><b class="vec">b</b>′<sub><i>n</i></sub></span> を計算して、元のベクトルに戻るか確かめます。</li></ol></div>
+<div class="prob">
+<div class="prob-t">問題 1 <span class="src">教科書 練習問題4 [A] 16 の類題</span></div>
+<p>ℝ³ の2組の基底</p>
+<div class="dm">{ <b class="vec">u</b><sub>1</sub> = <span class="mat"><span class="g" style="--c:1"><span>1</span><span>1</span><span>0</span></span></span>, <b class="vec">u</b><sub>2</sub> = <span class="mat"><span class="g" style="--c:1"><span>0</span><span>1</span><span>1</span></span></span>, <b class="vec">u</b><sub>3</sub> = <span class="mat"><span class="g" style="--c:1"><span>0</span><span>0</span><span>1</span></span></span> }，　{ <b class="vec">v</b><sub>1</sub> = <span class="mat"><span class="g" style="--c:1"><span>1</span><span>2</span><span>1</span></span></span>, <b class="vec">v</b><sub>2</sub> = <span class="mat"><span class="g" style="--c:1"><span>1</span><span>1</span><span>1</span></span></span>, <b class="vec">v</b><sub>3</sub> = <span class="mat"><span class="g" style="--c:1"><span>0</span><span>1</span><span>2</span></span></span> }</div>
+<p>について、(1) 基底変換の行列 <span class="nw">{ <b class="vec">u</b><sub>1</sub>, <b class="vec">u</b><sub>2</sub>, <b class="vec">u</b><sub>3</sub> } →<sup><i>P</i></sup> { <b class="vec">v</b><sub>1</sub>, <b class="vec">v</b><sub>2</sub>, <b class="vec">v</b><sub>3</sub> }</span> を求めてください。(2) { <b class="vec">u</b><sub><i>i</i></sub> } に関する座標が (2, 1, 1) であるベクトルの、{ <b class="vec">v</b><sub><i>i</i></sub> } に関する座標を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>(1) <i>U</i> = (<b class="vec">u</b><sub>1</sub> <b class="vec">u</b><sub>2</sub> <b class="vec">u</b><sub>3</sub>)、<i>V</i> = (<b class="vec">v</b><sub>1</sub> <b class="vec">v</b><sub>2</sub> <b class="vec">v</b><sub>3</sub>) とすると <span class="nw"><i>P</i> = <i>U</i><sup>−1</sup><i>V</i></span>。</p>
+<div class="dm"><i>U</i><sup>−1</sup> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>0</span><span>0</span><span>−1</span><span>1</span><span>0</span><span>1</span><span>−1</span><span>1</span></span></span>，　<i>P</i> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>0</span><span>0</span><span>−1</span><span>1</span><span>0</span><span>1</span><span>−1</span><span>1</span></span></span><span class="mat"><span class="g" style="--c:3"><span>1</span><span>1</span><span>0</span><span>2</span><span>1</span><span>1</span><span>1</span><span>1</span><span>2</span></span></span> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>1</span><span>0</span><span>1</span><span>0</span><span>1</span><span>0</span><span>1</span><span>1</span></span></span></div>
+<p class="check">列の確認：<span class="nw"><b class="vec">v</b><sub>1</sub> = <b class="vec">u</b><sub>1</sub> + <b class="vec">u</b><sub>2</sub></span>、<span class="nw"><b class="vec">v</b><sub>2</sub> = <b class="vec">u</b><sub>1</sub> + <b class="vec">u</b><sub>3</sub></span>、<span class="nw"><b class="vec">v</b><sub>3</sub> = <b class="vec">u</b><sub>2</sub> + <b class="vec">u</b><sub>3</sub></span>。</p>
+<p>(2) <span class="nw"><b class="vec">x</b>′ = <i>P</i><sup>−1</sup><b class="vec">x</b></span>。<span class="nw"><i>P</i><b class="vec">x</b>′ = (2, 1, 1)</span> を解く方が楽です：<span class="nw"><i>x</i>′<sub>1</sub> + <i>x</i>′<sub>2</sub> = 2</span>, <span class="nw"><i>x</i>′<sub>1</sub> + <i>x</i>′<sub>3</sub> = 1</span>, <span class="nw"><i>x</i>′<sub>2</sub> + <i>x</i>′<sub>3</sub> = 1</span>。3式を足して <span class="nw"><i>x</i>′<sub>1</sub> + <i>x</i>′<sub>2</sub> + <i>x</i>′<sub>3</sub> = 2</span>、各式を引いて <strong><b class="vec">x</b>′ = (1, 1, 0)</strong>。</p>
+<p class="check">確認：<span class="nw">2<b class="vec">u</b><sub>1</sub> + <b class="vec">u</b><sub>2</sub> + <b class="vec">u</b><sub>3</sub> = (2, 3, 2)</span>、<span class="nw"><b class="vec">v</b><sub>1</sub> + <b class="vec">v</b><sub>2</sub> = (2, 3, 2)</span>。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 2 <span class="src">教科書 練習問題4 [A] 17 の類題</span></div>
+<p><span class="nw">ℝ³ = ⟨<b class="vec">a</b>, <b class="vec">b</b>, <b class="vec">c</b>⟩</span>（<b class="vec">a</b>, <b class="vec">b</b>, <b class="vec">c</b> は基底）のとき、次の基底変換の行列を求めてください。</p>
+<p>(1) <span class="nw">{ <b class="vec">a</b>, <b class="vec">b</b>, <b class="vec">c</b> } → { <b class="vec">b</b>, <b class="vec">c</b>, <b class="vec">a</b> }</span>　(2) <span class="nw">{ <b class="vec">a</b>, <b class="vec">b</b>, <b class="vec">c</b> } → { <b class="vec">a</b>, <b class="vec">a</b> + <b class="vec">b</b>, <b class="vec">a</b> + <b class="vec">b</b> + <b class="vec">c</b> }</span></p>
+<details><summary>解答を見る</summary>
+<p>新しい基底の各ベクトルを <b class="vec">a</b>, <b class="vec">b</b>, <b class="vec">c</b> で表し、係数を<strong>列</strong>に並べます。</p>
+<p>(1) <span class="nw"><b class="vec">b</b> = 0<b class="vec">a</b> + 1<b class="vec">b</b> + 0<b class="vec">c</b></span>、<span class="nw"><b class="vec">c</b> = 0<b class="vec">a</b> + 0<b class="vec">b</b> + 1<b class="vec">c</b></span>、<span class="nw"><b class="vec">a</b> = 1<b class="vec">a</b> + 0<b class="vec">b</b> + 0<b class="vec">c</b></span> より</p>
+<div class="dm"><i>P</i> = <span class="mat"><span class="g" style="--c:3"><span>0</span><span>0</span><span>1</span><span>1</span><span>0</span><span>0</span><span>0</span><span>1</span><span>0</span></span></span></div>
+<p>(2) 係数はそれぞれ (1, 0, 0), (1, 1, 0), (1, 1, 1) なので</p>
+<div class="dm"><i>P</i> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>1</span><span>1</span><span>0</span><span>1</span><span>1</span><span>0</span><span>0</span><span>1</span></span></span></div>
+<p class="small muted">注意：(1) で <i>P</i> を「行」に並べると <span class="mat"><span class="g" style="--c:3"><span>0</span><span>1</span><span>0</span><span>0</span><span>0</span><span>1</span><span>1</span><span>0</span><span>0</span></span></span> となり、逆の変換 { <b class="vec">b</b>, <b class="vec">c</b>, <b class="vec">a</b> } → { <b class="vec">a</b>, <b class="vec">b</b>, <b class="vec">c</b> } の行列になってしまいます。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 3</div>
+<p>ℝ[<i>x</i>]<sub>1</sub> の基底 <span class="nw">{1, <i>x</i>}</span> から <span class="nw">{1 + <i>x</i>, 1 − <i>x</i>}</span> への基底変換の行列を求め、<span class="nw">3 + 5<i>x</i></span> の新しい基底に関する座標を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p><span class="nw">1 + <i>x</i> = 1 · 1 + 1 · <i>x</i></span>、<span class="nw">1 − <i>x</i> = 1 · 1 − 1 · <i>x</i></span> なので</p>
+<div class="dm"><i>P</i> = <span class="mat"><span class="g" style="--c:2"><span>1</span><span>1</span><span>1</span><span>−1</span></span></span>，　<i>P</i><sup>−1</sup> = <span class="frac"><span>1</span><span>2</span></span><span class="mat"><span class="g" style="--c:2"><span>1</span><span>1</span><span>1</span><span>−1</span></span></span></div>
+<div class="dm"><b class="vec">x</b>′ = <i>P</i><sup>−1</sup><span class="mat"><span class="g" style="--c:1"><span>3</span><span>5</span></span></span> = <span class="frac"><span>1</span><span>2</span></span><span class="mat"><span class="g" style="--c:1"><span>8</span><span>−2</span></span></span> = <span class="mat"><span class="g" style="--c:1"><span>4</span><span>−1</span></span></span></div>
+<p class="check">確認：<span class="nw">4(1 + <i>x</i>) − (1 − <i>x</i>) = 3 + 5<i>x</i></span>。</p>
+</details>
+</div>
+</section>
+<p class="unit-end"><a href="#top">↑ 全体の目次に戻る</a></p>
+</article>
+<script>
+(function(){
+const ROOT=document.getElementById("u4");
+const $=s=>ROOT.querySelector(s.replace(/#([\w-]+)/g,"#u4-$1"));
+const PRE={
+  2:[{n:"例1：標準基底 → ((1,1),(−1,1))",B:[[1,0],[0,1]],B2:[[1,-1],[1,1]],x:[[3],[1]]},
+     {n:"例2：((1,0),(1,1)) → ((1,1),(−1,1))",B:[[1,1],[0,1]],B2:[[1,-1],[1,1]],x:[[2],[1]]},
+     {n:"((1,1),(1,2)) → ((1,0),(1,−1))",B:[[1,1],[1,2]],B2:[[1,1],[0,-1]],x:[[1],[1]]}],
+  3:[{n:"問題1：{u} → {v}",B:[[1,0,0],[1,1,0],[0,1,1]],B2:[[1,1,0],[2,1,1],[1,1,2]],x:[[2],[1],[1]]},
+     {n:"標準基底 → ((1,1,0),(0,1,1),(1,0,1))",B:[[1,0,0],[0,1,0],[0,0,1]],B2:[[1,0,1],[1,1,0],[0,1,1]],x:[[2],[3],[1]]},
+     {n:"例3 の係数（多項式の空間）",B:[[1,0,0],[0,1,0],[0,0,1]],B2:[[1,-1,1],[0,1,-2],[0,0,1]],x:[[0],[0],[1]]}]
+};
+let n=2, inB, inB2, inX;
+const P=new Plane($("#pl"),{R:5});
+let vStd=[3,1];
+const V=s=>`<b class="vec">${s}</b>`;
+function setup(){
+  const pre=$("#pre"); pre.innerHTML="";
+  PRE[n].forEach((p,i)=>{const o=document.createElement("option");o.value=i;o.textContent=p.n;pre.appendChild(o);});
+  load(0); $("#plotwrap").style.display=n===2?"":"none";
+  $("#dgrid").style.gridTemplateColumns=n===2?"":"minmax(0,1fr)";
+}
+function load(i){
+  const p=PRE[n][i];
+  inB=matrixInput($("#inB"),n,n,p.B,calc); inB2=matrixInput($("#inB2"),n,n,p.B2,calc); inX=matrixInput($("#inX"),n,1,p.x,calc);
+  calc();
+}
+function calc(){
+  const B=inB.get(),B2=inB2.get(),X=inX.get(); const out=$("#res");
+  if(!B||!B2||!X){out.innerHTML='<span class="ng">数値または分数を入力してください。</span>';return;}
+  const x=X.map(r=>r[0]), Bi=LA.inv(B), B2i=LA.inv(B2);
+  if(!Bi||!B2i){out.innerHTML=`<span class="tag ng">基底ではありません</span> ${!Bi?"<i>B</i>":"<i>B</i>′"} の列ベクトルが1次従属です（行列式 = 0）。`; drawPlot(null); return;}
+  makeStepper($("#st04"),B.map((r,i)=>r.concat(B2[i])),n,"[B | B′] を1手ずつ簡約化 → 右側が P");
+  const Pm=LA.mul(Bi,B2), Pi=LA.inv(Pm), xp=LA.mv(Pi,x), v=LA.mv(B,x), chk=LA.mv(Pm,xp);
+  const bn=j=>V("b")+"<sub>"+(j+1)+"</sub>", bpn=j=>V("b")+"′<sub>"+(j+1)+"</sub>";
+  let s=`<div class="row"><b>① 変換行列</b>　<i>P</i> = <i>B</i><sup>−1</sup><i>B</i>′ = ${matHTML(Bi)}${matHTML(B2)} = ${matHTML(Pm)}</div>`;
+  s+=`<div class="row small">列の意味（新しい基底を古い基底で表す）：</div>`;
+  for(let j=0;j<n;j++) s+=`<div class="row small">　${bpn(j)} = ${combHTML(LA.col(Pm,j),[...Array(n)].map((_,i)=>bn(i)))}</div>`;
+  s+=`<div class="row"><b>② 座標の変換</b>　{{x}}′ = <i>P</i><sup>−1</sup>{{x}} = ${matHTML(Pi)}${vecHTML(x)} = <b>${vecHTML(xp)}</b></div>`;
+  s+=`<div class="row"><b>③ 検算</b>　<i>P</i>{{x}}′ = ${vecHTML(chk)} ${chk.every((c,i)=>c.eq(x[i]))?'<span class="ok">= {{x}} ✓</span>':''}</div>`;
+  s+=`<div class="row small">ベクトル本体（標準座標）：<i>B</i>{{x}} = ${vecHTML(v)}，　<i>B</i>′{{x}}′ = ${vecHTML(LA.mv(B2,xp))}　→ 同じベクトル</div>`;
+  out.innerHTML=s.replace(/\{\{x\}\}/g,V("x"));
+  if(n===2){vStd=v.map(q=>q.val()); drawPlot(B,B2,x,xp);}
+}
+function drawPlot(B,B2,x,xp){
+  if(n!==2) return; P.clear();
+  if(B){
+    const c=(M,j)=>[M[0][j].val(),M[1][j].val()];
+    const b1=c(B,0),b2=c(B,1),d1=c(B2,0),d2=c(B2,1);
+    for(let k=-10;k<=10;k++){
+      P.infLine([k*b1[0],k*b1[1]],b2,"var(--c1)",{width:1,opacity:0.22}); P.infLine([k*b2[0],k*b2[1]],b1,"var(--c1)",{width:1,opacity:0.22});
+      P.infLine([k*d1[0],k*d1[1]],d2,"var(--c3)",{width:1,opacity:0.3,dash:"4 4"}); P.infLine([k*d2[0],k*d2[1]],d1,"var(--c3)",{width:1,opacity:0.3,dash:"4 4"});
+    }
+    const m1=[x[0].val()*b1[0],x[0].val()*b1[1]], m2=[xp[0].val()*d1[0],xp[0].val()*d1[1]];
+    P.line([0,0],m1,"var(--c1)",{width:2.5,dash:"6 4",opacity:0.7}); P.line(m1,vStd,"var(--c1)",{width:2.5,dash:"6 4",opacity:0.7});
+    P.line([0,0],m2,"var(--c3)",{width:2.5,dash:"6 4",opacity:0.8}); P.line(m2,vStd,"var(--c3)",{width:2.5,dash:"6 4",opacity:0.8});
+    P.arrow([0,0],b1,"var(--c1)",{label:"b₁"}); P.arrow([0,0],b2,"var(--c1)",{label:"b₂"});
+    P.arrow([0,0],d1,"var(--c3)",{label:"b′₁"}); P.arrow([0,0],d2,"var(--c3)",{label:"b′₂"});
+    P.arrow([0,0],vStd,"var(--c5)",{label:"v",width:3.5});
+  }
+  P.syncHandles();
+}
+P.handle(()=>vStd,p=>{ // v を動かしたら B 座標 x を逆算
+  const B=inB.get(); if(!B) return; const Bi=LA.inv(B); if(!Bi) return;
+  const x=LA.mv(Bi,p.map(toQ)); inX.set(x.map(v=>[v])); calc();
+},"var(--c5)",{snap:0.5});
+$("#dim").addEventListener("change",e=>{n=+e.target.value;setup();});
+$("#pre").addEventListener("change",e=>load(+e.target.value));
+setup();
+
+(function(){
+const a=new Plane($("#f4a"),{R:4}); a.line([0,0],[3,0],"var(--c1)",{dash:"6 4",width:2.5}); a.line([3,0],[3,1],"var(--c2)",{dash:"6 4",width:2.5});
+a.arrow([0,0],[1,0],"var(--c1)",{label:"e₁"}); a.arrow([0,0],[0,1],"var(--c2)",{label:"e₂"}); a.arrow([0,0],[3,1],"var(--c5)",{label:"v"});
+const b=new Plane($("#f4b"),{R:4});
+for(let k=-8;k<=8;k++){b.infLine([k,k],[-1,1],"var(--c1)",{width:1,opacity:0.3}); b.infLine([-k,k],[1,1],"var(--c2)",{width:1,opacity:0.3});}
+b.line([0,0],[2,2],"var(--c1)",{dash:"6 4",width:2.5}); b.line([2,2],[3,1],"var(--c2)",{dash:"6 4",width:2.5});
+b.arrow([0,0],[1,1],"var(--c1)",{label:"b₁"}); b.arrow([0,0],[-1,1],"var(--c2)",{label:"b₂"}); b.arrow([0,0],[3,1],"var(--c5)",{label:"v"});})();
+})();
+</script>
+<article class="unit" id="u5">
+<div class="unit-head">
+<div class="crumb">第5回</div>
+<h2>線形写像</h2>
+<p class="lead">「和」と「スカラー倍」を保つ写像を線形写像といいます。平面では、方眼を「平行で等間隔な方眼」に移し、原点を動かさない変換です。</p>
+<nav class="toc" aria-label="第5回の目次"><a href="#u5-s1">1. 何の話か（直感）</a><a href="#u5-s2">2. 定義</a><a href="#u5-s3">3. 具体例</a><a href="#u5-s4">4. よくある間違い</a><a href="#u5-s5">5. 練習問題</a><a class="demo-link" href="#u5-demo">▶ 動かしてみよう</a></nav>
+</div>
+<div class="box points"><div class="box-t">この回のポイント（まずここだけ押さえましょう）</div><ol><li><b>線形写像</b>＝和とスカラー倍を保つ写像：<span class="nw"><i>f</i>(<b class="vec">u</b> + <b class="vec">v</b>) = <i>f</i>(<b class="vec">u</b>) + <i>f</i>(<b class="vec">v</b>)</span>、<span class="nw"><i>f</i>(<i>c</i><b class="vec">u</b>) = <i>c f</i>(<b class="vec">u</b>)</span>。</li><li>ℝⁿ → ℝᵐ の線形写像は行列で書けます。行列の<b>第 <i>j</i> 列 = <i>f</i>(<b class="vec">e</b><sub><i>j</i></sub>)</b>（<b class="vec">e</b><sub><i>j</i></sub> の行き先）です。</li><li>定数項・2乗・積などがあれば線形ではありません。反例を1つ挙げれば示せます。</li></ol></div>
+<section id="u5-s1">
+<h3 class="sec">1. 何の話か（直感）</h3>
+<p>線形空間は「足し算とスカラー倍ができる世界」でした。その構造をこわさずに、ある線形空間から別の線形空間へベクトルを移す写像が<strong>線形写像</strong>です。</p>
+<p>平面 ℝ² から ℝ² への線形写像を図で見ると、次のような特徴があります。</p>
+<ul>
+<li><strong>原点は原点に移る</strong></li>
+<li><strong>直線は直線に</strong>、平行な線は平行な線に、<strong>等間隔な目盛りは等間隔な目盛り</strong>に移る</li>
+<li>だから、<b class="vec">e</b><sub>1</sub> = (1, 0) と <b class="vec">e</b><sub>2</sub> = (0, 1) の行き先さえわかれば、平面全体の行き先が決まる</li>
+</ul>
+<p><b class="vec">e</b><sub>1</sub>, <b class="vec">e</b><sub>2</sub> の行き先を列に並べたものが行列です。下の図で行列の成分を変えて、方眼がどう変形するか見てみましょう。</p>
+
+<div class="box note"><div class="box-t">用語メモ</div><dl class="gloss"><dt>写像<small>しゃぞう</small></dt><dd>入力に出力をひとつずつ対応させる規則。関数を一般化したものです。</dd><dt>線形写像<small>せんけいしゃぞう</small></dt><dd>和とスカラー倍を保つ写像。</dd><dt>線形変換<small>せんけいへんかん</small></dt><dd>ある空間からそれ自身への線形写像（例：ℝ² → ℝ²）。</dd><dt>標準基底 <b class="vec">e</b><sub><i>j</i></sub><small>ひょうじゅんきてい</small></dt><dd>第 <i>j</i> 成分だけが 1 で、ほかが 0 のベクトル。<b class="vec">e</b><sub>1</sub> = (1, 0), <b class="vec">e</b><sub>2</sub> = (0, 1) など。</dd></dl></div>
+<div class="demo" id="u5-demo">
+<div class="demo-t">行列で平面がどう変形するか</div>
+<p class="small">スライダーで行列 <i>A</i> の成分を変えると、変形後の方眼が表示されます。<span style="color:var(--c1)">青</span>は <b class="vec">e</b><sub>1</sub> の行き先 <i>A</i><b class="vec">e</b><sub>1</sub>（<i>A</i> の第1列）、<span style="color:var(--c2)">赤</span>は <i>A</i><b class="vec">e</b><sub>2</sub>（第2列）です。「F」の文字で裏返しも確認できます。</p>
+<div class="ctrl" id="u5-pres"></div>
+<div class="demo-grid">
+<div><svg class="plot" id="u5-pl" role="img" aria-label="線形写像による平面の変形"></svg>
+<div class="legend"><span style="--k:var(--c4)">単位正方形の像</span><span style="--k:var(--c3)">F の像</span><span style="--k:var(--axis)">元の F（点線）</span></div></div>
+<div>
+<div class="out">
+<div class="sl"><label><i>a</i><input type="range" id="u5-sa" min="-2" max="2" step="0.01" aria-label="a"><span id="u5-va" class="sv"></span></label><label><i>b</i><input type="range" id="u5-sb" min="-2" max="2" step="0.01" aria-label="b"><span id="u5-vb" class="sv"></span></label><label><i>c</i><input type="range" id="u5-sc" min="-2" max="2" step="0.01" aria-label="c"><span id="u5-vc" class="sv"></span></label><label><i>d</i><input type="range" id="u5-sd" min="-2" max="2" step="0.01" aria-label="d"><span id="u5-vd" class="sv"></span></label></div>
+<div class="row" id="u5-mat"></div>
+</div>
+<div class="ctrl"><label>途中経過 <i>t</i> <input type="range" id="u5-st" min="0" max="1" step="0.01" value="1"></label><button id="u5-play">▶ アニメーション</button></div>
+<div class="ctrl"><label><input type="checkbox" id="u5-tr"> 比較：平行移動を加えた <span class="nw"><i>A</i><b class="vec">x</b> + (1, 0.5)</span></label></div>
+<div class="out" id="u5-res"></div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="u5-s2">
+<h3 class="sec">2. 定義</h3>
+<div class="box def">
+<div class="box-t">定義（線形写像）</div>
+<p class="plain">「足してから写しても、写してから足しても同じ」「何倍かしてから写しても、写してから何倍かしても同じ」という写像です。</p>
+<p><i>V</i>, <i>W</i> を線形空間とします。写像 <span class="nw"><i>f</i> : <i>V</i> → <i>W</i></span> が、すべての <span class="nw"><b class="vec">u</b>, <b class="vec">v</b> ∈ <i>V</i></span>、<span class="nw"><i>c</i> ∈ ℝ</span> について</p>
+<div class="ax">
+<b>(L1)</b><span><span class="nw"><i>f</i>(<b class="vec">u</b> + <b class="vec">v</b>) = <i>f</i>(<b class="vec">u</b>) + <i>f</i>(<b class="vec">v</b>)</span>　（和を保つ）</span>
+<b>(L2)</b><span><span class="nw"><i>f</i>(<i>c</i><b class="vec">u</b>) = <i>c</i> <i>f</i>(<b class="vec">u</b>)</span>　（スカラー倍を保つ）</span>
+</div>
+<p>を満たすとき、<i>f</i> を<strong>線形写像</strong>といいます。<i>V</i> = <i>W</i> のときは<strong>線形変換</strong>ともいいます。</p>
+</div>
+<div class="box thm">
+<div class="box-t">定理 1（基本性質）</div>
+<p><i>f</i> が線形写像なら</p>
+<ul>
+<li><span class="nw"><i>f</i>(<b class="vec">0</b>) = <b class="vec">0</b></span>　（(L2) で <i>c</i> = 0 とする）</li>
+<li><span class="nw"><i>f</i>(<i>c</i><sub>1</sub><b class="vec">v</b><sub>1</sub> + ⋯ + <i>c</i><sub><i>k</i></sub><b class="vec">v</b><sub><i>k</i></sub>) = <i>c</i><sub>1</sub><i>f</i>(<b class="vec">v</b><sub>1</sub>) + ⋯ + <i>c</i><sub><i>k</i></sub><i>f</i>(<b class="vec">v</b><sub><i>k</i></sub>)</span>　（1次結合を保つ）</li>
+</ul>
+</div>
+<div class="box thm">
+<div class="box-t">定理 2（ℝⁿ → ℝᵐ の線形写像は行列）</div>
+<p class="plain"><b class="vec">e</b><sub>1</sub>, <b class="vec">e</b><sub>2</sub>, … の行き先を列に並べれば、それがその写像の行列です。</p>
+<p><span class="nw"><i>f</i> : ℝⁿ → ℝᵐ</span> が線形写像なら、<i>m</i> × <i>n</i> 行列</p>
+<div class="dm"><i>A</i> = ( <i>f</i>(<b class="vec">e</b><sub>1</sub>)　<i>f</i>(<b class="vec">e</b><sub>2</sub>)　⋯　<i>f</i>(<b class="vec">e</b><sub><i>n</i></sub>) )</div>
+<p>を使って <span class="nw"><i>f</i>(<b class="vec">x</b>) = <i>A</i><b class="vec">x</b></span> と書けます。逆に、行列 <i>A</i> で定まる写像 <span class="nw"><b class="vec">x</b> ↦ <i>A</i><b class="vec">x</b></span> はいつも線形写像です。</p>
+<p class="small muted">理由：<span class="nw"><b class="vec">x</b> = <i>x</i><sub>1</sub><b class="vec">e</b><sub>1</sub> + ⋯ + <i>x</i><sub><i>n</i></sub><b class="vec">e</b><sub><i>n</i></sub></span> に定理1を使うと <span class="nw"><i>f</i>(<b class="vec">x</b>) = <i>x</i><sub>1</sub><i>f</i>(<b class="vec">e</b><sub>1</sub>) + ⋯ + <i>x</i><sub><i>n</i></sub><i>f</i>(<b class="vec">e</b><sub><i>n</i></sub>) = <i>A</i><b class="vec">x</b></span>。</p>
+</div>
+</section>
+
+<section id="u5-s3">
+<h3 class="sec">3. 具体例</h3>
+<div class="ex">
+<div class="ex-t">例 1：行列で定まる写像</div>
+<p><span class="nw"><i>f</i>(<b class="vec">x</b>) = <i>A</i><b class="vec">x</b></span> は、行列の分配法則 <span class="nw"><i>A</i>(<b class="vec">u</b> + <b class="vec">v</b>) = <i>A</i><b class="vec">u</b> + <i>A</i><b class="vec">v</b></span> と <span class="nw"><i>A</i>(<i>c</i><b class="vec">u</b>) = <i>c</i>(<i>A</i><b class="vec">u</b>)</span> より線形写像です。たとえば</p>
+<div class="dm"><i>f</i><span class="mat"><span class="g" style="--c:1"><span><i>x</i></span><span><i>y</i></span></span></span> = <span class="mat"><span class="g" style="--c:1"><span><i>x</i> + <i>y</i></span><span>2<i>x</i> − <i>y</i></span></span></span> = <span class="mat"><span class="g" style="--c:2"><span>1</span><span>1</span><span>2</span><span>−1</span></span></span><span class="mat"><span class="g" style="--c:1"><span><i>x</i></span><span><i>y</i></span></span></span></div>
+</div>
+<div class="ex">
+<div class="ex-t">例 2：回転</div>
+<p>原点のまわりの角 θ の回転は、<span class="nw"><b class="vec">e</b><sub>1</sub> ↦ (cos θ, sin θ)</span>, <span class="nw"><b class="vec">e</b><sub>2</sub> ↦ (−sin θ, cos θ)</span> なので</p>
+<div class="dm"><i>R</i><sub>θ</sub> = <span class="mat"><span class="g" style="--c:2"><span>cos θ</span><span>−sin θ</span><span>sin θ</span><span>cos θ</span></span></span></div>
+<p>で表される線形変換です（上の図の「回転」を押してみてください）。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 3：微分</div>
+<p><span class="nw"><i>D</i> : ℝ[<i>x</i>]<sub>3</sub> → ℝ[<i>x</i>]<sub>2</sub></span>, <span class="nw"><i>D</i>(<i>f</i>) = <i>f</i> ′</span> は線形写像です。微分の公式 <span class="nw">(<i>f</i> + <i>g</i>)′ = <i>f</i> ′ + <i>g</i>′</span>、<span class="nw">(<i>cf</i>)′ = <i>cf</i> ′</span> がちょうど (L1)(L2) です。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 4：行列の空間の写像</div>
+<p>転置 <span class="nw"><i>A</i> ↦ <sup>t</sup><i>A</i></span>（<i>M</i><sub>2</sub>(ℝ) → <i>M</i><sub>2</sub>(ℝ)）や、トレース <span class="nw"><i>A</i> ↦ tr <i>A</i> = <i>a</i><sub>11</sub> + <i>a</i><sub>22</sub></span>（<i>M</i><sub>2</sub>(ℝ) → ℝ）は線形写像です。積分 <span class="nw"><i>f</i> ↦ ∫<sub>0</sub><sup>1</sup> <i>f</i>(<i>x</i>) d<i>x</i></span> も線形写像です。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 5：線形写像でないもの（反例）</div>
+<ul>
+<li><strong>平行移動</strong> <span class="nw"><i>f</i>(<b class="vec">x</b>) = <b class="vec">x</b> + <b class="vec">b</b></span>（<b class="vec">b</b> ≠ <b class="vec">0</b>）：<span class="nw"><i>f</i>(<b class="vec">0</b>) = <b class="vec">b</b> ≠ <b class="vec">0</b></span> なので線形ではありません。</li>
+<li><span class="nw"><i>f</i>(<i>x</i>, <i>y</i>) = (<i>x</i>², <i>y</i>)</span>：<span class="nw"><i>f</i>(2 · (1, 0)) = (4, 0)</span> ですが <span class="nw">2<i>f</i>(1, 0) = (2, 0)</span>。(L2) が不成立。</li>
+<li><span class="nw"><i>f</i>(<i>x</i>, <i>y</i>) = <i>xy</i></span>：<span class="nw"><i>f</i>((1, 0) + (0, 1)) = 1</span> ですが <span class="nw"><i>f</i>(1, 0) + <i>f</i>(0, 1) = 0</span>。(L1) が不成立。</li>
+<li>行列式 <span class="nw">det : <i>M</i><sub>2</sub>(ℝ) → ℝ</span>：<span class="nw">det(2<i>A</i>) = 4 det <i>A</i> ≠ 2 det <i>A</i></span>（det <i>A</i> ≠ 0 のとき）。線形ではありません。</li>
+</ul>
+</div>
+</section>
+
+<section id="u5-s4">
+<h3 class="sec">4. よくある間違い</h3>
+<div class="mis">
+<p class="bad"><span class="nw"><i>f</i>(<i>x</i>) = 2<i>x</i> + 3</span> は1次関数なので線形写像である。</p>
+<p class="good">高校の「1次関数」と線形写像は別物です。<span class="nw"><i>f</i>(0) = 3 ≠ 0</span> なので線形ではありません。ℝ → ℝ の線形写像は <span class="nw"><i>f</i>(<i>x</i>) = <i>ax</i></span> の形だけです。</p>
+</div>
+<div class="mis">
+<p class="bad"><span class="nw"><i>f</i>(<b class="vec">0</b>) = <b class="vec">0</b></span> を確かめたので線形写像である。</p>
+<p class="good"><span class="nw"><i>f</i>(<b class="vec">0</b>) = <b class="vec">0</b></span> は<strong>必要条件</strong>にすぎません。<span class="nw"><i>f</i>(<i>x</i>, <i>y</i>) = (<i>x</i>², <i>y</i>)</span> は原点を原点に移しますが線形ではありません。逆に <span class="nw"><i>f</i>(<b class="vec">0</b>) ≠ <b class="vec">0</b></span> なら、それだけで「線形でない」と言えます。</p>
+</div>
+<div class="mis">
+<p class="bad">(1, 2) と (3, 4) で (L1) が成り立ったので、線形写像である。</p>
+<p class="good">(L1)(L2) は<strong>任意の</strong> <b class="vec">u</b>, <b class="vec">v</b>, <i>c</i> で示す必要があります。文字でおいて証明しましょう。線形でないことは反例1つで示せます。</p>
+</div>
+<div class="mis">
+<p class="bad"><i>f</i>(<b class="vec">e</b><sub>1</sub>), <i>f</i>(<b class="vec">e</b><sub>2</sub>) を行列の<strong>行</strong>に並べる。</p>
+<p class="good"><strong>列</strong>に並べます。<span class="nw"><i>A</i><b class="vec">e</b><sub>1</sub></span> は <i>A</i> の第1列なので、<span class="nw"><i>A</i> = (<i>f</i>(<b class="vec">e</b><sub>1</sub>) <i>f</i>(<b class="vec">e</b><sub>2</sub>))</span> です。</p>
+</div>
+</section>
+
+<section id="u5-s5">
+<h3 class="sec">5. 練習問題</h3>
+<div class="box howto"><div class="box-t">解き方の手順：線形写像の問題</div><ol><li><b>線形かどうか</b>：まず <span class="nw"><i>f</i>(<b class="vec">0</b>) = <b class="vec">0</b></span> か確かめます。違えば、その時点で「線形でない」と結論できます。</li><li>各成分が「<i>x</i><sub><i>i</i></sub> の定数倍の和」だけでできていれば、行列で書いて「線形」と結論します。</li><li>2乗・積・絶対値などがあれば、「2倍」や「2つの和」で反例を作ります。</li><li><b>行き先から行列を求める</b>：与えられたベクトルを列に並べた <i>U</i> と、行き先を列に並べた <i>Y</i> から <span class="nw"><i>A</i> = <i>YU</i><sup>−1</sup></span>。<i>U</i><sup>−1</sup> は <span class="nw">[<i>U</i> | <i>E</i>]</span> を簡約化して求めます。</li></ol></div>
+<div class="prob">
+<div class="prob-t">問題 1 <span class="src">教科書 練習問題5 [A] 1 の類題</span></div>
+<p>次の写像は線形写像になるかどうか調べてください。</p>
+<div class="dm left">(1) <i>f</i><span class="mat"><span class="g" style="--c:1"><span><i>x</i><sub>1</sub></span><span><i>x</i><sub>2</sub></span></span></span> = <span class="mat"><span class="g" style="--c:1"><span><i>x</i><sub>1</sub> − 2<i>x</i><sub>2</sub></span><span>4<i>x</i><sub>2</sub> + 3</span></span></span>　　(2) <i>f</i>(<i>x</i>) = <span class="mat"><span class="g" style="--c:1"><span>2<i>x</i></span><span><i>x</i>³</span></span></span><br>(3) <i>f</i><span class="mat"><span class="g" style="--c:1"><span><i>x</i><sub>1</sub></span><span><i>x</i><sub>2</sub></span></span></span> = <span class="mat"><span class="g" style="--c:1"><span><i>x</i><sub>1</sub> − <i>x</i><sub>2</sub></span><span>2<i>x</i><sub>1</sub></span><span><i>x</i><sub>2</sub></span></span></span>　　(4) <i>f</i><span class="mat"><span class="g" style="--c:1"><span><i>x</i><sub>1</sub></span><span><i>x</i><sub>2</sub></span><span><i>x</i><sub>3</sub></span></span></span> = <span class="mat"><span class="g" style="--c:1"><span><i>x</i><sub>2</sub><i>x</i><sub>3</sub></span><span><i>x</i><sub>1</sub></span></span></span></div>
+<details><summary>解答を見る</summary>
+<p><strong>(1) 線形ではありません。</strong><span class="nw"><i>f</i>(<b class="vec">0</b>) = (0, 3) ≠ <b class="vec">0</b></span>。</p>
+<p><strong>(2) 線形ではありません。</strong><span class="nw"><i>f</i>(2 · 1) = (4, 8)</span> ですが <span class="nw">2<i>f</i>(1) = (4, 2)</span>。(L2) が不成立。</p>
+<p><strong>(3) 線形です。</strong><span class="nw"><i>f</i>(<b class="vec">x</b>) = <span class="mat"><span class="g" style="--c:2"><span>1</span><span>−1</span><span>2</span><span>0</span><span>0</span><span>1</span></span></span><b class="vec">x</b></span> と行列で書けるからです。</p>
+<p><strong>(4) 線形ではありません。</strong><span class="nw"><i>f</i>(2 · (0, 1, 1)) = <i>f</i>(0, 2, 2) = (4, 0)</span> ですが <span class="nw">2<i>f</i>(0, 1, 1) = (2, 0)</span>。</p>
+<p class="small muted">見分け方：各成分が <i>x</i><sub><i>i</i></sub> の「定数倍の和」だけでできていれば線形です。定数項、2乗・3乗、積 <i>x</i><sub><i>i</i></sub><i>x</i><sub><i>j</i></sub> があれば線形ではありません（反例を1つ示して確かめます）。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 2 <span class="src">教科書 練習問題5 [A] 2 の類題</span></div>
+<p>2次実行列全体 <i>M</i><sub>2</sub> から ℝ への写像 <i>f</i>, <i>g</i> を、<span class="nw"><i>A</i> = <span class="mat"><span class="g" style="--c:2"><span><i>a</i><sub>11</sub></span><span><i>a</i><sub>12</sub></span><span><i>a</i><sub>21</sub></span><span><i>a</i><sub>22</sub></span></span></span></span> に対して</p>
+<div class="dm"><i>f</i>(<i>A</i>) = <i>a</i><sub>11</sub> + 2<i>a</i><sub>22</sub>，　<i>g</i>(<i>A</i>) = <i>a</i><sub>11</sub><i>a</i><sub>22</sub></div>
+<p>で決めるとき、<i>f</i> と <i>g</i> は線形写像になるか調べてください。</p>
+<details><summary>解答を見る</summary>
+<p><strong><i>f</i> は線形です。</strong><span class="nw"><i>f</i>(<i>A</i> + <i>B</i>) = (<i>a</i><sub>11</sub> + <i>b</i><sub>11</sub>) + 2(<i>a</i><sub>22</sub> + <i>b</i><sub>22</sub>) = <i>f</i>(<i>A</i>) + <i>f</i>(<i>B</i>)</span>、<span class="nw"><i>f</i>(<i>cA</i>) = <i>ca</i><sub>11</sub> + 2<i>ca</i><sub>22</sub> = <i>c f</i>(<i>A</i>)</span>。</p>
+<p><strong><i>g</i> は線形ではありません。</strong>単位行列 <i>E</i> について <span class="nw"><i>g</i>(2<i>E</i>) = 2 · 2 = 4</span> ですが <span class="nw">2<i>g</i>(<i>E</i>) = 2</span>。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 3 <span class="src">教科書 練習問題5 [A] 7 の類題</span></div>
+<p>ℝ³ のベクトル <span class="nw"><span class="mat"><span class="g" style="--c:1"><span>1</span><span>1</span><span>0</span></span></span>, <span class="mat"><span class="g" style="--c:1"><span>0</span><span>1</span><span>1</span></span></span>, <span class="mat"><span class="g" style="--c:1"><span>1</span><span>1</span><span>1</span></span></span></span> を、それぞれ ℝ² のベクトル <span class="nw"><span class="mat"><span class="g" style="--c:1"><span>2</span><span>1</span></span></span>, <span class="mat"><span class="g" style="--c:1"><span>1</span><span>−1</span></span></span>, <span class="mat"><span class="g" style="--c:1"><span>3</span><span>0</span></span></span></span> にうつす線形写像 <span class="nw"><i>f</i> : ℝ³ → ℝ²</span> に対応する行列 <i>A</i> を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>条件をまとめると <span class="nw"><i>AU</i> = <i>Y</i></span>（<i>U</i> は与えられた ℝ³ のベクトルを列に並べた行列、<i>Y</i> は行き先を列に並べた行列）。よって <span class="nw"><i>A</i> = <i>YU</i><sup>−1</sup></span>。</p>
+<div class="dm"><i>U</i> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>0</span><span>1</span><span>1</span><span>1</span><span>1</span><span>0</span><span>1</span><span>1</span></span></span>，　<i>U</i><sup>−1</sup> = <span class="mat"><span class="g" style="--c:3"><span>0</span><span>1</span><span>−1</span><span>−1</span><span>1</span><span>0</span><span>1</span><span>−1</span><span>1</span></span></span></div>
+<div class="stepper" data-m="1,0,1,1,0,0;1,1,1,0,1,0;0,1,1,0,0,1" data-aug="3" data-title="逆行列の求め方：[U | E] を1手ずつ簡約化 → 右側が U⁻¹"></div>
+<div class="dm"><i>A</i> = <span class="mat"><span class="g" style="--c:3"><span>2</span><span>1</span><span>3</span><span>1</span><span>−1</span><span>0</span></span></span><span class="mat"><span class="g" style="--c:3"><span>0</span><span>1</span><span>−1</span><span>−1</span><span>1</span><span>0</span><span>1</span><span>−1</span><span>1</span></span></span> = <span class="mat"><span class="g" style="--c:3"><span>2</span><span>0</span><span>1</span><span>1</span><span>0</span><span>−1</span></span></span></div>
+<p class="check">確認：<span class="nw"><i>A</i>(1, 1, 0) = (2, 1)</span>、<span class="nw"><i>A</i>(0, 1, 1) = (1, −1)</span>、<span class="nw"><i>A</i>(1, 1, 1) = (3, 0)</span>。</p>
+<p class="small muted">別解：<span class="nw"><b class="vec">e</b><sub>1</sub> = (1, 1, 1) − (0, 1, 1)</span> などと標準基底を与えられたベクトルの1次結合で表し、<i>f</i>(<b class="vec">e</b><sub><i>j</i></sub>) を求めて列に並べても構いません。</p>
+</details>
+</div>
+</section>
+<p class="unit-end"><a href="#top">↑ 全体の目次に戻る</a></p>
+</article>
+<script>
+(function(){
+const ROOT=document.getElementById("u5");
+const $=s=>ROOT.querySelector(s.replace(/#([\w-]+)/g,"#u5-$1"));
+const PRE=[["恒等",[1,0,0,1]],["回転 90°",[0,-1,1,0]],["回転 30°",[0.87,-0.5,0.5,0.87]],["拡大",[1.5,0,0,1.5]],["せん断",[1,1,0,1]],["x軸で反転",[1,0,0,-1]],["x軸へ射影",[1,0,0,0]],["つぶれる",[1,2,0.5,1]],["一般",[1,-0.5,0.5,1.5]]];
+let A=[1,-0.5,0.5,1.5], t=1;
+const S={a:$("#sa"),b:$("#sb"),c:$("#sc"),d:$("#sd")};
+const P=new Plane($("#pl"),{R:5});
+const F=[[0.5,0.5],[0.5,2.6],[1.9,2.6],[1.9,2.1],[1,2.1],[1,1.75],[1.6,1.75],[1.6,1.3],[1,1.3],[1,0.5]];
+const num=x=>{const r=Math.round(x*100)/100; return (r<0?"−":"")+Math.abs(r);};
+PRE.forEach(([nm,v])=>{const b=document.createElement("button");b.textContent=nm;b.addEventListener("click",()=>{A=v.slice();syncS();t=1;$("#st").value=1;render();});$("#pres").appendChild(b);});
+function syncV(){["a","b","c","d"].forEach((k,i)=>{$("#v"+k).textContent=num(A[i]);});}
+function syncS(){S.a.value=A[0];S.b.value=A[1];S.c.value=A[2];S.d.value=A[3];}
+Object.entries(S).forEach(([k,e],i)=>e.addEventListener("input",()=>{A[i]=+e.value;render();}));
+function render(){
+  const tr=$("#tr").checked, sh=tr?[t*1,t*0.5]:[0,0];
+  const M=[(1-t)+t*A[0],t*A[1],t*A[2],(1-t)+t*A[3]];
+  const f=p=>[M[0]*p[0]+M[1]*p[1]+sh[0],M[2]*p[0]+M[3]*p[1]+sh[1]];
+  P.clear();
+  const L=8;
+  for(let k=-L;k<=L;k++){
+    P.line(f([k,-L]),f([k,L]),"var(--c2)",{width:k===0?2.2:1,opacity:k===0?0.75:0.35});
+    P.line(f([-L,k]),f([L,k]),"var(--c1)",{width:k===0?2.2:1,opacity:k===0?0.75:0.35});
+  }
+  P.poly([[0,0],[1,0],[1,1],[0,1]].map(f),"var(--c4)",{opacity:0.25,stroke:"var(--c4)"});
+  P.poly(F,"none",{opacity:0,stroke:"var(--axis)",dash:"4 3",sw:1.2});
+  P.poly(F.map(f),"var(--c3)",{opacity:0.55,stroke:"var(--c3)"});
+  const o=f([0,0]);
+  P.arrow(o,f([1,0]),"var(--c1)",{label:"Ae₁",width:3.5});
+  P.arrow(o,f([0,1]),"var(--c2)",{label:"Ae₂",width:3.5});
+  if(tr) P.circle(o,0.15,"var(--bad)",{opacity:1});
+  syncV();
+  $("#mat").innerHTML=`<i>A</i> = ${matHTML([[num(A[0]),num(A[1])],[num(A[2]),num(A[3])]])} <span class="small muted">（<i>a</i> <i>b</i> / <i>c</i> <i>d</i> の順）</span>`;
+  const det=A[0]*A[3]-A[1]*A[2];
+  let s=`<div class="row"><i>A</i><b class="vec">e</b><sub>1</sub> = (${num(A[0])}, ${num(A[2])})，　<i>A</i><b class="vec">e</b><sub>2</sub> = (${num(A[1])}, ${num(A[3])})</div>`;
+  s+=`<div class="row">det <i>A</i> = ${num(det)}　<span class="small muted">（面積が |det <i>A</i>| 倍になります）</span></div>`;
+  if(Math.abs(det)<0.005) s+=`<div class="row"><span class="tag ng">det = 0</span> 平面が直線（または1点）につぶれます。</div>`;
+  else if(det<0) s+=`<div class="row"><span class="tag ng">det &lt; 0</span> 向きが反転します（F が裏返しになります）。</div>`;
+  else s+=`<div class="row"><span class="tag ok">det &gt; 0</span> 向きは保たれます。</div>`;
+  if(tr) s+=`<div class="row"><span class="tag ng">線形ではない</span> 原点が (1, 0.5) に動きました。<i>f</i>(<b class="vec">0</b>) ≠ <b class="vec">0</b> なので、平行移動を含む写像は線形写像ではありません。</div>`;
+  else s+=`<div class="row small muted">原点は動かず、方眼は平行・等間隔のままです。これが線形写像の特徴です。</div>`;
+  $("#res").innerHTML=s;
+}
+$("#st").addEventListener("input",e=>{t=+e.target.value;render();});
+$("#tr").addEventListener("change",render);
+let anim=null;
+$("#play").addEventListener("click",()=>{
+  if(anim) cancelAnimationFrame(anim); const t0=performance.now();
+  const step=now=>{t=Math.min(1,(now-t0)/1600); $("#st").value=t; render(); if(t<1) anim=requestAnimationFrame(step); else anim=null;};
+  anim=requestAnimationFrame(step);
+});
+syncS(); render();
+})();
+</script>
+<article class="unit" id="u6">
+<div class="unit-head">
+<div class="crumb">第6回</div>
+<h2>像と核・次元定理</h2>
+<p class="lead">線形写像で「実際に届く先」が像 Im f、「0 につぶれるもの」が核 Ker f です。両者の次元の間には、次元定理という美しい関係があります。</p>
+<nav class="toc" aria-label="第6回の目次"><a href="#u6-s1">1. 何の話か（直感）</a><a href="#u6-s2">2. 定義</a><a href="#u6-s3">3. 具体例</a><a href="#u6-s4">4. よくある間違い</a><a href="#u6-s5">5. 練習問題</a><a class="demo-link" href="#u6-demo">▶ 動かしてみよう</a></nav>
+</div>
+<div class="box points"><div class="box-t">この回のポイント（まずここだけ押さえましょう）</div><ol><li><b>像 Im <i>f</i></b>＝実際に出てくる出力全体（値域の中）。<b>核 Ker <i>f</i></b>＝<b class="vec">0</b> に写るもの全体（定義域の中）。</li><li>簡約化でピボットのある列を探します。<b>Im の基底は「元の <i>A</i>」のピボット列</b>、<b>Ker の基底は自由変数から</b>作ります。</li><li><b>次元定理</b>：列の数 <i>n</i> = dim Ker <i>f</i> + rank <i>A</i>。</li></ol></div>
+<section id="u6-s1">
+<h3 class="sec">1. 何の話か（直感）</h3>
+<p>線形写像 <span class="nw"><i>f</i> : <i>V</i> → <i>W</i></span> について、次の2つの集合を考えます。</p>
+<ul>
+<li><strong>像 Im <i>f</i></strong>：<i>f</i> の出力として<strong>実際に出てくる</strong>ベクトル全体（行き先側 <i>W</i> の中にある）。「<i>f</i> でどこまで届くか」を表します。</li>
+<li><strong>核 Ker <i>f</i></strong>：<i>f</i> で<strong><b class="vec">0</b> につぶされる</strong>ベクトル全体（出発側 <i>V</i> の中にある）。「<i>f</i> で何が消えるか」を表します。</li>
+</ul>
+<p>たとえば ℝ² を <i>x</i> 軸に真上から影を落とす写像 <span class="nw"><i>f</i>(<i>x</i>, <i>y</i>) = (<i>x</i>, 0)</span> では、像は <i>x</i> 軸、核は <i>y</i> 軸です。2次元のうち「1次元ぶんが消えて、1次元ぶんが残った」と見ることができます。</p>
+<div class="figrow" style="--n:1;max-width:360px;margin-left:auto;margin-right:auto"><figure><svg class="plot" id="u6-f6" role="img" aria-label="x軸への射影の像と核"></svg><figcaption><span style="color:var(--c2)">赤：核 Ker <i>f</i>（<i>y</i> 軸。ここは原点につぶれる）</span><br><span style="color:var(--c1)">青：像 Im <i>f</i>（<i>x</i> 軸。ここにしか届かない）</span></figcaption></figure></div>
+<p>これを一般化したのが<strong>次元定理</strong> <span class="nw">dim <i>V</i> = dim Ker <i>f</i> + dim Im <i>f</i></span> です。入力の次元は「消える分」と「残る分」に分かれます。</p>
+<div class="box note"><div class="box-t">用語メモ</div><dl class="gloss"><dt>像 Im<small>ぞう（image）</small></dt><dd><i>f</i> の出力として実際に出てくるもの全体。</dd><dt>核 Ker<small>かく（kernel）</small></dt><dd><i>f</i> で <b class="vec">0</b> に写るもの全体。</dd><dt>自由変数<small>じゆうへんすう</small></dt><dd>ピボットのない列に対応する変数。好きな値をとれるので、<i>s</i>, <i>t</i> などとおきます。</dd><dt>単射<small>たんしゃ</small></dt><dd>違う入力は必ず違う出力になること。Ker <i>f</i> = { <b class="vec">0</b> } と同じです。</dd><dt>全射<small>ぜんしゃ</small></dt><dd>値域のすべてに届くこと。Im <i>f</i> = 値域全体 と同じです。</dd></dl></div>
+</section>
+
+<section id="u6-s2">
+<h3 class="sec">2. 定義</h3>
+<div class="box def">
+<div class="box-t">定義（像と核）</div>
+<p class="plain">像は「どこまで届くか」、核は「何が <b class="vec">0</b> につぶされるか」を表す集合です。</p>
+<p>線形写像 <span class="nw"><i>f</i> : <i>V</i> → <i>W</i></span> に対して</p>
+<div class="dm"><span class="eqs"><span>Im <i>f</i></span><span>= { <i>f</i>(<b class="vec">v</b>) | <b class="vec">v</b> ∈ <i>V</i> }　⊂ <i>W</i>　（<strong>像</strong>）</span><span>Ker <i>f</i></span><span>= { <b class="vec">v</b> ∈ <i>V</i> | <i>f</i>(<b class="vec">v</b>) = <b class="vec">0</b> }　⊂ <i>V</i>　（<strong>核</strong>）</span></span></div>
+<p>Im <i>f</i> は <i>W</i> の部分空間、Ker <i>f</i> は <i>V</i> の部分空間です。</p>
+</div>
+<div class="box thm">
+<div class="box-t">定理 1（行列で表される場合）</div>
+<p><i>m</i> × <i>n</i> 行列 <span class="nw"><i>A</i> = (<b class="vec">a</b><sub>1</sub> ⋯ <b class="vec">a</b><sub><i>n</i></sub>)</span> で <span class="nw"><i>f</i>(<b class="vec">x</b>) = <i>A</i><b class="vec">x</b></span>（<span class="nw"><i>f</i> : ℝⁿ → ℝᵐ</span>）のとき</p>
+<ul>
+<li><span class="nw">Im <i>f</i> = ⟨<b class="vec">a</b><sub>1</sub>, …, <b class="vec">a</b><sub><i>n</i></sub>⟩</span>（<i>A</i> の列ベクトルが生成する空間）、<span class="nw">dim Im <i>f</i> = rank <i>A</i></span></li>
+<li><span class="nw">Ker <i>f</i></span> = 同次連立方程式 <span class="nw"><i>A</i><b class="vec">x</b> = <b class="vec">0</b></span> の解空間、<span class="nw">dim Ker <i>f</i> = <i>n</i> − rank <i>A</i></span></li>
+</ul>
+</div>
+<div class="box thm">
+<div class="box-t">定理 2（次元定理）</div>
+<p class="plain">入力の次元 ＝ つぶれて消える次元 ＋ 残る次元、ということです。</p>
+<p><i>V</i> が有限次元のとき、線形写像 <span class="nw"><i>f</i> : <i>V</i> → <i>W</i></span> について</p>
+<div class="dm" style="font-size:1.12em">dim <i>V</i> = dim Ker <i>f</i> + dim Im <i>f</i></div>
+<p class="small muted">系：<i>f</i> が単射 ⇔ <span class="nw">Ker <i>f</i> = { <b class="vec">0</b> }</span>。<i>m</i> × <i>n</i> 行列 <i>A</i> で表されるときは、単射 ⇔ rank <i>A</i> = <i>n</i>、全射 ⇔ rank <i>A</i> = <i>m</i>。</p>
+</div>
+<div class="box note">
+<div class="box-t">求め方（<i>f</i>(<b class="vec">x</b>) = <i>A</i><b class="vec">x</b> のとき）</div>
+<ol>
+<li><i>A</i> を行基本変形で簡約化（階段行列に）し、ピボット（各行の先頭の 1）がある列を調べる。</li>
+<li><strong>Im の基底</strong>：ピボット列と同じ番号の、<strong>元の <i>A</i> の列</strong>ベクトル。</li>
+<li><strong>Ker の基底</strong>：ピボットのない列の変数を自由変数（パラメータ）として <span class="nw"><i>A</i><b class="vec">x</b> = <b class="vec">0</b></span> を解き、パラメータごとのベクトルを取り出す。</li>
+</ol>
+</div>
+</section>
+
+<section id="u6-s3">
+<h3 class="sec">3. 具体例</h3>
+<div class="ex">
+<div class="ex-t">例 1：2 × 2（つぶれる場合）</div>
+<p><span class="nw"><i>A</i> = <span class="mat"><span class="g" style="--c:2"><span>1</span><span>2</span><span>2</span><span>4</span></span></span> → <span class="mat"><span class="g" style="--c:2"><span>1</span><span>2</span><span>0</span><span>0</span></span></span></span>（簡約化）。ピボットは第1列だけなので rank <i>A</i> = 1。</p>
+<ul>
+<li>Im <i>f</i> の基底：元の第1列 <span class="nw">(1, 2)</span>。dim Im <i>f</i> = 1。</li>
+<li>Ker <i>f</i>：<span class="nw"><i>x</i><sub>1</sub> + 2<i>x</i><sub>2</sub> = 0</span>。<i>x</i><sub>2</sub> = <i>t</i> とおくと <span class="nw"><b class="vec">x</b> = <i>t</i>(−2, 1)</span>。基底 (−2, 1)、dim Ker <i>f</i> = 1。</li>
+<li>次元定理：<span class="nw">2 = 1 + 1</span> ✓</li>
+</ul>
+</div>
+<div class="ex">
+<div class="ex-t">例 2：3 × 4</div>
+<div class="dm"><i>A</i> = <span class="mat"><span class="g" style="--c:4"><span>1</span><span>2</span><span>0</span><span>1</span><span>2</span><span>4</span><span>1</span><span>4</span><span>1</span><span>2</span><span>1</span><span>3</span></span></span> → <span class="mat"><span class="g" style="--c:4"><span>1</span><span>2</span><span>0</span><span>1</span><span>0</span><span>0</span><span>1</span><span>2</span><span>0</span><span>0</span><span>1</span><span>2</span></span></span> → <span class="mat"><span class="g" style="--c:4"><span><b class="pv">1</b></span><span>2</span><span>0</span><span>1</span><span>0</span><span>0</span><span><b class="pv">1</b></span><span>2</span><span>0</span><span>0</span><span>0</span><span>0</span></span></span></div>
+<div class="stepper" data-m="1,2,0,1;2,4,1,4;1,2,1,3" data-aug="0"></div>
+<p>ピボットは第1列と第3列なので rank <i>A</i> = 2。</p>
+<ul>
+<li>Im <i>f</i> の基底：元の <i>A</i> の第1列・第3列 <span class="nw">(1, 2, 1), (0, 1, 1)</span>。dim Im <i>f</i> = 2。</li>
+<li>Ker <i>f</i>：自由変数 <span class="nw"><i>x</i><sub>2</sub> = <i>s</i>, <i>x</i><sub>4</sub> = <i>t</i></span>。<span class="nw"><i>x</i><sub>1</sub> = −2<i>s</i> − <i>t</i></span>, <span class="nw"><i>x</i><sub>3</sub> = −2<i>t</i></span> より
+<div class="dm"><b class="vec">x</b> = <i>s</i><span class="mat"><span class="g" style="--c:1"><span>−2</span><span>1</span><span>0</span><span>0</span></span></span> + <i>t</i><span class="mat"><span class="g" style="--c:1"><span>−1</span><span>0</span><span>−2</span><span>1</span></span></span></div>
+基底はこの2本、dim Ker <i>f</i> = 2。</li>
+<li>次元定理：<span class="nw">4 = 2 + 2</span> ✓</li>
+</ul>
+<p class="check">確認：<span class="nw"><i>A</i>(−1, 0, −2, 1)</span> の各成分は <span class="nw">−1 + 0 + 0 + 1 = 0</span>、<span class="nw">−2 + 0 − 2 + 4 = 0</span>、<span class="nw">−1 + 0 − 2 + 3 = 0</span>。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 3：微分</div>
+<p><span class="nw"><i>D</i> : ℝ[<i>x</i>]<sub>2</sub> → ℝ[<i>x</i>]<sub>2</sub></span>, <span class="nw"><i>D</i>(<i>f</i>) = <i>f</i> ′</span>。微分して 0 になるのは定数なので <span class="nw">Ker <i>D</i> = ⟨1⟩</span>（dim 1）。<span class="nw">(<i>a</i> + <i>bx</i> + <i>cx</i>²)′ = <i>b</i> + 2<i>cx</i></span> なので <span class="nw">Im <i>D</i> = ⟨1, <i>x</i>⟩ = ℝ[<i>x</i>]<sub>1</sub></span>（dim 2）。<span class="nw">3 = 1 + 2</span> ✓</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 4：正則行列</div>
+<p><i>A</i> が <i>n</i> 次正則行列なら rank <i>A</i> = <i>n</i>。<span class="nw">Ker <i>f</i> = { <b class="vec">0</b> }</span>（dim 0）、<span class="nw">Im <i>f</i> = ℝⁿ</span>（dim <i>n</i>）。<span class="nw"><i>n</i> = 0 + <i>n</i></span> ✓</p>
+</div>
+
+<div class="demo" id="u6-demo">
+<div class="demo-t">像と核を自動計算する</div>
+<p class="small">サイズを選び、行列 <i>A</i> を入力してください（分数も可）。簡約化、像と核の基底、次元定理の確認を表示します。2 × 2 のときは図も表示され、<span style="color:var(--c5)">●<b class="vec">x</b></span> を動かすと <i>A</i><b class="vec">x</b> の行き先が見えます。</p>
+<div class="ctrl"><label>サイズ：<select id="u6-size"><option>1×3</option><option>2×2</option><option>2×3</option><option>3×2</option><option selected>3×3</option><option>3×4</option><option>4×4</option></select></label><label>例：<select id="u6-pre"></select></label></div>
+<div class="ctrl"><span class="nw"><i>A</i> = <span id="u6-inA"></span></span></div>
+<div id="u6-plots" class="demo-grid eq" style="display:none">
+<div><p class="small" style="margin:0;text-align:center">定義域 ℝ²（<span style="color:var(--c2)">核 Ker</span>）</p><svg class="plot" id="u6-pd" role="img" aria-label="定義域と核"></svg></div>
+<div><p class="small" style="margin:0;text-align:center">値域 ℝ²（<span style="color:var(--c1)">像 Im</span>）</p><svg class="plot" id="u6-pc" role="img" aria-label="値域と像"></svg></div>
+</div>
+<div class="out" id="u6-res"></div>
+<div id="u6-st06"></div>
+</div>
+</section>
+
+<section id="u6-s4">
+<h3 class="sec">4. よくある間違い</h3>
+<div class="mis">
+<p class="bad">Im <i>f</i> の基底として、<strong>簡約化した後の行列</strong>の列を答える。</p>
+<p class="good">行基本変形で列ベクトルの空間は変わってしまいます。例1では簡約化後の第1列 (1, 0) は Im <i>f</i> = ⟨(1, 2)⟩ に入っていません。<strong>ピボットの位置だけ</strong>を簡約化で調べ、ベクトルは<strong>元の <i>A</i></strong> から取ります。</p>
+</div>
+<div class="mis">
+<p class="bad">Ker <i>f</i> と Im <i>f</i> は同じ空間の中にある。</p>
+<p class="good"><span class="nw"><i>A</i> が <i>m</i> × <i>n</i></span> なら、Ker <i>f</i> ⊂ ℝⁿ（定義域、ベクトルの長さ <i>n</i>）、Im <i>f</i> ⊂ ℝᵐ（値域、長さ <i>m</i>）です。答えのベクトルの長さで確認しましょう。</p>
+</div>
+<div class="mis">
+<p class="bad">次元定理の左辺を「行の数 <i>m</i>」にする。</p>
+<p class="good">左辺は<strong>定義域の次元 = 列の数 <i>n</i></strong> です：<span class="nw"><i>n</i> = dim Ker <i>f</i> + rank <i>A</i></span>。</p>
+</div>
+<div class="mis">
+<p class="bad"><span class="nw">Ker <i>f</i> = { <b class="vec">0</b> }</span> のとき、基底は <b class="vec">0</b>、次元は 1。</p>
+<p class="good"><b class="vec">0</b> は基底になれません。<span class="nw">Ker <i>f</i> = { <b class="vec">0</b> }</span> の次元は 0 で、基底は「なし」（空集合）です。</p>
+</div>
+</section>
+
+<section id="u6-s5">
+<h3 class="sec">5. 練習問題</h3>
+<div class="box howto"><div class="box-t">解き方の手順：像・核・全射・単射</div><ol><li><i>A</i> を簡約化し、ピボットのある列の番号を調べます。rank <i>A</i> = ピボットの数です。</li><li><b>Im の基底</b>：ピボット列と同じ番号の、<b>元の <i>A</i> の列</b>を取り出します。</li><li><b>Ker の基底</b>：ピボットのない列の変数を自由変数 <i>s</i>, <i>t</i>, … とおいて <i>A</i><b class="vec">x</b> = <b class="vec">0</b> を解き、<span class="nw"><b class="vec">x</b> = <i>s</i>(…) + <i>t</i>(…)</span> の (…) を取り出します。</li><li>検算：<span class="nw"><i>n</i>（列の数）= dim Ker + rank</span> になっているか確かめます。</li><li><b>単射</b> ⇔ rank = <i>n</i>（列の数）、<b>全射</b> ⇔ rank = <i>m</i>（行の数）。</li></ol></div>
+<div class="prob">
+<div class="prob-t">問題 1 <span class="src">教科書 練習問題5 [A] 4 の類題</span></div>
+<p>次の行列に対応する線形写像の像と核のそれぞれの基底を求めてください。</p>
+<div class="dm">(1) <span class="mat"><span class="g" style="--c:3"><span>2</span><span>−1</span><span>4</span></span></span>　　　(2) <span class="mat"><span class="g" style="--c:2"><span>1</span><span>2</span><span>2</span><span>1</span><span>3</span><span>0</span></span></span></div>
+<details><summary>解答を見る</summary>
+<p><strong>(1)</strong> <span class="nw"><i>f</i> : ℝ³ → ℝ</span>、rank = 1。</p>
+<ul>
+<li>Im <i>f</i> = ℝ。基底は (2)（0 でない実数なら何でもよく、1 でも可）。</li>
+<li>Ker <i>f</i>：<span class="nw">2<i>x</i><sub>1</sub> − <i>x</i><sub>2</sub> + 4<i>x</i><sub>3</sub> = 0</span>。<span class="nw"><i>x</i><sub>2</sub> = 2<i>x</i><sub>1</sub> + 4<i>x</i><sub>3</sub></span> なので、<span class="nw"><i>x</i><sub>1</sub> = <i>s</i>, <i>x</i><sub>3</sub> = <i>t</i></span> とおいて <span class="nw"><b class="vec">x</b> = <i>s</i>(1, 2, 0) + <i>t</i>(0, 4, 1)</span>。基底は <span class="nw">(1, 2, 0), (0, 4, 1)</span>。</li>
+<li>次元定理：<span class="nw">3 = 2 + 1</span> ✓</li>
+</ul>
+<p><strong>(2)</strong> <span class="nw"><i>f</i> : ℝ² → ℝ³</span>。<span class="nw"><span class="mat"><span class="g" style="--c:2"><span>1</span><span>2</span><span>2</span><span>1</span><span>3</span><span>0</span></span></span> → <span class="mat"><span class="g" style="--c:2"><span>1</span><span>2</span><span>0</span><span>−3</span><span>0</span><span>−6</span></span></span> → <span class="mat"><span class="g" style="--c:2"><span>1</span><span>0</span><span>0</span><span>1</span><span>0</span><span>0</span></span></span></span>、rank = 2。</p>
+<ul>
+<li>Im <i>f</i> の基底：元の列 <span class="nw">(1, 2, 3), (2, 1, 0)</span>。</li>
+<li>Ker <i>f</i> = { <b class="vec">0</b> }（基底なし、次元 0）。</li>
+<li>次元定理：<span class="nw">2 = 0 + 2</span> ✓</li>
+</ul>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 2 <span class="src">教科書 練習問題5 [A] 5, 8(1) の類題</span></div>
+<p>次の行列で決まる ℝ⁴ の線形変換 <i>f</i> について、<i>f</i> の像と核のそれぞれの基底および <i>f</i> のランクを求めてください。</p>
+<div class="dm"><i>A</i> = <span class="mat"><span class="g" style="--c:4"><span>1</span><span>2</span><span>0</span><span>1</span><span>0</span><span>1</span><span>1</span><span>1</span><span>1</span><span>3</span><span>1</span><span>2</span><span>2</span><span>3</span><span>−1</span><span>1</span></span></span></div>
+<details><summary>解答を見る</summary>
+<div class="dm"><i>A</i> → <span class="mat"><span class="g" style="--c:4"><span>1</span><span>2</span><span>0</span><span>1</span><span>0</span><span>1</span><span>1</span><span>1</span><span>0</span><span>1</span><span>1</span><span>1</span><span>0</span><span>−1</span><span>−1</span><span>−1</span></span></span> → <span class="mat"><span class="g" style="--c:4"><span>1</span><span>0</span><span>−2</span><span>−1</span><span>0</span><span>1</span><span>1</span><span>1</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span></span></span></div>
+<div class="stepper" data-m="1,2,0,1;0,1,1,1;1,3,1,2;2,3,-1,1" data-aug="0"></div>
+<p>ピボットは第1・第2列なので <strong>rank <i>f</i> = 2</strong>。</p>
+<ul>
+<li>Im <i>f</i> の基底：元の第1・第2列 <span class="nw">(1, 0, 1, 2), (2, 1, 3, 3)</span>。</li>
+<li>Ker <i>f</i>：<span class="nw"><i>x</i><sub>3</sub> = <i>s</i>, <i>x</i><sub>4</sub> = <i>t</i></span> とおくと <span class="nw"><i>x</i><sub>1</sub> = 2<i>s</i> + <i>t</i></span>, <span class="nw"><i>x</i><sub>2</sub> = −<i>s</i> − <i>t</i></span>。基底は <span class="nw">(2, −1, 1, 0), (1, −1, 0, 1)</span>。</li>
+<li>次元定理：<span class="nw">4 = 2 + 2</span> ✓</li>
+</ul>
+<p class="check">3行目 = 1行目 + 2行目、4行目 = 2 × 1行目 − 2行目 になっていることに気づくと、rank 2 がすぐわかります。上の「動かしてみよう」でサイズ 4×4 の例「問題2」を選ぶと確認できます。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 3 <span class="src">教科書 練習問題5 [A] 6 の類題</span></div>
+<p>次の行列に対応する線形写像 <i>f</i> は全射であるか、単射であるかを調べてください。</p>
+<div class="dm">(1) <span class="mat"><span class="g" style="--c:2"><span>1</span><span>2</span><span>0</span><span>1</span><span>3</span><span>−1</span></span></span>　　(2) <span class="mat"><span class="g" style="--c:3"><span>1</span><span>1</span><span>0</span><span>0</span><span>1</span><span>1</span><span>1</span><span>0</span><span>−1</span></span></span>　　(3) <span class="mat"><span class="g" style="--c:3"><span>1</span><span>0</span><span>2</span><span>0</span><span>1</span><span>1</span></span></span></div>
+<details><summary>解答を見る</summary>
+<p><i>m</i> × <i>n</i> 行列 <i>A</i> で決まる <span class="nw"><i>f</i> : ℝⁿ → ℝᵐ</span> について</p>
+<ul>
+<li><strong>単射</strong> ⇔ Ker <i>f</i> = { <b class="vec">0</b> } ⇔ <strong>rank <i>A</i> = <i>n</i></strong>（列の数）</li>
+<li><strong>全射</strong> ⇔ Im <i>f</i> = ℝᵐ ⇔ <strong>rank <i>A</i> = <i>m</i></strong>（行の数）</li>
+</ul>
+<p>(1) 3 × 2、rank = 2（2列が平行でない）。rank = <i>n</i> = 2 なので<strong>単射</strong>、rank &lt; <i>m</i> = 3 なので<strong>全射ではない</strong>。</p>
+<p>(2) 3 × 3、行列式 <span class="nw">1·(−1 − 0) − 1·(0 − 1) + 0 = 0</span> なので rank = 2。<strong>単射でも全射でもない</strong>。</p>
+<p>(3) 2 × 3、rank = 2。rank = <i>m</i> = 2 なので<strong>全射</strong>、rank &lt; <i>n</i> = 3 なので<strong>単射ではない</strong>。</p>
+</details>
+</div>
+</section>
+<p class="unit-end"><a href="#top">↑ 全体の目次に戻る</a></p>
+</article>
+<script>
+(function(){
+const ROOT=document.getElementById("u6");
+const $=s=>ROOT.querySelector(s.replace(/#([\w-]+)/g,"#u6-$1"));
+const PRE={
+ "1×3":[["問題1(1)",[[2,-1,4]]]],
+ "4×4":[["問題2",[[1,2,0,1],[0,1,1,1],[1,3,1,2],[2,3,-1,1]]]],
+ "2×2":[["[[1,2],[2,4]]（例1）",[[1,2],[2,4]]],["[[1,1],[0,1]]（正則）",[[1,1],[0,1]]],["x軸への射影",[[1,0],[0,0]]],["零行列",[[0,0],[0,0]]]],
+ "2×3":[["rank 1 の例",[[1,-1,2],[2,-2,4]]],["問題3(3)",[[1,0,2],[0,1,1]]]],
+ "3×2":[["問題1(2)",[[1,2],[2,1],[3,0]]],["問題3(1)",[[1,2],[0,1],[3,-1]]],["rank 1 の例",[[1,2],[2,4],[3,6]]]],
+ "3×3":[["rank 2 の例",[[1,2,1],[0,1,1],[1,3,2]]],["問題3(2)",[[1,1,0],[0,1,1],[1,0,-1]]],["[[1,2,3],[4,5,6],[7,8,9]]",[[1,2,3],[4,5,6],[7,8,9]]],["単位行列",[[1,0,0],[0,1,0],[0,0,1]]]],
+ "3×4":[["例2",[[1,2,0,1],[2,4,1,4],[1,2,1,3]]]]
+};
+let inp, m=3, n=3, A=null, xv=[1,0.5];
+const V=s=>`<b class="vec">${s}</b>`, ZERO=V("0");
+const Pd=new Plane($("#pd"),{R:5}), Pc=new Plane($("#pc"),{R:5});
+function setup(){
+  const sz=$("#size").value; [m,n]=sz.split("×").map(Number);
+  const pre=$("#pre"); pre.innerHTML="";
+  PRE[sz].forEach(([nm],i)=>{const o=document.createElement("option");o.value=i;o.textContent=nm;pre.appendChild(o);});
+  load(0);
+}
+function load(i){ inp=matrixInput($("#inA"),m,n,PRE[$("#size").value][i][1],calc); calc(); }
+function calc(){
+  A=inp.get(); const out=$("#res");
+  $("#plots").style.display=(m===2&&n===2)?"":"none";
+  if(!A){out.innerHTML='<span class="ng">数値または分数を入力してください。</span>';return;}
+  const {R,piv}=LA.rref(A), r=piv.length, ker=LA.nullspace(A);
+  let s=`<div class="row"><b>① 簡約化</b>　${matHTML(A,{cls:(i,j)=>piv.includes(j)?"hl":""})} → ${matHTML(R,{cls:(i,j)=>piv[i]===j?"pv":""})}</div>`;
+  s+=`<div class="row small">ピボット（赤）のある列：${piv.length?piv.map(j=>"第"+(j+1)+"列").join("・"):"なし"}　→ rank <i>A</i> = ${r}</div>`;
+  s+=`<div class="row"><b>② Im <i>f</i> の基底</b>（元の <i>A</i> の、ピボットと同じ番号の列＝青枠）：`+
+     (r?piv.map(j=>vecHTML(LA.col(A,j))).join(" , "):`なし（Im <i>f</i> = { ${ZERO} }）`)+`　<span class="nw">dim Im <i>f</i> = ${r}</span></div>`;
+  s+=`<div class="row"><b>③ Ker <i>f</i> の基底</b>（<i>A</i>${V("x")} = ${ZERO} の解）：`+
+     (ker.length?ker.map(k=>vecHTML(k)).join(" , "):`なし（Ker <i>f</i> = { ${ZERO} }）`)+`　<span class="nw">dim Ker <i>f</i> = ${ker.length}</span></div>`;
+  if(ker.length) s+=`<div class="row small">検算：`+ker.map(k=>`<span class="nw"><i>A</i>${vecHTML(k)} = ${vecHTML(LA.mv(A,k))}</span>`).join("　")+` ✓</div>`;
+  s+=`<div class="row"><b>④ 次元定理</b>　<span class="nw">dim ℝ<sup>${n}</sup> = dim Ker <i>f</i> + dim Im <i>f</i></span>　→　<span class="nw">${n} = ${ker.length} + ${r}</span> ${n===ker.length+r?'<span class="ok">✓</span>':'<span class="ng">✗</span>'}</div>`;
+  out.innerHTML=s;
+  makeStepper($("#st06"),A,0,"① の簡約化を1手ずつ見る");
+  if(m===2&&n===2) draw(ker,piv);
+}
+function draw(ker,piv){
+  const a=A.map(r=>r.map(v=>v.val()));
+  Pd.clear(); Pc.clear();
+  // 核
+  if(ker.length===2) Pd.poly([[-6,-6],[6,-6],[6,6],[-6,6]],"var(--c2)",{opacity:0.15});
+  else if(ker.length===1) Pd.infLine([0,0],ker[0].map(v=>v.val()),"var(--c2)",{width:6,opacity:0.4});
+  else Pd.circle([0,0],0.18,"var(--c2)",{opacity:0.9});
+  // 像
+  if(piv.length===2) Pc.poly([[-6,-6],[6,-6],[6,6],[-6,6]],"var(--c1)",{opacity:0.12});
+  else if(piv.length===1) Pc.infLine([0,0],[a[0][piv[0]],a[1][piv[0]]],"var(--c1)",{width:6,opacity:0.4});
+  else Pc.circle([0,0],0.18,"var(--c1)",{opacity:0.9});
+  const y=[a[0][0]*xv[0]+a[0][1]*xv[1],a[1][0]*xv[0]+a[1][1]*xv[1]];
+  Pd.arrow([0,0],xv,"var(--c5)",{label:"x"});
+  Pc.arrow([0,0],y,"var(--c3)",{label:Math.hypot(...y)<1e-9?"Ax = 0":"Ax"});
+  Pd.syncHandles();
+}
+Pd.handle(()=>xv,p=>{xv=p; if(A&&m===2&&n===2){const {piv}=LA.rref(A); draw(LA.nullspace(A),piv);}},"var(--c5)",{snap:0.5});
+$("#size").addEventListener("change",setup);
+$("#pre").addEventListener("change",e=>load(+e.target.value));
+setup();
+
+(function(){const P6=new Plane($("#f6"),{R:3});
+P6.infLine([0,0],[0,1],"var(--c2)",{width:7,opacity:0.4}); P6.infLine([0,0],[1,0],"var(--c1)",{width:7,opacity:0.4});
+[[1,2],[-2,1],[2,-1.5],[-1,-2]].forEach(p=>{P6.circle(p,0.09,"var(--fg)",{opacity:1}); P6.arrow(p,[p[0],0],"var(--muted)",{width:1.5,dash:"4 3"});});
+P6.circle([0,2],0.09,"var(--c2)",{opacity:1}); P6.arrow([0,2],[0,0.1],"var(--c2)",{width:2,dash:"4 3"});
+P6.text([0.15,2.2],"(0, 2) ↦ 0","var(--c2)",{size:15,italic:false});})();
+})();
+</script>
+<article class="unit" id="u7">
+<div class="unit-head">
+<div class="crumb">第7回</div>
+<h2>表現行列</h2>
+<p class="lead">線形写像を、基底を決めて「座標の計算」に翻訳したものが表現行列です。作り方の3ステップと、基底を変えたときの公式 A′ = Q⁻¹AP を学びます。</p>
+<nav class="toc" aria-label="第7回の目次"><a href="#u7-s1">1. 何の話か（直感）</a><a href="#u7-s2">2. 定義</a><a href="#u7-s3">3. 具体例</a><a href="#u7-s4">4. よくある間違い</a><a href="#u7-s5">5. 練習問題</a><a class="demo-link" href="#u7-demo">▶ 動かしてみよう</a></nav>
+</div>
+<div class="box points"><div class="box-t">この回のポイント（まずここだけ押さえましょう）</div><ol><li>表現行列の<b>第 <i>j</i> 列</b>＝ <i>f</i>(<b class="vec">v</b><sub><i>j</i></sub>) を<b>値域の基底 <i>C</i> で表した座標</b>です。</li><li>作り方は3ステップ：①行き先 <i>f</i>(<b class="vec">v</b><sub><i>j</i></sub>) を計算 → ② <i>C</i> で表す → ③ 列に並べる。</li><li>基底を変えると <span class="nw"><i>A</i>′ = <i>Q</i><sup>−1</sup><i>AP</i></span>（両側で同じ基底なら <span class="nw"><i>P</i><sup>−1</sup><i>AP</i></span>）。うまい基底を選ぶと対角行列になります。</li></ol></div>
+<section id="u7-s1">
+<h3 class="sec">1. 何の話か（直感）</h3>
+<p>ℝⁿ → ℝᵐ の線形写像は行列のかけ算で書けました（第5回）。では、微分 <span class="nw"><i>D</i> : ℝ[<i>x</i>]<sub>2</sub> → ℝ[<i>x</i>]<sub>1</sub></span> のように、ベクトルが数の組でない場合はどうでしょうか。</p>
+<p>答えは、<strong>基底を決めて座標で考える</strong>ことです。基底を決めれば、どんな有限次元の線形空間のベクトルも「座標＝数の組」で表せます（第3回）。すると線形写像は「座標を座標に移す写像」になり、それは行列で書けます。この行列が<strong>表現行列</strong>です。</p>
+<div class="cd"><span class="node"><i>V</i> の <b class="vec">v</b></span><span class="ar">─ <i>f</i> で写す →</span><span class="node"><i>W</i> の <i>f</i>(<b class="vec">v</b>)</span><span class="ar">↓ 基底 <i>B</i> で<br>座標にする</span><span></span><span class="ar">↓ 基底 <i>C</i> で<br>座標にする</span><span class="node">座標 <b class="vec">x</b> ∈ ℝⁿ</span><span class="ar">─ <i>A</i> をかける →</span><span class="node">座標 <i>A</i><b class="vec">x</b> ∈ ℝᵐ</span></div>
+<p class="small muted" style="text-align:center">上の道（<i>f</i> で写してから座標にする）と下の道（座標にしてから <i>A</i> をかける）が同じ結果になる <i>A</i> が、表現行列です。</p>
+<p>大事なのは、<strong>同じ写像でも基底の選び方で表現行列が変わる</strong>ことです。うまい基底を選ぶと、表現行列が対角行列のような簡単な形になります。これが次の単元「固有値・対角化」につながります。</p>
+<div class="box note"><div class="box-t">用語メモ</div><dl class="gloss"><dt>表現行列<small>ひょうげんぎょうれつ</small></dt><dd>基底を決めて、線形写像を「座標の計算」として行列で表したもの。</dd><dt>定義域・値域<small>ていぎいき・ちいき</small></dt><dd>写像の出発側の空間（<i>V</i>）と、行き先側の空間（<i>W</i>）。</dd><dt>対角行列<small>たいかくぎょうれつ</small></dt><dd>左上から右下への対角線以外の成分がすべて 0 の行列。</dd></dl></div>
+</section>
+
+<section id="u7-s2">
+<h3 class="sec">2. 定義</h3>
+<p><span class="nw"><i>f</i> : <i>V</i> → <i>W</i></span> を線形写像、<span class="nw"><i>B</i> = (<b class="vec">v</b><sub>1</sub>, …, <b class="vec">v</b><sub><i>n</i></sub>)</span> を <i>V</i> の基底、<span class="nw"><i>C</i> = (<b class="vec">w</b><sub>1</sub>, …, <b class="vec">w</b><sub><i>m</i></sub>)</span> を <i>W</i> の基底とします。</p>
+<div class="box def">
+<div class="box-t">定義（表現行列）</div>
+<p class="plain">「<b class="vec">v</b><sub><i>j</i></sub> がどこへ行くか」を、行き先側のものさし <i>C</i> で測った数値を列に並べた表です。</p>
+<p>各 <i>f</i>(<b class="vec">v</b><sub><i>j</i></sub>) を <i>C</i> の1次結合で表します。</p>
+<div class="dm"><i>f</i>(<b class="vec">v</b><sub><i>j</i></sub>) = <i>a</i><sub>1<i>j</i></sub><b class="vec">w</b><sub>1</sub> + <i>a</i><sub>2<i>j</i></sub><b class="vec">w</b><sub>2</sub> + ⋯ + <i>a</i><sub><i>mj</i></sub><b class="vec">w</b><sub><i>m</i></sub>　　(<i>j</i> = 1, …, <i>n</i>)</div>
+<p>この係数を<strong>第 <i>j</i> 列</strong>に並べた <i>m</i> × <i>n</i> 行列 <span class="nw"><i>A</i> = (<i>a</i><sub><i>ij</i></sub>)</span> を、基底 <i>B</i>, <i>C</i> に関する <i>f</i> の<strong>表現行列</strong>といいます。まとめて書くと</p>
+<div class="dm">( <i>f</i>(<b class="vec">v</b><sub>1</sub>) ⋯ <i>f</i>(<b class="vec">v</b><sub><i>n</i></sub>) ) = ( <b class="vec">w</b><sub>1</sub> ⋯ <b class="vec">w</b><sub><i>m</i></sub> ) <i>A</i></div>
+</div>
+<div class="box note">
+<div class="box-t">作り方の3ステップ</div>
+<ol>
+<li>定義域の基底の各ベクトル <b class="vec">v</b><sub><i>j</i></sub> の行き先 <i>f</i>(<b class="vec">v</b><sub><i>j</i></sub>) を計算する。</li>
+<li><i>f</i>(<b class="vec">v</b><sub><i>j</i></sub>) を<strong>値域の基底 <i>C</i></strong> で表したときの座標を求める。</li>
+<li>その座標を<strong>第 <i>j</i> 列</strong>に並べる。</li>
+</ol>
+</div>
+<div class="box thm">
+<div class="box-t">定理 1（座標で見た f）</div>
+<p><b class="vec">v</b> の <i>B</i> 座標を <b class="vec">x</b> とすると、<i>f</i>(<b class="vec">v</b>) の <i>C</i> 座標は <strong><i>A</i><b class="vec">x</b></strong> です。</p>
+<p class="small muted">ℝⁿ → ℝᵐ で <span class="nw"><i>f</i>(<b class="vec">x</b>) = <i>M</i><b class="vec">x</b></span>（<i>M</i> は標準基底での行列）、基底のベクトルを列に並べた行列を <i>B</i>, <i>C</i> とすると <span class="nw"><i>A</i> = <i>C</i><sup>−1</sup><i>MB</i></span>。</p>
+</div>
+<div class="box thm">
+<div class="box-t">定理 2（基底を変えたときの表現行列）</div>
+<p class="plain">右の <i>P</i> で「新しい座標→古い座標」に直し、<i>A</i> で写し、左の <i>Q</i><sup>−1</sup> で「行き先の古い座標→新しい座標」に直す、という3段階をまとめた式です。</p>
+<p><i>V</i> の基底を <i>B</i> → <i>B</i>′（変換行列 <i>P</i>）、<i>W</i> の基底を <i>C</i> → <i>C</i>′（変換行列 <i>Q</i>）に取りかえると、新しい表現行列は</p>
+<div class="dm" style="font-size:1.12em"><i>A</i>′ = <i>Q</i><sup>−1</sup><i>AP</i></div>
+<p>特に <i>V</i> = <i>W</i> で、両側で同じ基底を使う（<i>B</i> = <i>C</i>, <i>B</i>′ = <i>C</i>′）なら <span class="nw"><i>A</i>′ = <i>P</i><sup>−1</sup><i>AP</i></span>。</p>
+<p class="small muted">理由：<i>B</i>′ 座標 <b class="vec">x</b>′ → <i>B</i> 座標 <i>P</i><b class="vec">x</b>′ → <i>f</i> で <i>C</i> 座標 <i>AP</i><b class="vec">x</b>′ → <i>C</i>′ 座標 <i>Q</i><sup>−1</sup><i>AP</i><b class="vec">x</b>′（第4回の座標変換の公式）。</p>
+</div>
+</section>
+
+<section id="u7-s3">
+<h3 class="sec">3. 具体例</h3>
+<div class="ex">
+<div class="ex-t">例 1：微分の表現行列</div>
+<p><span class="nw"><i>D</i> : ℝ[<i>x</i>]<sub>2</sub> → ℝ[<i>x</i>]<sub>1</sub></span>, <span class="nw"><i>D</i>(<i>f</i>) = <i>f</i> ′</span>、基底 <span class="nw"><i>B</i> = (1, <i>x</i>, <i>x</i>²)</span>, <span class="nw"><i>C</i> = (1, <i>x</i>)</span>。</p>
+<div class="dm"><span class="eqs"><span><i>D</i>(1) = 0</span><span>= 0 · 1 + 0 · <i>x</i></span><span><i>D</i>(<i>x</i>) = 1</span><span>= 1 · 1 + 0 · <i>x</i></span><span><i>D</i>(<i>x</i>²) = 2<i>x</i></span><span>= 0 · 1 + 2 · <i>x</i></span></span></div>
+<p>係数を列に並べて <span class="nw"><i>A</i> = <span class="mat"><span class="g" style="--c:3"><span>0</span><span>1</span><span>0</span><span>0</span><span>0</span><span>2</span></span></span></span>（2 × 3 行列）。</p>
+<p class="check">確認：<span class="nw"><i>f</i> = 3 + 5<i>x</i> + 4<i>x</i>²</span> の座標 (3, 5, 4) に <i>A</i> をかけると (5, 8)。実際 <span class="nw"><i>f</i> ′ = 5 + 8<i>x</i></span>。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 2：うまい基底で対角行列に</div>
+<p><span class="nw"><i>f</i>(<b class="vec">x</b>) = <i>M</i><b class="vec">x</b></span>, <span class="nw"><i>M</i> = <span class="mat"><span class="g" style="--c:2"><span>2</span><span>1</span><span>1</span><span>2</span></span></span></span> を、基底 <span class="nw"><i>B</i> = <i>C</i> = ((1, 1), (1, −1))</span> で表します。</p>
+<div class="dm"><i>f</i>(1, 1) = (3, 3) = 3 · (1, 1) + 0 · (1, −1)，　<i>f</i>(1, −1) = (1, −1) = 0 · (1, 1) + 1 · (1, −1)</div>
+<p>よって表現行列は <span class="nw"><i>A</i> = <span class="mat"><span class="g" style="--c:2"><span>3</span><span>0</span><span>0</span><span>1</span></span></span></span>（対角行列）。この基底の方向には「3倍」「1倍」に伸びるだけ、という <i>f</i> の正体が見えます。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 3：定義域と値域で基底が違う場合</div>
+<p><span class="nw"><i>f</i> : ℝ³ → ℝ²</span>, <span class="nw"><i>f</i>(<i>x</i>, <i>y</i>, <i>z</i>) = (<i>x</i> + <i>y</i>, <i>y</i> + <i>z</i>)</span>、<span class="nw"><i>B</i> = ((1, 0, 0), (1, 1, 0), (1, 1, 1))</span>, <span class="nw"><i>C</i> = ((1, 0), (1, 1))</span>。<i>C</i> での座標は「<span class="nw">(<i>p</i>, <i>q</i>) = (<i>p</i> − <i>q</i>) · (1, 0) + <i>q</i> · (1, 1)</span>」で求められます。</p>
+<div class="dm"><span class="eqs"><span><i>f</i>(1, 0, 0) = (1, 0)</span><span>→ <i>C</i> 座標 (1, 0)</span><span><i>f</i>(1, 1, 0) = (2, 1)</span><span>→ <i>C</i> 座標 (1, 1)</span><span><i>f</i>(1, 1, 1) = (2, 2)</span><span>→ <i>C</i> 座標 (0, 2)</span></span></div>
+<div class="stepper" data-m="1,1,1,2,2;0,1,0,1,2" data-aug="3" data-title="まとめて計算：[C | f(v₁) f(v₂) f(v₃)] を簡約化 → 右側が A"></div>
+<p>よって <span class="nw"><i>A</i> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>1</span><span>0</span><span>0</span><span>1</span><span>2</span></span></span></span>。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 4：転置の表現行列</div>
+<p><span class="nw"><i>T</i> : <i>M</i><sub>2</sub>(ℝ) → <i>M</i><sub>2</sub>(ℝ)</span>, <span class="nw"><i>T</i>(<i>X</i>) = <sup>t</sup><i>X</i></span> を基底 (<i>E</i><sub>11</sub>, <i>E</i><sub>12</sub>, <i>E</i><sub>21</sub>, <i>E</i><sub>22</sub>) で表すと、<span class="nw"><i>T</i>(<i>E</i><sub>12</sub>) = <i>E</i><sub>21</sub></span>, <span class="nw"><i>T</i>(<i>E</i><sub>21</sub>) = <i>E</i><sub>12</sub></span>、ほかは自分自身なので</p>
+<div class="dm"><i>A</i> = <span class="mat"><span class="g" style="--c:4"><span>1</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span>1</span><span>0</span><span>0</span><span>1</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span>1</span></span></span></div>
+</div>
+
+<div class="demo" id="u7-demo">
+<div class="demo-t">基底を2組選んで表現行列を計算する</div>
+<p class="small"><i>f</i>(<b class="vec">x</b>) = <i>M</i><b class="vec">x</b> の <i>M</i>（標準基底での行列）、定義域の基底 <i>B</i>、値域の基底 <i>C</i> を入力してください。基底は<strong>列</strong>に並べます。3ステップの途中経過と、表現行列 <span class="nw"><i>A</i> = <i>C</i><sup>−1</sup><i>MB</i></span> を表示します。</p>
+<div class="ctrl"><label>写像：<select id="u7-size"><option value="2,2">ℝ² → ℝ²</option><option value="3,3">ℝ³ → ℝ³</option><option value="3,2">ℝ³ → ℝ²</option><option value="2,3">ℝ² → ℝ³</option></select></label><label>例：<select id="u7-pre"></select></label></div>
+<div class="ctrl" style="align-items:center"><span class="nw"><i>M</i> = <span id="u7-inM"></span></span><span class="nw"><i>B</i> = <span id="u7-inB"></span></span><span class="nw"><i>C</i> = <span id="u7-inC"></span></span></div>
+<div class="ctrl"><button id="u7-bstd"><i>B</i> を標準基底に</button><button id="u7-cstd"><i>C</i> を標準基底に</button><button id="u7-csame"><i>C</i> を <i>B</i> と同じに</button></div>
+<div class="out" id="u7-res"></div>
+<div id="u7-st07"></div>
+</div>
+</section>
+
+<section id="u7-s4">
+<h3 class="sec">4. よくある間違い</h3>
+<div class="mis">
+<p class="bad"><i>f</i>(<b class="vec">v</b><sub><i>j</i></sub>) の座標を表現行列の第 <i>j</i> <strong>行</strong>に並べる。</p>
+<p class="good"><strong>列</strong>に並べます。行に並べると転置行列になってしまいます。「<i>A</i> の第 <i>j</i> 列 = <i>A</i><b class="vec">e</b><sub><i>j</i></sub> = <b class="vec">v</b><sub><i>j</i></sub> の行き先」と覚えましょう。</p>
+</div>
+<div class="mis">
+<p class="bad"><i>f</i>(<b class="vec">v</b><sub><i>j</i></sub>) の成分（標準座標）をそのまま並べる。</p>
+<p class="good">値域の基底 <i>C</i> が標準基底でないときは、<i>f</i>(<b class="vec">v</b><sub><i>j</i></sub>) を<strong><i>C</i> で表し直した座標</strong>を並べます（ステップ2）。例3で <span class="nw"><i>f</i>(1, 1, 0) = (2, 1)</span> の列が (1, 1) になっているのはこのためです。</p>
+</div>
+<div class="mis">
+<p class="bad">基底を変えたときの表現行列を <span class="nw"><i>PAP</i><sup>−1</sup></span> と計算する。</p>
+<p class="good">正しくは <span class="nw"><i>P</i><sup>−1</sup><i>AP</i></span> です。「右の <i>P</i> で新しい座標を古い座標に直し、<i>A</i> で写し、左の <i>P</i><sup>−1</sup> で新しい座標に戻す」という順番で考えると間違えません。</p>
+</div>
+<div class="mis">
+<p class="bad">基底の順番は気にしなくてよい。</p>
+<p class="good">基底の順番を入れ替えると、表現行列の列（や行）も入れ替わります。基底は<strong>順番つき</strong>で扱います。</p>
+</div>
+</section>
+
+<section id="u7-s5">
+<h3 class="sec">5. 練習問題</h3>
+<div class="box howto"><div class="box-t">解き方の手順：表現行列の問題</div><ol><li>定義域の基底 <b class="vec">v</b><sub><i>j</i></sub> を1つずつ <i>f</i> で写します。</li><li>行き先 <i>f</i>(<b class="vec">v</b><sub><i>j</i></sub>) を値域の基底 <i>C</i> の1次結合で表します。ℝᵐ なら <span class="nw">[<i>C</i> | <i>f</i>(<b class="vec">v</b><sub>1</sub>) ⋯ <i>f</i>(<b class="vec">v</b><sub><i>n</i></sub>)]</span> を簡約化すると、右側にまとめて出てきます。</li><li>係数を<b>列</b>に並べたものが表現行列です。</li><li><b>基底を取りかえる問題</b>：新しい基底を古い基底で表して <i>P</i>（と <i>Q</i>）を作り、<span class="nw"><i>Q</i><sup>−1</sup><i>AP</i></span> を計算します。</li></ol></div>
+<div class="prob">
+<div class="prob-t">問題 1 <span class="src">教科書 練習問題5 [A] 13 の類題</span></div>
+<p>2次以下の多項式全体からなる線形空間の線形変換 <i>T</i> を</p>
+<div class="dm"><i>T</i>(<i>f</i>(<i>x</i>)) = 2<i>f</i>(<i>x</i>) + <i>f</i>(1)<i>x</i></div>
+<p>で決めるとき、<i>T</i> の基底 {1, <i>x</i>, <i>x</i>²} に関する表現行列を求めてください。</p>
+<details><summary>解答を見る</summary>
+<div class="dm"><span class="eqs"><span><i>T</i>(1) = 2 + <i>x</i></span><span>= 2 · 1 + 1 · <i>x</i> + 0 · <i>x</i>²</span><span><i>T</i>(<i>x</i>) = 2<i>x</i> + 1 · <i>x</i> = 3<i>x</i></span><span>= 0 · 1 + 3 · <i>x</i> + 0 · <i>x</i>²</span><span><i>T</i>(<i>x</i>²) = 2<i>x</i>² + 1 · <i>x</i></span><span>= 0 · 1 + 1 · <i>x</i> + 2 · <i>x</i>²</span></span></div>
+<p>係数を列に並べて</p>
+<div class="dm"><i>A</i> = <span class="mat"><span class="g" style="--c:3"><span>2</span><span>0</span><span>0</span><span>1</span><span>3</span><span>1</span><span>0</span><span>0</span><span>2</span></span></span></div>
+<p class="small muted"><i>f</i>(1) は「<i>f</i> に 1 を代入した数」です。<i>f</i> = <i>x</i>² なら <i>f</i>(1) = 1 です。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 2 <span class="src">教科書 練習問題5 [A] 9 の類題</span></div>
+<p>次の ℝ³ の線形変換に対応する行列、および基底 <span class="nw">{ <span class="mat"><span class="g" style="--c:1"><span>1</span><span>0</span><span>0</span></span></span>, <span class="mat"><span class="g" style="--c:1"><span>1</span><span>1</span><span>0</span></span></span>, <span class="mat"><span class="g" style="--c:1"><span>1</span><span>1</span><span>1</span></span></span> }</span> に関する表現行列を求めてください。</p>
+<div class="dm"><span class="mat"><span class="g" style="--c:1"><span><i>x</i><sub>1</sub></span><span><i>x</i><sub>2</sub></span><span><i>x</i><sub>3</sub></span></span></span> ↦ <span class="mat"><span class="g" style="--c:1"><span><i>x</i><sub>1</sub> + <i>x</i><sub>2</sub></span><span><i>x</i><sub>2</sub> − <i>x</i><sub>3</sub></span><span>2<i>x</i><sub>1</sub> + <i>x</i><sub>3</sub></span></span></span></div>
+<details><summary>解答を見る</summary>
+<p>対応する行列（標準基底での表現行列）は</p>
+<div class="dm"><i>M</i> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>1</span><span>0</span><span>0</span><span>1</span><span>−1</span><span>2</span><span>0</span><span>1</span></span></span></div>
+<p>基底を列に並べた行列を <span class="nw"><i>B</i> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>1</span><span>1</span><span>0</span><span>1</span><span>1</span><span>0</span><span>0</span><span>1</span></span></span></span> とすると、表現行列は <span class="nw"><i>B</i><sup>−1</sup><i>MB</i></span>。</p>
+<div class="dm"><i>MB</i> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>2</span><span>2</span><span>0</span><span>1</span><span>0</span><span>2</span><span>2</span><span>3</span></span></span>，　<i>B</i><sup>−1</sup> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>−1</span><span>0</span><span>0</span><span>1</span><span>−1</span><span>0</span><span>0</span><span>1</span></span></span>，　<i>B</i><sup>−1</sup><i>MB</i> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>1</span><span>2</span><span>−2</span><span>−1</span><span>−3</span><span>2</span><span>2</span><span>3</span></span></span></div>
+<p class="check">「動かしてみよう」の ℝ³ → ℝ³ の例「問題2」でも確認できます。第1列の確認：<span class="nw"><i>f</i>(1, 0, 0) = (1, 0, 2)</span>。<span class="nw">1 · (1, 0, 0) − 2 · (1, 1, 0) + 2 · (1, 1, 1) = (1, 0, 2)</span> ✓</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 3 <span class="src">教科書 練習問題5 [A] 12 の類題</span></div>
+<p>dim <i>V</i> = 3 として、<i>V</i> の線形変換 <i>f</i> の基底 { <b class="vec">a</b><sub>1</sub>, <b class="vec">a</b><sub>2</sub>, <b class="vec">a</b><sub>3</sub>} に関する表現行列を <span class="nw"><i>A</i> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>2</span><span>0</span><span>0</span><span>1</span><span>−1</span><span>1</span><span>0</span><span>2</span></span></span></span> とします。このとき、<i>f</i> の基底 <span class="nw">{ <b class="vec">a</b><sub>1</sub>, <b class="vec">a</b><sub>1</sub> + <b class="vec">a</b><sub>2</sub>, <b class="vec">a</b><sub>1</sub> + <b class="vec">a</b><sub>2</sub> + <b class="vec">a</b><sub>3</sub> }</span> に関する表現行列を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>基底変換の行列は（新しい基底の係数を列に並べて）<span class="nw"><i>P</i> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>1</span><span>1</span><span>0</span><span>1</span><span>1</span><span>0</span><span>0</span><span>1</span></span></span></span>。定理2より <span class="nw"><i>A</i>′ = <i>P</i><sup>−1</sup><i>AP</i></span>。</p>
+<div class="dm"><i>AP</i> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>3</span><span>3</span><span>0</span><span>1</span><span>0</span><span>1</span><span>1</span><span>3</span></span></span>，　<i>P</i><sup>−1</sup> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>−1</span><span>0</span><span>0</span><span>1</span><span>−1</span><span>0</span><span>0</span><span>1</span></span></span></div>
+<div class="dm"><i>A</i>′ = <i>P</i><sup>−1</sup><i>AP</i> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>2</span><span>3</span><span>−1</span><span>0</span><span>−3</span><span>1</span><span>1</span><span>3</span></span></span></div>
+<p class="check">確認：上の「動かしてみよう」で ℝ³ → ℝ³ の例「問題3」を選ぶと、同じ結果になります。</p>
+</details>
+</div>
+</section>
+<p class="unit-end"><a href="#top">↑ 全体の目次に戻る</a></p>
+</article>
+<script>
+(function(){
+const ROOT=document.getElementById("u7");
+const $=s=>ROOT.querySelector(s.replace(/#([\w-]+)/g,"#u7-$1"));
+const PRE={
+ "2,2":[["例2：対角化できる基底",[[2,1],[1,2]],[[1,1],[1,-1]],[[1,1],[1,-1]]],
+        ["対角行列になる例2",[[3,1],[0,2]],[[1,1],[0,-1]],[[1,1],[0,-1]]],
+        ["B と C が異なる例",[[1,2],[3,4]],[[1,1],[0,1]],[[1,0],[1,1]]]],
+ "3,3":[["対角化できる基底",[[2,1,0],[1,2,0],[0,0,3]],[[1,1,0],[1,-1,0],[0,0,1]],[[1,1,0],[1,-1,0],[0,0,1]]],
+        ["問題2",[[1,1,0],[0,1,-1],[2,0,1]],[[1,1,1],[0,1,1],[0,0,1]],[[1,1,1],[0,1,1],[0,0,1]]],
+        ["問題3（M = A, B = C = P）",[[1,2,0],[0,1,-1],[1,0,2]],[[1,1,1],[0,1,1],[0,0,1]],[[1,1,1],[0,1,1],[0,0,1]]]],
+ "3,2":[["例3",[[1,1,0],[0,1,1]],[[1,1,1],[0,1,1],[0,0,1]],[[1,1],[0,1]]]],
+ "2,3":[["ℝ² → ℝ³ の例",[[1,0],[1,1],[0,1]],[[1,1],[1,-1]],[[1,1,1],[0,1,1],[0,0,1]]]]
+};
+let n=2,m=2,iM,iB,iC;
+const V=s=>`<b class="vec">${s}</b>`;
+const id=k=>LA.id(k);
+function setup(){
+  const key=$("#size").value; [n,m]=key.split(",").map(Number);
+  const pre=$("#pre"); pre.innerHTML="";
+  PRE[key].forEach(([nm],i)=>{const o=document.createElement("option");o.value=i;o.textContent=nm;pre.appendChild(o);});
+  $("#csame").style.display=n===m?"":"none";
+  load(0);
+}
+function load(i){
+  const p=PRE[$("#size").value][i];
+  iM=matrixInput($("#inM"),m,n,p[1],calc); iB=matrixInput($("#inB"),n,n,p[2],calc); iC=matrixInput($("#inC"),m,m,p[3],calc); calc();
+}
+function calc(){
+  const M=iM.get(),B=iB.get(),C=iC.get(),out=$("#res");
+  if(!M||!B||!C){out.innerHTML='<span class="ng">数値または分数を入力してください。</span>';return;}
+  const Bi=LA.inv(B),Ci=LA.inv(C);
+  if(!Bi||!Ci){out.innerHTML=`<span class="tag ng">基底ではありません</span> ${!Bi?"<i>B</i>":"<i>C</i>"} の列ベクトルが1次従属です（行列式 = 0）。`;return;}
+  const A=LA.mul(Ci,LA.mul(M,B));
+  const wn=[...Array(m)].map((_,i)=>V("w")+"<sub>"+(i+1)+"</sub>");
+  let s='<div class="tablewrap"><table class="t"><tr><th><i>j</i></th><th>① '+V("v")+'<sub><i>j</i></sub> ↦ <i>M</i>'+V("v")+'<sub><i>j</i></sub></th><th>② <i>C</i> で表す</th><th>③ 第<i>j</i>列</th></tr>';
+  for(let j=0;j<n;j++){
+    const v=LA.col(B,j), fv=LA.mv(M,v), c=LA.col(A,j);
+    s+=`<tr><td>${j+1}</td><td><span class="nw">${V("v")}<sub>${j+1}</sub> = ${vecHTML(v)} ↦ ${vecHTML(fv)}</span></td><td style="text-align:left">${combHTML(c,wn)}</td><td>${vecHTML(c)}</td></tr>`;
+  }
+  s+='</table></div>';
+  s+=`<div class="row small">（${wn.map((w,i)=>`<span class="nw">${w} = ${rowVecHTML(LA.col(C,i))}</span>`).join("，")} は <i>C</i> の列）</div>`;
+  s+=`<div class="row" style="font-size:1.08em"><b>表現行列</b>　<span class="nw"><i>A</i> = <i>C</i><sup>−1</sup><i>MB</i> = <b>${matHTML(A)}</b></span></div>`;
+  const ok=LA.mul(C,A).every((r,i)=>r.every((v,j)=>v.eq(LA.mul(M,B)[i][j])));
+  s+=`<div class="row small">検算：<span class="nw"><i>CA</i> = <i>MB</i></span> ${ok?'<span class="ok">✓</span>':'<span class="ng">✗</span>'}</div>`;
+  const same=n===m&&B.every((r,i)=>r.every((v,j)=>v.eq(C[i][j])));
+  if(same) s+=`<div class="row small">定義域と値域で同じ基底なので <span class="nw"><i>A</i> = <i>P</i><sup>−1</sup><i>MP</i></span>（<i>P</i> = <i>B</i>）になっています。</div>`;
+  const diag=n===m&&A.every((r,i)=>r.every((v,j)=>i===j||v.isZero()));
+  if(diag) s+=`<div class="row"><span class="tag ok">対角行列</span> この基底では、<i>f</i> は各基底ベクトルの方向に定数倍するだけです。</div>`;
+  out.innerHTML=s;
+  const MB=LA.mul(M,B); makeStepper($("#st07"),C.map((r,i)=>r.concat(MB[i])),n,"[C | MB] を1手ずつ簡約化 → 右側が表現行列 A");
+}
+$("#size").addEventListener("change",setup);
+$("#pre").addEventListener("change",e=>load(+e.target.value));
+$("#bstd").addEventListener("click",()=>{iB.set(id(n));calc();});
+$("#cstd").addEventListener("click",()=>{iC.set(id(m));calc();});
+$("#csame").addEventListener("click",()=>{const B=iB.get(); if(B&&n===m){iC.set(B);calc();}});
+setup();
+})();
+</script>
+</main>
+</div>
+<script>initSteppers();</script>
+<a class="totop" href="#top">↑ 目次</a>
+</body>
+</html>

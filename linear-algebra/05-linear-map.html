@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第5回 線形写像｜線形代数IIA</title>
+<style>
+:root{
+  --bg:#f7f6f2; --card:#ffffff; --fg:#1d2127; --muted:#5d6672; --line:#d8dbe0; --soft:#eef0f3;
+  --accent:#2453c9; --accent-soft:#e8eefc;
+  --def:#2453c9; --def-bg:#edf2fd;
+  --thm:#1d7f49; --thm-bg:#eaf6ef;
+  --warn:#b8620a; --warn-bg:#fdf3e4;
+  --bad:#c0392b; --bad-bg:#fbeceb; --good:#1d7f49; --good-bg:#e9f6ee;
+  --c1:#2453c9; --c2:#d0336a; --c3:#d9800b; --c4:#1d8a52; --c5:#7b4bc4;
+  --grid:#e3e5e9; --axis:#8a929c;
+  --mathfont:"Times New Roman","STIX Two Text","Cambria Math","Noto Serif",Times,serif;
+  color-scheme:light dark;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#14161a; --card:#1c1f24; --fg:#e5e7ea; --muted:#a2a9b3; --line:#363b43; --soft:#252930;
+    --accent:#7ea3ff; --accent-soft:#1f2a44;
+    --def:#7ea3ff; --def-bg:#1a2338;
+    --thm:#5fcf8f; --thm-bg:#16291e;
+    --warn:#f0a54a; --warn-bg:#2e2412;
+    --bad:#ff7b6e; --bad-bg:#341b19; --good:#5fcf8f; --good-bg:#16291e;
+    --c1:#7ea3ff; --c2:#ff6f9c; --c3:#f5a742; --c4:#5fcf8f; --c5:#b58cff;
+    --grid:#2a2f36; --axis:#6b737e;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);
+  font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP","Yu Gothic UI","Yu Gothic","Meiryo",system-ui,sans-serif;
+  font-size:16.5px;line-height:1.85;}
+.wrap{max-width:860px;margin:0 auto;padding:24px 16px 64px}
+a{color:var(--accent)}
+header.top{margin-bottom:28px}
+.crumb{font-size:.85rem;color:var(--muted);letter-spacing:.04em}
+h1{font-size:1.75rem;line-height:1.4;margin:.2em 0 .4em}
+.lead{color:var(--muted);margin:0 0 1em}
+.toc{display:flex;flex-wrap:wrap;gap:6px 8px;font-size:.88rem}
+.toc a{display:inline-block;padding:3px 10px;border:1px solid var(--line);border-radius:999px;text-decoration:none;color:var(--fg);background:var(--card)}
+.toc a:hover{border-color:var(--accent);color:var(--accent)}
+.toc a.demo-link{border-color:var(--accent);color:var(--accent)}
+section{margin:0 0 40px}
+h2{font-size:1.35rem;margin:0 0 .7em;padding-bottom:.3em;border-bottom:2px solid var(--line)}
+h3{font-size:1.08rem;margin:1.6em 0 .5em}
+p{margin:.6em 0}
+ul,ol{padding-left:1.4em;margin:.5em 0}
+li{margin:.2em 0}
+strong{color:var(--fg)}
+.muted{color:var(--muted)}
+.small{font-size:.88rem}
+
+/* ---- 数式 ---- */
+.doc i,.mi,.dm i,.box i{font-family:var(--mathfont);font-style:italic;font-size:1.08em}
+.vec{font-family:var(--mathfont);font-weight:700;font-style:italic;font-size:1.08em}
+.rm{font-family:var(--mathfont);font-style:normal}
+.dm{display:block;text-align:center;margin:.9em 0;overflow-x:auto;overflow-y:hidden;padding:.25em 0;line-height:1.6}
+.dm.left{text-align:left}
+.eqs{display:grid;grid-template-columns:auto auto;justify-content:center;column-gap:.4em;row-gap:.25em;align-items:center}
+.eqs>span:nth-child(odd){text-align:right}
+.eqs>span:nth-child(even){text-align:left}
+.frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;margin:0 .12em;line-height:1.15;font-size:.9em}
+.frac>span:first-child{border-bottom:1px solid currentColor;padding:0 .2em .05em}
+.frac>span:last-child{padding:.05em .2em 0}
+.mat{display:inline-flex;vertical-align:middle;align-items:stretch;margin:.1em .15em;line-height:1.35}
+.mat::before,.mat::after{content:"";width:.32em;border:1.4px solid currentColor;flex:none}
+.mat::before{border-right:none}
+.mat::after{border-left:none}
+.mat.det::before,.mat.det::after{border-top:none;border-bottom:none;width:.18em}
+.mat.det::after{border-right-width:1.4px}
+.mat>.g{display:grid;grid-template-columns:repeat(var(--c),auto);column-gap:.75em;row-gap:.12em;padding:.2em .35em;align-items:center;justify-items:center}
+.mat .hl{background:var(--accent-soft);border-radius:4px;padding:0 .2em;outline:1px solid var(--accent)}
+.mat .pv{color:var(--c2);font-weight:700}
+.nw{display:inline-block;max-width:100%;text-indent:0}
+
+/* ---- 枠 ---- */
+.box{border:1.5px solid var(--line);border-left-width:6px;border-radius:10px;padding:12px 16px;margin:18px 0;background:var(--card)}
+.box-t{font-weight:700;margin-bottom:.3em}
+.box.def{border-color:var(--def);background:var(--def-bg)}
+.box.def .box-t{color:var(--def)}
+.box.thm{border-color:var(--thm);background:var(--thm-bg)}
+.box.thm .box-t{color:var(--thm)}
+.box.warn{border-color:var(--warn);background:var(--warn-bg)}
+.box.warn .box-t{color:var(--warn)}
+.box.note{border-color:var(--line);border-left-color:var(--muted)}
+.box ol,.box ul{margin:.3em 0}
+.ax{display:grid;grid-template-columns:auto 1fr;column-gap:.8em;row-gap:.15em;margin:.4em 0}
+.ax>b{font-weight:700;white-space:nowrap}
+.ex{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:16px 0}
+.ex-t{font-weight:700;color:var(--accent);margin-bottom:.2em}
+.mis{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:14px 0}
+.mis .bad,.mis .good{border-radius:6px;padding:6px 10px;margin:.4em 0}
+.mis .bad{background:var(--bad-bg)}
+.mis .good{background:var(--good-bg)}
+.mis .bad::before{content:"✗ よくある誤り　";color:var(--bad);font-weight:700}
+.mis .good::before{content:"✓ 正しくは　";color:var(--good);font-weight:700}
+.prob{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:16px 0}
+.prob-t{font-weight:700;margin-bottom:.2em}
+details{margin-top:10px;border-top:1px dashed var(--line);padding-top:8px}
+summary{cursor:pointer;color:var(--accent);font-weight:700;list-style:none;display:inline-block;padding:4px 12px;border:1px solid var(--accent);border-radius:999px;font-size:.92rem}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▶ ";font-size:.8em}
+details[open] summary::before{content:"▼ "}
+details[open] summary{margin-bottom:8px}
+.check{color:var(--muted);font-size:.92rem}
+
+/* ---- デモ ---- */
+.demo{border:2px solid var(--accent);border-radius:14px;padding:14px 16px 16px;margin:22px 0;background:var(--card)}
+.demo-t{font-weight:700;color:var(--accent);font-size:1.05rem;margin-bottom:.3em}
+.demo-t::before{content:"▶ 動かしてみよう　"}
+.demo-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:700px){.demo-grid{grid-template-columns:minmax(0,1fr)}}
+.plot{width:100%;max-width:440px;aspect-ratio:1/1;display:block;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:10px;touch-action:none;user-select:none;-webkit-user-select:none;overflow:hidden}
+.plot text{font-family:var(--mathfont);font-style:italic}
+.ctrl{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin:8px 0}
+.ctrl label{display:inline-flex;align-items:center;gap:6px}
+select,button,input{font:inherit;color:inherit}
+select{max-width:100%;min-width:0}
+.ctrl label{flex-wrap:wrap;max-width:100%}
+select,input[type=text],input:not([type]){background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:3px 6px}
+button{background:var(--accent-soft);color:var(--accent);border:1px solid var(--accent);border-radius:8px;padding:4px 12px;cursor:pointer;font-size:.92rem}
+button:hover{background:var(--accent);color:var(--card)}
+button.on{background:var(--accent);color:var(--card)}
+input[type=range]{accent-color:var(--accent);width:150px;max-width:100%}
+input.num{width:3.6em;text-align:center;padding:2px 2px}
+input.bad{border-color:var(--bad);background:var(--bad-bg)}
+.minput{display:inline-flex;vertical-align:middle;margin:2px 4px}
+.minput::before,.minput::after{content:"";width:.4em;border:1.5px solid currentColor;flex:none}
+.minput::before{border-right:none}.minput::after{border-left:none}
+.minput>.g{display:grid;grid-template-columns:repeat(var(--c),auto);gap:4px;padding:4px}
+.out{background:var(--soft);border-radius:10px;padding:10px 12px;margin:10px 0;overflow-x:auto}
+.out .row{margin:.3em 0}
+.ok{color:var(--good);font-weight:700}
+.ng{color:var(--bad);font-weight:700}
+.tag{display:inline-block;padding:1px 10px;border-radius:999px;font-weight:700;font-size:.92rem}
+.tag.ok{background:var(--good-bg)}
+.tag.ng{background:var(--bad-bg)}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.88rem;color:var(--muted);margin:6px 0}
+.legend span::before{content:"";display:inline-block;width:12px;height:4px;border-radius:2px;background:var(--k);margin-right:5px;vertical-align:middle}
+table.t{border-collapse:collapse;margin:8px 0;font-size:.95rem}
+table.t th,table.t td{border:1px solid var(--line);padding:4px 10px;text-align:center}
+table.t th{background:var(--soft)}
+.tablewrap{overflow-x:auto}
+footer.pn{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:16px;margin-top:40px;font-size:.92rem}
+footer.pn a{text-decoration:none}
+@media (max-width:520px){
+  body{font-size:15.5px}
+  h1{font-size:1.45rem}
+  .box,.ex,.mis,.prob,.demo{padding:10px 12px}
+}
+.sl{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:4px 14px}
+.sl label{display:flex;align-items:center;gap:6px}
+.sl input[type=range]{flex:1;min-width:0;width:auto}
+.sv{min-width:2.8em;text-align:right;font-variant-numeric:tabular-nums}
+.demo-grid.eq{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+@media (max-width:700px){.demo-grid.eq{grid-template-columns:minmax(0,1fr)}}
+/* 教科書に合わせて行列は丸かっこ */
+.mat::before,.mat::after,.minput::before,.minput::after{border:none;width:.38em}
+.mat::before,.minput::before{border-left:1.5px solid currentColor;border-radius:.6em 0 0 .6em / 50% 0 0 50%}
+.mat::after,.minput::after{border-right:1.5px solid currentColor;border-radius:0 .6em .6em 0 / 0 50% 50% 0}
+.mat.det::before,.mat.det::after{border-radius:0;width:.18em}
+.prob-t .src{font-weight:400;font-size:.8rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin-left:6px;white-space:nowrap}
+/* 1手ずつ */
+.stp{border:1.5px dashed var(--accent);border-radius:10px;padding:10px 12px;margin:12px 0;background:var(--card)}
+.stp-head{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;color:var(--accent)}
+.stp-count{color:var(--muted);font-size:.88rem;font-variant-numeric:tabular-nums}
+.stp-desc{min-height:3.4em;margin:6px 0;padding:6px 10px;background:var(--soft);border-radius:8px}
+.stp-mat{text-align:center;overflow-x:auto;padding:4px 0}
+.stp-btn{justify-content:center;margin-bottom:0}
+.smat{display:inline-grid;grid-template-columns:auto .45em repeat(calc(var(--c,1)),auto) .45em;column-gap:.7em;row-gap:.2em;align-items:center;justify-items:center;line-height:1.4;font-size:1.05em}
+.smat .sp{align-self:stretch;width:.45em}
+.smat .sp.l{border-left:1.5px solid currentColor;border-radius:.6em 0 0 .6em / 50% 0 0 50%}
+.smat .sp.r{border-right:1.5px solid currentColor;border-radius:0 .6em .6em 0 / 0 50% 50% 0}
+.smat .rl{color:var(--muted);font-size:.85em;margin-right:-.3em}
+.smat .chg{background:var(--warn-bg);border-radius:4px;padding:0 .25em;outline:1px solid var(--warn)}
+.smat .pv{color:var(--c2);font-weight:700}
+.smat .vb{border-left:1.5px solid var(--muted);padding-left:.6em;margin-left:-.3em}
+.mat .vb{border-left:1.2px solid currentColor;padding-left:.5em}
+/* 要点・ひとこと・用語 */
+.box.points{border-color:var(--accent);background:var(--accent-soft)}
+.box.points .box-t{color:var(--accent)}
+.box.points ol{margin:.2em 0;padding-left:1.4em}
+.box.howto{border-color:var(--thm);background:var(--card)}
+.box.howto .box-t{color:var(--thm)}
+.plain{background:var(--card);border-radius:8px;padding:6px 10px;margin:.4em 0 .6em;font-size:.95rem}
+.plain::before{content:"ひとことで言うと　";font-weight:700;color:var(--warn)}
+.gloss{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:.3em 0}
+.gloss dt{font-weight:700;white-space:nowrap}
+.gloss dt small{display:block;font-weight:400;color:var(--muted);font-size:.78rem}
+.gloss dd{margin:0}
+@media (max-width:520px){.gloss{grid-template-columns:1fr}.gloss dd{margin:0 0 6px .8em}}
+.figrow{display:grid;grid-template-columns:repeat(var(--n,3),minmax(0,1fr));gap:10px;margin:12px 0}
+.figrow .plot{max-width:none}
+.figrow figcaption{font-size:.85rem;text-align:center;color:var(--muted);margin-top:4px;line-height:1.5}
+.figrow figure{margin:0}
+.cd{display:grid;grid-template-columns:auto auto auto;align-items:center;justify-content:center;gap:6px 14px;margin:14px 0;text-align:center}
+.cd .node{border:1.5px solid var(--line);border-radius:8px;padding:4px 14px;background:var(--card)}
+.cd .ar{color:var(--muted);font-size:.9rem;line-height:1.2}
+.cd .node{white-space:nowrap}
+@media (max-width:520px){.cd{font-size:.8rem;column-gap:6px}.cd .node{padding:3px 6px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+<div class="crumb">線形代数IIA ・ 第5回</div>
+<h1>線形写像</h1>
+<p class="lead">「和」と「スカラー倍」を保つ写像を線形写像といいます。平面では、方眼を「平行で等間隔な方眼」に移し、原点を動かさない変換です。</p>
+<nav class="toc" aria-label="目次"><a href="#s1">1. 何の話か（直感）</a><a href="#s2">2. 定義</a><a href="#s3">3. 具体例</a><a href="#s4">4. よくある間違い</a><a href="#s5">5. 練習問題</a><a class="demo-link" href="#demo">▶ 動かしてみよう</a></nav>
+</header>
+<main class="doc">
+<div class="box points"><div class="box-t">この回のポイント（まずここだけ押さえましょう）</div><ol><li><b>線形写像</b>＝和とスカラー倍を保つ写像：<span class="nw"><i>f</i>(<b class="vec">u</b> + <b class="vec">v</b>) = <i>f</i>(<b class="vec">u</b>) + <i>f</i>(<b class="vec">v</b>)</span>、<span class="nw"><i>f</i>(<i>c</i><b class="vec">u</b>) = <i>c f</i>(<b class="vec">u</b>)</span>。</li><li>ℝⁿ → ℝᵐ の線形写像は行列で書けます。行列の<b>第 <i>j</i> 列 = <i>f</i>(<b class="vec">e</b><sub><i>j</i></sub>)</b>（<b class="vec">e</b><sub><i>j</i></sub> の行き先）です。</li><li>定数項・2乗・積などがあれば線形ではありません。反例を1つ挙げれば示せます。</li></ol></div>
+<section id="s1">
+<h2>1. 何の話か（直感）</h2>
+<p>線形空間は「足し算とスカラー倍ができる世界」でした。その構造をこわさずに、ある線形空間から別の線形空間へベクトルを移す写像が<strong>線形写像</strong>です。</p>
+<p>平面 ℝ² から ℝ² への線形写像を図で見ると、次のような特徴があります。</p>
+<ul>
+<li><strong>原点は原点に移る</strong></li>
+<li><strong>直線は直線に</strong>、平行な線は平行な線に、<strong>等間隔な目盛りは等間隔な目盛り</strong>に移る</li>
+<li>だから、<b class="vec">e</b><sub>1</sub> = (1, 0) と <b class="vec">e</b><sub>2</sub> = (0, 1) の行き先さえわかれば、平面全体の行き先が決まる</li>
+</ul>
+<p><b class="vec">e</b><sub>1</sub>, <b class="vec">e</b><sub>2</sub> の行き先を列に並べたものが行列です。下の図で行列の成分を変えて、方眼がどう変形するか見てみましょう。</p>
+
+<div class="box note"><div class="box-t">用語メモ</div><dl class="gloss"><dt>写像<small>しゃぞう</small></dt><dd>入力に出力をひとつずつ対応させる規則。関数を一般化したものです。</dd><dt>線形写像<small>せんけいしゃぞう</small></dt><dd>和とスカラー倍を保つ写像。</dd><dt>線形変換<small>せんけいへんかん</small></dt><dd>ある空間からそれ自身への線形写像（例：ℝ² → ℝ²）。</dd><dt>標準基底 <b class="vec">e</b><sub><i>j</i></sub><small>ひょうじゅんきてい</small></dt><dd>第 <i>j</i> 成分だけが 1 で、ほかが 0 のベクトル。<b class="vec">e</b><sub>1</sub> = (1, 0), <b class="vec">e</b><sub>2</sub> = (0, 1) など。</dd></dl></div>
+<div class="demo" id="demo">
+<div class="demo-t">行列で平面がどう変形するか</div>
+<p class="small">スライダーで行列 <i>A</i> の成分を変えると、変形後の方眼が表示されます。<span style="color:var(--c1)">青</span>は <b class="vec">e</b><sub>1</sub> の行き先 <i>A</i><b class="vec">e</b><sub>1</sub>（<i>A</i> の第1列）、<span style="color:var(--c2)">赤</span>は <i>A</i><b class="vec">e</b><sub>2</sub>（第2列）です。「F」の文字で裏返しも確認できます。</p>
+<div class="ctrl" id="pres"></div>
+<div class="demo-grid">
+<div><svg class="plot" id="pl" role="img" aria-label="線形写像による平面の変形"></svg>
+<div class="legend"><span style="--k:var(--c4)">単位正方形の像</span><span style="--k:var(--c3)">F の像</span><span style="--k:var(--axis)">元の F（点線）</span></div></div>
+<div>
+<div class="out">
+<div class="sl"><label><i>a</i><input type="range" id="sa" min="-2" max="2" step="0.01" aria-label="a"><span id="va" class="sv"></span></label><label><i>b</i><input type="range" id="sb" min="-2" max="2" step="0.01" aria-label="b"><span id="vb" class="sv"></span></label><label><i>c</i><input type="range" id="sc" min="-2" max="2" step="0.01" aria-label="c"><span id="vc" class="sv"></span></label><label><i>d</i><input type="range" id="sd" min="-2" max="2" step="0.01" aria-label="d"><span id="vd" class="sv"></span></label></div>
+<div class="row" id="mat"></div>
+</div>
+<div class="ctrl"><label>途中経過 <i>t</i> <input type="range" id="st" min="0" max="1" step="0.01" value="1"></label><button id="play">▶ アニメーション</button></div>
+<div class="ctrl"><label><input type="checkbox" id="tr"> 比較：平行移動を加えた <span class="nw"><i>A</i><b class="vec">x</b> + (1, 0.5)</span></label></div>
+<div class="out" id="res"></div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="s2">
+<h2>2. 定義</h2>
+<div class="box def">
+<div class="box-t">定義（線形写像）</div>
+<p class="plain">「足してから写しても、写してから足しても同じ」「何倍かしてから写しても、写してから何倍かしても同じ」という写像です。</p>
+<p><i>V</i>, <i>W</i> を線形空間とします。写像 <span class="nw"><i>f</i> : <i>V</i> → <i>W</i></span> が、すべての <span class="nw"><b class="vec">u</b>, <b class="vec">v</b> ∈ <i>V</i></span>、<span class="nw"><i>c</i> ∈ ℝ</span> について</p>
+<div class="ax">
+<b>(L1)</b><span><span class="nw"><i>f</i>(<b class="vec">u</b> + <b class="vec">v</b>) = <i>f</i>(<b class="vec">u</b>) + <i>f</i>(<b class="vec">v</b>)</span>　（和を保つ）</span>
+<b>(L2)</b><span><span class="nw"><i>f</i>(<i>c</i><b class="vec">u</b>) = <i>c</i> <i>f</i>(<b class="vec">u</b>)</span>　（スカラー倍を保つ）</span>
+</div>
+<p>を満たすとき、<i>f</i> を<strong>線形写像</strong>といいます。<i>V</i> = <i>W</i> のときは<strong>線形変換</strong>ともいいます。</p>
+</div>
+<div class="box thm">
+<div class="box-t">定理 1（基本性質）</div>
+<p><i>f</i> が線形写像なら</p>
+<ul>
+<li><span class="nw"><i>f</i>(<b class="vec">0</b>) = <b class="vec">0</b></span>　（(L2) で <i>c</i> = 0 とする）</li>
+<li><span class="nw"><i>f</i>(<i>c</i><sub>1</sub><b class="vec">v</b><sub>1</sub> + ⋯ + <i>c</i><sub><i>k</i></sub><b class="vec">v</b><sub><i>k</i></sub>) = <i>c</i><sub>1</sub><i>f</i>(<b class="vec">v</b><sub>1</sub>) + ⋯ + <i>c</i><sub><i>k</i></sub><i>f</i>(<b class="vec">v</b><sub><i>k</i></sub>)</span>　（1次結合を保つ）</li>
+</ul>
+</div>
+<div class="box thm">
+<div class="box-t">定理 2（ℝⁿ → ℝᵐ の線形写像は行列）</div>
+<p class="plain"><b class="vec">e</b><sub>1</sub>, <b class="vec">e</b><sub>2</sub>, … の行き先を列に並べれば、それがその写像の行列です。</p>
+<p><span class="nw"><i>f</i> : ℝⁿ → ℝᵐ</span> が線形写像なら、<i>m</i> × <i>n</i> 行列</p>
+<div class="dm"><i>A</i> = ( <i>f</i>(<b class="vec">e</b><sub>1</sub>)　<i>f</i>(<b class="vec">e</b><sub>2</sub>)　⋯　<i>f</i>(<b class="vec">e</b><sub><i>n</i></sub>) )</div>
+<p>を使って <span class="nw"><i>f</i>(<b class="vec">x</b>) = <i>A</i><b class="vec">x</b></span> と書けます。逆に、行列 <i>A</i> で定まる写像 <span class="nw"><b class="vec">x</b> ↦ <i>A</i><b class="vec">x</b></span> はいつも線形写像です。</p>
+<p class="small muted">理由：<span class="nw"><b class="vec">x</b> = <i>x</i><sub>1</sub><b class="vec">e</b><sub>1</sub> + ⋯ + <i>x</i><sub><i>n</i></sub><b class="vec">e</b><sub><i>n</i></sub></span> に定理1を使うと <span class="nw"><i>f</i>(<b class="vec">x</b>) = <i>x</i><sub>1</sub><i>f</i>(<b class="vec">e</b><sub>1</sub>) + ⋯ + <i>x</i><sub><i>n</i></sub><i>f</i>(<b class="vec">e</b><sub><i>n</i></sub>) = <i>A</i><b class="vec">x</b></span>。</p>
+</div>
+</section>
+
+<section id="s3">
+<h2>3. 具体例</h2>
+<div class="ex">
+<div class="ex-t">例 1：行列で定まる写像</div>
+<p><span class="nw"><i>f</i>(<b class="vec">x</b>) = <i>A</i><b class="vec">x</b></span> は、行列の分配法則 <span class="nw"><i>A</i>(<b class="vec">u</b> + <b class="vec">v</b>) = <i>A</i><b class="vec">u</b> + <i>A</i><b class="vec">v</b></span> と <span class="nw"><i>A</i>(<i>c</i><b class="vec">u</b>) = <i>c</i>(<i>A</i><b class="vec">u</b>)</span> より線形写像です。たとえば</p>
+<div class="dm"><i>f</i><span class="mat"><span class="g" style="--c:1"><span><i>x</i></span><span><i>y</i></span></span></span> = <span class="mat"><span class="g" style="--c:1"><span><i>x</i> + <i>y</i></span><span>2<i>x</i> − <i>y</i></span></span></span> = <span class="mat"><span class="g" style="--c:2"><span>1</span><span>1</span><span>2</span><span>−1</span></span></span><span class="mat"><span class="g" style="--c:1"><span><i>x</i></span><span><i>y</i></span></span></span></div>
+</div>
+<div class="ex">
+<div class="ex-t">例 2：回転</div>
+<p>原点のまわりの角 θ の回転は、<span class="nw"><b class="vec">e</b><sub>1</sub> ↦ (cos θ, sin θ)</span>, <span class="nw"><b class="vec">e</b><sub>2</sub> ↦ (−sin θ, cos θ)</span> なので</p>
+<div class="dm"><i>R</i><sub>θ</sub> = <span class="mat"><span class="g" style="--c:2"><span>cos θ</span><span>−sin θ</span><span>sin θ</span><span>cos θ</span></span></span></div>
+<p>で表される線形変換です（上の図の「回転」を押してみてください）。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 3：微分</div>
+<p><span class="nw"><i>D</i> : ℝ[<i>x</i>]<sub>3</sub> → ℝ[<i>x</i>]<sub>2</sub></span>, <span class="nw"><i>D</i>(<i>f</i>) = <i>f</i> ′</span> は線形写像です。微分の公式 <span class="nw">(<i>f</i> + <i>g</i>)′ = <i>f</i> ′ + <i>g</i>′</span>、<span class="nw">(<i>cf</i>)′ = <i>cf</i> ′</span> がちょうど (L1)(L2) です。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 4：行列の空間の写像</div>
+<p>転置 <span class="nw"><i>A</i> ↦ <sup>t</sup><i>A</i></span>（<i>M</i><sub>2</sub>(ℝ) → <i>M</i><sub>2</sub>(ℝ)）や、トレース <span class="nw"><i>A</i> ↦ tr <i>A</i> = <i>a</i><sub>11</sub> + <i>a</i><sub>22</sub></span>（<i>M</i><sub>2</sub>(ℝ) → ℝ）は線形写像です。積分 <span class="nw"><i>f</i> ↦ ∫<sub>0</sub><sup>1</sup> <i>f</i>(<i>x</i>) d<i>x</i></span> も線形写像です。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 5：線形写像でないもの（反例）</div>
+<ul>
+<li><strong>平行移動</strong> <span class="nw"><i>f</i>(<b class="vec">x</b>) = <b class="vec">x</b> + <b class="vec">b</b></span>（<b class="vec">b</b> ≠ <b class="vec">0</b>）：<span class="nw"><i>f</i>(<b class="vec">0</b>) = <b class="vec">b</b> ≠ <b class="vec">0</b></span> なので線形ではありません。</li>
+<li><span class="nw"><i>f</i>(<i>x</i>, <i>y</i>) = (<i>x</i>², <i>y</i>)</span>：<span class="nw"><i>f</i>(2 · (1, 0)) = (4, 0)</span> ですが <span class="nw">2<i>f</i>(1, 0) = (2, 0)</span>。(L2) が不成立。</li>
+<li><span class="nw"><i>f</i>(<i>x</i>, <i>y</i>) = <i>xy</i></span>：<span class="nw"><i>f</i>((1, 0) + (0, 1)) = 1</span> ですが <span class="nw"><i>f</i>(1, 0) + <i>f</i>(0, 1) = 0</span>。(L1) が不成立。</li>
+<li>行列式 <span class="nw">det : <i>M</i><sub>2</sub>(ℝ) → ℝ</span>：<span class="nw">det(2<i>A</i>) = 4 det <i>A</i> ≠ 2 det <i>A</i></span>（det <i>A</i> ≠ 0 のとき）。線形ではありません。</li>
+</ul>
+</div>
+</section>
+
+<section id="s4">
+<h2>4. よくある間違い</h2>
+<div class="mis">
+<p class="bad"><span class="nw"><i>f</i>(<i>x</i>) = 2<i>x</i> + 3</span> は1次関数なので線形写像である。</p>
+<p class="good">高校の「1次関数」と線形写像は別物です。<span class="nw"><i>f</i>(0) = 3 ≠ 0</span> なので線形ではありません。ℝ → ℝ の線形写像は <span class="nw"><i>f</i>(<i>x</i>) = <i>ax</i></span> の形だけです。</p>
+</div>
+<div class="mis">
+<p class="bad"><span class="nw"><i>f</i>(<b class="vec">0</b>) = <b class="vec">0</b></span> を確かめたので線形写像である。</p>
+<p class="good"><span class="nw"><i>f</i>(<b class="vec">0</b>) = <b class="vec">0</b></span> は<strong>必要条件</strong>にすぎません。<span class="nw"><i>f</i>(<i>x</i>, <i>y</i>) = (<i>x</i>², <i>y</i>)</span> は原点を原点に移しますが線形ではありません。逆に <span class="nw"><i>f</i>(<b class="vec">0</b>) ≠ <b class="vec">0</b></span> なら、それだけで「線形でない」と言えます。</p>
+</div>
+<div class="mis">
+<p class="bad">(1, 2) と (3, 4) で (L1) が成り立ったので、線形写像である。</p>
+<p class="good">(L1)(L2) は<strong>任意の</strong> <b class="vec">u</b>, <b class="vec">v</b>, <i>c</i> で示す必要があります。文字でおいて証明しましょう。線形でないことは反例1つで示せます。</p>
+</div>
+<div class="mis">
+<p class="bad"><i>f</i>(<b class="vec">e</b><sub>1</sub>), <i>f</i>(<b class="vec">e</b><sub>2</sub>) を行列の<strong>行</strong>に並べる。</p>
+<p class="good"><strong>列</strong>に並べます。<span class="nw"><i>A</i><b class="vec">e</b><sub>1</sub></span> は <i>A</i> の第1列なので、<span class="nw"><i>A</i> = (<i>f</i>(<b class="vec">e</b><sub>1</sub>) <i>f</i>(<b class="vec">e</b><sub>2</sub>))</span> です。</p>
+</div>
+</section>
+
+<section id="s5">
+<h2>5. 練習問題</h2>
+<div class="box howto"><div class="box-t">解き方の手順：線形写像の問題</div><ol><li><b>線形かどうか</b>：まず <span class="nw"><i>f</i>(<b class="vec">0</b>) = <b class="vec">0</b></span> か確かめます。違えば、その時点で「線形でない」と結論できます。</li><li>各成分が「<i>x</i><sub><i>i</i></sub> の定数倍の和」だけでできていれば、行列で書いて「線形」と結論します。</li><li>2乗・積・絶対値などがあれば、「2倍」や「2つの和」で反例を作ります。</li><li><b>行き先から行列を求める</b>：与えられたベクトルを列に並べた <i>U</i> と、行き先を列に並べた <i>Y</i> から <span class="nw"><i>A</i> = <i>YU</i><sup>−1</sup></span>。<i>U</i><sup>−1</sup> は <span class="nw">[<i>U</i> | <i>E</i>]</span> を簡約化して求めます。</li></ol></div>
+<div class="prob">
+<div class="prob-t">問題 1 <span class="src">教科書 練習問題5 [A] 1 の類題</span></div>
+<p>次の写像は線形写像になるかどうか調べてください。</p>
+<div class="dm left">(1) <i>f</i><span class="mat"><span class="g" style="--c:1"><span><i>x</i><sub>1</sub></span><span><i>x</i><sub>2</sub></span></span></span> = <span class="mat"><span class="g" style="--c:1"><span><i>x</i><sub>1</sub> − 2<i>x</i><sub>2</sub></span><span>4<i>x</i><sub>2</sub> + 3</span></span></span>　　(2) <i>f</i>(<i>x</i>) = <span class="mat"><span class="g" style="--c:1"><span>2<i>x</i></span><span><i>x</i>³</span></span></span><br>(3) <i>f</i><span class="mat"><span class="g" style="--c:1"><span><i>x</i><sub>1</sub></span><span><i>x</i><sub>2</sub></span></span></span> = <span class="mat"><span class="g" style="--c:1"><span><i>x</i><sub>1</sub> − <i>x</i><sub>2</sub></span><span>2<i>x</i><sub>1</sub></span><span><i>x</i><sub>2</sub></span></span></span>　　(4) <i>f</i><span class="mat"><span class="g" style="--c:1"><span><i>x</i><sub>1</sub></span><span><i>x</i><sub>2</sub></span><span><i>x</i><sub>3</sub></span></span></span> = <span class="mat"><span class="g" style="--c:1"><span><i>x</i><sub>2</sub><i>x</i><sub>3</sub></span><span><i>x</i><sub>1</sub></span></span></span></div>
+<details><summary>解答を見る</summary>
+<p><strong>(1) 線形ではありません。</strong><span class="nw"><i>f</i>(<b class="vec">0</b>) = (0, 3) ≠ <b class="vec">0</b></span>。</p>
+<p><strong>(2) 線形ではありません。</strong><span class="nw"><i>f</i>(2 · 1) = (4, 8)</span> ですが <span class="nw">2<i>f</i>(1) = (4, 2)</span>。(L2) が不成立。</p>
+<p><strong>(3) 線形です。</strong><span class="nw"><i>f</i>(<b class="vec">x</b>) = <span class="mat"><span class="g" style="--c:2"><span>1</span><span>−1</span><span>2</span><span>0</span><span>0</span><span>1</span></span></span><b class="vec">x</b></span> と行列で書けるからです。</p>
+<p><strong>(4) 線形ではありません。</strong><span class="nw"><i>f</i>(2 · (0, 1, 1)) = <i>f</i>(0, 2, 2) = (4, 0)</span> ですが <span class="nw">2<i>f</i>(0, 1, 1) = (2, 0)</span>。</p>
+<p class="small muted">見分け方：各成分が <i>x</i><sub><i>i</i></sub> の「定数倍の和」だけでできていれば線形です。定数項、2乗・3乗、積 <i>x</i><sub><i>i</i></sub><i>x</i><sub><i>j</i></sub> があれば線形ではありません（反例を1つ示して確かめます）。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 2 <span class="src">教科書 練習問題5 [A] 2 の類題</span></div>
+<p>2次実行列全体 <i>M</i><sub>2</sub> から ℝ への写像 <i>f</i>, <i>g</i> を、<span class="nw"><i>A</i> = <span class="mat"><span class="g" style="--c:2"><span><i>a</i><sub>11</sub></span><span><i>a</i><sub>12</sub></span><span><i>a</i><sub>21</sub></span><span><i>a</i><sub>22</sub></span></span></span></span> に対して</p>
+<div class="dm"><i>f</i>(<i>A</i>) = <i>a</i><sub>11</sub> + 2<i>a</i><sub>22</sub>，　<i>g</i>(<i>A</i>) = <i>a</i><sub>11</sub><i>a</i><sub>22</sub></div>
+<p>で決めるとき、<i>f</i> と <i>g</i> は線形写像になるか調べてください。</p>
+<details><summary>解答を見る</summary>
+<p><strong><i>f</i> は線形です。</strong><span class="nw"><i>f</i>(<i>A</i> + <i>B</i>) = (<i>a</i><sub>11</sub> + <i>b</i><sub>11</sub>) + 2(<i>a</i><sub>22</sub> + <i>b</i><sub>22</sub>) = <i>f</i>(<i>A</i>) + <i>f</i>(<i>B</i>)</span>、<span class="nw"><i>f</i>(<i>cA</i>) = <i>ca</i><sub>11</sub> + 2<i>ca</i><sub>22</sub> = <i>c f</i>(<i>A</i>)</span>。</p>
+<p><strong><i>g</i> は線形ではありません。</strong>単位行列 <i>E</i> について <span class="nw"><i>g</i>(2<i>E</i>) = 2 · 2 = 4</span> ですが <span class="nw">2<i>g</i>(<i>E</i>) = 2</span>。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 3 <span class="src">教科書 練習問題5 [A] 7 の類題</span></div>
+<p>ℝ³ のベクトル <span class="nw"><span class="mat"><span class="g" style="--c:1"><span>1</span><span>1</span><span>0</span></span></span>, <span class="mat"><span class="g" style="--c:1"><span>0</span><span>1</span><span>1</span></span></span>, <span class="mat"><span class="g" style="--c:1"><span>1</span><span>1</span><span>1</span></span></span></span> を、それぞれ ℝ² のベクトル <span class="nw"><span class="mat"><span class="g" style="--c:1"><span>2</span><span>1</span></span></span>, <span class="mat"><span class="g" style="--c:1"><span>1</span><span>−1</span></span></span>, <span class="mat"><span class="g" style="--c:1"><span>3</span><span>0</span></span></span></span> にうつす線形写像 <span class="nw"><i>f</i> : ℝ³ → ℝ²</span> に対応する行列 <i>A</i> を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>条件をまとめると <span class="nw"><i>AU</i> = <i>Y</i></span>（<i>U</i> は与えられた ℝ³ のベクトルを列に並べた行列、<i>Y</i> は行き先を列に並べた行列）。よって <span class="nw"><i>A</i> = <i>YU</i><sup>−1</sup></span>。</p>
+<div class="dm"><i>U</i> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>0</span><span>1</span><span>1</span><span>1</span><span>1</span><span>0</span><span>1</span><span>1</span></span></span>，　<i>U</i><sup>−1</sup> = <span class="mat"><span class="g" style="--c:3"><span>0</span><span>1</span><span>−1</span><span>−1</span><span>1</span><span>0</span><span>1</span><span>−1</span><span>1</span></span></span></div>
+<div class="stepper" data-m="1,0,1,1,0,0;1,1,1,0,1,0;0,1,1,0,0,1" data-aug="3" data-title="逆行列の求め方：[U | E] を1手ずつ簡約化 → 右側が U⁻¹"></div>
+<div class="dm"><i>A</i> = <span class="mat"><span class="g" style="--c:3"><span>2</span><span>1</span><span>3</span><span>1</span><span>−1</span><span>0</span></span></span><span class="mat"><span class="g" style="--c:3"><span>0</span><span>1</span><span>−1</span><span>−1</span><span>1</span><span>0</span><span>1</span><span>−1</span><span>1</span></span></span> = <span class="mat"><span class="g" style="--c:3"><span>2</span><span>0</span><span>1</span><span>1</span><span>0</span><span>−1</span></span></span></div>
+<p class="check">確認：<span class="nw"><i>A</i>(1, 1, 0) = (2, 1)</span>、<span class="nw"><i>A</i>(0, 1, 1) = (1, −1)</span>、<span class="nw"><i>A</i>(1, 1, 1) = (3, 0)</span>。</p>
+<p class="small muted">別解：<span class="nw"><b class="vec">e</b><sub>1</sub> = (1, 1, 1) − (0, 1, 1)</span> などと標準基底を与えられたベクトルの1次結合で表し、<i>f</i>(<b class="vec">e</b><sub><i>j</i></sub>) を求めて列に並べても構いません。</p>
+</details>
+</div>
+</section>
+</main>
+<footer class="pn"><a href="04-change-of-basis.html">← 第4回 基底変換と座標変換</a><a href="06-image-kernel.html">第6回 像と核・次元定理 →</a></footer>
+</div>
+<script>
+"use strict";
+/* ===== 有理数（分数を誤差なく計算する） ===== */
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){const t=a%b;a=b;b=t;}return a;}
+class Q{
+  constructor(n,d=1){
+    if(d===0) throw new Error("division by zero");
+    if(d<0){n=-n;d=-d;}
+    const g=gcd(n,d)||1; this.n=n/g; this.d=d/g;
+    if(this.n===0) this.n=0; // -0 を避ける
+  }
+  static of(x){return x instanceof Q?x:new Q(x,1);}
+  static parse(s){
+    s=String(s).trim().replace(/[−ー－–]/g,"-").replace(/＋/g,"+").replace(/／/g,"/");
+    if(s==="") return null;
+    let m=s.match(/^([+-]?\d+)\s*\/\s*([+-]?\d+)$/);
+    if(m){const d=parseInt(m[2],10); if(d===0) return null; return new Q(parseInt(m[1],10),d);}
+    m=s.match(/^([+-]?)(\d*)(?:\.(\d+))?$/);
+    if(m&&(m[2]||m[3])){
+      const k=(m[3]||"").length, den=Math.pow(10,k);
+      const num=parseInt((m[2]||"0")+(m[3]||""),10)*(m[1]==="-"?-1:1);
+      return new Q(num,den);
+    }
+    return null;
+  }
+  add(o){o=Q.of(o);return new Q(this.n*o.d+o.n*this.d,this.d*o.d);}
+  sub(o){o=Q.of(o);return new Q(this.n*o.d-o.n*this.d,this.d*o.d);}
+  mul(o){o=Q.of(o);return new Q(this.n*o.n,this.d*o.d);}
+  div(o){o=Q.of(o);return new Q(this.n*o.d,this.d*o.n);}
+  neg(){return new Q(-this.n,this.d);}
+  isZero(){return this.n===0;}
+  eq(o){o=Q.of(o);return this.n===o.n&&this.d===o.d;}
+  val(){return this.n/this.d;}
+  str(){const s=this.n<0?"−":"";const a=Math.abs(this.n);return this.d===1?s+a:s+a+"/"+this.d;}
+  html(){
+    const s=this.n<0?"−":""; const a=Math.abs(this.n);
+    if(this.d===1) return s+a;
+    return s+'<span class="frac"><span>'+a+'</span><span>'+this.d+'</span></span>';
+  }
+}
+const q=(n,d=1)=>new Q(n,d);
+const toQ=x=>x instanceof Q?x:(typeof x==="number"?numToQ(x):Q.parse(x));
+function numToQ(x){ // 小数→分数（小さい分母で近似）
+  if(Number.isInteger(x)) return q(x);
+  for(let d=2;d<=1000;d++){const n=Math.round(x*d); if(Math.abs(n/d-x)<1e-9) return q(n,d);}
+  return q(Math.round(x*1e6),1e6);
+}
+
+/* ===== 行列（Q の2次元配列） ===== */
+const LA={
+  Qm(A){return A.map(r=>r.map(toQ));},
+  clone(A){return A.map(r=>r.slice());},
+  id(n){return Array.from({length:n},(_,i)=>Array.from({length:n},(_,j)=>q(i===j?1:0)));},
+  T(A){return A[0].map((_,j)=>A.map(r=>r[j]));},
+  col(A,j){return A.map(r=>r[j]);},
+  fromCols(cols){return cols[0].map((_,i)=>cols.map(c=>c[i]));},
+  mul(A,B){return A.map(r=>B[0].map((_,j)=>r.reduce((s,a,k)=>s.add(a.mul(B[k][j])),q(0))));},
+  mv(A,x){return A.map(r=>r.reduce((s,a,k)=>s.add(a.mul(x[k])),q(0)));},
+  isZeroVec(x){return x.every(v=>v.isZero());},
+  rref(A0){
+    const A=LA.clone(A0), m=A.length, n=A[0].length, piv=[]; let r=0;
+    for(let c=0;c<n&&r<m;c++){
+      let p=-1; for(let i=r;i<m;i++){if(!A[i][c].isZero()){p=i;break;}}
+      if(p<0) continue;
+      [A[r],A[p]]=[A[p],A[r]];
+      const k=A[r][c]; A[r]=A[r].map(v=>v.div(k));
+      for(let i=0;i<m;i++){ if(i!==r&&!A[i][c].isZero()){const f=A[i][c]; A[i]=A[i].map((v,j)=>v.sub(f.mul(A[r][j])));} }
+      piv.push(c); r++;
+    }
+    return {R:A,piv};
+  },
+  rank(A){return LA.rref(A).piv.length;},
+  nullspace(A){
+    const {R,piv}=LA.rref(A), n=A[0].length, free=[];
+    for(let j=0;j<n;j++) if(!piv.includes(j)) free.push(j);
+    return free.map(f=>{
+      const x=Array.from({length:n},()=>q(0)); x[f]=q(1);
+      piv.forEach((p,i)=>{x[p]=R[i][f].neg();});
+      // 分母を払って整数ベクトルに
+      let L=1; x.forEach(v=>{L=L/gcd(L,v.d)*v.d;});
+      const y=x.map(v=>v.mul(L)); let G=0; y.forEach(v=>{G=gcd(G,v.n);});
+      return G>1?y.map(v=>v.div(G)):y;
+    });
+  },
+  det(A0){
+    const A=LA.clone(A0), n=A.length; let d=q(1);
+    for(let c=0;c<n;c++){
+      let p=-1; for(let i=c;i<n;i++) if(!A[i][c].isZero()){p=i;break;}
+      if(p<0) return q(0);
+      if(p!==c){[A[c],A[p]]=[A[p],A[c]]; d=d.neg();}
+      d=d.mul(A[c][c]);
+      for(let i=c+1;i<n;i++){const f=A[i][c].div(A[c][c]); A[i]=A[i].map((v,j)=>v.sub(f.mul(A[c][j])));}
+    }
+    return d;
+  },
+  inv(A){
+    const n=A.length, M=A.map((r,i)=>r.concat(LA.id(n)[i]));
+    const {R,piv}=LA.rref(M);
+    if(piv.length<n||piv[n-1]!==n-1) return null;
+    return R.map(r=>r.slice(n));
+  }
+};
+
+/* ===== HTML 生成 ===== */
+const H=x=>(x instanceof Q)?x.html():(typeof x==="number"?toQ(x).html():String(x));
+function matHTML(A,opt={}){
+  const c=A[0].length; let s='<span class="mat'+(opt.det?' det':'')+'"><span class="g" style="--c:'+c+'">';
+  A.forEach((r,i)=>r.forEach((v,j)=>{
+    const cls=opt.cls?opt.cls(i,j):"";
+    s+='<span'+(cls?' class="'+cls+'"':'')+'>'+H(v)+'</span>';
+  }));
+  return s+'</span></span>';
+}
+const vecHTML=(x,opt)=>matHTML(x.map(v=>[v]),opt);
+const rowVecHTML=x=>"("+x.map(H).join(", ")+")";
+
+/* ===== 行列の入力欄 ===== */
+function matrixInput(container,m,n,values,onchange){
+  container.innerHTML=""; const wrap=document.createElement("span"); wrap.className="minput";
+  const g=document.createElement("span"); g.className="g"; g.style.setProperty("--c",n); wrap.appendChild(g);
+  const inputs=[];
+  for(let i=0;i<m;i++){inputs.push([]);for(let j=0;j<n;j++){
+    const inp=document.createElement("input"); inp.className="num"; inp.setAttribute("inputmode","text");
+    inp.setAttribute("aria-label",(i+1)+"行"+(j+1)+"列"); inp.autocomplete="off";
+    const v=values&&values[i]&&values[i][j]!==undefined?values[i][j]:0;
+    inp.value=(v instanceof Q)?v.str().replace("−","-"):String(v);
+    inp.addEventListener("input",()=>{onchange&&onchange();});
+    g.appendChild(inp); inputs[i].push(inp);
+  }}
+  container.appendChild(wrap);
+  return {
+    get(){let ok=true; const A=inputs.map(r=>r.map(inp=>{const v=Q.parse(inp.value); inp.classList.toggle("bad",!v); if(!v) ok=false; return v;})); return ok?A:null;},
+    set(vals){inputs.forEach((r,i)=>r.forEach((inp,j)=>{const v=vals[i][j]; inp.value=(v instanceof Q)?v.str().replace("−","-"):String(v); inp.classList.remove("bad");}));}
+  };
+}
+
+/* ===== 平面の図（SVG） ===== */
+const SVGNS="http://www.w3.org/2000/svg";
+function sv(tag,attrs,parent,style){
+  const e=document.createElementNS(SVGNS,tag);
+  for(const k in attrs) e.setAttribute(k,attrs[k]);
+  if(style) for(const k in style) e.style[k]=style[k];
+  if(parent) parent.appendChild(e); return e;
+}
+class Plane{
+  constructor(svg,opt={}){
+    this.svg=svg; this.R=opt.R||5; this.W=400; this.s=this.W/(2*this.R);
+    svg.setAttribute("viewBox","0 0 400 400");
+    this.gGrid=sv("g",{},svg); this.gMain=sv("g",{},svg); this.gTop=sv("g",{},svg);
+    this.handles=[]; if(opt.grid!==false) this.drawGrid();
+  }
+  X(x){return this.W/2+x*this.s;} Y(y){return this.W/2-y*this.s;}
+  drawGrid(){
+    const g=this.gGrid, R=this.R;
+    for(let k=-R;k<=R;k++){
+      sv("line",{x1:this.X(k),y1:0,x2:this.X(k),y2:this.W,"stroke-width":1},g,{stroke:"var(--grid)"});
+      sv("line",{x1:0,y1:this.Y(k),x2:this.W,y2:this.Y(k),"stroke-width":1},g,{stroke:"var(--grid)"});
+    }
+    sv("line",{x1:0,y1:this.Y(0),x2:this.W,y2:this.Y(0),"stroke-width":1.5},g,{stroke:"var(--axis)"});
+    sv("line",{x1:this.X(0),y1:0,x2:this.X(0),y2:this.W,"stroke-width":1.5},g,{stroke:"var(--axis)"});
+    this.text([R-0.35,0.35],"x","var(--axis)",{size:14,anchor:"end",layer:g});
+    this.text([0.3,R-0.55],"y","var(--axis)",{size:14,layer:g});
+    for(const k of [-R+1,R-1]){ if(k===0) continue;
+      this.text([k,-0.55],String(k).replace("-","−"),"var(--axis)",{size:11,anchor:"middle",italic:false,layer:g});
+      this.text([-0.25,k-0.12],String(k).replace("-","−"),"var(--axis)",{size:11,anchor:"end",italic:false,layer:g});
+    }
+  }
+  clear(){this.gMain.replaceChildren();}
+  line(p,r,color,o={}){
+    return sv("line",{x1:this.X(p[0]),y1:this.Y(p[1]),x2:this.X(r[0]),y2:this.Y(r[1]),"stroke-width":o.width||2,"stroke-linecap":"round"},o.layer||this.gMain,
+      {stroke:color,strokeDasharray:o.dash||"",opacity:o.opacity==null?1:o.opacity});
+  }
+  infLine(p,d,color,o={}){
+    const L=Math.hypot(d[0],d[1]); if(L<1e-12) return;
+    const t=4*this.R/L; return this.line([p[0]-t*d[0],p[1]-t*d[1]],[p[0]+t*d[0],p[1]+t*d[1]],color,o);
+  }
+  poly(pts,fill,o={}){
+    return sv("polygon",{points:pts.map(p=>this.X(p[0])+","+this.Y(p[1])).join(" ")},o.layer||this.gMain,
+      {fill:fill,fillOpacity:o.opacity==null?0.18:o.opacity,stroke:o.stroke||"none",strokeWidth:o.sw||1.5,strokeDasharray:o.dash||""});
+  }
+  circle(c,r,fill,o={}){
+    return sv("circle",{cx:this.X(c[0]),cy:this.Y(c[1]),r:r*this.s},o.layer||this.gMain,{fill:fill,fillOpacity:o.opacity==null?0.18:o.opacity,stroke:o.stroke||"none",strokeWidth:1.5});
+  }
+  arrow(p,r,color,o={}){
+    const x1=this.X(p[0]),y1=this.Y(p[1]),x2=this.X(r[0]),y2=this.Y(r[1]);
+    const L=Math.hypot(x2-x1,y2-y1), g=sv("g",{},o.layer||this.gMain,{opacity:o.opacity==null?1:o.opacity});
+    if(L<0.5){ sv("circle",{cx:x1,cy:y1,r:4},g,{fill:color}); }
+    else{
+      const ux=(x2-x1)/L,uy=(y2-y1)/L,h=Math.min(12,L*0.6),w=h*0.45;
+      sv("line",{x1,y1,x2:x2-ux*h*0.8,y2:y2-uy*h*0.8,"stroke-width":o.width||3,"stroke-linecap":"round"},g,{stroke:color,strokeDasharray:o.dash||""});
+      sv("polygon",{points:`${x2},${y2} ${x2-ux*h-uy*w},${y2-uy*h+ux*w} ${x2-ux*h+uy*w},${y2-uy*h-ux*w}`},g,{fill:color});
+    }
+    if(o.label){
+      const lx=x2+(o.ldx==null?8:o.ldx), ly=y2+(o.ldy==null?-8:o.ldy);
+      const t=sv("text",{x:lx,y:ly,"font-size":15,"font-weight":700},g,{fill:color,paintOrder:"stroke",stroke:"var(--card)",strokeWidth:"4px",strokeLinejoin:"round"});
+      t.innerHTML=o.label;
+    }
+    return g;
+  }
+  text(p,str,color,o={}){
+    const t=sv("text",{x:this.X(p[0])+(o.dx||0),y:this.Y(p[1])+(o.dy||0),"font-size":o.size||14,"text-anchor":o.anchor||"start"},o.layer||this.gMain,
+      {fill:color,fontStyle:o.italic===false?"normal":"italic",paintOrder:"stroke",stroke:"var(--card)",strokeWidth:"3px",strokeLinejoin:"round",fontWeight:o.bold?"700":"400"});
+    t.innerHTML=str; return t;
+  }
+  toWorld(ev){
+    const pt=this.svg.createSVGPoint(); pt.x=ev.clientX; pt.y=ev.clientY;
+    const p=pt.matrixTransform(this.svg.getScreenCTM().inverse());
+    return [(p.x-this.W/2)/this.s,(this.W/2-p.y)/this.s];
+  }
+  // ドラッグできる点：get() で現在位置、set([x,y]) で更新
+  handle(get,set,color,o={}){
+    const g=sv("g",{},this.gTop,{cursor:"grab"});
+    const hit=sv("circle",{r:20},g,{fill:"transparent"});
+    const dot=sv("circle",{r:8,"stroke-width":2.5},g,{fill:"var(--card)",stroke:color});
+    const snap=o.snap||1, R=this.R-0.3;
+    const h={sync:()=>{const p=get(); for(const c of [hit,dot]){c.setAttribute("cx",this.X(p[0]));c.setAttribute("cy",this.Y(p[1]));}}};
+    let drag=false;
+    g.addEventListener("pointerdown",e=>{drag=true;g.setPointerCapture(e.pointerId);g.style.cursor="grabbing";e.preventDefault();});
+    g.addEventListener("pointermove",e=>{ if(!drag) return;
+      let [x,y]=this.toWorld(e);
+      x=Math.max(-R,Math.min(R,Math.round(x/snap)*snap)); y=Math.max(-R,Math.min(R,Math.round(y/snap)*snap));
+      x=+x.toFixed(6); y=+y.toFixed(6);
+      const p=get(); if(p[0]!==x||p[1]!==y){ set([x,y]); }
+    });
+    const end=()=>{drag=false;g.style.cursor="grab";};
+    g.addEventListener("pointerup",end); g.addEventListener("pointercancel",end);
+    this.handles.push(h); h.sync(); return h;
+  }
+  syncHandles(){this.handles.forEach(h=>h.sync());}
+}
+// 一次結合の式  c1 a1 + c2 a2 + ...  （names は HTML の配列）
+function combHTML(cs,names){
+  let s="";
+  cs.forEach((c,i)=>{ c=toQ(c); if(c.isZero()) return;
+    const neg=c.n<0, a=neg?c.neg():c, co=a.eq(1)?"":a.html();
+    s+=(s===""?(neg?"−":""):(neg?" − ":" + "))+co+names[i];
+  });
+  return s===""?"0":s;
+}
+const fmt=x=>H(toQ(Math.abs(x)<1e-12?0:x));
+const $=s=>document.querySelector(s);
+
+/* ===== 行基本変形を1手ずつ記録する ===== */
+const ROWN="①②③④⑤⑥⑦⑧";
+function rrefSteps(A0,aug=0){
+  const A=LA.clone(A0), m=A.length, n=A[0].length, nL=n-aug, steps=[]; let r=0;
+  const push=(desc,rows,piv)=>steps.push({M:LA.clone(A),desc,rows:rows||[],piv:piv||null});
+  push("スタート：この行列を簡約化（階段行列に）していきます。",[]);
+  for(let c=0;c<nL&&r<m;c++){
+    let p=-1; for(let i=r;i<m;i++){if(!A[i][c].isZero()){p=i;break;}}
+    if(p<0){ push(`第${c+1}列は ${ROWN[r]} 行目から下がすべて 0 なので、この列はとばして右の列へ進みます。`,[]); continue; }
+    if(p!==r){ [A[r],A[p]]=[A[p],A[r]]; push(`${ROWN[r]} と ${ROWN[p]} を入れかえます（第${c+1}列の先頭に 0 でない数を持ってくるため）。`,[r,p],[r,c]); }
+    const k=A[r][c];
+    if(!k.eq(1)){ A[r]=A[r].map(v=>v.div(k)); push(`${ROWN[r]} を ${q(1).div(k).html()} 倍します（先頭を 1 にするため）。`,[r],[r,c]); }
+    for(let i=0;i<m;i++){ if(i===r||A[i][c].isZero()) continue;
+      const f=A[i][c]; A[i]=A[i].map((v,j)=>v.sub(f.mul(A[r][j])));
+      const a=f.n<0?f.neg():f, co=a.eq(1)?"":` の ${a.html()} 倍`;
+      const d=f.n>0?`${ROWN[i]} から ${ROWN[r]}${co} を引きます`:`${ROWN[i]} に ${ROWN[r]}${co} を足します`;
+      push(`${d}（第${c+1}列の ${ROWN[i]} 行目を 0 にするため）。`,[i],[r,c]);
+    }
+    r++;
+  }
+  push("完成です。各行の先頭が 1 で、その上下がすべて 0 になりました（簡約化された行列）。",[]);
+  return steps;
+}
+function stepMatHTML(M,aug,rows,piv){
+  const m=M.length,n=M[0].length; let s=`<span class="smat" style="--m:${m};--c:${n}">`;
+  s+=`<span class="sp l" style="grid-row:1/${m+1};grid-column:2"></span><span class="sp r" style="grid-row:1/${m+1};grid-column:${n+3}"></span>`;
+  for(let i=0;i<m;i++){
+    s+=`<span class="rl" style="grid-row:${i+1};grid-column:1">${ROWN[i]}</span>`;
+    for(let j=0;j<n;j++){
+      const cl=[rows.includes(i)?"chg":"", piv&&piv[0]===i&&piv[1]===j?"pv":"", aug&&j===n-aug?"vb":""].filter(Boolean).join(" ");
+      s+=`<span class="${cl}" style="grid-row:${i+1};grid-column:${j+3}">${H(M[i][j])}</span>`;
+    }
+  }
+  return s+"</span>";
+}
+function makeStepper(el,A,aug=0,title){
+  const steps=rrefSteps(A,aug); let k=0;
+  el.classList.add("stp");
+  el.innerHTML=`<div class="stp-head"><b>${title||"簡約化を1手ずつ見る"}</b><span class="stp-count"></span></div>
+    <div class="stp-desc"></div><div class="stp-mat"></div>
+    <div class="ctrl stp-btn"><button data-a="0">最初へ</button><button data-a="-1">◀ 前へ</button><button data-a="1" class="on">次へ ▶</button><button data-a="9">最後へ</button></div>`;
+  const show=()=>{const st=steps[k];
+    el.querySelector(".stp-count").textContent=`${k} / ${steps.length-1} 手`;
+    el.querySelector(".stp-desc").innerHTML=st.desc;
+    el.querySelector(".stp-mat").innerHTML=stepMatHTML(st.M,aug,st.rows,st.piv);};
+  el.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{const a=+b.dataset.a;
+    k=a===0?0:a===9?steps.length-1:Math.max(0,Math.min(steps.length-1,k+a)); show();}));
+  show(); return {steps};
+}
+// ページ内の <div class="stepper" data-m="1,2;3,4" data-aug="1"> を自動で動かす
+function initSteppers(){
+  document.querySelectorAll(".stepper[data-m]:not(.stp)").forEach(el=>{
+    const A=el.dataset.m.split(";").map(r=>r.split(",").map(x=>Q.parse(x)));
+    makeStepper(el,A,+(el.dataset.aug||0),el.dataset.title);
+  });
+}
+initSteppers();
+
+</script>
+<script>
+const PRE=[["恒等",[1,0,0,1]],["回転 90°",[0,-1,1,0]],["回転 30°",[0.87,-0.5,0.5,0.87]],["拡大",[1.5,0,0,1.5]],["せん断",[1,1,0,1]],["x軸で反転",[1,0,0,-1]],["x軸へ射影",[1,0,0,0]],["つぶれる",[1,2,0.5,1]],["一般",[1,-0.5,0.5,1.5]]];
+let A=[1,-0.5,0.5,1.5], t=1;
+const S={a:$("#sa"),b:$("#sb"),c:$("#sc"),d:$("#sd")};
+const P=new Plane($("#pl"),{R:5});
+const F=[[0.5,0.5],[0.5,2.6],[1.9,2.6],[1.9,2.1],[1,2.1],[1,1.75],[1.6,1.75],[1.6,1.3],[1,1.3],[1,0.5]];
+const num=x=>{const r=Math.round(x*100)/100; return (r<0?"−":"")+Math.abs(r);};
+PRE.forEach(([nm,v])=>{const b=document.createElement("button");b.textContent=nm;b.addEventListener("click",()=>{A=v.slice();syncS();t=1;$("#st").value=1;render();});$("#pres").appendChild(b);});
+function syncV(){["a","b","c","d"].forEach((k,i)=>{$("#v"+k).textContent=num(A[i]);});}
+function syncS(){S.a.value=A[0];S.b.value=A[1];S.c.value=A[2];S.d.value=A[3];}
+Object.entries(S).forEach(([k,e],i)=>e.addEventListener("input",()=>{A[i]=+e.value;render();}));
+function render(){
+  const tr=$("#tr").checked, sh=tr?[t*1,t*0.5]:[0,0];
+  const M=[(1-t)+t*A[0],t*A[1],t*A[2],(1-t)+t*A[3]];
+  const f=p=>[M[0]*p[0]+M[1]*p[1]+sh[0],M[2]*p[0]+M[3]*p[1]+sh[1]];
+  P.clear();
+  const L=8;
+  for(let k=-L;k<=L;k++){
+    P.line(f([k,-L]),f([k,L]),"var(--c2)",{width:k===0?2.2:1,opacity:k===0?0.75:0.35});
+    P.line(f([-L,k]),f([L,k]),"var(--c1)",{width:k===0?2.2:1,opacity:k===0?0.75:0.35});
+  }
+  P.poly([[0,0],[1,0],[1,1],[0,1]].map(f),"var(--c4)",{opacity:0.25,stroke:"var(--c4)"});
+  P.poly(F,"none",{opacity:0,stroke:"var(--axis)",dash:"4 3",sw:1.2});
+  P.poly(F.map(f),"var(--c3)",{opacity:0.55,stroke:"var(--c3)"});
+  const o=f([0,0]);
+  P.arrow(o,f([1,0]),"var(--c1)",{label:"Ae₁",width:3.5});
+  P.arrow(o,f([0,1]),"var(--c2)",{label:"Ae₂",width:3.5});
+  if(tr) P.circle(o,0.15,"var(--bad)",{opacity:1});
+  syncV();
+  $("#mat").innerHTML=`<i>A</i> = ${matHTML([[num(A[0]),num(A[1])],[num(A[2]),num(A[3])]])} <span class="small muted">（<i>a</i> <i>b</i> / <i>c</i> <i>d</i> の順）</span>`;
+  const det=A[0]*A[3]-A[1]*A[2];
+  let s=`<div class="row"><i>A</i><b class="vec">e</b><sub>1</sub> = (${num(A[0])}, ${num(A[2])})，　<i>A</i><b class="vec">e</b><sub>2</sub> = (${num(A[1])}, ${num(A[3])})</div>`;
+  s+=`<div class="row">det <i>A</i> = ${num(det)}　<span class="small muted">（面積が |det <i>A</i>| 倍になります）</span></div>`;
+  if(Math.abs(det)<0.005) s+=`<div class="row"><span class="tag ng">det = 0</span> 平面が直線（または1点）につぶれます。</div>`;
+  else if(det<0) s+=`<div class="row"><span class="tag ng">det &lt; 0</span> 向きが反転します（F が裏返しになります）。</div>`;
+  else s+=`<div class="row"><span class="tag ok">det &gt; 0</span> 向きは保たれます。</div>`;
+  if(tr) s+=`<div class="row"><span class="tag ng">線形ではない</span> 原点が (1, 0.5) に動きました。<i>f</i>(<b class="vec">0</b>) ≠ <b class="vec">0</b> なので、平行移動を含む写像は線形写像ではありません。</div>`;
+  else s+=`<div class="row small muted">原点は動かず、方眼は平行・等間隔のままです。これが線形写像の特徴です。</div>`;
+  $("#res").innerHTML=s;
+}
+$("#st").addEventListener("input",e=>{t=+e.target.value;render();});
+$("#tr").addEventListener("change",render);
+let anim=null;
+$("#play").addEventListener("click",()=>{
+  if(anim) cancelAnimationFrame(anim); const t0=performance.now();
+  const step=now=>{t=Math.min(1,(now-t0)/1600); $("#st").value=t; render(); if(t<1) anim=requestAnimationFrame(step); else anim=null;};
+  anim=requestAnimationFrame(step);
+});
+syncS(); render();
+</script>
+</body>
+</html>
