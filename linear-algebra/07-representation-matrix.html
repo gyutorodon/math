@@ -164,6 +164,44 @@ footer.pn a{text-decoration:none}
 .mat::after,.minput::after{border-right:1.5px solid currentColor;border-radius:0 .6em .6em 0 / 0 50% 50% 0}
 .mat.det::before,.mat.det::after{border-radius:0;width:.18em}
 .prob-t .src{font-weight:400;font-size:.8rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin-left:6px;white-space:nowrap}
+/* 1手ずつ */
+.stp{border:1.5px dashed var(--accent);border-radius:10px;padding:10px 12px;margin:12px 0;background:var(--card)}
+.stp-head{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;color:var(--accent)}
+.stp-count{color:var(--muted);font-size:.88rem;font-variant-numeric:tabular-nums}
+.stp-desc{min-height:3.4em;margin:6px 0;padding:6px 10px;background:var(--soft);border-radius:8px}
+.stp-mat{text-align:center;overflow-x:auto;padding:4px 0}
+.stp-btn{justify-content:center;margin-bottom:0}
+.smat{display:inline-grid;grid-template-columns:auto .45em repeat(calc(var(--c,1)),auto) .45em;column-gap:.7em;row-gap:.2em;align-items:center;justify-items:center;line-height:1.4;font-size:1.05em}
+.smat .sp{align-self:stretch;width:.45em}
+.smat .sp.l{border-left:1.5px solid currentColor;border-radius:.6em 0 0 .6em / 50% 0 0 50%}
+.smat .sp.r{border-right:1.5px solid currentColor;border-radius:0 .6em .6em 0 / 0 50% 50% 0}
+.smat .rl{color:var(--muted);font-size:.85em;margin-right:-.3em}
+.smat .chg{background:var(--warn-bg);border-radius:4px;padding:0 .25em;outline:1px solid var(--warn)}
+.smat .pv{color:var(--c2);font-weight:700}
+.smat .vb{border-left:1.5px solid var(--muted);padding-left:.6em;margin-left:-.3em}
+.mat .vb{border-left:1.2px solid currentColor;padding-left:.5em}
+/* 要点・ひとこと・用語 */
+.box.points{border-color:var(--accent);background:var(--accent-soft)}
+.box.points .box-t{color:var(--accent)}
+.box.points ol{margin:.2em 0;padding-left:1.4em}
+.box.howto{border-color:var(--thm);background:var(--card)}
+.box.howto .box-t{color:var(--thm)}
+.plain{background:var(--card);border-radius:8px;padding:6px 10px;margin:.4em 0 .6em;font-size:.95rem}
+.plain::before{content:"ひとことで言うと　";font-weight:700;color:var(--warn)}
+.gloss{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:.3em 0}
+.gloss dt{font-weight:700;white-space:nowrap}
+.gloss dt small{display:block;font-weight:400;color:var(--muted);font-size:.78rem}
+.gloss dd{margin:0}
+@media (max-width:520px){.gloss{grid-template-columns:1fr}.gloss dd{margin:0 0 6px .8em}}
+.figrow{display:grid;grid-template-columns:repeat(var(--n,3),minmax(0,1fr));gap:10px;margin:12px 0}
+.figrow .plot{max-width:none}
+.figrow figcaption{font-size:.85rem;text-align:center;color:var(--muted);margin-top:4px;line-height:1.5}
+.figrow figure{margin:0}
+.cd{display:grid;grid-template-columns:auto auto auto;align-items:center;justify-content:center;gap:6px 14px;margin:14px 0;text-align:center}
+.cd .node{border:1.5px solid var(--line);border-radius:8px;padding:4px 14px;background:var(--card)}
+.cd .ar{color:var(--muted);font-size:.9rem;line-height:1.2}
+.cd .node{white-space:nowrap}
+@media (max-width:520px){.cd{font-size:.8rem;column-gap:6px}.cd .node{padding:3px 6px}}
 </style>
 </head>
 <body>
@@ -175,11 +213,15 @@ footer.pn a{text-decoration:none}
 <nav class="toc" aria-label="目次"><a href="#s1">1. 何の話か（直感）</a><a href="#s2">2. 定義</a><a href="#s3">3. 具体例</a><a href="#s4">4. よくある間違い</a><a href="#s5">5. 練習問題</a><a class="demo-link" href="#demo">▶ 動かしてみよう</a></nav>
 </header>
 <main class="doc">
+<div class="box points"><div class="box-t">この回のポイント（まずここだけ押さえましょう）</div><ol><li>表現行列の<b>第 <i>j</i> 列</b>＝ <i>f</i>(<b class="vec">v</b><sub><i>j</i></sub>) を<b>値域の基底 <i>C</i> で表した座標</b>です。</li><li>作り方は3ステップ：①行き先 <i>f</i>(<b class="vec">v</b><sub><i>j</i></sub>) を計算 → ② <i>C</i> で表す → ③ 列に並べる。</li><li>基底を変えると <span class="nw"><i>A</i>′ = <i>Q</i><sup>−1</sup><i>AP</i></span>（両側で同じ基底なら <span class="nw"><i>P</i><sup>−1</sup><i>AP</i></span>）。うまい基底を選ぶと対角行列になります。</li></ol></div>
 <section id="s1">
 <h2>1. 何の話か（直感）</h2>
 <p>ℝⁿ → ℝᵐ の線形写像は行列のかけ算で書けました（第5回）。では、微分 <span class="nw"><i>D</i> : ℝ[<i>x</i>]<sub>2</sub> → ℝ[<i>x</i>]<sub>1</sub></span> のように、ベクトルが数の組でない場合はどうでしょうか。</p>
 <p>答えは、<strong>基底を決めて座標で考える</strong>ことです。基底を決めれば、どんな有限次元の線形空間のベクトルも「座標＝数の組」で表せます（第3回）。すると線形写像は「座標を座標に移す写像」になり、それは行列で書けます。この行列が<strong>表現行列</strong>です。</p>
+<div class="cd"><span class="node"><i>V</i> の <b class="vec">v</b></span><span class="ar">─ <i>f</i> で写す →</span><span class="node"><i>W</i> の <i>f</i>(<b class="vec">v</b>)</span><span class="ar">↓ 基底 <i>B</i> で<br>座標にする</span><span></span><span class="ar">↓ 基底 <i>C</i> で<br>座標にする</span><span class="node">座標 <b class="vec">x</b> ∈ ℝⁿ</span><span class="ar">─ <i>A</i> をかける →</span><span class="node">座標 <i>A</i><b class="vec">x</b> ∈ ℝᵐ</span></div>
+<p class="small muted" style="text-align:center">上の道（<i>f</i> で写してから座標にする）と下の道（座標にしてから <i>A</i> をかける）が同じ結果になる <i>A</i> が、表現行列です。</p>
 <p>大事なのは、<strong>同じ写像でも基底の選び方で表現行列が変わる</strong>ことです。うまい基底を選ぶと、表現行列が対角行列のような簡単な形になります。これが次の単元「固有値・対角化」につながります。</p>
+<div class="box note"><div class="box-t">用語メモ</div><dl class="gloss"><dt>表現行列<small>ひょうげんぎょうれつ</small></dt><dd>基底を決めて、線形写像を「座標の計算」として行列で表したもの。</dd><dt>定義域・値域<small>ていぎいき・ちいき</small></dt><dd>写像の出発側の空間（<i>V</i>）と、行き先側の空間（<i>W</i>）。</dd><dt>対角行列<small>たいかくぎょうれつ</small></dt><dd>左上から右下への対角線以外の成分がすべて 0 の行列。</dd></dl></div>
 </section>
 
 <section id="s2">
@@ -187,6 +229,7 @@ footer.pn a{text-decoration:none}
 <p><span class="nw"><i>f</i> : <i>V</i> → <i>W</i></span> を線形写像、<span class="nw"><i>B</i> = (<b class="vec">v</b><sub>1</sub>, …, <b class="vec">v</b><sub><i>n</i></sub>)</span> を <i>V</i> の基底、<span class="nw"><i>C</i> = (<b class="vec">w</b><sub>1</sub>, …, <b class="vec">w</b><sub><i>m</i></sub>)</span> を <i>W</i> の基底とします。</p>
 <div class="box def">
 <div class="box-t">定義（表現行列）</div>
+<p class="plain">「<b class="vec">v</b><sub><i>j</i></sub> がどこへ行くか」を、行き先側のものさし <i>C</i> で測った数値を列に並べた表です。</p>
 <p>各 <i>f</i>(<b class="vec">v</b><sub><i>j</i></sub>) を <i>C</i> の1次結合で表します。</p>
 <div class="dm"><i>f</i>(<b class="vec">v</b><sub><i>j</i></sub>) = <i>a</i><sub>1<i>j</i></sub><b class="vec">w</b><sub>1</sub> + <i>a</i><sub>2<i>j</i></sub><b class="vec">w</b><sub>2</sub> + ⋯ + <i>a</i><sub><i>mj</i></sub><b class="vec">w</b><sub><i>m</i></sub>　　(<i>j</i> = 1, …, <i>n</i>)</div>
 <p>この係数を<strong>第 <i>j</i> 列</strong>に並べた <i>m</i> × <i>n</i> 行列 <span class="nw"><i>A</i> = (<i>a</i><sub><i>ij</i></sub>)</span> を、基底 <i>B</i>, <i>C</i> に関する <i>f</i> の<strong>表現行列</strong>といいます。まとめて書くと</p>
@@ -207,6 +250,7 @@ footer.pn a{text-decoration:none}
 </div>
 <div class="box thm">
 <div class="box-t">定理 2（基底を変えたときの表現行列）</div>
+<p class="plain">右の <i>P</i> で「新しい座標→古い座標」に直し、<i>A</i> で写し、左の <i>Q</i><sup>−1</sup> で「行き先の古い座標→新しい座標」に直す、という3段階をまとめた式です。</p>
 <p><i>V</i> の基底を <i>B</i> → <i>B</i>′（変換行列 <i>P</i>）、<i>W</i> の基底を <i>C</i> → <i>C</i>′（変換行列 <i>Q</i>）に取りかえると、新しい表現行列は</p>
 <div class="dm" style="font-size:1.12em"><i>A</i>′ = <i>Q</i><sup>−1</sup><i>AP</i></div>
 <p>特に <i>V</i> = <i>W</i> で、両側で同じ基底を使う（<i>B</i> = <i>C</i>, <i>B</i>′ = <i>C</i>′）なら <span class="nw"><i>A</i>′ = <i>P</i><sup>−1</sup><i>AP</i></span>。</p>
@@ -233,6 +277,7 @@ footer.pn a{text-decoration:none}
 <div class="ex-t">例 3：定義域と値域で基底が違う場合</div>
 <p><span class="nw"><i>f</i> : ℝ³ → ℝ²</span>, <span class="nw"><i>f</i>(<i>x</i>, <i>y</i>, <i>z</i>) = (<i>x</i> + <i>y</i>, <i>y</i> + <i>z</i>)</span>、<span class="nw"><i>B</i> = ((1, 0, 0), (1, 1, 0), (1, 1, 1))</span>, <span class="nw"><i>C</i> = ((1, 0), (1, 1))</span>。<i>C</i> での座標は「<span class="nw">(<i>p</i>, <i>q</i>) = (<i>p</i> − <i>q</i>) · (1, 0) + <i>q</i> · (1, 1)</span>」で求められます。</p>
 <div class="dm"><span class="eqs"><span><i>f</i>(1, 0, 0) = (1, 0)</span><span>→ <i>C</i> 座標 (1, 0)</span><span><i>f</i>(1, 1, 0) = (2, 1)</span><span>→ <i>C</i> 座標 (1, 1)</span><span><i>f</i>(1, 1, 1) = (2, 2)</span><span>→ <i>C</i> 座標 (0, 2)</span></span></div>
+<div class="stepper" data-m="1,1,1,2,2;0,1,0,1,2" data-aug="3" data-title="まとめて計算：[C | f(v₁) f(v₂) f(v₃)] を簡約化 → 右側が A"></div>
 <p>よって <span class="nw"><i>A</i> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>1</span><span>0</span><span>0</span><span>1</span><span>2</span></span></span></span>。</p>
 </div>
 <div class="ex">
@@ -248,6 +293,7 @@ footer.pn a{text-decoration:none}
 <div class="ctrl" style="align-items:center"><span class="nw"><i>M</i> = <span id="inM"></span></span><span class="nw"><i>B</i> = <span id="inB"></span></span><span class="nw"><i>C</i> = <span id="inC"></span></span></div>
 <div class="ctrl"><button id="bstd"><i>B</i> を標準基底に</button><button id="cstd"><i>C</i> を標準基底に</button><button id="csame"><i>C</i> を <i>B</i> と同じに</button></div>
 <div class="out" id="res"></div>
+<div id="st07"></div>
 </div>
 </section>
 
@@ -273,6 +319,7 @@ footer.pn a{text-decoration:none}
 
 <section id="s5">
 <h2>5. 練習問題</h2>
+<div class="box howto"><div class="box-t">解き方の手順：表現行列の問題</div><ol><li>定義域の基底 <b class="vec">v</b><sub><i>j</i></sub> を1つずつ <i>f</i> で写します。</li><li>行き先 <i>f</i>(<b class="vec">v</b><sub><i>j</i></sub>) を値域の基底 <i>C</i> の1次結合で表します。ℝᵐ なら <span class="nw">[<i>C</i> | <i>f</i>(<b class="vec">v</b><sub>1</sub>) ⋯ <i>f</i>(<b class="vec">v</b><sub><i>n</i></sub>)]</span> を簡約化すると、右側にまとめて出てきます。</li><li>係数を<b>列</b>に並べたものが表現行列です。</li><li><b>基底を取りかえる問題</b>：新しい基底を古い基底で表して <i>P</i>（と <i>Q</i>）を作り、<span class="nw"><i>Q</i><sup>−1</sup><i>AP</i></span> を計算します。</li></ol></div>
 <div class="prob">
 <div class="prob-t">問題 1 <span class="src">教科書 練習問題5 [A] 13 の類題</span></div>
 <p>2次以下の多項式全体からなる線形空間の線形変換 <i>T</i> を</p>
@@ -553,6 +600,61 @@ function combHTML(cs,names){
 const fmt=x=>H(toQ(Math.abs(x)<1e-12?0:x));
 const $=s=>document.querySelector(s);
 
+/* ===== 行基本変形を1手ずつ記録する ===== */
+const ROWN="①②③④⑤⑥⑦⑧";
+function rrefSteps(A0,aug=0){
+  const A=LA.clone(A0), m=A.length, n=A[0].length, nL=n-aug, steps=[]; let r=0;
+  const push=(desc,rows,piv)=>steps.push({M:LA.clone(A),desc,rows:rows||[],piv:piv||null});
+  push("スタート：この行列を簡約化（階段行列に）していきます。",[]);
+  for(let c=0;c<nL&&r<m;c++){
+    let p=-1; for(let i=r;i<m;i++){if(!A[i][c].isZero()){p=i;break;}}
+    if(p<0){ push(`第${c+1}列は ${ROWN[r]} 行目から下がすべて 0 なので、この列はとばして右の列へ進みます。`,[]); continue; }
+    if(p!==r){ [A[r],A[p]]=[A[p],A[r]]; push(`${ROWN[r]} と ${ROWN[p]} を入れかえます（第${c+1}列の先頭に 0 でない数を持ってくるため）。`,[r,p],[r,c]); }
+    const k=A[r][c];
+    if(!k.eq(1)){ A[r]=A[r].map(v=>v.div(k)); push(`${ROWN[r]} を ${q(1).div(k).html()} 倍します（先頭を 1 にするため）。`,[r],[r,c]); }
+    for(let i=0;i<m;i++){ if(i===r||A[i][c].isZero()) continue;
+      const f=A[i][c]; A[i]=A[i].map((v,j)=>v.sub(f.mul(A[r][j])));
+      const a=f.n<0?f.neg():f, co=a.eq(1)?"":` の ${a.html()} 倍`;
+      const d=f.n>0?`${ROWN[i]} から ${ROWN[r]}${co} を引きます`:`${ROWN[i]} に ${ROWN[r]}${co} を足します`;
+      push(`${d}（第${c+1}列の ${ROWN[i]} 行目を 0 にするため）。`,[i],[r,c]);
+    }
+    r++;
+  }
+  push("完成です。各行の先頭が 1 で、その上下がすべて 0 になりました（簡約化された行列）。",[]);
+  return steps;
+}
+function stepMatHTML(M,aug,rows,piv){
+  const m=M.length,n=M[0].length; let s=`<span class="smat" style="--m:${m};--c:${n}">`;
+  s+=`<span class="sp l" style="grid-row:1/${m+1};grid-column:2"></span><span class="sp r" style="grid-row:1/${m+1};grid-column:${n+3}"></span>`;
+  for(let i=0;i<m;i++){
+    s+=`<span class="rl" style="grid-row:${i+1};grid-column:1">${ROWN[i]}</span>`;
+    for(let j=0;j<n;j++){
+      const cl=[rows.includes(i)?"chg":"", piv&&piv[0]===i&&piv[1]===j?"pv":"", aug&&j===n-aug?"vb":""].filter(Boolean).join(" ");
+      s+=`<span class="${cl}" style="grid-row:${i+1};grid-column:${j+3}">${H(M[i][j])}</span>`;
+    }
+  }
+  return s+"</span>";
+}
+function makeStepper(el,A,aug=0,title){
+  const steps=rrefSteps(A,aug); let k=0;
+  el.classList.add("stp");
+  el.innerHTML=`<div class="stp-head"><b>${title||"簡約化を1手ずつ見る"}</b><span class="stp-count"></span></div>
+    <div class="stp-desc"></div><div class="stp-mat"></div>
+    <div class="ctrl stp-btn"><button data-a="0">最初へ</button><button data-a="-1">◀ 前へ</button><button data-a="1" class="on">次へ ▶</button><button data-a="9">最後へ</button></div>`;
+  const show=()=>{const st=steps[k];
+    el.querySelector(".stp-count").textContent=`${k} / ${steps.length-1} 手`;
+    el.querySelector(".stp-desc").innerHTML=st.desc;
+    el.querySelector(".stp-mat").innerHTML=stepMatHTML(st.M,aug,st.rows,st.piv);};
+  el.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{const a=+b.dataset.a;
+    k=a===0?0:a===9?steps.length-1:Math.max(0,Math.min(steps.length-1,k+a)); show();}));
+  show(); return {steps};
+}
+// ページ内の <div class="stepper" data-m="1,2;3,4" data-aug="1"> を自動で動かす
+document.querySelectorAll(".stepper[data-m]").forEach(el=>{
+  const A=el.dataset.m.split(";").map(r=>r.split(",").map(x=>Q.parse(x)));
+  makeStepper(el,A,+(el.dataset.aug||0),el.dataset.title);
+});
+
 </script>
 <script>
 const PRE={
@@ -601,6 +703,7 @@ function calc(){
   const diag=n===m&&A.every((r,i)=>r.every((v,j)=>i===j||v.isZero()));
   if(diag) s+=`<div class="row"><span class="tag ok">対角行列</span> この基底では、<i>f</i> は各基底ベクトルの方向に定数倍するだけです。</div>`;
   out.innerHTML=s;
+  const MB=LA.mul(M,B); makeStepper($("#st07"),C.map((r,i)=>r.concat(MB[i])),n,"[C | MB] を1手ずつ簡約化 → 右側が表現行列 A");
 }
 $("#size").addEventListener("change",setup);
 $("#pre").addEventListener("change",e=>load(+e.target.value));

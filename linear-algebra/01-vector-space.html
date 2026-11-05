@@ -164,6 +164,44 @@ footer.pn a{text-decoration:none}
 .mat::after,.minput::after{border-right:1.5px solid currentColor;border-radius:0 .6em .6em 0 / 0 50% 50% 0}
 .mat.det::before,.mat.det::after{border-radius:0;width:.18em}
 .prob-t .src{font-weight:400;font-size:.8rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin-left:6px;white-space:nowrap}
+/* 1手ずつ */
+.stp{border:1.5px dashed var(--accent);border-radius:10px;padding:10px 12px;margin:12px 0;background:var(--card)}
+.stp-head{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;color:var(--accent)}
+.stp-count{color:var(--muted);font-size:.88rem;font-variant-numeric:tabular-nums}
+.stp-desc{min-height:3.4em;margin:6px 0;padding:6px 10px;background:var(--soft);border-radius:8px}
+.stp-mat{text-align:center;overflow-x:auto;padding:4px 0}
+.stp-btn{justify-content:center;margin-bottom:0}
+.smat{display:inline-grid;grid-template-columns:auto .45em repeat(calc(var(--c,1)),auto) .45em;column-gap:.7em;row-gap:.2em;align-items:center;justify-items:center;line-height:1.4;font-size:1.05em}
+.smat .sp{align-self:stretch;width:.45em}
+.smat .sp.l{border-left:1.5px solid currentColor;border-radius:.6em 0 0 .6em / 50% 0 0 50%}
+.smat .sp.r{border-right:1.5px solid currentColor;border-radius:0 .6em .6em 0 / 0 50% 50% 0}
+.smat .rl{color:var(--muted);font-size:.85em;margin-right:-.3em}
+.smat .chg{background:var(--warn-bg);border-radius:4px;padding:0 .25em;outline:1px solid var(--warn)}
+.smat .pv{color:var(--c2);font-weight:700}
+.smat .vb{border-left:1.5px solid var(--muted);padding-left:.6em;margin-left:-.3em}
+.mat .vb{border-left:1.2px solid currentColor;padding-left:.5em}
+/* 要点・ひとこと・用語 */
+.box.points{border-color:var(--accent);background:var(--accent-soft)}
+.box.points .box-t{color:var(--accent)}
+.box.points ol{margin:.2em 0;padding-left:1.4em}
+.box.howto{border-color:var(--thm);background:var(--card)}
+.box.howto .box-t{color:var(--thm)}
+.plain{background:var(--card);border-radius:8px;padding:6px 10px;margin:.4em 0 .6em;font-size:.95rem}
+.plain::before{content:"ひとことで言うと　";font-weight:700;color:var(--warn)}
+.gloss{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:.3em 0}
+.gloss dt{font-weight:700;white-space:nowrap}
+.gloss dt small{display:block;font-weight:400;color:var(--muted);font-size:.78rem}
+.gloss dd{margin:0}
+@media (max-width:520px){.gloss{grid-template-columns:1fr}.gloss dd{margin:0 0 6px .8em}}
+.figrow{display:grid;grid-template-columns:repeat(var(--n,3),minmax(0,1fr));gap:10px;margin:12px 0}
+.figrow .plot{max-width:none}
+.figrow figcaption{font-size:.85rem;text-align:center;color:var(--muted);margin-top:4px;line-height:1.5}
+.figrow figure{margin:0}
+.cd{display:grid;grid-template-columns:auto auto auto;align-items:center;justify-content:center;gap:6px 14px;margin:14px 0;text-align:center}
+.cd .node{border:1.5px solid var(--line);border-radius:8px;padding:4px 14px;background:var(--card)}
+.cd .ar{color:var(--muted);font-size:.9rem;line-height:1.2}
+.cd .node{white-space:nowrap}
+@media (max-width:520px){.cd{font-size:.8rem;column-gap:6px}.cd .node{padding:3px 6px}}
 </style>
 </head>
 <body>
@@ -175,6 +213,7 @@ footer.pn a{text-decoration:none}
 <nav class="toc" aria-label="目次"><a href="#s1">1. 何の話か（直感）</a><a href="#s2">2. 定義</a><a href="#s3">3. 具体例</a><a href="#s4">4. よくある間違い</a><a href="#s5">5. 練習問題</a><a class="demo-link" href="#demo">▶ 動かしてみよう</a></nav>
 </header>
 <main class="doc">
+<div class="box points"><div class="box-t">この回のポイント（まずここだけ押さえましょう）</div><ol><li><b>線形空間</b>＝「足し算」と「実数倍」が自由にできる集まり。多項式・関数・行列も「ベクトル」の仲間です。</li><li><b>部分空間</b>かどうかは3条件で判定：(S1) <b class="vec">0</b> を含む、(S2) 足しても外に出ない、(S3) 実数倍しても外に出ない。</li><li>「部分空間である」は文字を使って証明、「部分空間でない」は反例を1つ挙げれば示せます。</li></ol></div>
 <section id="s1">
 <h2>1. 何の話か（直感）</h2>
 <p>高校では、ベクトルを「向きと大きさをもつ矢印」として学びました。しかし線形代数で大事なのは、矢印の形そのものではなく、次の2つの操作ができることです。</p>
@@ -185,12 +224,15 @@ footer.pn a{text-decoration:none}
 <p>たとえば多項式 <span class="nw">1 + 2<i>x</i></span> と <span class="nw">3 − <i>x</i></span> は、足すと <span class="nw">4 + <i>x</i></span>、2倍すると <span class="nw">2 + 4<i>x</i></span> になります。これは係数を並べたベクトル (1, 2)、(3, −1) の計算とまったく同じです。</p>
 <p>そこで「足し算とスカラー倍が、いつもの計算規則を満たす集合」を<strong>線形空間（ベクトル空間）</strong>と呼び、その要素をすべて<strong>ベクトル</strong>と呼ぶことにします。こうしておけば、ℝ² で成り立つ定理が、多項式や関数にもそのまま使えるようになります。</p>
 <p>さらに、線形空間の中にある「小さな線形空間」を<strong>部分空間</strong>といいます。ℝ² の中では、<strong>原点を通る直線</strong>が代表例です。原点を通らない直線や、半分だけの領域は部分空間になりません。その理由を、下の定義と「動かしてみよう」で確かめます。</p>
+<div class="figrow" style="--n:3"><figure><svg class="plot" id="f1a" role="img" aria-label="原点を通る直線"></svg><figcaption>原点を通る直線<br><span class="ok">○ 部分空間</span></figcaption></figure><figure><svg class="plot" id="f1b" role="img" aria-label="原点を通らない直線"></svg><figcaption>原点を通らない直線<br><span class="ng">× <b class="vec">0</b> を含まない</span></figcaption></figure><figure><svg class="plot" id="f1c" role="img" aria-label="第1象限"></svg><figcaption>第1象限<br><span class="ng">× −1 倍で外に出る</span></figcaption></figure></div>
+<div class="box note"><div class="box-t">用語メモ</div><dl class="gloss"><dt>線形空間<small>せんけいくうかん</small></dt><dd>足し算とスカラー倍ができて、ふだんの計算ルールが使える集合。ベクトル空間ともいいます。</dd><dt>スカラー<small></small></dt><dd>ベクトルにかける「ただの数」。この授業では実数です。</dd><dt>零ベクトル <b class="vec">0</b><small>れいベクトル</small></dt><dd>足しても相手が変わらないベクトル。空間ごとに中身が違います（数ベクトルなら (0,…,0)、行列なら零行列）。</dd><dt>部分空間<small>ぶぶんくうかん</small></dt><dd>線形空間の中にある、それだけで線形空間になっている部分。</dd><dt>閉じている<small>とじている</small></dt><dd>計算した結果が、その集合の外に出ないこと。</dd></dl></div>
 </section>
 
 <section id="s2">
 <h2>2. 定義</h2>
 <div class="box def">
 <div class="box-t">定義 1（線形空間）</div>
+<p class="plain">足し算とスカラー倍ができて、ふだんの計算ルール（交換法則・分配法則など）がそのまま使える集合です。8条件は「いつもの計算ができる」ことを細かく書いたものなので、丸暗記より意味をつかむことを優先しましょう。</p>
 <p>集合 <i>V</i> に、和 <span class="nw"><b class="vec">u</b> + <b class="vec">v</b> ∈ <i>V</i></span> とスカラー倍 <span class="nw"><i>c</i><b class="vec">v</b> ∈ <i>V</i></span>（<i>c</i> ∈ ℝ）が定められていて、すべての <span class="nw"><b class="vec">u</b>, <b class="vec">v</b>, <b class="vec">w</b> ∈ <i>V</i></span>、<span class="nw"><i>c</i>, <i>d</i> ∈ ℝ</span> について次の8条件が成り立つとき、<i>V</i> を（ℝ 上の）<strong>線形空間</strong>といいます。</p>
 <div class="ax">
 <b>(V1)</b><span>(<span class="nw"><b class="vec">u</b> + <b class="vec">v</b>) + <b class="vec">w</b> = <b class="vec">u</b> + (<b class="vec">v</b> + <b class="vec">w</b>)</span>　（結合法則）</span>
@@ -208,6 +250,7 @@ footer.pn a{text-decoration:none}
 
 <div class="box def">
 <div class="box-t">定義 2（部分空間）</div>
+<p class="plain">大きな線形空間の中にあって、それだけで線形空間になっている部分です。</p>
 <p>線形空間 <i>V</i> の部分集合 <i>W</i> が、<i>V</i> と同じ和・スカラー倍によってそれ自身線形空間になるとき、<i>W</i> を <i>V</i> の<strong>部分空間</strong>といいます。</p>
 </div>
 
@@ -215,6 +258,7 @@ footer.pn a{text-decoration:none}
 
 <div class="box thm">
 <div class="box-t">定理（部分空間の判定：3条件）</div>
+<p class="plain">原点（<b class="vec">0</b>）を含み、足しても実数倍しても外に出なければ部分空間です。</p>
 <p><i>V</i> の部分集合 <i>W</i> が部分空間であるための必要十分条件は、次の3つが成り立つことです。</p>
 <div class="ax">
 <b>(S1)</b><span><span class="nw"><b class="vec">0</b> ∈ <i>W</i></span>　（零ベクトルを含む）</span>
@@ -324,6 +368,7 @@ footer.pn a{text-decoration:none}
 
 <section id="s5">
 <h2>5. 練習問題</h2>
+<div class="box howto"><div class="box-t">解き方の手順：部分空間かどうかの判定</div><ol><li>まず <b class="vec">0</b> が <i>W</i> に入るか確かめます。入らなければ、その時点で「部分空間でない」と結論できます。</li><li>条件が「1次式 = 0」の形（定数項・2乗・積・不等号・「整数」などがない）なら、部分空間である見込みが高いです。<b class="vec">u</b>, <b class="vec">v</b> を文字でおいて (S2)(S3) を証明します。</li><li>不等号・2乗・積・「整数」などがあれば、反例を探します。<b>−1 倍</b>、<b><span class="frac"><span>1</span><span>2</span></span> 倍</b>、<b>2つのベクトルの和</b>を試すと見つかりやすいです。</li></ol></div>
 <div class="prob">
 <div class="prob-t">問題 1 <span class="src">教科書 練習問題4 [A] 5 の類題</span></div>
 <p>次の ℝ³ の部分集合は部分空間になるか判定してください。</p>
@@ -605,6 +650,61 @@ function combHTML(cs,names){
 const fmt=x=>H(toQ(Math.abs(x)<1e-12?0:x));
 const $=s=>document.querySelector(s);
 
+/* ===== 行基本変形を1手ずつ記録する ===== */
+const ROWN="①②③④⑤⑥⑦⑧";
+function rrefSteps(A0,aug=0){
+  const A=LA.clone(A0), m=A.length, n=A[0].length, nL=n-aug, steps=[]; let r=0;
+  const push=(desc,rows,piv)=>steps.push({M:LA.clone(A),desc,rows:rows||[],piv:piv||null});
+  push("スタート：この行列を簡約化（階段行列に）していきます。",[]);
+  for(let c=0;c<nL&&r<m;c++){
+    let p=-1; for(let i=r;i<m;i++){if(!A[i][c].isZero()){p=i;break;}}
+    if(p<0){ push(`第${c+1}列は ${ROWN[r]} 行目から下がすべて 0 なので、この列はとばして右の列へ進みます。`,[]); continue; }
+    if(p!==r){ [A[r],A[p]]=[A[p],A[r]]; push(`${ROWN[r]} と ${ROWN[p]} を入れかえます（第${c+1}列の先頭に 0 でない数を持ってくるため）。`,[r,p],[r,c]); }
+    const k=A[r][c];
+    if(!k.eq(1)){ A[r]=A[r].map(v=>v.div(k)); push(`${ROWN[r]} を ${q(1).div(k).html()} 倍します（先頭を 1 にするため）。`,[r],[r,c]); }
+    for(let i=0;i<m;i++){ if(i===r||A[i][c].isZero()) continue;
+      const f=A[i][c]; A[i]=A[i].map((v,j)=>v.sub(f.mul(A[r][j])));
+      const a=f.n<0?f.neg():f, co=a.eq(1)?"":` の ${a.html()} 倍`;
+      const d=f.n>0?`${ROWN[i]} から ${ROWN[r]}${co} を引きます`:`${ROWN[i]} に ${ROWN[r]}${co} を足します`;
+      push(`${d}（第${c+1}列の ${ROWN[i]} 行目を 0 にするため）。`,[i],[r,c]);
+    }
+    r++;
+  }
+  push("完成です。各行の先頭が 1 で、その上下がすべて 0 になりました（簡約化された行列）。",[]);
+  return steps;
+}
+function stepMatHTML(M,aug,rows,piv){
+  const m=M.length,n=M[0].length; let s=`<span class="smat" style="--m:${m};--c:${n}">`;
+  s+=`<span class="sp l" style="grid-row:1/${m+1};grid-column:2"></span><span class="sp r" style="grid-row:1/${m+1};grid-column:${n+3}"></span>`;
+  for(let i=0;i<m;i++){
+    s+=`<span class="rl" style="grid-row:${i+1};grid-column:1">${ROWN[i]}</span>`;
+    for(let j=0;j<n;j++){
+      const cl=[rows.includes(i)?"chg":"", piv&&piv[0]===i&&piv[1]===j?"pv":"", aug&&j===n-aug?"vb":""].filter(Boolean).join(" ");
+      s+=`<span class="${cl}" style="grid-row:${i+1};grid-column:${j+3}">${H(M[i][j])}</span>`;
+    }
+  }
+  return s+"</span>";
+}
+function makeStepper(el,A,aug=0,title){
+  const steps=rrefSteps(A,aug); let k=0;
+  el.classList.add("stp");
+  el.innerHTML=`<div class="stp-head"><b>${title||"簡約化を1手ずつ見る"}</b><span class="stp-count"></span></div>
+    <div class="stp-desc"></div><div class="stp-mat"></div>
+    <div class="ctrl stp-btn"><button data-a="0">最初へ</button><button data-a="-1">◀ 前へ</button><button data-a="1" class="on">次へ ▶</button><button data-a="9">最後へ</button></div>`;
+  const show=()=>{const st=steps[k];
+    el.querySelector(".stp-count").textContent=`${k} / ${steps.length-1} 手`;
+    el.querySelector(".stp-desc").innerHTML=st.desc;
+    el.querySelector(".stp-mat").innerHTML=stepMatHTML(st.M,aug,st.rows,st.piv);};
+  el.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{const a=+b.dataset.a;
+    k=a===0?0:a===9?steps.length-1:Math.max(0,Math.min(steps.length-1,k+a)); show();}));
+  show(); return {steps};
+}
+// ページ内の <div class="stepper" data-m="1,2;3,4" data-aug="1"> を自動で動かす
+document.querySelectorAll(".stepper[data-m]").forEach(el=>{
+  const A=el.dataset.m.split(";").map(r=>r.split(",").map(x=>Q.parse(x)));
+  makeStepper(el,A,+(el.dataset.aug||0),el.dataset.title);
+});
+
 </script>
 <script>
 const EPS=1e-9;
@@ -676,6 +776,11 @@ $("#auto").addEventListener("click",()=>{
   $("#auto-msg").innerHTML='<span class="ok">300回試しても反例は見つかりませんでした。</span>部分空間である可能性が高いです（確定させるには定理の3条件を証明します）。';
 });
 render();
+
+(function(){const mk=id=>new Plane($(id),{R:3});
+const a=mk("#f1a"); a.infLine([0,0],[1,2],"var(--c4)",{width:7,opacity:0.45}); a.arrow([0,0],[1,2],"var(--c1)"); a.arrow([0,0],[-0.75,-1.5],"var(--c1)");
+const b=mk("#f1b"); b.infLine([0,1],[1,2],"var(--c4)",{width:7,opacity:0.45}); b.circle([0,0],0.22,"var(--bad)",{opacity:1});
+const c=mk("#f1c"); c.poly([[0,0],[4,0],[4,4],[0,4]],"var(--c4)",{opacity:0.22}); c.arrow([0,0],[1.5,1],"var(--c1)"); c.arrow([0,0],[-1.5,-1],"var(--bad)");})();
 </script>
 </body>
 </html>

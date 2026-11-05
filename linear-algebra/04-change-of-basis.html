@@ -164,6 +164,44 @@ footer.pn a{text-decoration:none}
 .mat::after,.minput::after{border-right:1.5px solid currentColor;border-radius:0 .6em .6em 0 / 0 50% 50% 0}
 .mat.det::before,.mat.det::after{border-radius:0;width:.18em}
 .prob-t .src{font-weight:400;font-size:.8rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin-left:6px;white-space:nowrap}
+/* 1手ずつ */
+.stp{border:1.5px dashed var(--accent);border-radius:10px;padding:10px 12px;margin:12px 0;background:var(--card)}
+.stp-head{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;color:var(--accent)}
+.stp-count{color:var(--muted);font-size:.88rem;font-variant-numeric:tabular-nums}
+.stp-desc{min-height:3.4em;margin:6px 0;padding:6px 10px;background:var(--soft);border-radius:8px}
+.stp-mat{text-align:center;overflow-x:auto;padding:4px 0}
+.stp-btn{justify-content:center;margin-bottom:0}
+.smat{display:inline-grid;grid-template-columns:auto .45em repeat(calc(var(--c,1)),auto) .45em;column-gap:.7em;row-gap:.2em;align-items:center;justify-items:center;line-height:1.4;font-size:1.05em}
+.smat .sp{align-self:stretch;width:.45em}
+.smat .sp.l{border-left:1.5px solid currentColor;border-radius:.6em 0 0 .6em / 50% 0 0 50%}
+.smat .sp.r{border-right:1.5px solid currentColor;border-radius:0 .6em .6em 0 / 0 50% 50% 0}
+.smat .rl{color:var(--muted);font-size:.85em;margin-right:-.3em}
+.smat .chg{background:var(--warn-bg);border-radius:4px;padding:0 .25em;outline:1px solid var(--warn)}
+.smat .pv{color:var(--c2);font-weight:700}
+.smat .vb{border-left:1.5px solid var(--muted);padding-left:.6em;margin-left:-.3em}
+.mat .vb{border-left:1.2px solid currentColor;padding-left:.5em}
+/* 要点・ひとこと・用語 */
+.box.points{border-color:var(--accent);background:var(--accent-soft)}
+.box.points .box-t{color:var(--accent)}
+.box.points ol{margin:.2em 0;padding-left:1.4em}
+.box.howto{border-color:var(--thm);background:var(--card)}
+.box.howto .box-t{color:var(--thm)}
+.plain{background:var(--card);border-radius:8px;padding:6px 10px;margin:.4em 0 .6em;font-size:.95rem}
+.plain::before{content:"ひとことで言うと　";font-weight:700;color:var(--warn)}
+.gloss{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:.3em 0}
+.gloss dt{font-weight:700;white-space:nowrap}
+.gloss dt small{display:block;font-weight:400;color:var(--muted);font-size:.78rem}
+.gloss dd{margin:0}
+@media (max-width:520px){.gloss{grid-template-columns:1fr}.gloss dd{margin:0 0 6px .8em}}
+.figrow{display:grid;grid-template-columns:repeat(var(--n,3),minmax(0,1fr));gap:10px;margin:12px 0}
+.figrow .plot{max-width:none}
+.figrow figcaption{font-size:.85rem;text-align:center;color:var(--muted);margin-top:4px;line-height:1.5}
+.figrow figure{margin:0}
+.cd{display:grid;grid-template-columns:auto auto auto;align-items:center;justify-content:center;gap:6px 14px;margin:14px 0;text-align:center}
+.cd .node{border:1.5px solid var(--line);border-radius:8px;padding:4px 14px;background:var(--card)}
+.cd .ar{color:var(--muted);font-size:.9rem;line-height:1.2}
+.cd .node{white-space:nowrap}
+@media (max-width:520px){.cd{font-size:.8rem;column-gap:6px}.cd .node{padding:3px 6px}}
 </style>
 </head>
 <body>
@@ -175,15 +213,18 @@ footer.pn a{text-decoration:none}
 <nav class="toc" aria-label="目次"><a href="#s1">1. 何の話か（直感）</a><a href="#s2">2. 定義</a><a href="#s3">3. 具体例</a><a href="#s4">4. よくある間違い</a><a href="#s5">5. 練習問題</a><a class="demo-link" href="#demo">▶ 動かしてみよう</a></nav>
 </header>
 <main class="doc">
+<div class="box points"><div class="box-t">この回のポイント（まずここだけ押さえましょう）</div><ol><li>変換行列 <i>P</i> の第 <i>j</i> 列＝新しい基底 <b class="vec">b</b>′<sub><i>j</i></sub> を<b>古い基底で表した係数</b>です。</li><li>座標は<b>逆向き</b>に変わります：<span class="nw"><b class="vec">x</b> = <i>P</i><b class="vec">x</b>′</span>（つまり <span class="nw"><b class="vec">x</b>′ = <i>P</i><sup>−1</sup><b class="vec">x</b></span>）。</li><li>ℝⁿ では <span class="nw"><i>P</i> = <i>B</i><sup>−1</sup><i>B</i>′</span>。実際には <span class="nw">[<i>B</i> | <i>B</i>′]</span> を簡約化すると右側に <i>P</i> が出てきます。</li></ol></div>
 <section id="s1">
 <h2>1. 何の話か（直感）</h2>
 <p>長さを「メートル」で測るか「フィート」で測るかで数値が変わるように、ベクトルも基底（ものさし）を変えると座標の数値が変わります。第3回で見たとおり、<span class="nw"><b class="vec">v</b> = (3, 1)</span> は標準基底では (3, 1)、基底 ((1, 1), (−1, 1)) では (2, −1) でした。</p>
+<div class="figrow" style="--n:2"><figure><svg class="plot" id="f4a" role="img" aria-label="標準基底での座標"></svg><figcaption>標準基底 <b class="vec">e</b><sub>1</sub>, <b class="vec">e</b><sub>2</sub> で測ると<br><b>(3, 1)</b>（3<b class="vec">e</b><sub>1</sub> + <b class="vec">e</b><sub>2</sub>）</figcaption></figure><figure><svg class="plot" id="f4b" role="img" aria-label="別の基底での座標"></svg><figcaption><b class="vec">b</b><sub>1</sub> = (1, 1), <b class="vec">b</b><sub>2</sub> = (−1, 1) で測ると<br><b>(2, −1)</b>（2<b class="vec">b</b><sub>1</sub> − <b class="vec">b</b><sub>2</sub>）</figcaption></figure></div>
 <p>基底を変えるたびに連立方程式を解くのは大変です。そこで、</p>
 <ol>
 <li>「新しい基底の各ベクトルを、古い基底で表すと何か」を1つの行列 <i>P</i>（<strong>基底の変換行列</strong>）にまとめておき、</li>
 <li>座標の換算は行列のかけ算 <span class="nw"><b class="vec">x</b> = <i>P</i><b class="vec">x</b>′</span> で済ませる</li>
 </ol>
 <p>というのが今回の話です。ポイントは、<strong>基底は <i>P</i> で「古い→新しい」に変わるのに、座標は逆向きの式になる</strong>ことです。下の計算機で確かめてみましょう。</p>
+<div class="box note"><div class="box-t">用語メモ</div><dl class="gloss"><dt>基底変換<small>きていへんかん</small></dt><dd>使う基底を、別の基底に取りかえること。</dd><dt>変換行列 <i>P</i><small>へんかんぎょうれつ</small></dt><dd>新しい基底を古い基底で表したときの係数を、列に並べた行列。</dd><dt>正則<small>せいそく</small></dt><dd>逆行列をもつこと（|<i>P</i>| ≠ 0）。変換行列は必ず正則です。</dd><dt>拡大係数行列<small>かくだいけいすうぎょうれつ</small></dt><dd>行列の右に、縦線で区切って別の列を付け加えたもの。連立方程式をまとめて解くときに使います。</dd></dl></div>
 </section>
 
 <section id="s2">
@@ -191,6 +232,7 @@ footer.pn a{text-decoration:none}
 <p>線形空間 <i>V</i> の2組の基底を <span class="nw"><i>B</i> = (<b class="vec">b</b><sub>1</sub>, …, <b class="vec">b</b><sub><i>n</i></sub>)</span>（古い基底）、<span class="nw"><i>B</i>′ = (<b class="vec">b</b>′<sub>1</sub>, …, <b class="vec">b</b>′<sub><i>n</i></sub>)</span>（新しい基底）とします。</p>
 <div class="box def">
 <div class="box-t">定義（基底の変換行列）</div>
+<p class="plain">新しいものさしを、古いものさしで測った数値を列に並べた表です。</p>
 <p>新しい基底の各ベクトルを古い基底の1次結合で表します。</p>
 <div class="dm"><b class="vec">b</b>′<sub><i>j</i></sub> = <i>p</i><sub>1<i>j</i></sub><b class="vec">b</b><sub>1</sub> + <i>p</i><sub>2<i>j</i></sub><b class="vec">b</b><sub>2</sub> + ⋯ + <i>p</i><sub><i>nj</i></sub><b class="vec">b</b><sub><i>n</i></sub>　　(<i>j</i> = 1, …, <i>n</i>)</div>
 <p>この係数を<strong>第 <i>j</i> 列</strong>に並べた <i>n</i> 次正方行列 <span class="nw"><i>P</i> = (<i>p</i><sub><i>ij</i></sub>)</span> を、<i>B</i> から <i>B</i>′ への<strong>基底の変換行列</strong>といいます。まとめて書くと</p>
@@ -199,6 +241,7 @@ footer.pn a{text-decoration:none}
 </div>
 <div class="box thm">
 <div class="box-t">定理（座標変換の公式）</div>
+<p class="plain">「新しい座標 <b class="vec">x</b>′ に <i>P</i> をかけると古い座標 <b class="vec">x</b> になる」と覚えましょう。逆向き（古い→新しい）は <i>P</i><sup>−1</sup> です。</p>
 <p><b class="vec">v</b> ∈ <i>V</i> の <i>B</i> に関する座標を <b class="vec">x</b>、<i>B</i>′ に関する座標を <b class="vec">x</b>′ とすると</p>
 <div class="dm" style="font-size:1.12em"><b class="vec">x</b> = <i>P</i><b class="vec">x</b>′，　　<b class="vec">x</b>′ = <i>P</i><sup>−1</sup><b class="vec">x</b></div>
 <p class="small muted">証明：<span class="nw"><b class="vec">v</b> = (<b class="vec">b</b>′<sub>1</sub> ⋯ <b class="vec">b</b>′<sub><i>n</i></sub>)<b class="vec">x</b>′ = (<b class="vec">b</b><sub>1</sub> ⋯ <b class="vec">b</b><sub><i>n</i></sub>)<i>P</i><b class="vec">x</b>′</span>。一方 <span class="nw"><b class="vec">v</b> = (<b class="vec">b</b><sub>1</sub> ⋯ <b class="vec">b</b><sub><i>n</i></sub>)<b class="vec">x</b></span>。座標はただ1通りなので <span class="nw"><b class="vec">x</b> = <i>P</i><b class="vec">x</b>′</span>。</p>
@@ -207,6 +250,7 @@ footer.pn a{text-decoration:none}
 <div class="box-t">ℝⁿ での求め方</div>
 <p><i>V</i> = ℝⁿ なら、基底のベクトルを列に並べた行列を同じ記号 <i>B</i>, <i>B</i>′ で表すと、<span class="nw"><i>B</i>′ = <i>BP</i></span> なので</p>
 <div class="dm"><i>P</i> = <i>B</i><sup>−1</sup><i>B</i>′</div>
+<p>実際の計算では、<span class="nw">[<i>B</i> | <i>B</i>′]</span>（<i>B</i> の右に <i>B</i>′ を並べた行列）を簡約化すると <span class="nw">[<i>E</i> | <i>P</i>]</span> になります。<i>B</i><sup>−1</sup> を別に求める必要はありません。</p>
 <p>特に <i>B</i> が標準基底なら <span class="nw"><i>P</i> = <i>B</i>′</span>（新しい基底をそのまま列に並べたもの）です。</p>
 </div>
 </section>
@@ -225,6 +269,7 @@ footer.pn a{text-decoration:none}
 <div class="legend"><span style="--k:var(--c1)">B の方眼</span><span style="--k:var(--c3)">B′ の方眼</span><span style="--k:var(--c5)">v</span></div></div>
 <div class="out" id="res"></div>
 </div>
+<div id="st04"></div>
 </div>
 
 <div class="ex">
@@ -237,6 +282,7 @@ footer.pn a{text-decoration:none}
 <div class="ex-t">例 2：どちらも標準基底でないとき</div>
 <p><span class="nw"><i>B</i> = ((1, 0), (1, 1))</span>, <span class="nw"><i>B</i>′ = ((1, 1), (−1, 1))</span>。</p>
 <div class="dm"><i>P</i> = <i>B</i><sup>−1</sup><i>B</i>′ = <span class="mat"><span class="g" style="--c:2"><span>1</span><span>−1</span><span>0</span><span>1</span></span></span><span class="mat"><span class="g" style="--c:2"><span>1</span><span>−1</span><span>1</span><span>1</span></span></span> = <span class="mat"><span class="g" style="--c:2"><span>0</span><span>−2</span><span>1</span><span>1</span></span></span></div>
+<div class="stepper" data-m="1,1,1,-1;0,1,1,1" data-aug="2" data-title="[B | B′] を1手ずつ簡約化 → 右側が P"></div>
 <p>列の意味を確かめると、<span class="nw"><b class="vec">b</b>′<sub>1</sub> = 0<b class="vec">b</b><sub>1</sub> + 1<b class="vec">b</b><sub>2</sub> = (1, 1)</span>、<span class="nw"><b class="vec">b</b>′<sub>2</sub> = −2<b class="vec">b</b><sub>1</sub> + <b class="vec">b</b><sub>2</sub> = (−1, 1)</span> で正しいです。</p>
 </div>
 <div class="ex">
@@ -275,6 +321,7 @@ footer.pn a{text-decoration:none}
 
 <section id="s5">
 <h2>5. 練習問題</h2>
+<div class="box howto"><div class="box-t">解き方の手順：変換行列と座標の変換</div><ol><li>新しい基底の各ベクトル <b class="vec">b</b>′<sub><i>j</i></sub> を、古い基底の1次結合で表します（ℝⁿ なら <span class="nw">[<i>B</i> | <i>B</i>′]</span> を簡約化して <span class="nw">[<i>E</i> | <i>P</i>]</span>）。</li><li>係数を<b>列</b>に並べたものが <i>P</i> です。</li><li>新しい座標は <span class="nw"><b class="vec">x</b>′ = <i>P</i><sup>−1</sup><b class="vec">x</b></span>。逆行列を作るより、<span class="nw"><i>P</i><b class="vec">x</b>′ = <b class="vec">x</b></span> を連立方程式として解く方が楽なことも多いです。</li><li>検算：<span class="nw"><i>x</i>′<sub>1</sub><b class="vec">b</b>′<sub>1</sub> + ⋯ + <i>x</i>′<sub><i>n</i></sub><b class="vec">b</b>′<sub><i>n</i></sub></span> を計算して、元のベクトルに戻るか確かめます。</li></ol></div>
 <div class="prob">
 <div class="prob-t">問題 1 <span class="src">教科書 練習問題4 [A] 16 の類題</span></div>
 <p>ℝ³ の2組の基底</p>
@@ -557,6 +604,61 @@ function combHTML(cs,names){
 const fmt=x=>H(toQ(Math.abs(x)<1e-12?0:x));
 const $=s=>document.querySelector(s);
 
+/* ===== 行基本変形を1手ずつ記録する ===== */
+const ROWN="①②③④⑤⑥⑦⑧";
+function rrefSteps(A0,aug=0){
+  const A=LA.clone(A0), m=A.length, n=A[0].length, nL=n-aug, steps=[]; let r=0;
+  const push=(desc,rows,piv)=>steps.push({M:LA.clone(A),desc,rows:rows||[],piv:piv||null});
+  push("スタート：この行列を簡約化（階段行列に）していきます。",[]);
+  for(let c=0;c<nL&&r<m;c++){
+    let p=-1; for(let i=r;i<m;i++){if(!A[i][c].isZero()){p=i;break;}}
+    if(p<0){ push(`第${c+1}列は ${ROWN[r]} 行目から下がすべて 0 なので、この列はとばして右の列へ進みます。`,[]); continue; }
+    if(p!==r){ [A[r],A[p]]=[A[p],A[r]]; push(`${ROWN[r]} と ${ROWN[p]} を入れかえます（第${c+1}列の先頭に 0 でない数を持ってくるため）。`,[r,p],[r,c]); }
+    const k=A[r][c];
+    if(!k.eq(1)){ A[r]=A[r].map(v=>v.div(k)); push(`${ROWN[r]} を ${q(1).div(k).html()} 倍します（先頭を 1 にするため）。`,[r],[r,c]); }
+    for(let i=0;i<m;i++){ if(i===r||A[i][c].isZero()) continue;
+      const f=A[i][c]; A[i]=A[i].map((v,j)=>v.sub(f.mul(A[r][j])));
+      const a=f.n<0?f.neg():f, co=a.eq(1)?"":` の ${a.html()} 倍`;
+      const d=f.n>0?`${ROWN[i]} から ${ROWN[r]}${co} を引きます`:`${ROWN[i]} に ${ROWN[r]}${co} を足します`;
+      push(`${d}（第${c+1}列の ${ROWN[i]} 行目を 0 にするため）。`,[i],[r,c]);
+    }
+    r++;
+  }
+  push("完成です。各行の先頭が 1 で、その上下がすべて 0 になりました（簡約化された行列）。",[]);
+  return steps;
+}
+function stepMatHTML(M,aug,rows,piv){
+  const m=M.length,n=M[0].length; let s=`<span class="smat" style="--m:${m};--c:${n}">`;
+  s+=`<span class="sp l" style="grid-row:1/${m+1};grid-column:2"></span><span class="sp r" style="grid-row:1/${m+1};grid-column:${n+3}"></span>`;
+  for(let i=0;i<m;i++){
+    s+=`<span class="rl" style="grid-row:${i+1};grid-column:1">${ROWN[i]}</span>`;
+    for(let j=0;j<n;j++){
+      const cl=[rows.includes(i)?"chg":"", piv&&piv[0]===i&&piv[1]===j?"pv":"", aug&&j===n-aug?"vb":""].filter(Boolean).join(" ");
+      s+=`<span class="${cl}" style="grid-row:${i+1};grid-column:${j+3}">${H(M[i][j])}</span>`;
+    }
+  }
+  return s+"</span>";
+}
+function makeStepper(el,A,aug=0,title){
+  const steps=rrefSteps(A,aug); let k=0;
+  el.classList.add("stp");
+  el.innerHTML=`<div class="stp-head"><b>${title||"簡約化を1手ずつ見る"}</b><span class="stp-count"></span></div>
+    <div class="stp-desc"></div><div class="stp-mat"></div>
+    <div class="ctrl stp-btn"><button data-a="0">最初へ</button><button data-a="-1">◀ 前へ</button><button data-a="1" class="on">次へ ▶</button><button data-a="9">最後へ</button></div>`;
+  const show=()=>{const st=steps[k];
+    el.querySelector(".stp-count").textContent=`${k} / ${steps.length-1} 手`;
+    el.querySelector(".stp-desc").innerHTML=st.desc;
+    el.querySelector(".stp-mat").innerHTML=stepMatHTML(st.M,aug,st.rows,st.piv);};
+  el.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{const a=+b.dataset.a;
+    k=a===0?0:a===9?steps.length-1:Math.max(0,Math.min(steps.length-1,k+a)); show();}));
+  show(); return {steps};
+}
+// ページ内の <div class="stepper" data-m="1,2;3,4" data-aug="1"> を自動で動かす
+document.querySelectorAll(".stepper[data-m]").forEach(el=>{
+  const A=el.dataset.m.split(";").map(r=>r.split(",").map(x=>Q.parse(x)));
+  makeStepper(el,A,+(el.dataset.aug||0),el.dataset.title);
+});
+
 </script>
 <script>
 const PRE={
@@ -587,6 +689,7 @@ function calc(){
   if(!B||!B2||!X){out.innerHTML='<span class="ng">数値または分数を入力してください。</span>';return;}
   const x=X.map(r=>r[0]), Bi=LA.inv(B), B2i=LA.inv(B2);
   if(!Bi||!B2i){out.innerHTML=`<span class="tag ng">基底ではありません</span> ${!Bi?"<i>B</i>":"<i>B</i>′"} の列ベクトルが1次従属です（行列式 = 0）。`; drawPlot(null); return;}
+  makeStepper($("#st04"),B.map((r,i)=>r.concat(B2[i])),n,"[B | B′] を1手ずつ簡約化 → 右側が P");
   const Pm=LA.mul(Bi,B2), Pi=LA.inv(Pm), xp=LA.mv(Pi,x), v=LA.mv(B,x), chk=LA.mv(Pm,xp);
   const bn=j=>V("b")+"<sub>"+(j+1)+"</sub>", bpn=j=>V("b")+"′<sub>"+(j+1)+"</sub>";
   let s=`<div class="row"><b>① 変換行列</b>　<i>P</i> = <i>B</i><sup>−1</sup><i>B</i>′ = ${matHTML(Bi)}${matHTML(B2)} = ${matHTML(Pm)}</div>`;
@@ -623,6 +726,14 @@ P.handle(()=>vStd,p=>{ // v を動かしたら B 座標 x を逆算
 $("#dim").addEventListener("change",e=>{n=+e.target.value;setup();});
 $("#pre").addEventListener("change",e=>load(+e.target.value));
 setup();
+
+(function(){
+const a=new Plane($("#f4a"),{R:4}); a.line([0,0],[3,0],"var(--c1)",{dash:"6 4",width:2.5}); a.line([3,0],[3,1],"var(--c2)",{dash:"6 4",width:2.5});
+a.arrow([0,0],[1,0],"var(--c1)",{label:"e₁"}); a.arrow([0,0],[0,1],"var(--c2)",{label:"e₂"}); a.arrow([0,0],[3,1],"var(--c5)",{label:"v"});
+const b=new Plane($("#f4b"),{R:4});
+for(let k=-8;k<=8;k++){b.infLine([k,k],[-1,1],"var(--c1)",{width:1,opacity:0.3}); b.infLine([-k,k],[1,1],"var(--c2)",{width:1,opacity:0.3});}
+b.line([0,0],[2,2],"var(--c1)",{dash:"6 4",width:2.5}); b.line([2,2],[3,1],"var(--c2)",{dash:"6 4",width:2.5});
+b.arrow([0,0],[1,1],"var(--c1)",{label:"b₁"}); b.arrow([0,0],[-1,1],"var(--c2)",{label:"b₂"}); b.arrow([0,0],[3,1],"var(--c5)",{label:"v"});})();
 </script>
 </body>
 </html>
