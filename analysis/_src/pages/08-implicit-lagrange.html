@@ -1,0 +1,248 @@
+<!--
+title: 陰関数定理, 条件付き極値問題
+lead: 方程式 $g(x,y)=0$ が表す曲線は、局所的には関数 $y=\varphi(x)$ のグラフとみなせます（陰関数定理）。その曲線の上で $f(x,y)$ の最大・最小を探すのが条件付き極値問題で、答えの候補は「$\nabla f$ と $\nabla g$ が平行な点」です（ラグランジュの未定乗数法）。
+desc: 陰関数の存在と微分 dy/dx = −g_x/g_y、ラグランジュの未定乗数法
+-->
+<section id="s1">
+<h2>1. 何の話か（直感）</h2>
+<h3>(1) 陰関数</h3>
+<p>円 $x^2+y^2=1$ は、全体としては1つの関数 $y=\varphi(x)$ のグラフではありません（1つの $x$ に $y$ が2つ）。しかし点 $(0.6,0.8)$ の<strong>近くだけ</strong>見れば $y=\sqrt{1-x^2}$ のグラフです。このように $g(x,y)=0$ から（局所的に）決まる関数 $y=\varphi(x)$ を<strong>陰関数</strong>といいます。</p>
+<p>陰関数の式が具体的に書けなくても、導関数は計算できます。$g(x,\varphi(x))=0$ を $x$ で微分すると連鎖律から $g_x+g_y\varphi'(x)=0$、よって $\varphi'(x)=-\dfrac{g_x}{g_y}$ です。</p>
+<h3>(2) 条件付き極値</h3>
+<p>「円周 $x^2+y^2=2$ の上で $f=xy$ を最大にせよ」のように、<strong>制約条件 $g(x,y)=0$ の上だけ</strong>で $f$ の最大・最小を考えます。</p>
+<p>曲線 $g=0$ に沿って歩きながら $f$ の等高線をまたいでいくと、$f$ の値は増えたり減ったりします。値が最大・最小になるのは、曲線が $f$ の等高線と<strong>接する</strong>ところ。接するとき2本の曲線の法線（$\nabla f$ と $\nabla g$）は平行なので</p>
+$$\nabla f=\lambda\nabla g\quad\text{（ある実数 }\lambda\text{）}$$
+<p>これが<strong>ラグランジュの未定乗数法</strong>の考え方です（下のデモで確かめられます）。</p>
+</section>
+
+<section id="s2">
+<h2>2. 定理</h2>
+<div class="box thm">
+<div class="box-t">定理 1（陰関数定理）</div>
+<p>$g(x,y)$ は $C^1$ 級で、$g(a,b)=0$, $g_y(a,b)\ne0$ とします。このとき $x=a$ の近くで定義された $C^1$ 級関数 $y=\varphi(x)$ で</p>
+$$\varphi(a)=b,\qquad g(x,\varphi(x))=0$$
+<p>をみたすものがただ1つ存在し、</p>
+$$\varphi'(x)=-\frac{g_x(x,\varphi(x))}{g_y(x,\varphi(x))}$$
+<p class="small muted">$g_x(a,b)\ne0$ なら、$x$ と $y$ の役割を入れ替えて $x=\psi(y)$ と表せます。$g_x=g_y=0$ の点（特異点）では、曲線がとがったり交差したりすることがあります。</p>
+</div>
+<div class="box thm">
+<div class="box-t">定理 2（陰関数の極値）</div>
+<p>陰関数 $y=\varphi(x)$ が $x=a$ で極値をとる候補は $\varphi'(a)=0$、つまり $g_x(a,b)=0$ の点。そこで $g$ が $C^2$ 級なら</p>
+$$\varphi''(a)=-\frac{g_{xx}(a,b)}{g_y(a,b)}$$
+<p>で、$\varphi''(a)<0$ なら<strong>極大</strong>、$\varphi''(a)>0$ なら<strong>極小</strong>。</p>
+<p class="small muted">一般の点での2階導関数は $\varphi''=-\dfrac{g_{xx}g_y^2-2g_{xy}g_xg_y+g_{yy}g_x^2}{g_y^3}$。$g_x=0$ の点では第1項だけが残ります。</p>
+</div>
+<div class="box thm">
+<div class="box-t">定理 3（ラグランジュの未定乗数法）</div>
+<p>$f,g$ は $C^1$ 級とします。条件 $g(x,y)=0$ のもとで $f(x,y)$ が点 $(a,b)$ で極値をとり、$\nabla g(a,b)\ne\bm0$ ならば、ある実数 $\lambda$ があって</p>
+$$f_x(a,b)=\lambda g_x(a,b),\qquad f_y(a,b)=\lambda g_y(a,b)$$
+<p>同じことですが、$F(x,y,\lambda)=f(x,y)-\lambda g(x,y)$ とおいて $F_x=F_y=F_\lambda=0$ を解きます（$F_\lambda=0$ が条件 $g=0$）。</p>
+</div>
+<div class="box note">
+<div class="box-t">条件付き極値の解き方</div>
+<ol class="steps">
+<li>連立方程式 $f_x=\lambda g_x$, $f_y=\lambda g_y$, $g=0$ を解いて候補点を出す（$\lambda$ を消去すると $f_xg_y-f_yg_x=0$）。</li>
+<li>$g_x=g_y=0$ となる $g=0$ 上の点（特異点）があれば、それも候補に加える。</li>
+<li>曲線 $g=0$ が<strong>有界閉集合</strong>（円や楕円など）なら、$f$ は最大値・最小値をもつので、候補点での $f$ の値を比べて最大・最小を決める。</li>
+</ol>
+<p class="small muted">定理3は「極値なら平行」という<strong>必要条件</strong>です。候補点が本当に極値かどうかは、手順3のような議論で確かめます。</p>
+</div>
+</section>
+
+<section id="s3">
+<h2>3. 具体例</h2>
+<div class="ex">
+<div class="ex-t">例 1：陰関数の微分</div>
+<p>$g=x^3+y^3-3xy$ とすると $g_x=3x^2-3y$, $g_y=3y^2-3x$。$g_y\ne0$ の点の近くで</p>
+$$\frac{dy}{dx}=-\frac{3x^2-3y}{3y^2-3x}=\frac{y-x^2}{y^2-x}$$
+<p>円 $x^2+y^2=1$ なら $\dfrac{dy}{dx}=-\dfrac{x}{y}$。点 $(0.6,0.8)$ での傾きは $-0.75$ です。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 2：陰関数の極値</div>
+<p>$x^2+xy+y^2=3$ で定まる陰関数 $y=\varphi(x)$ の極値。$g=x^2+xy+y^2-3$ とします。</p>
+<p>$g_x=2x+y=0$ より $y=-2x$。$g=0$ に代入して $x^2-2x^2+4x^2=3$、$x=\pm1$。候補は $(1,-2)$, $(-1,2)$。</p>
+<p>$g_{xx}=2$, $g_y=x+2y$。</p>
+<ul>
+<li>$(1,-2)$：$g_y=-3$、$\varphi''=-\dfrac{2}{-3}=\dfrac23>0$ → <strong>極小値 $-2$</strong></li>
+<li>$(-1,2)$：$g_y=3$、$\varphi''=-\dfrac23<0$ → <strong>極大値 $2$</strong></li>
+</ul>
+</div>
+<div class="ex">
+<div class="ex-t">例 3：ラグランジュの未定乗数法</div>
+<p>条件 $x^2+y^2=2$ のもとで $f=xy$ の最大値・最小値。$g=x^2+y^2-2$, $\nabla f=(y,x)$, $\nabla g=(2x,2y)$。</p>
+$$y=2\lambda x,\qquad x=2\lambda y,\qquad x^2+y^2=2$$
+<p>第1式を第2式に代入して $x=4\lambda^2x$。$x=0$ なら $y=0$ となり条件に反するので $\lambda=\pm\frac12$。</p>
+<ul>
+<li>$\lambda=\frac12$：$y=x$、$2x^2=2$ より $(1,1)$, $(-1,-1)$、$f=1$</li>
+<li>$\lambda=-\frac12$：$y=-x$ より $(1,-1)$, $(-1,1)$、$f=-1$</li>
+</ul>
+<p>円周は有界閉集合なので $f$ は最大値・最小値をもち、それは候補のどれか。よって<strong>最大値 $1$、最小値 $-1$</strong>。（$\nabla g=\bm0$ となるのは原点だけで、円周上にはない。）</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 4：楕円上の1次関数</div>
+<p>条件 $x^2+4y^2=4$ のもとで $f=x+y$。$1=2\lambda x$, $1=8\lambda y$ より $x=4y$。条件に代入して $20y^2=4$、$y=\pm\frac{1}{\sqrt5}$, $x=\pm\frac{4}{\sqrt5}$（複号同順）。$f=\pm\sqrt5$ なので<strong>最大値 $\sqrt5$、最小値 $-\sqrt5$</strong>。</p>
+<p class="check">図形的には、直線 $x+y=c$ が楕円に接するときの $c$ を求めていることになります。</p>
+</div>
+
+<div class="demo" id="demo" data-toc="▶ ∇f と ∇g が平行な点">
+<div class="demo-t">制約曲線の上で f を最大・最小にする</div>
+<p class="small">太い線が条件 $g(x,y)=0$、細い線が $f$ の等高線です。<span style="color:var(--c5)">●</span> を曲線に沿ってドラッグしてください。<span style="color:var(--c4)">緑</span>が $\nabla f$、<span style="color:var(--c2)">赤</span>が $\nabla g$（どちらも向きだけ表示）。2本が<strong>平行になる点</strong>で、右のグラフの $f$ が山や谷になります。</p>
+<div class="ctrl"><label>例：<select id="pre"></select></label></div>
+<div class="ctrl"><label>$f=$ <input id="ef" class="expr" value="x y" autocomplete="off" spellcheck="false"></label><label>$g=$ <input id="eg" class="expr" value="x^2+y^2-2" autocomplete="off" spellcheck="false"></label>$=0$</div>
+<div class="demo-grid">
+<div><canvas class="cv" id="cv"></canvas><p class="cap">$f$ の等高線と条件 $g=0$</p></div>
+<div><canvas class="cv" id="cg"></canvas><p class="cap">曲線上の $f$ の値（横軸：原点から見た角度 $\theta$）</p></div>
+</div>
+<div class="out" id="out"></div>
+<p class="hint">この図では、曲線を「原点から角度 $\theta$ の方向に見た点」で表しています（原点を囲む円・楕円などの曲線用）。</p>
+</div>
+</section>
+
+<section id="s4">
+<h2>4. よくある間違い</h2>
+<div class="mis">
+<p class="bad">$f_x=\lambda g_x$, $f_y=\lambda g_y$ だけを解いて、条件 $g=0$ を使い忘れる。</p>
+<p class="good">未知数は $x,y,\lambda$ の3つなので、<strong>式も3つ</strong>（$g=0$ を含む）必要です。</p>
+</div>
+<div class="mis">
+<p class="bad">陰関数の導関数を $\dfrac{dy}{dx}=\dfrac{g_x}{g_y}$ とする。</p>
+<p class="good">マイナスがつきます：$\dfrac{dy}{dx}=-\dfrac{g_x}{g_y}$。$g_x+g_y\dfrac{dy}{dx}=0$ から毎回導けば間違えません。</p>
+</div>
+<div class="mis">
+<p class="bad">ラグランジュの方法で出た点は、すべて極値である。</p>
+<p class="good">出てくるのは<strong>候補</strong>です。有界閉集合なら値の比較で最大・最小が決まりますが、直線のように有界でない曲線では、最大値がないこともあります（問題4）。</p>
+</div>
+<div class="mis">
+<p class="bad">$y=2\lambda x$, $x=2\lambda y$ から辺々割って $\dfrac yx=\dfrac xy$。</p>
+<p class="good">割る前に $x=0$ や $y=0$ の場合を別に調べます。割り算は「0でない」ことを確認してから。</p>
+</div>
+</section>
+
+<section id="s5">
+<h2>5. 練習問題</h2>
+<div class="prob">
+<div class="prob-t">問題 1 <span class="lv">陰関数の微分</span></div>
+<p>次の式で定まる陰関数 $y=\varphi(x)$ について $\dfrac{dy}{dx}$ を求めてください。</p>
+<p>(1) $x^2-xy+y^2=3$　　(2) $e^{xy}=x+y$</p>
+<details><summary>解答を見る</summary>
+<p>(1) $g_x=2x-y$, $g_y=-x+2y$ より $\dfrac{dy}{dx}=-\dfrac{2x-y}{2y-x}$</p>
+<p>(2) $g=e^{xy}-x-y$, $g_x=ye^{xy}-1$, $g_y=xe^{xy}-1$ より $\dfrac{dy}{dx}=-\dfrac{ye^{xy}-1}{xe^{xy}-1}$</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 2 <span class="lv">接線</span></div>
+<p>曲線 $x^2+xy+y^2=7$ の点 $(1,2)$ における接線を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>$g_x=2x+y=4$, $g_y=x+2y=5$。接線 $4(x-1)+5(y-2)=0$、すなわち $4x+5y=14$。（第6回の「勾配は等高線に垂直」と同じ。）</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 3 <span class="lv">陰関数の極値</span></div>
+<p>$x^3+y^3-3xy=0$ で定まる陰関数 $y=\varphi(x)$ の極値を求めてください（$x>0$ の範囲）。</p>
+<details><summary>解答を見る</summary>
+<p>$g_x=3x^2-3y=0$ より $y=x^2$。代入して $x^3+x^6-3x^3=0$、$x^3(x^3-2)=0$。$x>0$ より $x=\sqrt[3]2$, $y=\sqrt[3]4$。</p>
+<p>$g_y=3y^2-3x=3(2^{4/3}-2^{1/3})=3\cdot2^{1/3}>0$, $g_{xx}=6x=6\cdot2^{1/3}$。$\varphi''=-\dfrac{g_{xx}}{g_y}=-2<0$。</p>
+<p><strong>$x=\sqrt[3]2$ で極大値 $\sqrt[3]4$</strong>。（原点は $g_x=g_y=0$ の特異点で、曲線が交差しています。）</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 4 <span class="lv">ラグランジュ：直線</span></div>
+<p>条件 $x+2y=5$ のもとで $f=x^2+y^2$ の最小値を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>$2x=\lambda$, $2y=2\lambda$ より $y=2x$。$x+4x=5$ から $(1,2)$、$f=5$。</p>
+<p>$f$ は原点からの距離の2乗。直線上で遠くへ行けば $f$ はいくらでも大きくなるので最大値はなく、ただ1つの候補 $(1,2)$ で<strong>最小値 $5$</strong>（原点から直線への距離 $\sqrt5$ の2乗）。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 5 <span class="lv">ラグランジュ：楕円</span></div>
+<p>条件 $x^2+xy+y^2=3$ のもとで $f=x^2+y^2$ の最大値・最小値を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>$\nabla f=(2x,2y)$, $\nabla g=(2x+y,\,x+2y)$。平行条件 $f_xg_y-f_yg_x=0$：$2x(x+2y)-2y(2x+y)=2(x^2-y^2)=0$、よって $y=\pm x$。</p>
+<p>$y=x$：$3x^2=3$ → $(\pm1,\pm1)$、$f=2$。$y=-x$：$x^2=3$ → $(\pm\sqrt3,\mp\sqrt3)$、$f=6$。</p>
+<p>条件の曲線は楕円（有界閉集合）なので <strong>最大値 $6$、最小値 $2$</strong>。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 6 <span class="lv">応用</span></div>
+<p>楕円 $\dfrac{x^2}{4}+y^2=1$ に内接し、各辺が座標軸に平行な長方形の面積の最大値を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>第1象限の頂点を $(x,y)$ $(x,y>0)$ とすると面積は $f=4xy$。$g=\frac{x^2}{4}+y^2-1$。</p>
+<p>$4y=\lambda\cdot\frac x2$, $4x=\lambda\cdot2y$。$\lambda$ を消去すると $4y\cdot2y=4x\cdot\frac x2$、$x^2=4y^2$、$x=2y$。条件より $2y^2=1$、$y=\frac{1}{\sqrt2}$, $x=\sqrt2$。</p>
+<p>面積の最大値は $4\cdot\sqrt2\cdot\frac{1}{\sqrt2}=4$。（一般に楕円 $\frac{x^2}{a^2}+\frac{y^2}{b^2}=1$ なら $2ab$。）</p>
+</details>
+</div>
+</section>
+
+<script>
+const PRE=[["x y","x^2+y^2-2","f = xy, x²+y² = 2（例3）"],["x+y","x^2+4y^2-4","f = x+y, x²+4y² = 4（例4）"],["x^2+y^2","x^2+x y+y^2-3","f = x²+y², x²+xy+y² = 3（問題5）"],["4x y","x^2/4+y^2-1","f = 4xy, x²/4+y² = 1（問題6）"],["x^2-y^2+x","x^2+y^2-1","f = x²−y²+x, x²+y² = 1"],["y","x^2+x y+y^2-3","f = y, x²+xy+y² = 3（例2）"]];
+fillSelect($("#pre"),PRE.map(p=>p[2]));
+let F,Fx,Fy,G,Gx,Gy, th=0.4, fr=[-1,1], cands=[];
+const PL=new Plot2D($("#cv"),{xmin:-2.5,xmax:2.5,ymin:-2.5,ymax:2.5});
+const PG=new Plot2D($("#cg"),{xmin:0,xmax:2*Math.PI,ymin:-1,ymax:1,equal:false,xl:"θ",yl:"f",ticks:false});
+function rad(t){ // 原点から角度 t の方向で g=0 となる最初の点
+  const u=[Math.cos(t),Math.sin(t)], h=r=>G(r*u[0],r*u[1]);
+  let r0=0.02, v0=h(r0);
+  for(let r=0.04;r<=5;r+=0.02){ const v=h(r); if(isFinite(v)&&isFinite(v0)&&(v0<0)!==(v<0)){ let a=r-0.02,b=r; for(let k=0;k<50;k++){ const m=(a+b)/2; if((h(a)<0)!==(h(m)<0)) b=m; else a=m; } const R=(a+b)/2; return [R*u[0],R*u[1]]; } v0=v; }
+  return null;
+}
+const cross=p=>Fx(...p)*Gy(...p)-Fy(...p)*Gx(...p);
+PL.addHandle({get:()=>rad(th)||[0,0],set:p=>{th=Math.atan2(p[1],p[0]); if(th<0) th+=2*Math.PI; upd();},color:cssv("c5"),hidden:()=>!rad(th)});
+REDRAW.add(()=>PL.handles[0].color=cssv("c5"));
+PL.onDraw=p=>{
+  const L=[]; for(let i=1;i<16;i++) L.push(fr[0]+(fr[1]-fr[0])*i/16);
+  p.heat(F,fr[0],fr[1],{alpha:0.35});
+  p.contour(F,L,rgba(cssv("fg"),0.3),{n:110,width:1});
+  p.contour(G,[0],cssv("fg"),{n:220,width:3.2});
+  cands.forEach(c=>{ p.contour(F,[c.f],cssv(c.max?"c2":"c1"),{n:160,width:1.6,dash:[5,4]}); p.dot(c.p,cssv(c.max?"c2":"c1"),{r:5}); });
+  const q=rad(th); if(!q) return;
+  const a=[Fx(...q),Fy(...q)], b=[Gx(...q),Gy(...q)], na=Math.hypot(...a), nb=Math.hypot(...b);
+  if(na>1e-9) p.arrow(q,[q[0]+0.8*a[0]/na,q[1]+0.8*a[1]/na],cssv("c4"),{label:"∇f"});
+  if(nb>1e-9) p.arrow(q,[q[0]+0.8*b[0]/nb,q[1]+0.8*b[1]/nb],cssv("c2"),{label:"∇g",ldx:-30});
+};
+PG.onDraw=p=>{
+  p.curve(t=>{ const q=rad(t); return q?[t,F(...q)]:null; },0,2*Math.PI,cssv("c5"),{width:2.6,n:360});
+  cands.forEach(c=>p.dot([c.t,c.f],cssv(c.max?"c2":"c1"),{r:5,label:fnum(c.f,3),bold:true}));
+  const q=rad(th); if(q) p.dot([th,F(...q)],cssv("c5"),{r:6,ring:true});
+};
+function findCands(){
+  cands=[]; const N=720; let prev=null;
+  for(let i=0;i<=N;i++){
+    const t=2*Math.PI*i/N, q=rad(t); if(!q){prev=null;continue;}
+    const c=cross(q);
+    if(prev&&(prev.c<0)!==(c<0)&&isFinite(c)&&isFinite(prev.c)){
+      let a=prev.t,b=t; for(let k=0;k<40;k++){ const m=(a+b)/2, qm=rad(m); if(!qm) break; if((cross(rad(a))<0)!==(cross(qm)<0)) b=m; else a=m; }
+      const tm=(a+b)/2, qm=rad(tm); if(qm&&!cands.some(c=>Math.hypot(c.p[0]-qm[0],c.p[1]-qm[1])<1e-3)){
+        const fm=F(...qm), f1=F(...rad(tm-0.02)), f2=F(...rad(tm+0.02));
+        if(fm>=f1&&fm>=f2) cands.push({t:tm,p:qm,f:fm,max:true}); else if(fm<=f1&&fm<=f2) cands.push({t:tm,p:qm,f:fm,max:false});
+      }
+    }
+    prev={t,c};
+  }
+}
+function upd(){
+  const q=rad(th), out=$("#out");
+  if(!q){ out.innerHTML='<span class="ng">この角度の方向に曲線 g = 0 が見つかりません。</span>'; PL.draw(); PG.draw(); return; }
+  const a=[Fx(...q),Fy(...q)], b=[Gx(...q),Gy(...q)], cr=cross(q), nb=Math.hypot(...b), na=Math.hypot(...a);
+  const par=Math.abs(cr)<0.02*Math.max(1e-9,na*nb);
+  let s=`<div class="row">点 ${tex("("+fnum(q[0],3)+","+fnum(q[1],3)+")")}：${tex("f="+fnum(F(...q),4))}</div>`;
+  s+=`<div class="row">${tex("\\nabla f=("+fnum(a[0],3)+","+fnum(a[1],3)+"),\\quad \\nabla g=("+fnum(b[0],3)+","+fnum(b[1],3)+")")}</div>`;
+  s+=`<div class="row">平行の判定 ${tex("f_xg_y-f_yg_x="+fnum(cr,3))}　${par?'<span class="tag ok">ほぼ平行！ '+tex("\\lambda\\approx"+fnum((a[0]*b[0]+a[1]*b[1])/(nb*nb),3))+'</span>':''}</div>`;
+  if(cands.length){
+    const mx=Math.max(...cands.map(c=>c.f)), mn=Math.min(...cands.map(c=>c.f));
+    s+=`<div class="row small">曲線上の候補（${tex("\\nabla f\\parallel\\nabla g")} の点）：`+cands.map(c=>`<span style="color:var(--${c.max?"c2":"c1"})">${tex("("+fnum(c.p[0],3)+","+fnum(c.p[1],3)+")")}で ${fnum(c.f,4)}</span>`).join("、")+`</div><div class="row small">最大値 ${fnum(mx,4)}、最小値 ${fnum(mn,4)}</div>`;
+  }
+  out.innerHTML=s; PL.draw(); PG.draw();
+}
+function setup(){
+  findCands();
+  let lo=Infinity,hi=-Infinity; for(let i=0;i<=40;i++) for(let j=0;j<=40;j++){ const z=F(-2.5+5*i/40,-2.5+5*j/40); if(isFinite(z)){lo=Math.min(lo,z);hi=Math.max(hi,z);} } fr=[lo,hi];
+  let a=Infinity,b=-Infinity; for(let i=0;i<=200;i++){ const q=rad(2*Math.PI*i/200); if(q){ const v=F(...q); a=Math.min(a,v); b=Math.max(b,v);} }
+  if(isFinite(a)){ const pd=(b-a)*0.2+0.1; PG.o.ymin=a-pd; PG.o.ymax=b+pd; }
+  upd();
+}
+let okF=false, okG=false;
+const rf=exprField($("#ef"),["x","y"],(e,f)=>{ F=f; Fx=EX.fn(EX.d(e,"x")); Fy=EX.fn(EX.d(e,"y")); okF=true; if(okG) setup(); });
+const rg=exprField($("#eg"),["x","y"],(e,f)=>{ G=f; Gx=EX.fn(EX.d(e,"x")); Gy=EX.fn(EX.d(e,"y")); okG=true; if(okF) setup(); });
+$("#pre").addEventListener("change",e=>{ const i=+e.target.value; $("#ef").value=PRE[i][0]; $("#eg").value=PRE[i][1]; okG=false; rf(); rg(); });
+rf(); rg();
+</script>

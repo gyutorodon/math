@@ -1,0 +1,243 @@
+<!--
+title: 多変数関数
+lead: 入力が2つ（点 $(x,y)$）、出力が1つの関数 $z=f(x,y)$ を考えます。グラフは「曲面」、等高線は「地図」。そして2変数の極限は「あらゆる方向から近づく」ことが要求されます。
+desc: 2変数関数のグラフと等高線、定義域、2変数の極限と連続性
+-->
+<section id="s1">
+<h2>1. 何の話か（直感）</h2>
+<p>1変数の関数 $y=f(x)$ は「数を入れると数が出てくる箱」でした。2変数関数 $z=f(x,y)$ は、<strong>平面上の点 $(x,y)$ を入れると数 $z$ が出てくる箱</strong>です。</p>
+<ul>
+<li>地図上の地点 $(x,y)$ ごとの<strong>標高</strong>、<strong>気温</strong>、<strong>気圧</strong>。</li>
+<li>縦 $x$、横 $y$ の長方形の面積 $f(x,y)=xy$。</li>
+</ul>
+<p>この関数を目で見る方法は2つあります。</p>
+<ol>
+<li><strong>グラフ（曲面）</strong>：点 $(x,y,f(x,y))$ を空間にプロットすると「地形」のような曲面ができます。</li>
+<li><strong>等高線</strong>：同じ高さ $f(x,y)=c$ になる点を結んだ曲線を、$c$ をいろいろ変えて平面に描きます。地図の等高線と同じです。</li>
+</ol>
+<p>1変数との一番大きな違いは<strong>極限</strong>です。数直線上では点 $a$ に「左右」から近づくだけでしたが、平面上の点 $(a,b)$ には<strong>無数の方向・無数の曲がった道すじ</strong>から近づけます。どんな近づき方でも同じ値に近づくときだけ「極限がある」と言います。</p>
+</section>
+
+<section id="s2">
+<h2>2. 定義</h2>
+<div class="box def">
+<div class="box-t">定義（2変数関数・定義域・グラフ・等高線）</div>
+<p>平面の部分集合 $D\subset\mathbb{R}^2$ の各点 $(x,y)$ に実数 $f(x,y)$ を1つずつ対応させる規則 $f$ を、$D$ を<strong>定義域</strong>とする<strong>2変数関数</strong>といいます。</p>
+<ul>
+<li><strong>グラフ</strong>：$\{(x,y,z)\mid (x,y)\in D,\ z=f(x,y)\}\subset\mathbb{R}^3$（ふつうは曲面になる）</li>
+<li><strong>等高線</strong>（レベル集合）：定数 $c$ に対して $\{(x,y)\in D\mid f(x,y)=c\}$</li>
+</ul>
+<p class="small muted">式だけが与えられたときは、その式が意味をもつ $(x,y)$ 全体（分母 $\ne 0$、$\sqrt{\ }$ の中 $\ge 0$、$\log$ の中 $>0$ など）を定義域と考えます。</p>
+</div>
+<div class="box def">
+<div class="box-t">定義（2変数の極限）</div>
+<p>2点 $\mathrm{P}(x,y)$, $\mathrm{A}(a,b)$ の距離を $|\mathrm{P}-\mathrm{A}|=\sqrt{(x-a)^2+(y-b)^2}$ とします。</p>
+$$\lim_{(x,y)\to(a,b)}f(x,y)=L$$
+<p>とは、<strong>点 $(x,y)$ が点 $(a,b)$ に（どのような近づき方で）近づいても</strong>、$f(x,y)$ が $L$ に限りなく近づくことです。正確には（ε-δ 論法）</p>
+$$\forall\varepsilon>0,\ \exists\delta>0;\quad 0<\sqrt{(x-a)^2+(y-b)^2}<\delta\ \Rightarrow\ |f(x,y)-L|<\varepsilon$$
+</div>
+<div class="box def">
+<div class="box-t">定義（連続）</div>
+<p>$f$ が点 $(a,b)\in D$ で<strong>連続</strong> ⇔ $\displaystyle\lim_{(x,y)\to(a,b)}f(x,y)=f(a,b)$。$D$ の各点で連続なとき、$f$ は $D$ で連続といいます。</p>
+</div>
+<div class="box thm">
+<div class="box-t">定理（連続関数の性質）</div>
+<ul>
+<li>連続関数の和・差・積・商（分母 $\ne0$）や合成は連続。とくに<strong>多項式は $\mathbb{R}^2$ 全体で連続</strong>。</li>
+<li>$e^{xy}$, $\sin(x+y^2)$, $\sqrt{x^2+y^2}$ なども（定義域で）連続。</li>
+<li><strong>最大値・最小値の定理</strong>：有界閉集合（境界を含む有限な範囲）上の連続関数は最大値・最小値をもつ。</li>
+</ul>
+</div>
+<div class="box note">
+<div class="box-t">極限の調べ方（原点 $(0,0)$ の場合）</div>
+<ol class="steps">
+<li><strong>まず代入</strong>：分母が $0$ にならない（連続な式）なら、そのまま代入した値が極限。</li>
+<li><strong>「なさそう」なら近づき方を2つ探す</strong>：直線 $y=mx$ や放物線 $y=kx^2$ に沿って近づけ、<strong>値が異なれば極限は存在しない</strong>。</li>
+<li><strong>「ありそう」なら極座標で評価</strong>：$x=r\cos\theta$, $y=r\sin\theta$ とおき、$|f(x,y)-L|\le g(r)$（<strong>$\theta$ を含まない</strong>式）で $g(r)\to0$ $(r\to+0)$ を示す（はさみうち）。</li>
+</ol>
+</div>
+</section>
+
+<section id="s3">
+<h2>3. 具体例</h2>
+<div class="ex">
+<div class="ex-t">例 1：グラフと等高線</div>
+<p>$f(x,y)=x^2+y^2$ のグラフは、お椀のような<strong>回転放物面</strong>です。等高線 $x^2+y^2=c$ $(c>0)$ は半径 $\sqrt c$ の円で、$c$ を等間隔に増やすと円の間隔は外側ほど狭くなります（＝外側ほど急）。</p>
+<p>$f(x,y)=x^2-y^2$ は<strong>鞍（くら）形</strong>の曲面です。等高線 $x^2-y^2=c$ は双曲線、$c=0$ のときは2直線 $y=\pm x$ です。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 2：定義域</div>
+<p>$f(x,y)=\sqrt{1-x^2-y^2}$ の定義域は $1-x^2-y^2\ge0$、つまり $D=\{(x,y)\mid x^2+y^2\le1\}$（単位円板）。グラフは上半分の球面です。</p>
+<p>$g(x,y)=\log(x-y)$ の定義域は $x-y>0$、つまり直線 $y=x$ の<strong>下側</strong>（直線上は含まない）です。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 3：極限が存在しない</div>
+<p>$\displaystyle\lim_{(x,y)\to(0,0)}\frac{xy}{x^2+y^2}$ を考えます。直線 $y=mx$ $(x\ne0)$ に沿って近づけると</p>
+$$\frac{x\cdot mx}{x^2+m^2x^2}=\frac{m}{1+m^2}$$
+<p>で、これは $m$ によって値が違います（$m=0$ なら $0$、$m=1$ なら $\frac12$）。近づき方で値が変わるので、<strong>極限は存在しません</strong>。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 4：極座標で極限を示す</div>
+<p>$\displaystyle\lim_{(x,y)\to(0,0)}\frac{x^2y}{x^2+y^2}$。$x=r\cos\theta$, $y=r\sin\theta$ とおくと</p>
+$$\left|\frac{x^2y}{x^2+y^2}\right|=\left|\frac{r^3\cos^2\theta\sin\theta}{r^2}\right|=r|\cos^2\theta\sin\theta|\le r\ \to 0\quad(r\to+0)$$
+<p>上からの評価 $r$ は $\theta$ を含まないので、はさみうちの原理より極限は $0$ です。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 5：直線だけでは不十分</div>
+<p>$\displaystyle f(x,y)=\frac{x^2y}{x^4+y^2}$ を直線 $y=mx$ に沿って近づけると $\displaystyle\frac{mx^3}{x^4+m^2x^2}=\frac{mx}{x^2+m^2}\to0$（$m=0$ でも $x=0$ 軸上でも $0$）。<strong>どの直線でも $0$</strong> です。</p>
+<p>ところが放物線 $y=x^2$ に沿うと $\displaystyle\frac{x^4}{x^4+x^4}=\frac12$。よって<strong>極限は存在しません</strong>。下の2つ目のデモで確かめられます。</p>
+</div>
+
+<div class="demo" id="demo" data-toc="▶ 曲面と等高線">
+<div class="demo-t">曲面と等高線を見比べる</div>
+<p class="small">左の曲面はドラッグで回転できます。スライダーで高さ $c$ を動かすと、曲面上の高さ $c$ の線（<span style="color:var(--c2)">赤</span>）と、右の等高線図の $f=c$ の線が対応しているのがわかります。式は自由に入力できます（例：<code>x^2-y^2</code>, <code>sin(x)cos(y)</code>, <code>exp(-x^2-y^2)</code>）。</p>
+<div class="ctrl"><label>例：<select id="pre"></select></label><label>$z=$ <input id="ex" class="expr" value="x^2+y^2" autocomplete="off" spellcheck="false"></label></div>
+<div class="sl"><label>高さ $c$ <input type="range" id="lev" min="0" max="1" step="0.005" value="0.4"><span class="sv" id="levv"></span></label><label>範囲 <select id="rng"><option value="1">−1〜1</option><option value="2" selected>−2〜2</option><option value="3">−3〜3</option></select></label></div>
+<div class="demo-grid">
+<div><canvas class="cv" id="cv3"></canvas><p class="cap">グラフ $z=f(x,y)$（ドラッグで回転）</p></div>
+<div><canvas class="cv" id="cv2"></canvas><p class="cap">等高線図（色が明るいほど高い）</p></div>
+</div>
+</div>
+
+<div class="demo" id="demo2" data-toc="▶ 近づき方と極限">
+<div class="demo-t">近づき方で値が変わる？</div>
+<p class="small">原点への近づき方（道すじ）を選び、その道に沿った $f$ の値を調べます。直線 $y=mx$ と放物線 $y=kx^2$ で比べてみましょう。</p>
+<div class="ctrl"><label>関数：<select id="lf"></select></label><label>道すじ：<select id="lp"><option value="0">直線 y = m x</option><option value="1">放物線 y = k x²</option></select></label></div>
+<div class="sl"><label><span id="pl">m</span> <input type="range" id="lm" min="-3" max="3" step="0.1" value="1"><span class="sv" id="lmv"></span></label></div>
+<div class="demo-grid">
+<div><canvas class="cv" id="cl"></canvas><p class="cap">$f$ の値の色分けと道すじ（原点付近）</p></div>
+<div><canvas class="cv" id="cg"></canvas><p class="cap">道すじに沿った値 $f(t,\,y(t))$ のグラフ</p></div>
+</div>
+<div class="out" id="lout"></div>
+</div>
+</section>
+
+<section id="s4">
+<h2>4. よくある間違い</h2>
+<div class="mis">
+<p class="bad">どの直線 $y=mx$ に沿っても同じ値 $L$ に近づいたので、極限は $L$ である。</p>
+<p class="good">直線は無数にある近づき方の一部にすぎません。例5のように放物線に沿うと別の値になることがあります。極限が<strong>ある</strong>ことを示すには、極座標の評価や ε-δ など「すべての近づき方」をカバーする議論が必要です。（逆に、<strong>ない</strong>ことを示すには2つの近づき方で値が違う例を1組挙げれば十分です。）</p>
+</div>
+<div class="mis">
+<p class="bad">極座標で $\dfrac{r\cos\theta\sin\theta}{\cos^2\theta+r^2\sin^4\theta}$ のようになったので、分子に $r$ があるから $0$ に収束する。</p>
+<p class="good">分母が $\theta$ によっていくらでも $0$ に近くなる場合は、$r\to0$ でも全体が $0$ に近づくとは限りません。<strong>$\theta$ によらない</strong>上からの評価 $|f-L|\le g(r)\to0$ を作れたときだけ極限 $L$ と結論できます。</p>
+</div>
+<div class="mis">
+<p class="bad">$\displaystyle\lim_{x\to0}\left(\lim_{y\to0}f(x,y)\right)$（累次極限）を計算すれば、2変数の極限 $\displaystyle\lim_{(x,y)\to(0,0)}f(x,y)$ がわかる。</p>
+<p class="good">累次極限は「まず $y$ 軸方向、次に $x$ 軸方向」という特別な近づき方にすぎません。例3の $\dfrac{xy}{x^2+y^2}$ は累次極限がどちらの順でも $0$ ですが、2変数の極限は存在しません。</p>
+</div>
+<div class="mis">
+<p class="bad">$\log(x-y)$ の定義域は $x-y\ge0$。</p>
+<p class="good">$\log$ の真数は<strong>正</strong>でなければならないので $x-y>0$（境界の直線 $y=x$ は含まない）。$\sqrt{\ }$ なら $\ge0$、分母なら $\ne0$ です。定義域を図示するときは、境界を含むか（実線）含まないか（点線）も区別しましょう。</p>
+</div>
+</section>
+
+<section id="s5">
+<h2>5. 練習問題</h2>
+<div class="prob">
+<div class="prob-t">問題 1 <span class="lv">定義域</span></div>
+<p>次の関数の定義域を求め、図示してください。</p>
+<p>(1) $f(x,y)=\log(x+y-1)$　　(2) $f(x,y)=\sqrt{4-x^2-y^2}+\sqrt{x^2+y^2-1}$　　(3) $f(x,y)=\dfrac{1}{x^2-y}$</p>
+<details><summary>解答を見る</summary>
+<p>(1) $x+y-1>0$、つまり $y>-x+1$。直線 $y=-x+1$ の<strong>上側</strong>（直線は含まない）。</p>
+<p>(2) $4-x^2-y^2\ge0$ かつ $x^2+y^2-1\ge0$ より $1\le x^2+y^2\le4$。半径 1 と 2 の円にはさまれた<strong>円環</strong>（両方の円周を含む）。</p>
+<p>(3) $x^2-y\ne0$、つまり放物線 $y=x^2$ <strong>以外</strong>の平面全体。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 2 <span class="lv">等高線</span></div>
+<p>次の関数の等高線 $f(x,y)=c$ がどのような曲線になるか答えてください。</p>
+<p>(1) $f(x,y)=2x+y$　　(2) $f(x,y)=y-x^2$　　(3) $f(x,y)=x^2+4y^2$</p>
+<details><summary>解答を見る</summary>
+<p>(1) $y=-2x+c$：傾き $-2$ の平行な直線群。グラフは平面です。</p>
+<p>(2) $y=x^2+c$：放物線 $y=x^2$ を上下に平行移動したもの。</p>
+<p>(3) $x^2+4y^2=c$：$c>0$ なら楕円 $\dfrac{x^2}{c}+\dfrac{y^2}{c/4}=1$、$c=0$ なら原点のみ、$c<0$ なら空集合。上のデモで <code>x^2+4y^2</code> と入力して確かめましょう。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 3 <span class="lv">極限</span></div>
+<p>次の極限が存在するかどうか調べ、存在すればその値を求めてください。</p>
+<p>(1) $\displaystyle\lim_{(x,y)\to(0,0)}\frac{x^2-y^2}{x^2+y^2}$　　(2) $\displaystyle\lim_{(x,y)\to(0,0)}\frac{x^3+y^3}{x^2+y^2}$</p>
+<p>(3) $\displaystyle\lim_{(x,y)\to(0,0)}\frac{xy^2}{x^2+y^4}$　　(4) $\displaystyle\lim_{(x,y)\to(0,0)}\frac{\sin(x^2+y^2)}{x^2+y^2}$　　(5) $\displaystyle\lim_{(x,y)\to(1,2)}\frac{x^2y}{x+y}$</p>
+<details><summary>解答を見る</summary>
+<p>(1) $y=mx$ に沿うと $\dfrac{1-m^2}{1+m^2}$。$m=0$ で $1$、$m=1$ で $0$ と異なるので<strong>存在しない</strong>。</p>
+<p>(2) 極座標で $\left|\dfrac{r^3(\cos^3\theta+\sin^3\theta)}{r^2}\right|=r|\cos^3\theta+\sin^3\theta|\le2r\to0$。極限は <strong>$0$</strong>。</p>
+<p>(3) $y=mx$ に沿うと $\dfrac{m^2x^3}{x^2+m^4x^4}=\dfrac{m^2x}{1+m^4x^2}\to0$。しかし $x=y^2$ に沿うと $\dfrac{y^4}{y^4+y^4}=\dfrac12$。<strong>存在しない</strong>（例5と同じタイプ）。</p>
+<p>(4) $t=x^2+y^2$ とおくと $(x,y)\to(0,0)$ のとき $t\to+0$ で、$\dfrac{\sin t}{t}\to1$。極限は <strong>$1$</strong>。</p>
+<p>(5) 分母 $x+y$ は $(1,2)$ で $3\ne0$ なので連続。代入して $\dfrac{1\cdot2}{3}=\dfrac23$。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 4 <span class="lv">連続性</span></div>
+<p>次の関数 $f$ が原点で連続かどうか調べてください。</p>
+$$\text{(1)}\ f(x,y)=\begin{cases}\dfrac{x^3}{x^2+y^2}&(x,y)\ne(0,0)\\ 0&(x,y)=(0,0)\end{cases}\qquad\text{(2)}\ f(x,y)=\begin{cases}\dfrac{2xy}{x^2+y^2}&(x,y)\ne(0,0)\\ 0&(x,y)=(0,0)\end{cases}$$
+<details><summary>解答を見る</summary>
+<p>(1) 極座標で $|f(x,y)|=r|\cos^3\theta|\le r\to0=f(0,0)$。<strong>連続</strong>。</p>
+<p>(2) $y=mx$ に沿うと $\dfrac{2m}{1+m^2}$ で $m$ によって変わるので極限が存在しない。よって<strong>連続でない</strong>。（上のデモで <code>2xy/(x^2+y^2)</code> を見ると、原点のまわりで曲面がねじれているのがわかります。）</p>
+</details>
+</div>
+</section>
+
+<script>
+const PRE=[["x^2+y^2","x²+y²（回転放物面）"],["x^2-y^2","x²−y²（鞍形）"],["exp(-x^2-y^2)","e^(−x²−y²)（山）"],["sin(x)cos(y)","sin x cos y（波）"],["x y","xy"],["sqrt(4-x^2-y^2)","√(4−x²−y²)（半球）"],["2xy/(x^2+y^2)","2xy/(x²+y²)（原点で不連続）"],["x^2+4y^2","x²+4y²（楕円）"]];
+fillSelect($("#pre"),PRE.map(p=>p[1]));
+let F=(x,y)=>x*x+y*y, R=2, c=0, zr=[0,1];
+const S3=new Surface3D($("#cv3"),{xr:[-2,2],yr:[-2,2],n:36});
+const P2=new Plot2D($("#cv2"),{xmin:-2,xmax:2,ymin:-2,ymax:2});
+function levels(){ const n=10, st=(zr[1]-zr[0])/n; return Array.from({length:n-1},(_,i)=>zr[0]+st*(i+1)); }
+S3.extra=api=>{
+  const segs=isoSegs(F,[-R,R],[-R,R],60,c);
+  segs.forEach(s=>api.line([s[0][0],s[0][1],c],[s[1][0],s[1][1],c],cssv("c2"),{width:3,bias:0.06}));
+};
+P2.onDraw=p=>{
+  p.heat(F,zr[0],zr[1]);
+  p.contour(F,levels(),rgba(cssv("fg"),0.35),{n:110,width:1});
+  p.contour(F,[c],cssv("c2"),{n:160,width:3});
+};
+function update(){
+  S3.set({f:F,xr:[-R,R],yr:[-R,R],zr:null});
+  zr=S3.grid().zr; S3.o.zr=zr;
+  const t=+$("#lev").value; c=zr[0]+(zr[1]-zr[0])*t;
+  $("#levv").textContent=fnum(c,2);
+  P2.setView({xmin:-R,xmax:R,ymin:-R,ymax:R}); S3.draw();
+}
+const run=exprField($("#ex"),["x","y"],(e,f)=>{F=f; update();});
+$("#pre").addEventListener("change",e=>{ $("#ex").value=PRE[+e.target.value][0]; run(); });
+$("#lev").addEventListener("input",()=>{ const t=+$("#lev").value; c=zr[0]+(zr[1]-zr[0])*t; $("#levv").textContent=fnum(c,2); S3.draw(); P2.draw(); });
+$("#rng").addEventListener("change",e=>{ R=+e.target.value; update(); });
+run();
+
+/* ---- 近づき方 ---- */
+const LF=[
+ {n:"xy/(x²+y²)",f:(x,y)=>x*y/(x*x+y*y),lim:"なし"},
+ {n:"x²y/(x²+y²)",f:(x,y)=>x*x*y/(x*x+y*y),lim:"0"},
+ {n:"x²y/(x⁴+y²)",f:(x,y)=>x*x*y/(x**4+y*y),lim:"なし"}];
+fillSelect($("#lf"),LF.map(l=>"f = "+l.n));
+let lf=0, lp=0, m=1;
+const path=t=>lp===0?[t,m*t]:[t,m*t*t];
+const PL=new Plot2D($("#cl"),{xmin:-1,xmax:1,ymin:-1,ymax:1});
+const PG=new Plot2D($("#cg"),{xmin:-1,xmax:1,ymin:-1.2,ymax:1.2,equal:false,xl:"t",yl:""});
+PL.onDraw=p=>{
+  const f=LF[lf].f; p.heat(f,-1,1,{alpha:0.6,step:3});
+  p.contour(f,[-0.75,-0.5,-0.25,0,0.25,0.5,0.75],rgba(cssv("fg"),0.3),{n:120,width:1,maxJump:0.6});
+  p.curve(path,-1,1,cssv("c2"),{width:3});
+  p.dot([0,0],cssv("fg"),{r:4});
+};
+PG.onDraw=p=>{
+  const f=LF[lf].f;
+  p.curve(t=>{const [x,y]=path(t); return [t,f(x,y)];},-1,1,cssv("c2"),{width:2.6,n:600});
+  const v=f(...path(1e-4)); if(isFinite(v)){ p.line([-1,v],[1,v],cssv("c3"),{width:1.5,dash:[5,4]}); p.text([0.95,v],"→ "+fnum(v,3),cssv("c3"),{dy:-6,align:"right",italic:false,bold:true}); }
+};
+function lupd(){
+  m=+$("#lm").value; $("#lmv").textContent=fnum(m,1); $("#pl").textContent=lp===0?"m":"k";
+  const f=LF[lf].f, ts=[0.5,0.1,0.01,0.001];
+  let s='<div class="row"><b>道すじ</b>：'+tex("y="+cx(m,lp===0?"x":"x^2"))+'　　<b>この関数の極限</b>：'+LF[lf].lim+'</div>';
+  s+='<div class="tablewrap"><table class="t"><tr><th>'+tex("t")+'</th>'+ts.map(t=>"<td>"+t+"</td>").join("")+'</tr><tr><th>'+tex("f(t,\\,y(t))")+'</th>'+ts.map(t=>"<td>"+fnum(f(...path(t)),4)+"</td>").join("")+"</tr></table></div>";
+  s+='<div class="row small muted">いろいろな道すじで「→」の値が同じになるか見てみましょう。1つでも違えば極限は存在しません。</div>';
+  $("#lout").innerHTML=s; PL.draw(); PG.draw();
+}
+$("#lf").addEventListener("change",e=>{lf=+e.target.value; lupd();});
+$("#lp").addEventListener("change",e=>{lp=+e.target.value; lupd();});
+$("#lm").addEventListener("input",lupd);
+lupd();
+</script>

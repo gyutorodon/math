@@ -1,0 +1,196 @@
+<!--
+title: 方向微分と勾配
+lead: $x$ 軸・$y$ 軸方向だけでなく、好きな方向 $\bm{u}$ への傾きを考えます。それは勾配ベクトル $\nabla f=(f_x,f_y)$ と $\bm{u}$ の内積で計算でき、$\nabla f$ は「いちばん急な上り坂の向き」で、等高線に垂直です。
+desc: 方向微分係数 D_u f = ∇f·u、勾配ベクトルの意味、等高線の接線と法線
+-->
+<section id="s1">
+<h2>1. 何の話か（直感）</h2>
+<p>山の斜面の点 $\mathrm{P}$ に立って、ぐるっと360°見回すと、向きによって上り坂だったり下り坂だったり平らだったりします。向き $\bm{u}$（長さ1のベクトル）に進んだときの傾きを<strong>方向微分係数</strong> $D_{\bm u}f$ といいます。$\bm{u}=(1,0)$ なら $f_x$、$\bm u=(0,1)$ なら $f_y$ です。</p>
+<p>実は、どの向きの傾きも2つの数 $f_x, f_y$ だけで決まります：</p>
+$$D_{\bm u}f=f_x\,u_1+f_y\,u_2=\nabla f\cdot\bm u,\qquad \nabla f=(f_x,\,f_y)$$
+<p>内積 $\nabla f\cdot\bm u=|\nabla f|\cos\varphi$（$\varphi$ は2つのベクトルのなす角）なので、</p>
+<ul>
+<li>$\bm u$ が $\nabla f$ と<strong>同じ向き</strong>のとき傾き最大（$=|\nabla f|$）→ <strong>最も急な上り坂</strong></li>
+<li><strong>逆向き</strong>のとき傾き最小（$=-|\nabla f|$）→ 最も急な下り坂</li>
+<li><strong>垂直</strong>のとき傾き $0$ → 高さが変わらない向き＝<strong>等高線の向き</strong></li>
+</ul>
+<p>つまり $\nabla f$ は「坂を最も急に登る向き」を指し、等高線と直交します。地図上で等高線に垂直に登るのが最短の登り方、というのと同じです。</p>
+</section>
+
+<section id="s2">
+<h2>2. 定義・定理</h2>
+<div class="box def">
+<div class="box-t">定義（方向微分係数・勾配）</div>
+<p>単位ベクトル $\bm u=(u_1,u_2)$ $(u_1^2+u_2^2=1)$ に対して</p>
+$$D_{\bm u}f(a,b)=\lim_{t\to0}\frac{f(a+tu_1,\,b+tu_2)-f(a,b)}{t}$$
+<p>を $\bm u$ 方向の<strong>方向微分係数</strong>といいます。また</p>
+$$\nabla f=\operatorname{grad}f=\left(\frac{\partial f}{\partial x},\ \frac{\partial f}{\partial y}\right)$$
+<p>を $f$ の<strong>勾配（グラディエント）</strong>といいます（$\nabla$ は「ナブラ」と読む）。</p>
+</div>
+<div class="box thm">
+<div class="box-t">定理 1（方向微分の計算）</div>
+<p>$f$ が $(a,b)$ で全微分可能なら、すべての単位ベクトル $\bm u$ について</p>
+$$D_{\bm u}f(a,b)=f_x(a,b)u_1+f_y(a,b)u_2=\nabla f(a,b)\cdot\bm u$$
+<p class="small muted">証明：$g(t)=f(a+tu_1,b+tu_2)$ に連鎖律を使うと $g'(0)=f_xu_1+f_yu_2$。</p>
+</div>
+<div class="box thm">
+<div class="box-t">定理 2（勾配の意味）</div>
+<p>$\nabla f(a,b)\ne\bm0$ とします。</p>
+<ol>
+<li>$D_{\bm u}f$ は $\bm u=\dfrac{\nabla f}{|\nabla f|}$ のとき最大値 $|\nabla f|$、$\bm u=-\dfrac{\nabla f}{|\nabla f|}$ のとき最小値 $-|\nabla f|$ をとる。</li>
+<li>$\nabla f(a,b)$ は点 $(a,b)$ を通る等高線 $f(x,y)=f(a,b)$ に<strong>垂直</strong>。等高線の接線は
+$$f_x(a,b)(x-a)+f_y(a,b)(y-b)=0$$</li>
+<li>曲面 $z=f(x,y)$ の点 $(a,b,f(a,b))$ での<strong>法線ベクトル</strong>は $(f_x,\,f_y,\,-1)$。</li>
+</ol>
+</div>
+<div class="box note">
+<div class="box-t">なぜ垂直？</div>
+<p>等高線を $(x(t),y(t))$ とパラメータ表示すると $f(x(t),y(t))=c$（一定）。両辺を $t$ で微分して連鎖律を使うと $f_xx'(t)+f_yy'(t)=0$、つまり $\nabla f\cdot(x',y')=0$。接ベクトル $(x',y')$ と $\nabla f$ が直交します。</p>
+</div>
+</section>
+
+<section id="s3">
+<h2>3. 具体例</h2>
+<div class="ex">
+<div class="ex-t">例 1：方向微分係数</div>
+<p>$f(x,y)=x^2+3xy$ の点 $(1,2)$ での、$\bm u=\left(\frac35,\frac45\right)$ 方向の方向微分係数。$f_x=2x+3y=8$, $f_y=3x=3$ より</p>
+$$D_{\bm u}f(1,2)=8\cdot\frac35+3\cdot\frac45=\frac{36}{5}$$
+<p>最大の傾きは $|\nabla f|=\sqrt{8^2+3^2}=\sqrt{73}\approx8.54$ で、その向きは $\frac{1}{\sqrt{73}}(8,3)$ です。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 2：方向がベクトルで与えられたとき</div>
+<p>「点 $(1,2)$ から点 $(2,3)$ へ向かう方向」なら、方向ベクトル $(1,1)$ を<strong>長さ1に直して</strong> $\bm u=\frac{1}{\sqrt2}(1,1)$。例1の $f$ なら $D_{\bm u}f=\dfrac{8+3}{\sqrt2}=\dfrac{11}{\sqrt2}$。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 3：等高線の接線</div>
+<p>楕円 $x^2+4y^2=8$ の点 $(2,1)$ における接線。$f=x^2+4y^2$ とすると $\nabla f=(2x,8y)=(4,8)$。</p>
+$$4(x-2)+8(y-1)=0\quad\Longleftrightarrow\quad x+2y=4$$
+<p>法線（接線に垂直な直線）の方向は $\nabla f=(4,8)\parallel(1,2)$ です。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 4：定理1が使えない例</div>
+<p>$f(x,y)=\dfrac{x^2y}{x^2+y^2}$, $f(0,0)=0$。$\bm u=(u_1,u_2)$ について $f(tu_1,tu_2)=t\,u_1^2u_2$ なので $D_{\bm u}f(0,0)=u_1^2u_2$ で、<strong>すべての方向に方向微分可能</strong>です。しかし $\nabla f(0,0)=(0,0)$ なので $\nabla f\cdot\bm u=0\ne u_1^2u_2$。原点で全微分可能でない（第2回 問題4）ため、定理1は成り立ちません。</p>
+</div>
+
+<div class="demo" id="demo" data-toc="▶ 勾配と方向微分">
+<div class="demo-t">どの向きがいちばん急？</div>
+<p class="small"><span style="color:var(--c5)">●P</span> をドラッグして場所を、<span style="color:var(--c1)">●</span>（矢印の先）をドラッグして向き $\bm u$ を変えます。<span style="color:var(--c4)">緑</span>が $\nabla f$、<span style="color:var(--c3)">オレンジの点線</span>は $\nabla f$ に沿って登り続けた道（最急上昇線）です。右のグラフは向きの角度 $\theta$ と $D_{\bm u}f$ の関係です。</p>
+<div class="ctrl"><label>例：<select id="pre"></select></label><label>$f=$ <input id="ex" class="expr" value="x^2+3x y" autocomplete="off" spellcheck="false"></label></div>
+<div class="demo-grid">
+<div><canvas class="cv" id="cv"></canvas><p class="cap">等高線・勾配・方向 $\bm u$</p></div>
+<div><canvas class="cv" id="cg"></canvas><p class="cap">$D_{\bm u}f=\nabla f\cdot(\cos\theta,\sin\theta)$ のグラフ</p></div>
+</div>
+<div class="out" id="out"></div>
+</div>
+</section>
+
+<section id="s4">
+<h2>4. よくある間違い</h2>
+<div class="mis">
+<p class="bad">方向 $(1,1)$ の方向微分係数を $f_x\cdot1+f_y\cdot1$ と計算する。</p>
+<p class="good">方向微分係数の定義では $\bm u$ は<strong>単位ベクトル</strong>です。$(1,1)$ なら $\frac{1}{\sqrt2}(1,1)$ に直してから内積をとります。</p>
+</div>
+<div class="mis">
+<p class="bad">$\nabla f$ は曲面の上の、坂を登る向きの空間ベクトル $(f_x,f_y,\ldots)$ である。</p>
+<p class="good">$\nabla f=(f_x,f_y)$ は<strong>平面（地図）上</strong>のベクトルです。地図の上で「どちらへ歩けば一番急に登るか」を表します。曲面の法線ベクトル $(f_x,f_y,-1)$ と混同しないように。</p>
+</div>
+<div class="mis">
+<p class="bad">勾配 $\nabla f$ は等高線に沿った向きである。</p>
+<p class="good">等高線に沿った向きでは高さが変わらない（$D_{\bm u}f=0$）。$\nabla f$ は等高線に<strong>垂直</strong>です。</p>
+</div>
+<div class="mis">
+<p class="bad">最大の傾きの値を $\nabla f=(8,3)$ と答える。</p>
+<p class="good">「向き」はベクトル $\frac{\nabla f}{|\nabla f|}$、「最大の傾きの値」はスカラー $|\nabla f|=\sqrt{73}$ です。何を聞かれているか区別しましょう。</p>
+</div>
+</section>
+
+<section id="s5">
+<h2>5. 練習問題</h2>
+<div class="prob">
+<div class="prob-t">問題 1 <span class="lv">方向微分係数</span></div>
+<p>$f(x,y)=x^2y-y^3$ の点 $(2,1)$ における、点 $(5,5)$ へ向かう方向の方向微分係数を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>方向ベクトル $(5-2,5-1)=(3,4)$、$\bm u=\left(\frac35,\frac45\right)$。$f_x=2xy=4$, $f_y=x^2-3y^2=1$。</p>
+$$D_{\bm u}f(2,1)=4\cdot\frac35+1\cdot\frac45=\frac{16}{5}$$
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 2 <span class="lv">最大の傾き</span></div>
+<p>$f(x,y)=e^x\cos y$ の点 $\left(0,\frac\pi3\right)$ について、(1) 最も急に増加する向き（単位ベクトル）とその傾き、(2) 値が変化しない向き、を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>$\nabla f=(e^x\cos y,\,-e^x\sin y)=\left(\frac12,-\frac{\sqrt3}{2}\right)$（すでに長さ1）。</p>
+<p>(1) 向き $\left(\frac12,-\frac{\sqrt3}{2}\right)$、傾き $|\nabla f|=1$。</p>
+<p>(2) $\nabla f$ に垂直な向き：$\pm\left(\frac{\sqrt3}{2},\frac12\right)$。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 3 <span class="lv">接線</span></div>
+<p>曲線 $x^3+y^3-3xy=0$ の点 $\left(\frac32,\frac32\right)$ における接線の方程式を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>$f=x^3+y^3-3xy$ とおくと $f_x=3x^2-3y=\frac{27}{4}-\frac92=\frac94$, $f_y=3y^2-3x=\frac94$。</p>
+$$\frac94\left(x-\frac32\right)+\frac94\left(y-\frac32\right)=0\quad\Longleftrightarrow\quad x+y=3$$
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 4 <span class="lv">法線ベクトル</span></div>
+<p>曲面 $z=x^2+y^2$ の点 $(1,1,2)$ における法線ベクトルと接平面を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>$f_x=2x=2$, $f_y=2y=2$ より法線ベクトル $(2,2,-1)$（の定数倍）。接平面 $2(x-1)+2(y-1)-(z-2)=0$、すなわち $z=2x+2y-2$。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 5 <span class="lv">応用</span></div>
+<p>平面上の温度が $T(x,y)=100-x^2-2y^2$ で与えられています。点 $(2,1)$ にいるアリが最も速く涼しくなるには、どの向きに進めばよいですか。また、そのときの温度の変化率を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>$\nabla T=(-2x,-4y)=(-4,-4)$。温度が最も速く<strong>下がる</strong>向きは $-\nabla T=(4,4)$、単位ベクトルで $\frac{1}{\sqrt2}(1,1)$。変化率は $-|\nabla T|=-4\sqrt2$。</p>
+</details>
+</div>
+</section>
+
+<script>
+const PRE=[["x^2+3x y","x²+3xy（例1）"],["x^2+4y^2","x²+4y²（例3）"],["exp(x)cos(y)","eˣ cos y（問題2）"],["100-x^2-2y^2","100−x²−2y²（問題5）"],["sin(x)+cos(y)","sin x + cos y"],["x^3+y^3-3x y","x³+y³−3xy（問題3）"],["exp(-(x-1)^2-y^2)+exp(-(x+1)^2-(y-1)^2)","2つの山"]];
+fillSelect($("#pre"),PRE.map(p=>p[1]));
+let F,Fx,Fy, P=[1,0.5], th=0.6, zr=[0,1];
+const R=0.9;
+const PL=new Plot2D($("#cv"),{xmin:-2.2,xmax:2.2,ymin:-2.2,ymax:2.2});
+const PG=new Plot2D($("#cg"),{xmin:0,xmax:2*Math.PI,ymin:-1,ymax:1,equal:false,xl:"θ",yl:"",ticks:false});
+PL.addHandle({get:()=>P,set:p=>{P=p; upd();},color:cssv("c5"),label:"P",snap:0.05});
+PL.addHandle({get:()=>[P[0]+R*Math.cos(th),P[1]+R*Math.sin(th)],set:p=>{th=Math.atan2(p[1]-P[1],p[0]-P[0]); if(th<0) th+=2*Math.PI; upd();},color:cssv("c1")});
+PL.onDraw=p=>{
+  p.heat(F,zr[0],zr[1],{alpha:0.45});
+  const L=[]; for(let i=1;i<14;i++) L.push(zr[0]+(zr[1]-zr[0])*i/14);
+  p.contour(F,L,rgba(cssv("fg"),0.3),{n:110,width:1});
+  const z0=F(...P); p.contour(F,[z0],rgba(cssv("fg"),0.75),{n:150,width:2,dash:[6,4]});
+  // 最急上昇線
+  let q=P.slice(); const path=[q.slice()];
+  for(let i=0;i<500;i++){ const g=[Fx(...q),Fy(...q)], n=Math.hypot(...g); if(!(n>1e-4)) break; q=[q[0]+0.015*g[0]/n,q[1]+0.015*g[1]/n]; if(Math.abs(q[0])>2.4||Math.abs(q[1])>2.4) break; path.push(q.slice()); }
+  p.curve(t=>path[Math.min(path.length-1,Math.round(t))],0,path.length-1,cssv("c3"),{width:2.4,dash:[5,4],n:path.length-1});
+  const g=[Fx(...P),Fy(...P)], n=Math.hypot(...g), s=n>1e-9?1/Math.max(1,n):0;
+  if(n>1e-9) p.arrow(P,[P[0]+g[0]*s,P[1]+g[1]*s],cssv("c4"),{label:"∇f"});
+  p.arrow(P,[P[0]+R*Math.cos(th),P[1]+R*Math.sin(th)],cssv("c1"),{label:"u",ldx:10,ldy:14});
+};
+PL.handles[0].color=cssv("c5"); PL.handles[1].color=cssv("c1");
+REDRAW.add(()=>{ PL.handles[0].color=cssv("c5"); PL.handles[1].color=cssv("c1"); });
+PG.onDraw=p=>{
+  const g=[Fx(...P),Fy(...P)], n=Math.hypot(...g);
+  p.curve(t=>[t,g[0]*Math.cos(t)+g[1]*Math.sin(t)],0,2*Math.PI,cssv("c2"),{width:2.6});
+  const ph=Math.atan2(g[1],g[0]); const pm=ph<0?ph+2*Math.PI:ph;
+  if(n>1e-9){ p.line([pm,-n*1.2],[pm,n*1.2],cssv("c4"),{width:1.5,dash:[4,4]}); p.dot([pm,n],cssv("c4"),{r:5,label:"最大 |∇f|",bold:true}); }
+  const d=g[0]*Math.cos(th)+g[1]*Math.sin(th);
+  p.line([th,0],[th,d],cssv("c1"),{width:2}); p.dot([th,d],cssv("c1"),{r:5.5});
+  [[Math.PI/2,"90°"],[Math.PI,"180°"],[3*Math.PI/2,"270°"]].forEach(([x,l])=>p.text([x,p.v.ymin],l,cssv("axis"),{dy:-4,size:11,italic:false,align:"center"}));
+};
+function upd(){
+  const g=[Fx(...P),Fy(...P)], n=Math.hypot(...g), u=[Math.cos(th),Math.sin(th)], d=g[0]*u[0]+g[1]*u[1];
+  const m=Math.max(0.5,n)*1.25; PG.o.ymin=-m; PG.o.ymax=m;
+  const deg=th*180/Math.PI;
+  let s=`<div class="row">${tex("\\mathrm{P}=("+fnum(P[0],2)+","+fnum(P[1],2)+")")}　${tex("\\nabla f=("+fnum(g[0],3)+","+fnum(g[1],3)+")")}　${tex("|\\nabla f|="+fnum(n,3))}</div>`;
+  s+=`<div class="row">${tex("\\bm u=(\\cos\\theta,\\sin\\theta)=("+fnum(u[0],3)+","+fnum(u[1],3)+")")}（${tex("\\theta="+fnum(deg,0))}°）</div>`;
+  s+=`<div class="row"><b>${tex("D_{\\bm u}f=\\nabla f\\cdot\\bm u")}</b> = <b style="color:var(--c1)">${fnum(d,3)}</b>　${n>1e-9?'（'+tex("\\nabla f")+' とのなす角 '+fnum(Math.acos(Math.max(-1,Math.min(1,d/n)))*180/Math.PI,0)+'°）':''}</div>`;
+  $("#out").innerHTML=s; PL.draw(); PG.draw();
+}
+function ranges(){ let lo=Infinity,hi=-Infinity; for(let i=0;i<=50;i++) for(let j=0;j<=50;j++){ const z=F(-2.2+4.4*i/50,-2.2+4.4*j/50); if(isFinite(z)){lo=Math.min(lo,z);hi=Math.max(hi,z);} } zr=[lo,hi]; }
+const run=exprField($("#ex"),["x","y"],(e,f)=>{ F=f; Fx=EX.fn(EX.d(e,"x")); Fy=EX.fn(EX.d(e,"y")); ranges(); upd(); });
+$("#pre").addEventListener("change",e=>{ $("#ex").value=PRE[+e.target.value][0]; run(); });
+run();
+</script>

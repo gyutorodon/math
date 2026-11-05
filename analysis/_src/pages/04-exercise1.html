@@ -1,0 +1,203 @@
+<!--
+title: 演習I（偏微分の基本計算）
+lead: 第2回・第3回の計算を型ごとに練習します。「他の文字は定数」「積・商・合成の微分」「連鎖律の木の図」の3つが使えれば、ほとんどの問題が解けます。下の計算機で自分の答えを確かめられます。
+desc: 偏導関数・2次偏導関数・連鎖律・定義による計算の型別演習と答え合わせ計算機
+-->
+<section id="s1">
+<h2>1. 計算のコツ（まとめ）</h2>
+<div class="box note">
+<div class="box-t">偏微分の基本ルール</div>
+<ol class="steps">
+<li><strong>微分しない文字は定数</strong>：$\dfrac{\partial}{\partial x}(x^3y^2)=3x^2y^2$, $\dfrac{\partial}{\partial x}(y^2)=0$, $\dfrac{\partial}{\partial x}(e^{y}x)=e^{y}$。</li>
+<li><strong>積・商の微分はそのまま使える</strong>：$(uv)_x=u_xv+uv_x$, $\left(\dfrac uv\right)_x=\dfrac{u_xv-uv_x}{v^2}$。</li>
+<li><strong>合成関数</strong>：$\{g(u)\}_x=g'(u)\,u_x$（「外の微分 × 中の偏微分」）。例：$\{\sin(x^2y)\}_x=\cos(x^2y)\cdot2xy$。</li>
+<li><strong>連鎖律</strong>：$z_u=z_xx_u+z_yy_u$。経由する変数の数だけ項を足す。</li>
+<li><strong>検算</strong>：$f_{xy}=f_{yx}$ になるか（$C^2$ 級なら必ず一致）。</li>
+</ol>
+</div>
+<div class="box note">
+<div class="box-t">よく使う微分（1変数の復習）</div>
+<div class="tablewrap"><table class="t">
+<tr><th>$g(u)$</th><td>$u^n$</td><td>$e^u$</td><td>$\log u$</td><td>$\sin u$</td><td>$\cos u$</td><td>$\tan u$</td><td>$\sqrt u$</td><td>$\arctan u$</td></tr>
+<tr><th>$g'(u)$</th><td>$nu^{n-1}$</td><td>$e^u$</td><td>$\dfrac1u$</td><td>$\cos u$</td><td>$-\sin u$</td><td>$\dfrac{1}{\cos^2u}$</td><td>$\dfrac{1}{2\sqrt u}$</td><td>$\dfrac{1}{1+u^2}$</td></tr>
+</table></div>
+</div>
+</section>
+
+<section id="s2">
+<h2>2. 型別の例題</h2>
+<div class="ex">
+<div class="ex-t">型 A：偏導関数（商・合成）</div>
+<p>$f=\arctan\dfrac{y}{x}$。$u=\dfrac yx$ とおくと $u_x=-\dfrac{y}{x^2}$, $u_y=\dfrac1x$。</p>
+$$f_x=\frac{1}{1+(y/x)^2}\cdot\left(-\frac{y}{x^2}\right)=-\frac{y}{x^2+y^2},\qquad f_y=\frac{1}{1+(y/x)^2}\cdot\frac1x=\frac{x}{x^2+y^2}$$
+<p class="check">$\dfrac{1}{1+(y/x)^2}=\dfrac{x^2}{x^2+y^2}$ と整理するのがポイント。</p>
+</div>
+<div class="ex">
+<div class="ex-t">型 B：2次偏導関数とラプラス方程式</div>
+<p>$f=\log(x^2+y^2)$ について $f_{xx}+f_{yy}=0$ を示す。$f_x=\dfrac{2x}{x^2+y^2}$ を商の微分で</p>
+$$f_{xx}=\frac{2(x^2+y^2)-2x\cdot2x}{(x^2+y^2)^2}=\frac{2(y^2-x^2)}{(x^2+y^2)^2}$$
+<p>$x$ と $y$ を入れ替えると $f_{yy}=\dfrac{2(x^2-y^2)}{(x^2+y^2)^2}$。足して $0$。（$f_{xx}+f_{yy}=0$ をみたす関数を<strong>調和関数</strong>といいます。）</p>
+</div>
+<div class="ex">
+<div class="ex-t">型 C：連鎖律（具体的な関数）</div>
+<p>$z=x^2+xy+y^2$, $x=2t+1$, $y=t^2$。</p>
+$$\frac{dz}{dt}=(2x+y)\cdot2+(x+2y)\cdot2t=4t^3+6t^2+10t+4$$
+<p class="check">最後に $x=2t+1$, $y=t^2$ を代入して $t$ だけの式に。直接 $z=t^4+2t^3+5t^2+4t+1$ を微分しても同じです。</p>
+</div>
+<div class="ex">
+<div class="ex-t">型 D：連鎖律（抽象的な関数）</div>
+<p>$z=f(u,v)$, $u=x^2-y^2$, $v=2xy$ のとき $z_x$, $z_y$ を $f_u$, $f_v$ で表す。</p>
+$$z_x=f_u\cdot2x+f_v\cdot2y,\qquad z_y=f_u\cdot(-2y)+f_v\cdot2x$$
+</div>
+<div class="ex">
+<div class="ex-t">型 E：定義による計算・全微分可能性</div>
+<p>$f(x,y)=\dfrac{x^2y^2}{x^2+y^2}$ $((x,y)\ne(0,0))$, $f(0,0)=0$。軸上で $f=0$ なので $f_x(0,0)=f_y(0,0)=0$。極座標で</p>
+$$\left|\frac{f(h,k)-0-0\cdot h-0\cdot k}{\sqrt{h^2+k^2}}\right|=\frac{r^4\cos^2\theta\sin^2\theta}{r^3}\le r\to0$$
+<p>よって原点で<strong>全微分可能</strong>（接平面は $z=0$）。</p>
+</div>
+</section>
+
+<section id="s3">
+<h2>3. 計算機で確かめる</h2>
+<div class="demo" id="demo" data-toc="▶ 偏微分計算機">
+<div class="demo-t">偏微分計算機と答え合わせ</div>
+<p class="small">関数を入力すると、1次・2次の偏導関数を計算します（表示は通分などの整理をしていないことがあります）。下の欄に<strong>自分の答え</strong>を入力すると、いくつかの点で値を比べて正誤を判定します。</p>
+<div class="ctrl"><label>例：<select id="pre"></select></label></div>
+<div class="ctrl"><label>$f(x,y)=$ <input id="ex" class="expr" value="x^2 e^(x y)" autocomplete="off" spellcheck="false" style="width:20em"></label></div>
+<div class="out" id="res"></div>
+<div class="ctrl"><label>点 $(a,b)$ での値：$a=$ <input id="pa" class="num" value="1"></label><label>$b=$ <input id="pb" class="num" value="0.5"></label></div>
+<div class="out" id="vals"></div>
+<h3 style="margin-top:1em">答え合わせ</h3>
+<div class="ctrl"><label><select id="tg"><option value="x">f_x</option><option value="y">f_y</option><option value="xx">f_xx</option><option value="xy">f_xy</option><option value="yy">f_yy</option></select> の答え：<input id="ans" class="expr" value="(2x+x^2 y)e^(x y)" autocomplete="off" spellcheck="false" style="width:18em"></label><button id="chk">判定</button></div>
+<div class="out" id="judge"></div>
+<p class="hint">入力のしかた：かけ算は <code>*</code> か省略（<code>2xy</code>）、累乗は <code>^</code>、関数は <code>sin cos tan exp log sqrt arctan</code>、<code>e^(…)</code> も可。<code>log</code> は自然対数です。</p>
+</div>
+</section>
+
+<section id="s4">
+<h2>4. よくある間違い</h2>
+<div class="mis">
+<p class="bad">$\dfrac{\partial}{\partial x}e^{xy}=e^{xy}$。</p>
+<p class="good">合成関数なので中身の偏微分を掛けます：$\dfrac{\partial}{\partial x}e^{xy}=e^{xy}\cdot y=ye^{xy}$。</p>
+</div>
+<div class="mis">
+<p class="bad">$\dfrac{\partial}{\partial y}\left(\dfrac{x}{y}\right)$ に商の微分を使い $\dfrac{1\cdot y-x\cdot1}{y^2}$。</p>
+<p class="good">$y$ で微分するとき $x$ は定数なので $(x)_y=0$。$\dfrac{0\cdot y-x\cdot1}{y^2}=-\dfrac{x}{y^2}$。あるいは $x\cdot y^{-1}$ と見て $-xy^{-2}$ とすれば速い。</p>
+</div>
+<div class="mis">
+<p class="bad">$f_{xy}$ を求めるのに、$f_x$ と $f_y$ を掛ける。</p>
+<p class="good">$f_{xy}=(f_x)_y$：$f_x$ を<strong>さらに $y$ で偏微分</strong>したものです。</p>
+</div>
+</section>
+
+<section id="s5">
+<h2>5. 練習問題</h2>
+<div class="prob">
+<div class="prob-t">問題 1 <span class="lv">型A 偏導関数</span></div>
+<p>次の $f_x$, $f_y$ を求めてください。</p>
+<p>(1) $x^3y^2-4xy+y^5$　(2) $(2x-y)^4$　(3) $xe^{-xy}$　(4) $\sin(x^2y)$　(5) $\dfrac{xy}{x+y}$　(6) $x^y$ $(x>0)$　(7) $\log\sqrt{x^2+y^2}$</p>
+<details><summary>解答を見る</summary>
+<p>(1) $f_x=3x^2y^2-4y$, $f_y=2x^3y-4x+5y^4$</p>
+<p>(2) $f_x=8(2x-y)^3$, $f_y=-4(2x-y)^3$</p>
+<p>(3) $f_x=e^{-xy}-xye^{-xy}=(1-xy)e^{-xy}$, $f_y=-x^2e^{-xy}$</p>
+<p>(4) $f_x=2xy\cos(x^2y)$, $f_y=x^2\cos(x^2y)$</p>
+<p>(5) $f_x=\dfrac{y(x+y)-xy}{(x+y)^2}=\dfrac{y^2}{(x+y)^2}$, $f_y=\dfrac{x^2}{(x+y)^2}$</p>
+<p>(6) $f_x=yx^{y-1}$（$y$ は定数なので累乗の微分）, $f_y=x^y\log x$（$x$ は定数なので指数関数の微分）</p>
+<p>(7) $\dfrac12\log(x^2+y^2)$ と直して $f_x=\dfrac{x}{x^2+y^2}$, $f_y=\dfrac{y}{x^2+y^2}$</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 2 <span class="lv">型B 2次偏導関数</span></div>
+<p>$f_{xx}$, $f_{xy}$, $f_{yy}$ を求めてください。</p>
+<p>(1) $x^4+x^2y^3-y^2$　(2) $e^x\cos y$　(3) $\sin(x+2y)$　(4) $\dfrac{x}{y}$</p>
+<details><summary>解答を見る</summary>
+<p>(1) $f_x=4x^3+2xy^3$, $f_y=3x^2y^2-2y$。$f_{xx}=12x^2+2y^3$, $f_{xy}=6xy^2$, $f_{yy}=6x^2y-2$</p>
+<p>(2) $f_{xx}=e^x\cos y$, $f_{xy}=-e^x\sin y$, $f_{yy}=-e^x\cos y$（$f_{xx}+f_{yy}=0$：調和関数）</p>
+<p>(3) $f_{xx}=-\sin(x+2y)$, $f_{xy}=-2\sin(x+2y)$, $f_{yy}=-4\sin(x+2y)$</p>
+<p>(4) $f_x=\dfrac1y$, $f_y=-\dfrac{x}{y^2}$。$f_{xx}=0$, $f_{xy}=-\dfrac{1}{y^2}$, $f_{yy}=\dfrac{2x}{y^3}$</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 3 <span class="lv">型B 調和関数</span></div>
+<p>$f(x,y)=\dfrac{x}{x^2+y^2}$ が $f_{xx}+f_{yy}=0$ をみたすことを示してください。</p>
+<details><summary>解答を見る</summary>
+<p>$f_x=\dfrac{(x^2+y^2)-2x^2}{(x^2+y^2)^2}=\dfrac{y^2-x^2}{(x^2+y^2)^2}$, $f_y=-\dfrac{2xy}{(x^2+y^2)^2}$。</p>
+$$f_{xx}=\frac{-2x(x^2+y^2)^2-(y^2-x^2)\cdot2(x^2+y^2)\cdot2x}{(x^2+y^2)^4}=\frac{2x^3-6xy^2}{(x^2+y^2)^3}$$
+$$f_{yy}=\frac{-2x(x^2+y^2)^2+2xy\cdot2(x^2+y^2)\cdot2y}{(x^2+y^2)^4}=\frac{-2x^3+6xy^2}{(x^2+y^2)^3}$$
+<p>足して $0$。（分子・分母を $(x^2+y^2)$ で1回約分するのがコツ。）</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 4 <span class="lv">型C・D 連鎖律</span></div>
+<p>(1) $z=\sin(xy)$, $x=t^2$, $y=e^t$ のとき $\dfrac{dz}{dt}$。</p>
+<p>(2) $z=x^2-y^2$, $x=r\cos\theta$, $y=r\sin\theta$ のとき $z_r$, $z_\theta$。</p>
+<p>(3) $z=f(x,y)$, $x=u+v$, $y=uv$ のとき $z_u$, $z_v$ を $f_x$, $f_y$ で表してください。</p>
+<details><summary>解答を見る</summary>
+<p>(1) $\dfrac{dz}{dt}=y\cos(xy)\cdot2t+x\cos(xy)\cdot e^t=(2te^t+t^2e^t)\cos(t^2e^t)=t(t+2)e^t\cos(t^2e^t)$</p>
+<p>(2) $z_r=2x\cos\theta-2y\sin\theta=2r(\cos^2\theta-\sin^2\theta)=2r\cos2\theta$、$z_\theta=2x(-r\sin\theta)-2y(r\cos\theta)=-4r^2\sin\theta\cos\theta=-2r^2\sin2\theta$。（$z=r^2\cos2\theta$ と一致。）</p>
+<p>(3) $x_u=1$, $y_u=v$, $x_v=1$, $y_v=u$ より $z_u=f_x+vf_y$, $z_v=f_x+uf_y$。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 5 <span class="lv">型E 定義</span></div>
+<p>$f(x,y)=\dfrac{xy^2}{x^2+y^2}$ $((x,y)\ne(0,0))$, $f(0,0)=0$ について、$f_x(0,0)$, $f_y(0,0)$ を求め、原点で全微分可能か調べてください。</p>
+<details><summary>解答を見る</summary>
+<p>$f(h,0)=0$, $f(0,k)=0$ より $f_x(0,0)=f_y(0,0)=0$。</p>
+$$\frac{f(h,k)}{\sqrt{h^2+k^2}}=\frac{hk^2}{(h^2+k^2)^{3/2}}\ \xrightarrow{h=k}\ \frac{h^3}{2\sqrt2|h|^3}=\pm\frac{1}{2\sqrt2}\not\to0$$
+<p>よって<strong>全微分可能でない</strong>。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 6 <span class="lv">偏微分方程式</span></div>
+<p>(1) $u(x,t)=e^{-t}\sin x$ が熱方程式 $u_t=u_{xx}$ をみたすことを示してください。</p>
+<p>(2) $z=x^2y+y^3$ のとき、$xz_x+yz_y=3z$ を確かめてください（$z$ は3次の同次式）。</p>
+<details><summary>解答を見る</summary>
+<p>(1) $u_t=-e^{-t}\sin x$, $u_x=e^{-t}\cos x$, $u_{xx}=-e^{-t}\sin x$。等しい。</p>
+<p>(2) $z_x=2xy$, $z_y=x^2+3y^2$。$xz_x+yz_y=2x^2y+x^2y+3y^3=3(x^2y+y^3)=3z$。（一般に $n$ 次の同次式なら $xz_x+yz_y=nz$：オイラーの定理。）</p>
+</details>
+</div>
+</section>
+
+<script>
+const PRE=[["x^2 e^(x y)","x² e^(xy)（第2回 問題2）"],["x^3y^2-4x y+y^5","x³y²−4xy+y⁵"],["sin(x^2 y)","sin(x²y)"],["arctan(y/x)","arctan(y/x)"],["log(x^2+y^2)","log(x²+y²)"],["x/(x^2+y^2)","x/(x²+y²)"],["x y/(x+y)","xy/(x+y)"],["x^y","x^y"],["e^x cos(y)","eˣ cos y"]];
+fillSelect($("#pre"),PRE.map(p=>p[1]));
+let E=null, D={};
+function num(id){ const v=EX.tryParse($(id).value); if(!v.ok||EX.vars(v.e).length){ $(id).classList.add("bad"); return NaN; } $(id).classList.remove("bad"); return EX.fn(v.e,[])(); }
+function show(){
+  const rows=[["f_x",D.x],["f_y",D.y],["f_{xx}",D.xx],["f_{xy}",D.xy],["f_{yx}",D.yx],["f_{yy}",D.yy]];
+  $("#res").innerHTML=rows.map(([n,e])=>`<div class="row">${tex(n+"="+EX.tex(e))}</div>`).join("")+
+    `<div class="row small">${EX.key(D.xy)===EX.key(D.yx)?'<span class="ok">✓</span> '+tex("f_{xy}=f_{yx}")+" になっています":"（"+tex("f_{xy}")+" と "+tex("f_{yx}")+" は式の形が違って見えますが、値は同じです）"}</div>`;
+  vals();
+}
+function vals(){
+  const a=num("#pa"), b=num("#pb");
+  if(!isFinite(a)||!isFinite(b)){ $("#vals").textContent="数値を入力してください"; return; }
+  const v=(e)=>EX.fn(e)(a,b);
+  $("#vals").innerHTML=`<div class="row">${tex("f("+fnum(a,3)+","+fnum(b,3)+")="+fnum(v(E),4))}　${tex("f_x="+fnum(v(D.x),4))}　${tex("f_y="+fnum(v(D.y),4))}</div><div class="row">${tex("f_{xx}="+fnum(v(D.xx),4))}　${tex("f_{xy}="+fnum(v(D.xy),4))}　${tex("f_{yy}="+fnum(v(D.yy),4))}</div>`;
+}
+const run=exprField($("#ex"),["x","y"],e=>{
+  E=e; D.x=EX.d(e,"x"); D.y=EX.d(e,"y"); D.xx=EX.d(D.x,"x"); D.xy=EX.d(D.x,"y"); D.yx=EX.d(D.y,"x"); D.yy=EX.d(D.y,"y");
+  show(); $("#judge").innerHTML="";
+});
+function judge(){
+  const r=EX.tryParse($("#ans").value);
+  if(!r.ok){ $("#judge").innerHTML='<span class="ng">'+r.err+'</span>'; return; }
+  const bad=EX.vars(r.e).filter(v=>v!=="x"&&v!=="y"); if(bad.length){ $("#judge").innerHTML='<span class="ng">x, y 以外の文字があります</span>'; return; }
+  const tg=$("#tg").value, g=EX.fn(D[tg]), h=EX.fn(r.e);
+  let n=0, fail=null;
+  for(let k=0;k<400&&n<8;k++){
+    const x=+(Math.random()*4-2).toFixed(3), y=+(Math.random()*4-2).toFixed(3);
+    const u=g(x,y), w=h(x,y); if(!isFinite(u)) continue; n++;
+    if(!isFinite(w)||Math.abs(u-w)>1e-7*Math.max(1,Math.abs(u))){ fail=[x,y,u,w]; break; }
+  }
+  const nm={x:"f_x",y:"f_y",xx:"f_{xx}",xy:"f_{xy}",yy:"f_{yy}"}[tg];
+  if(!n){ $("#judge").innerHTML="判定できる点が見つかりませんでした"; return; }
+  $("#judge").innerHTML=fail?`<span class="tag ng">✗ 違います</span>　たとえば ${tex("(x,y)=("+fnum(fail[0],3)+","+fnum(fail[1],3)+")")} で、正しい ${tex(nm)} の値は ${fnum(fail[2],5)}、あなたの式は ${fnum(fail[3],5)}。`
+    :`<span class="tag ok">✓ 正解です</span>　あなたの式：${tex(nm+"="+EX.tex(r.e))}（${n} 個の点で一致）`;
+}
+$("#pre").addEventListener("change",e=>{ $("#ex").value=PRE[+e.target.value][0]; run(); });
+["#pa","#pb"].forEach(id=>$(id).addEventListener("input",vals));
+$("#chk").addEventListener("click",judge); $("#ans").addEventListener("keydown",e=>{ if(e.key==="Enter") judge(); });
+$("#tg").addEventListener("change",()=>{$("#judge").innerHTML="";});
+run();
+</script>

@@ -1,0 +1,238 @@
+<!--
+title: 極値問題
+lead: 山頂・谷底では接平面が水平、つまり $f_x=f_y=0$。その点が山頂か谷底か鞍点かは、2次の項（$f_{xx},f_{xy},f_{yy}$）でつくる判別式 $H=f_{xx}f_{yy}-f_{xy}^2$ の符号で判定します。
+desc: 停留点 f_x=f_y=0、ヘッセ行列式による極大・極小・鞍点の判定
+-->
+<section id="s1">
+<h2>1. 何の話か（直感）</h2>
+<p>曲面 $z=f(x,y)$ の「山頂（極大）」や「谷底（極小）」を探します。山頂ではどちら向きにも平ら、つまり<strong>接平面が水平</strong>です。だから極値の候補は</p>
+$$f_x(a,b)=0,\qquad f_y(a,b)=0$$
+<p>をみたす点（<strong>停留点</strong>）です。ただし停留点がすべて極値とは限りません。馬の鞍のように「ある向きには上り、別の向きには下り」という<strong>鞍点</strong>もあります（$z=x^2-y^2$ の原点）。</p>
+<p>見分けるには、第5回のテイラー展開を使います。停留点では1次の項が消えるので</p>
+$$f(a+h,b+k)-f(a,b)\approx\frac12\left(Ah^2+2Bhk+Ck^2\right),\qquad A=f_{xx},\ B=f_{xy},\ C=f_{yy}$$
+<p>右辺の2次式が「どんな $(h,k)\ne(0,0)$ でも正」なら谷底（極小）、「いつも負」なら山頂（極大）、「正にも負にもなる」なら鞍点です。平方完成すると</p>
+$$Ah^2+2Bhk+Ck^2=A\left(h+\frac{B}{A}k\right)^2+\frac{AC-B^2}{A}k^2$$
+<p>となり、符号は $A$ と $AC-B^2$ で決まることがわかります。</p>
+</section>
+
+<section id="s2">
+<h2>2. 定義・定理</h2>
+<div class="box def">
+<div class="box-t">定義（極大・極小）</div>
+<p>点 $(a,b)$ に十分近いすべての点 $(x,y)\ne(a,b)$ で $f(x,y)<f(a,b)$ となるとき、$f$ は $(a,b)$ で<strong>極大</strong>、$f(a,b)$ を<strong>極大値</strong>といいます。不等号が逆なら<strong>極小</strong>・<strong>極小値</strong>。両者をあわせて<strong>極値</strong>といいます。</p>
+</div>
+<div class="box thm">
+<div class="box-t">定理 1（極値の必要条件）</div>
+<p>$f$ が $(a,b)$ で極値をとり、偏微分可能ならば $f_x(a,b)=f_y(a,b)=0$。</p>
+<p class="small muted">$x\mapsto f(x,b)$ は $x=a$ で極値をとるので1変数の定理から $f_x(a,b)=0$。$f_y$ も同様。逆は成り立ちません（鞍点）。</p>
+</div>
+<div class="box thm">
+<div class="box-t">定理 2（極値の判定）</div>
+<p>$f$ は $C^2$ 級で、$f_x(a,b)=f_y(a,b)=0$ とします。$A=f_{xx}(a,b)$, $B=f_{xy}(a,b)$, $C=f_{yy}(a,b)$,</p>
+$$H=AC-B^2=\begin{vmatrix}f_{xx}&f_{xy}\\ f_{xy}&f_{yy}\end{vmatrix}$$
+<div class="tablewrap"><table class="t">
+<tr><th>$H$ の符号</th><th>$A$ の符号</th><th>結論</th></tr>
+<tr><td>$H>0$</td><td>$A>0$</td><td><strong>極小</strong></td></tr>
+<tr><td>$H>0$</td><td>$A<0$</td><td><strong>極大</strong></td></tr>
+<tr><td>$H<0$</td><td>—</td><td><strong>極値ではない</strong>（鞍点）</td></tr>
+<tr><td>$H=0$</td><td>—</td><td><strong>この方法では判定できない</strong></td></tr>
+</table></div>
+<p class="small muted">$\begin{pmatrix}f_{xx}&f_{xy}\\ f_{xy}&f_{yy}\end{pmatrix}$ を<strong>ヘッセ行列</strong>、$H$ をヘッシアン（ヘッセ行列式）といいます。線形代数の言葉では「固有値がともに正なら極小、ともに負なら極大、異符号なら鞍点」です。</p>
+</div>
+<div class="box note">
+<div class="box-t">極値を求める手順</div>
+<ol class="steps">
+<li>$f_x$, $f_y$, $f_{xx}$, $f_{xy}$, $f_{yy}$ を計算する。</li>
+<li>連立方程式 $f_x=0$, $f_y=0$ を解いて<strong>停留点をすべて</strong>求める（割り算で解を落とさないよう、因数分解して場合分け）。</li>
+<li>各停留点で $H$, $A$ を計算し、表にあてはめる。</li>
+<li>$H=0$ の点は、直線や曲線に沿って $f$ の符号の変化を調べるなど、個別に考える。</li>
+</ol>
+</div>
+<div class="box thm">
+<div class="box-t">（参考）有界閉集合での最大・最小</div>
+<p>有界閉集合 $D$ 上の連続関数は最大値・最小値をもちます。それは「$D$ の内部の停留点」か「$D$ の境界上」でとられるので、両方の候補の値を比べれば求まります（問題6）。</p>
+</div>
+</section>
+
+<section id="s3">
+<h2>3. 具体例</h2>
+<div class="ex">
+<div class="ex-t">例 1：基本</div>
+<p>$f=x^2+xy+y^2-4x-2y$。$f_x=2x+y-4=0$, $f_y=x+2y-2=0$ を解いて $(x,y)=(2,0)$。</p>
+<p>$A=2$, $B=1$, $C=2$, $H=4-1=3>0$, $A>0$ なので<strong>極小</strong>。極小値 $f(2,0)=4-8=-4$。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 2：停留点が複数</div>
+<p>$f=x^3+y^3-3xy$。$f_x=3x^2-3y=0$, $f_y=3y^2-3x=0$ より $y=x^2$, $x=y^2$。代入して $x=x^4$、$x(x-1)(x^2+x+1)=0$ より $x=0,1$。停留点は $(0,0)$, $(1,1)$。</p>
+<p>$f_{xx}=6x$, $f_{xy}=-3$, $f_{yy}=6y$。</p>
+<ul>
+<li>$(0,0)$：$H=0\cdot0-9=-9<0$ → <strong>鞍点</strong>（極値でない）</li>
+<li>$(1,1)$：$H=36-9=27>0$, $A=6>0$ → <strong>極小</strong>、極小値 $f(1,1)=-1$</li>
+</ul>
+</div>
+<div class="ex">
+<div class="ex-t">例 3：$H=0$ のとき</div>
+<p>$f=x^4+y^4$, $g=x^4-y^4$, $k=x^2+y^3$ はどれも原点が停留点で $H=0$ です。</p>
+<ul>
+<li>$f$：$(x,y)\ne(0,0)$ なら $f>0=f(0,0)$ なので<strong>極小</strong>。</li>
+<li>$g$：$x$ 軸上では $g=x^4>0$、$y$ 軸上では $g=-y^4<0$。原点のどんな近くにも正の点と負の点があるので<strong>極値でない</strong>。</li>
+<li>$k$：$y$ 軸上で $k=y^3$ は $y$ の符号で正負が変わるので<strong>極値でない</strong>。</li>
+</ul>
+<p>このように $H=0$ のときは定理2では何もわからず、関数の形を直接調べる必要があります。</p>
+</div>
+
+<div class="demo" id="demo" data-toc="▶ 停留点を探す">
+<div class="demo-t">停留点を見つけて判定する</div>
+<p class="small">関数を入力すると、表示範囲の停留点を数値的に探し（ニュートン法）、$H$ と $A$ で分類します。<span style="color:var(--c2)">● 極大</span>　<span style="color:var(--c1)">● 極小</span>　<span style="color:var(--c3)">● 鞍点</span>　<span style="color:var(--muted)">● 判定不能</span></p>
+<div class="ctrl"><label>例：<select id="pre"></select></label><label>$f=$ <input id="ex" class="expr" value="x^3+y^3-3x y" autocomplete="off" spellcheck="false"></label><label>範囲 <select id="rng"><option value="1.5" selected>±1.5</option><option value="2">±2</option><option value="3">±3</option></select></label></div>
+<div class="demo-grid">
+<div><canvas class="cv" id="cv3"></canvas><p class="cap">グラフ（ドラッグで回転）</p></div>
+<div><canvas class="cv" id="cv2"></canvas><p class="cap">等高線と停留点</p></div>
+</div>
+<div class="out" id="out"></div>
+</div>
+</section>
+
+<section id="s4">
+<h2>4. よくある間違い</h2>
+<div class="mis">
+<p class="bad">$H>0$ だから極大。</p>
+<p class="good">$H>0$ だけでは極大か極小か決まりません。<strong>$A=f_{xx}$ の符号</strong>を見ます（$A>0$ なら極小、$A<0$ なら極大）。</p>
+</div>
+<div class="mis">
+<p class="bad">$H=0$ だから極値ではない。</p>
+<p class="good">$H=0$ は「判定できない」です。例3の $x^4+y^4$ のように極小のこともあります。</p>
+</div>
+<div class="mis">
+<p class="bad">$f_x=y(2x+y-3)=0$ の両辺を $y$ で割って $2x+y-3=0$ とする。</p>
+<p class="good">$y=0$ の場合が抜けてしまいます。積 $=0$ は「$y=0$ <strong>または</strong> $2x+y-3=0$」と場合分けし、$f_y=0$ の場合分けとすべての組み合わせを調べます（問題3）。</p>
+</div>
+<div class="mis">
+<p class="bad">$f_x=f_y=0$ をみたす点を求めたので、それが極値である。</p>
+<p class="good">停留点は「極値の<strong>候補</strong>」にすぎません。必ず $H$ で判定し、鞍点を除きます。</p>
+</div>
+</section>
+
+<section id="s5">
+<h2>5. 練習問題</h2>
+<div class="prob">
+<div class="prob-t">問題 1 <span class="lv">基本</span></div>
+<p>$f(x,y)=x^2-2xy+2y^2-2x+4$ の極値を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>$f_x=2x-2y-2=0$, $f_y=-2x+4y=0$ より $(x,y)=(2,1)$。$A=2$, $B=-2$, $C=4$, $H=8-4=4>0$, $A>0$。<strong>極小値 $f(2,1)=2$</strong>。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 2 <span class="lv">停留点が2つ</span></div>
+<p>$f(x,y)=x^3-3x+y^2$ の極値を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>$f_x=3x^2-3=0$, $f_y=2y=0$ より停留点 $(\pm1,0)$。$A=6x$, $B=0$, $C=2$。</p>
+<p>$(1,0)$：$H=12>0$, $A=6>0$ → <strong>極小値 $f(1,0)=-2$</strong>。$(-1,0)$：$H=-12<0$ → 鞍点（極値でない）。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 3 <span class="lv">場合分け</span></div>
+<p>$f(x,y)=xy(x+y-3)$ の極値を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>$f=x^2y+xy^2-3xy$。$f_x=y(2x+y-3)$, $f_y=x(x+2y-3)$。</p>
+<p>$f_x=0$ ⇔ $y=0$ または $2x+y=3$、$f_y=0$ ⇔ $x=0$ または $x+2y=3$。組み合わせて停留点は $(0,0)$, $(3,0)$, $(0,3)$, $(1,1)$。</p>
+<p>$A=2y$, $B=2x+2y-3$, $C=2x$。</p>
+<ul>
+<li>$(0,0)$：$H=0-9<0$、$(3,0)$：$H=0-9<0$、$(0,3)$：$H=0-9<0$ → いずれも鞍点</li>
+<li>$(1,1)$：$A=2$, $B=1$, $C=2$, $H=3>0$ → <strong>極小値 $f(1,1)=-1$</strong></li>
+</ul>
+<p class="check">上のデモで <code>x y (x+y-3)</code>、範囲 ±3 で確かめられます。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 4 <span class="lv">4次関数</span></div>
+<p>$f(x,y)=x^4+y^4-4xy$ の極値を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>$f_x=4x^3-4y=0$, $f_y=4y^3-4x=0$ より $y=x^3$, $x=y^3=x^9$。$x(x^8-1)=0$ より $x=0,\pm1$。停留点 $(0,0)$, $(1,1)$, $(-1,-1)$。</p>
+<p>$A=12x^2$, $B=-4$, $C=12y^2$。$(0,0)$：$H=-16<0$ → 鞍点。$(\pm1,\pm1)$：$H=144-16=128>0$, $A=12>0$ → <strong>極小値 $-2$</strong>（2点とも）。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 5 <span class="lv">H = 0</span></div>
+<p>$f(x,y)=x^2+y^3$ および $g(x,y)=x^2+y^4$ について、原点が極値かどうか調べてください。</p>
+<details><summary>解答を見る</summary>
+<p>どちらも原点は停留点で $A=2$, $B=0$, $C=0$、$H=0$（判定不能）。</p>
+<p>$f$：$y$ 軸上で $f(0,y)=y^3$ は $y>0$ で正、$y<0$ で負。<strong>極値でない</strong>。</p>
+<p>$g$：$(x,y)\ne(0,0)$ で $g=x^2+y^4>0=g(0,0)$。<strong>極小</strong>（極小値 $0$）。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 6 <span class="lv">最大・最小</span></div>
+<p>$f(x,y)=x^2+y^2-2x$ の、円板 $D:\ x^2+y^2\le4$ における最大値と最小値を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p><strong>内部</strong>：$f_x=2x-2=0$, $f_y=2y=0$ より $(1,0)$、$f(1,0)=-1$。</p>
+<p><strong>境界</strong> $x^2+y^2=4$：$f=4-2x$（$-2\le x\le2$）なので、$x=2$ で $0$、$x=-2$ で $8$。</p>
+<p>比べて <strong>最大値 $8$（点 $(-2,0)$）、最小値 $-1$（点 $(1,0)$）</strong>。</p>
+</details>
+</div>
+</section>
+
+<script>
+const PRE=[["x^3+y^3-3x y","x³+y³−3xy（例2）",1.5],["x^2+x y+y^2-4x-2y","x²+xy+y²−4x−2y（例1）",3],["x^3-3x+y^2","x³−3x+y²（問題2）",2],["x y (x+y-3)","xy(x+y−3)（問題3）",3],["x^4+y^4-4x y","x⁴+y⁴−4xy（問題4）",1.5],["x y exp(-(x^2+y^2)/2)","xy e^(−(x²+y²)/2)",3],["x^2-y^2","x²−y²（鞍点）",1.5],["x^4-y^4","x⁴−y⁴（H=0）",1.5],["sin(x)sin(y)","sin x sin y",3]];
+fillSelect($("#pre"),PRE.map(p=>p[1]));
+let F,G={},R=1.5,pts=[], zr=[0,1];
+const S3=new Surface3D($("#cv3"),{xr:[-2,2],yr:[-2,2],n:34});
+const P2=new Plot2D($("#cv2"),{xmin:-2,xmax:2,ymin:-2,ymax:2});
+const COL=t=>({max:cssv("c2"),min:cssv("c1"),saddle:cssv("c3"),none:cssv("muted")}[t]);
+const NAME={max:"極大",min:"極小",saddle:"鞍点（極値でない）",none:"判定できない（H=0）"};
+S3.extra=api=>{ pts.forEach(p=>{ if(p.z>=S3.zr[0]&&p.z<=S3.zr[1]) api.dot([p.x,p.y,p.z],COL(p.t),{r:6,bias:0.15}); }); };
+P2.onDraw=p=>{
+  p.heat(F,zr[0],zr[1],{alpha:0.45});
+  const L=[]; for(let i=1;i<16;i++) L.push(zr[0]+(zr[1]-zr[0])*i/16);
+  p.contour(F,L,rgba(cssv("fg"),0.3),{n:120,width:1});
+  pts.forEach((q,i)=>p.dot([q.x,q.y],COL(q.t),{r:6,label:String(i+1),bold:true}));
+};
+function find(){
+  const out=[], n=14;
+  for(let i=0;i<=n;i++) for(let j=0;j<=n;j++){
+    let x=-R+2*R*i/n+0.013, y=-R+2*R*j/n+0.007;
+    for(let it=0;it<40;it++){
+      const gx=G.x(x,y), gy=G.y(x,y), a=G.xx(x,y), b=G.xy(x,y), c=G.yy(x,y), det=a*c-b*b;
+      if(![gx,gy,a,b,c].every(isFinite)) break;
+      let dx,dy;
+      if(Math.abs(det)>1e-12){ dx=(c*gx-b*gy)/det; dy=(a*gy-b*gx)/det; } else { dx=gx*0.1; dy=gy*0.1; }
+      const st=Math.hypot(dx,dy); if(st>0.5){ dx*=0.5/st; dy*=0.5/st; }
+      x-=dx; y-=dy; if(Math.abs(x)>R*1.5||Math.abs(y)>R*1.5) break;
+      if(st<1e-12) break;
+    }
+    if(Math.abs(x)>R+1e-9||Math.abs(y)>R+1e-9) continue;
+    if(!(Math.hypot(G.x(x,y),G.y(x,y))<1e-8)) continue;
+    if(out.some(p=>Math.hypot(p.x-x,p.y-y)<1e-4)) continue;
+    out.push({x,y});
+    if(out.length>12) break;
+  }
+  out.forEach(p=>{ if(Math.abs(p.x)<1e-9) p.x=0; if(Math.abs(p.y)<1e-9) p.y=0;
+    p.A=G.xx(p.x,p.y); p.B=G.xy(p.x,p.y); p.C=G.yy(p.x,p.y); p.H=p.A*p.C-p.B*p.B; p.z=F(p.x,p.y);
+    const e=1e-7*Math.max(1,Math.abs(p.A*p.C),p.B*p.B);
+    p.t=p.H>e?(p.A>0?"min":"max"):p.H<-e?"saddle":"none"; });
+  out.sort((p,q)=>p.x-q.x||p.y-q.y);
+  return out;
+}
+function upd(){
+  pts=find();
+  S3.set({f:F,xr:[-R,R],yr:[-R,R],zr:null}); zr=S3.zr;
+  P2.setView({xmin:-R,xmax:R,ymin:-R,ymax:R});
+  let s=`<div class="row">${tex("f_x="+EX.tex(G.ex)+",\\quad f_y="+EX.tex(G.ey))}</div>`;
+  s+=`<div class="row small">${tex("A=f_{xx}="+EX.tex(G.exx)+",\\ B=f_{xy}="+EX.tex(G.exy)+",\\ C=f_{yy}="+EX.tex(G.eyy))}</div>`;
+  if(!pts.length) s+='<div class="row">この範囲に停留点は見つかりませんでした。</div>';
+  else{
+    s+='<div class="tablewrap"><table class="t"><tr><th>#</th><th>停留点</th><th>'+tex("A")+'</th><th>'+tex("B")+'</th><th>'+tex("C")+'</th><th>'+tex("H=AC-B^2")+'</th><th>判定</th><th>'+tex("f")+' の値</th></tr>';
+    pts.forEach((p,i)=>{ s+=`<tr><td>${i+1}</td><td>${tex("("+fnum(p.x,4)+","+fnum(p.y,4)+")")}</td><td>${fnum(p.A,3)}</td><td>${fnum(p.B,3)}</td><td>${fnum(p.C,3)}</td><td>${fnum(p.H,3)}</td><td style="color:${COL(p.t)};font-weight:700">${NAME[p.t]}</td><td>${fnum(p.z,4)}</td></tr>`; });
+    s+="</table></div>";
+  }
+  s+='<div class="row small muted">数値計算なので、値は近似値です（停留点を見落とすこともあります）。</div>';
+  $("#out").innerHTML=s; P2.draw();
+}
+const run=exprField($("#ex"),["x","y"],(e,f)=>{
+  F=f; G.ex=EX.d(e,"x"); G.ey=EX.d(e,"y"); G.exx=EX.d(G.ex,"x"); G.exy=EX.d(G.ex,"y"); G.eyy=EX.d(G.ey,"y");
+  G.x=EX.fn(G.ex); G.y=EX.fn(G.ey); G.xx=EX.fn(G.exx); G.xy=EX.fn(G.exy); G.yy=EX.fn(G.eyy); upd();
+});
+$("#pre").addEventListener("change",e=>{ const i=+e.target.value; $("#ex").value=PRE[i][0]; R=PRE[i][2]; $("#rng").value=String(R); run(); });
+$("#rng").addEventListener("change",e=>{ R=+e.target.value; upd(); });
+run();
+</script>

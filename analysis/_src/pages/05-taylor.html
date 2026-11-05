@@ -1,0 +1,201 @@
+<!--
+title: Taylor展開, 近似
+lead: 点 $(a,b)$ の近くで、関数を $h=x-a$, $k=y-b$ の多項式で近似します。1次近似は接平面、2次近似は「曲がり具合」まで取り入れたお椀や鞍の形。次回以降の極値判定の基礎になります。
+desc: 2変数のテイラーの定理、1次近似・2次近似、近似値の計算
+-->
+<section id="s1">
+<h2>1. 何の話か（直感）</h2>
+<p>1変数では、$x=a$ の近くで $f(a+h)\approx f(a)+f'(a)h+\dfrac{1}{2}f''(a)h^2+\cdots$ と多項式で近似できました（テイラー展開）。</p>
+<p>2変数でも同じことをします。点 $(a,b)$ から $(h,k)$ だけずれた点での値を、$h,k$ の多項式で近似します。</p>
+<ul>
+<li><strong>0次</strong>：$f(a,b)$（高さだけ）</li>
+<li><strong>1次</strong>：$+\,f_xh+f_yk$（傾き。これが接平面）</li>
+<li><strong>2次</strong>：$+\,\dfrac12\left(f_{xx}h^2+2f_{xy}hk+f_{yy}k^2\right)$（曲がり具合）</li>
+</ul>
+<p>覚え方は「$\left(h\dfrac{\partial}{\partial x}+k\dfrac{\partial}{\partial y}\right)^n$ を<strong>二項展開</strong>して $\dfrac{1}{n!}$ を掛ける」です。1変数の $\dfrac{1}{n!}f^{(n)}(a)h^n$ の $h\dfrac{d}{dx}$ が、2変数では $h\dfrac{\partial}{\partial x}+k\dfrac{\partial}{\partial y}$ に変わります。</p>
+</section>
+
+<section id="s2">
+<h2>2. 定理</h2>
+<div class="box def">
+<div class="box-t">記号 $\left(h\frac{\partial}{\partial x}+k\frac{\partial}{\partial y}\right)^n f$</div>
+$$\begin{aligned}\left(h\frac{\partial}{\partial x}+k\frac{\partial}{\partial y}\right)f&=hf_x+kf_y\\ \left(h\frac{\partial}{\partial x}+k\frac{\partial}{\partial y}\right)^2f&=h^2f_{xx}+2hkf_{xy}+k^2f_{yy}\\ \left(h\frac{\partial}{\partial x}+k\frac{\partial}{\partial y}\right)^3f&=h^3f_{xxx}+3h^2kf_{xxy}+3hk^2f_{xyy}+k^3f_{yyy}\end{aligned}$$
+<p class="small muted">係数は二項係数 $1,2,1$／$1,3,3,1$。$f$ が $C^n$ 級なので偏微分の順序は気にしなくてよい（$f_{xy}=f_{yx}$ など）。</p>
+</div>
+<div class="box thm">
+<div class="box-t">定理（2変数のテイラーの定理）</div>
+<p>$f$ が点 $(a,b)$ と $(a+h,b+k)$ を結ぶ線分を含む領域で $C^n$ 級ならば、ある $0<\theta<1$ があって</p>
+$$f(a+h,b+k)=\sum_{j=0}^{n-1}\frac{1}{j!}\left(h\frac{\partial}{\partial x}+k\frac{\partial}{\partial y}\right)^jf(a,b)+R_n$$
+$$R_n=\frac{1}{n!}\left(h\frac{\partial}{\partial x}+k\frac{\partial}{\partial y}\right)^nf(a+\theta h,\,b+\theta k)$$
+<p>$(a,b)=(0,0)$ のときを<strong>マクローリンの定理</strong>といいます。</p>
+</div>
+<div class="box note">
+<div class="box-t">証明のアイデア</div>
+<p>$g(t)=f(a+th,\,b+tk)$ とおくと、連鎖律から $g'(t)=hf_x+kf_y$, $g''(t)=h^2f_{xx}+2hkf_{xy}+k^2f_{yy}$, …（すべて点 $(a+th,b+tk)$ で）。$g$ に1変数のマクローリンの定理を使い $t=1$ とおけば得られます。<strong>2変数の問題を、直線上の1変数の問題に帰着</strong>させるのがポイントです。</p>
+</div>
+<div class="box thm">
+<div class="box-t">1次近似・2次近似（$h,k$ が小さいとき）</div>
+$$f(a+h,b+k)\approx f(a,b)+f_x(a,b)h+f_y(a,b)k$$
+$$f(a+h,b+k)\approx f(a,b)+f_xh+f_yk+\frac12\left(f_{xx}h^2+2f_{xy}hk+f_{yy}k^2\right)$$
+<p>1次近似の誤差は $h,k$ の2次程度、2次近似の誤差は3次程度の小ささです。</p>
+</div>
+</section>
+
+<section id="s3">
+<h2>3. 具体例</h2>
+<div class="ex">
+<div class="ex-t">例 1：マクローリン展開（3次まで）</div>
+<p>$f(x,y)=e^x\sin y$。原点での偏微分係数は</p>
+<div class="tablewrap"><table class="t">
+<tr><th>$f$</th><th>$f_x$</th><th>$f_y$</th><th>$f_{xx}$</th><th>$f_{xy}$</th><th>$f_{yy}$</th><th>$f_{xxx}$</th><th>$f_{xxy}$</th><th>$f_{xyy}$</th><th>$f_{yyy}$</th></tr>
+<tr><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>−1</td></tr></table></div>
+$$e^x\sin y=y+\frac{1}{2!}(2xy)+\frac{1}{3!}(3x^2y-y^3)+R_4=y+xy+\frac12x^2y-\frac16y^3+R_4$$
+<p class="check">確認：$e^x=1+x+\frac{x^2}{2}+\cdots$ と $\sin y=y-\frac{y^3}{6}+\cdots$ を掛けても、3次までの項は一致します。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 2：近似値 $1.02^{2.97}$</div>
+<p>$f(x,y)=x^y$, $(a,b)=(1,3)$, $h=0.02$, $k=-0.03$ とします。</p>
+<p>$f=1$, $f_x=yx^{y-1}=3$, $f_y=x^y\log x=0$。1次近似：$1.02^{2.97}\approx1+3(0.02)+0=1.06$。</p>
+<p>さらに $f_{xx}=y(y-1)x^{y-2}=6$, $f_{xy}=x^{y-1}+yx^{y-1}\log x=1$, $f_{yy}=x^y(\log x)^2=0$ より、2次近似は</p>
+$$1.06+\frac12\{6(0.02)^2+2\cdot1\cdot(0.02)(-0.03)+0\}=1.06+0.0006=1.0606$$
+<p class="check">真の値は $1.06058\cdots$。2次近似でぐっと近くなります。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 3：近似値 $\sqrt{3.02^2+3.97^2}$</div>
+<p>$f(x,y)=\sqrt{x^2+y^2}$, $(a,b)=(3,4)$。$f=5$, $f_x=\dfrac{x}{\sqrt{x^2+y^2}}=\dfrac35$, $f_y=\dfrac45$。</p>
+$$\sqrt{3.02^2+3.97^2}\approx5+\frac35(0.02)+\frac45(-0.03)=4.988\qquad(\text{真の値 }4.98812\cdots)$$
+</div>
+<div class="ex">
+<div class="ex-t">例 4：1変数の展開を使う</div>
+<p>$\log(1+x+y)$ のマクローリン展開（2次まで）は、$\log(1+u)=u-\dfrac{u^2}{2}+\cdots$ に $u=x+y$ を代入して</p>
+$$\log(1+x+y)=(x+y)-\frac12(x+y)^2+\cdots=x+y-\frac12x^2-xy-\frac12y^2+\cdots$$
+<p class="small muted">偏微分を計算しても同じ結果になります（展開は一意的）。</p>
+</div>
+
+<div class="demo" id="demo" data-toc="▶ 近似曲面を重ねる">
+<div class="demo-t">接平面（1次）とお椀（2次）で近似する</div>
+<p class="small">曲面 $z=f(x,y)$ に、点 $(a,b)$ でのテイラー多項式のグラフ（<span style="color:var(--c2)">赤</span>）を重ねます。1次では平面、2次では曲がった面になり、点の近くでよりよく重なります。</p>
+<div class="ctrl"><label>例：<select id="pre"></select></label><label>$f=$ <input id="ex" class="expr" value="exp(x)sin(y)" autocomplete="off" spellcheck="false"></label></div>
+<div class="sl"><label>$a$ <input type="range" id="sa" min="-1.5" max="1.5" step="0.05" value="0"><span class="sv" id="va"></span></label><label>$b$ <input type="range" id="sb" min="-1.5" max="1.5" step="0.05" value="0"><span class="sv" id="vb"></span></label></div>
+<div class="ctrl">次数：<button id="o1">1次</button><button id="o2" class="on">2次</button></div>
+<canvas class="cv wide" id="cv3"></canvas>
+<p class="cap">ドラッグで回転</p>
+<div class="out" id="out"></div>
+</div>
+</section>
+
+<section id="s4">
+<h2>4. よくある間違い</h2>
+<div class="mis">
+<p class="bad">2次の項を $f_{xx}h^2+f_{xy}hk+f_{yy}k^2$ と書く。</p>
+<p class="good">$\dfrac{1}{2!}$ を掛けること、そして $hk$ の項には係数 $2$（$f_{xy}$ と $f_{yx}$ の2つ分）がつくことを忘れずに：$\dfrac12\left(f_{xx}h^2+2f_{xy}hk+f_{yy}k^2\right)$。</p>
+</div>
+<div class="mis">
+<p class="bad">剰余項 $R_n$ の偏導関数を点 $(a,b)$ で計算する。</p>
+<p class="good">$R_n$ の偏導関数は、線分上の<strong>途中の点</strong> $(a+\theta h,b+\theta k)$ $(0<\theta<1)$ での値です。</p>
+</div>
+<div class="mis">
+<p class="bad">$\sin31^\circ$ の近似で $h=1$ とする。</p>
+<p class="good">微分の公式は<strong>弧度法</strong>で成り立つので、$h=1^\circ=\dfrac{\pi}{180}\approx0.01745$ とします。</p>
+</div>
+<div class="mis">
+<p class="bad">展開の中心が $(a,b)$ なのに、多項式を $x,y$ で書いてしまう。</p>
+<p class="good">中心が原点でないときは $h=x-a$, $k=y-b$ のべきで書きます。たとえば $(1,1)$ のまわりなら $(x-1)^2$, $(x-1)(y-1)$ などの項になります。</p>
+</div>
+</section>
+
+<section id="s5">
+<h2>5. 練習問題</h2>
+<div class="prob">
+<div class="prob-t">問題 1 <span class="lv">マクローリン展開</span></div>
+<p>次の関数のマクローリン展開を2次の項まで求めてください。</p>
+<p>(1) $e^{x+2y}$　　(2) $\cos x\cos y$　　(3) $\dfrac{1}{1-x-y}$　　(4) $\sqrt{1+x}\,e^{y}$</p>
+<details><summary>解答を見る</summary>
+<p>(1) $e^u=1+u+\frac{u^2}{2}+\cdots$ に $u=x+2y$：$1+x+2y+\frac12x^2+2xy+2y^2$</p>
+<p>(2) $\left(1-\frac{x^2}{2}\right)\left(1-\frac{y^2}{2}\right)$ の2次まで：$1-\frac12x^2-\frac12y^2$</p>
+<p>(3) $\frac{1}{1-u}=1+u+u^2+\cdots$ に $u=x+y$：$1+x+y+x^2+2xy+y^2$</p>
+<p>(4) $\left(1+\frac x2-\frac{x^2}{8}\right)\left(1+y+\frac{y^2}{2}\right)$ の2次まで：$1+\frac12x+y-\frac18x^2+\frac12xy+\frac12y^2$</p>
+<p class="check">偏微分係数を計算して $f+f_xx+f_yy+\frac12(f_{xx}x^2+2f_{xy}xy+f_{yy}y^2)$ に入れても同じになります。上のデモで $a=b=0$ にして確かめられます。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 2 <span class="lv">テイラー展開</span></div>
+<p>$f(x,y)=x^2y$ を点 $(1,1)$ のまわりで2次の項まで展開してください（$h=x-1$, $k=y-1$）。</p>
+<details><summary>解答を見る</summary>
+<p>$f=1$, $f_x=2xy=2$, $f_y=x^2=1$, $f_{xx}=2y=2$, $f_{xy}=2x=2$, $f_{yy}=0$。</p>
+$$f(1+h,1+k)\approx1+2h+k+\frac12(2h^2+2\cdot2hk+0)=1+2h+k+h^2+2hk$$
+<p class="check">実際 $(1+h)^2(1+k)=1+2h+k+h^2+2hk+h^2k$ で、残り $h^2k$ が3次の剰余です。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 3 <span class="lv">近似値</span></div>
+<p>1次近似を用いて次の近似値を求めてください。</p>
+<p>(1) $\sqrt{4.02}\cdot\sqrt[3]{7.97}$　　(2) $\sin29^\circ\cos46^\circ$</p>
+<details><summary>解答を見る</summary>
+<p>(1) $f=\sqrt x\,y^{1/3}$, $(a,b)=(4,8)$。$f=4$, $f_x=\dfrac{y^{1/3}}{2\sqrt x}=\dfrac12$, $f_y=\dfrac{\sqrt x}{3y^{2/3}}=\dfrac16$。</p>
+<p>$\approx4+\frac12(0.02)+\frac16(-0.03)=4+0.01-0.005=4.005$（真の値 $4.00498\cdots$）</p>
+<p>(2) $f=\sin x\cos y$, $(a,b)=\left(\frac\pi6,\frac\pi4\right)$, $h=-\frac{\pi}{180}$, $k=\frac{\pi}{180}$。$f=\frac{\sqrt2}{4}$, $f_x=\cos x\cos y=\frac{\sqrt6}{4}$, $f_y=-\sin x\sin y=-\frac{\sqrt2}{4}$。</p>
+<p>$\approx\frac{\sqrt2}{4}-\frac{\sqrt6}{4}\cdot\frac{\pi}{180}-\frac{\sqrt2}{4}\cdot\frac{\pi}{180}\approx0.35355-0.01069-0.00617=0.3367$（真の値 $0.33678\cdots$）</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 4 <span class="lv">3次の展開</span></div>
+<p>$\sin(x+y)$ のマクローリン展開を3次の項まで求め、偏微分係数を使った公式からも同じ結果が出ることを確かめてください。</p>
+<details><summary>解答を見る</summary>
+<p>$\sin u=u-\frac{u^3}{6}+\cdots$ より $(x+y)-\frac16(x+y)^3=x+y-\frac16x^3-\frac12x^2y-\frac12xy^2-\frac16y^3$。</p>
+<p>公式から：原点で $f=0$、1階はすべて $\cos0=1$、2階はすべて $-\sin0=0$、3階はすべて $-\cos0=-1$。</p>
+$$x+y+0+\frac{1}{3!}\left(-x^3-3x^2y-3xy^2-y^3\right)=x+y-\frac16(x+y)^3\quad✓$$
+</details>
+</div>
+</section>
+
+<script>
+const PRE=[["exp(x)sin(y)","eˣ sin y（例1）"],["x^y","x^y（例2）"],["sqrt(x^2+y^2)","√(x²+y²)"],["cos(x)cos(y)","cos x cos y"],["log(1+x+y)","log(1+x+y)（例4）"],["x^2 y","x²y"],["exp(-x^2-y^2)","e^(−x²−y²)"]];
+fillSelect($("#pre"),PRE.map(p=>p[1]));
+let E,F,D={},G={}, a=0, b=0, ord=2;
+const S3=new Surface3D($("#cv3"),{xr:[-2,2],yr:[-2,2],n:32,az:-0.9,el:0.5});
+function TP(x,y){
+  const h=x-a,k=y-b, f0=F(a,b), c=G;
+  let v=f0+c.x*h+c.y*k; if(ord>=2) v+=0.5*(c.xx*h*h+2*c.xy*h*k+c.yy*k*k); return v;
+}
+S3.extra=api=>{
+  const r=1.1, m=18, zr=S3.zr;
+  for(let i=0;i<m;i++) for(let j=0;j<m;j++){
+    const x0=a-r+2*r*i/m, y0=b-r+2*r*j/m, x1=x0+2*r/m, y1=y0+2*r/m;
+    const P=[[x0,y0],[x1,y0],[x1,y1],[x0,y1]].map(([x,y])=>[x,y,TP(x,y)]);
+    if(P.some(p=>!isFinite(p[2])||p[2]<zr[0]||p[2]>zr[1]||p[0]<S3.o.xr[0]||p[0]>S3.o.xr[1]||p[1]<S3.o.yr[0]||p[1]>S3.o.yr[1])) continue;
+    api.quad(P,cssv("c2"),0.33,{bias:0.05,stroke:rgba(cssv("c2"),0.55)});
+  }
+  if(isFinite(F(a,b))) api.dot([a,b,F(a,b)],cssv("c2"),{r:5.5,bias:0.2});
+};
+function upd(){
+  a=+$("#sa").value; b=+$("#sb").value; $("#va").textContent=fnum(a,2); $("#vb").textContent=fnum(b,2);
+  for(const k of ["x","y","xx","xy","yy"]) G[k]=D[k](a,b);
+  const f0=F(a,b), out=$("#out");
+  if(![f0,...Object.values(G)].every(isFinite)){ out.innerHTML='<span class="ng">この点では偏微分係数が計算できません（定義域の外など）。点を動かしてください。</span>'; S3.draw(); return; }
+  const H=Math.abs(a)<1e-12?"x":"("+sh("x",a)+")", K=Math.abs(b)<1e-12?"y":"("+sh("y",b)+")";
+  const t1=[[f0,""],[G.x,H],[G.y,K]];
+  let s=`<div class="row">偏微分係数：${tex("f="+fnum(f0,3)+",\\ f_x="+fnum(G.x,3)+",\\ f_y="+fnum(G.y,3)+",\\ f_{xx}="+fnum(G.xx,3)+",\\ f_{xy}="+fnum(G.xy,3)+",\\ f_{yy}="+fnum(G.yy,3))}</div>`;
+  let poly="z="+lc(t1);
+  if(ord>=2){ const q=lc([[G.xx/2,H+"^2"],[G.xy,H+K],[G.yy/2,K+"^2"]]); if(q!=="0") poly+=(q[0]==="-"?"":"+")+q; }
+  s+=`<div class="row"><b>${ord}次近似</b>：${tex(poly)}</div>`;
+  const ds=[0.5,0.2,0.1,0.05];
+  const e1=d=>Math.abs(F(a+d,b+d)-(f0+G.x*d+G.y*d));
+  const e2=d=>Math.abs(F(a+d,b+d)-(f0+G.x*d+G.y*d+0.5*(G.xx+2*G.xy+G.yy)*d*d));
+  s+=`<div class="row small">点 ${tex("(a+d,\\ b+d)")} での誤差 ${tex("|f-\\text{近似}|")}（${tex("d")} を半分にすると、1次はおよそ1/4、2次はおよそ1/8 に）</div>`;
+  s+='<div class="tablewrap"><table class="t"><tr><th>'+tex("d")+'</th>'+ds.map(d=>"<td>"+d+"</td>").join("")+'</tr><tr><th>1次近似の誤差</th>'+ds.map(d=>"<td>"+e1(d).toExponential(2)+"</td>").join("")+'</tr><tr><th>2次近似の誤差</th>'+ds.map(d=>"<td>"+e2(d).toExponential(2)+"</td>").join("")+"</tr></table></div>";
+  out.innerHTML=s; S3.draw();
+}
+const run=exprField($("#ex"),["x","y"],(e,f)=>{
+  E=e; F=f; const dx=EX.d(e,"x"), dy=EX.d(e,"y");
+  D.x=EX.fn(dx); D.y=EX.fn(dy); D.xx=EX.fn(EX.d(dx,"x")); D.xy=EX.fn(EX.d(dx,"y")); D.yy=EX.fn(EX.d(dy,"y"));
+  S3.set({f:F,zr:null}); upd();
+});
+$("#pre").addEventListener("change",e=>{ const i=+e.target.value; $("#ex").value=PRE[i][0];
+  if(i===1){ $("#sa").value=1; $("#sb").value=1; S3.set({xr:[0.05,2.5],yr:[0,3]}); } else { S3.set({xr:[-2,2],yr:[-2,2]}); if(i===2){ $("#sa").value=1; $("#sb").value=0.8; } }
+  run(); });
+["#sa","#sb"].forEach(id=>$(id).addEventListener("input",upd));
+$("#o1").addEventListener("click",()=>{ ord=1; $("#o1").classList.add("on"); $("#o2").classList.remove("on"); upd(); });
+$("#o2").addEventListener("click",()=>{ ord=2; $("#o2").classList.add("on"); $("#o1").classList.remove("on"); upd(); });
+run();
+</script>

@@ -1,0 +1,1491 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第8回 陰関数定理, 条件付き極値問題｜解析学II</title>
+<meta name="description" content="方程式  が表す曲線は、局所的には関数  のグラフとみなせます（陰関数定理）。その曲線の上で  の最大・最小を探すのが条件付き極値問題で、答えの候補は「 と  が平行な点」です（ラグランジュの未定乗数法）。">
+<style>
+:root{
+  --bg:#f7f6f2; --card:#ffffff; --fg:#1d2127; --muted:#5d6672; --line:#d8dbe0; --soft:#eef0f3;
+  --accent:#2453c9; --accent-soft:#e8eefc;
+  --def:#2453c9; --def-bg:#edf2fd;
+  --thm:#1d7f49; --thm-bg:#eaf6ef;
+  --warn:#b8620a; --warn-bg:#fdf3e4;
+  --bad:#c0392b; --bad-bg:#fbeceb; --good:#1d7f49; --good-bg:#e9f6ee;
+  --c1:#2453c9; --c2:#d0336a; --c3:#d9800b; --c4:#1d8a52; --c5:#7b4bc4;
+  --s0:#3b5bdb; --s1:#22a39f; --s2:#e8c547; --s3:#e8590c;
+  --grid:#e3e5e9; --axis:#8a929c;
+  --mathfont:"Times New Roman","STIX Two Text","Cambria Math","Noto Serif",Times,serif;
+  --textfont:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP","Yu Gothic UI","Yu Gothic","Meiryo",system-ui,sans-serif;
+  color-scheme:light dark;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#14161a; --card:#1c1f24; --fg:#e5e7ea; --muted:#a2a9b3; --line:#363b43; --soft:#252930;
+    --accent:#7ea3ff; --accent-soft:#1f2a44;
+    --def:#7ea3ff; --def-bg:#1a2338;
+    --thm:#5fcf8f; --thm-bg:#16291e;
+    --warn:#f0a54a; --warn-bg:#2e2412;
+    --bad:#ff7b6e; --bad-bg:#341b19; --good:#5fcf8f; --good-bg:#16291e;
+    --c1:#7ea3ff; --c2:#ff6f9c; --c3:#f5a742; --c4:#5fcf8f; --c5:#b58cff;
+    --s0:#4c6ef5; --s1:#20c9b5; --s2:#f2d45c; --s3:#ff8a3d;
+    --grid:#2a2f36; --axis:#6b737e;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--textfont);font-size:16.5px;line-height:1.85;}
+.wrap{max-width:860px;margin:0 auto;padding:24px 16px 64px}
+a{color:var(--accent)}
+header.top{margin-bottom:28px}
+.crumb{font-size:.85rem;color:var(--muted);letter-spacing:.04em}
+.crumb a{color:var(--muted)}
+h1{font-size:1.75rem;line-height:1.4;margin:.2em 0 .4em}
+.lead{color:var(--muted);margin:0 0 1em}
+.toc{display:flex;flex-wrap:wrap;gap:6px 8px;font-size:.88rem}
+.toc a{display:inline-block;padding:3px 10px;border:1px solid var(--line);border-radius:999px;text-decoration:none;color:var(--fg);background:var(--card)}
+.toc a:hover{border-color:var(--accent);color:var(--accent)}
+.toc a.demo-link{border-color:var(--accent);color:var(--accent)}
+section{margin:0 0 40px}
+h2{font-size:1.35rem;margin:0 0 .7em;padding-bottom:.3em;border-bottom:2px solid var(--line)}
+h3{font-size:1.08rem;margin:1.6em 0 .5em}
+p{margin:.6em 0}
+ul,ol{padding-left:1.4em;margin:.5em 0}
+li{margin:.2em 0}
+.muted{color:var(--muted)}
+.small{font-size:.88rem}
+
+/* ---- 数式 ---- */
+.m,.dm{font-family:var(--mathfont);font-size:1.07em;font-style:normal}
+.m{white-space:normal}
+.mn{white-space:nowrap}
+.m i,.dm i{font-style:italic;padding-right:.03em}
+.dm{display:block;text-align:center;margin:.8em 0;overflow-x:auto;overflow-y:hidden;padding:.3em 0;line-height:1.6}
+.dm.left{text-align:left}
+.tx{font-family:var(--textfont);font-size:.92em}
+.rmn,.fn{font-style:normal}
+.vec{font-weight:700}.vec i{font-weight:700}
+sup,sub{font-size:.72em;line-height:0}
+sup{vertical-align:.55em} sub{vertical-align:-.3em}
+.frac sup,.frac sub,.ss sup,.ss sub{font-size:.85em}
+.pr{margin-left:.02em}
+.ss{display:inline-flex;flex-direction:column;vertical-align:.42em;font-size:.72em;line-height:1.05;margin-left:.04em;text-align:left}
+.ss>span{display:block}
+.frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;margin:0 .12em;line-height:1.2;font-size:.92em}
+.frac>span:first-child{border-bottom:1px solid currentColor;padding:0 .22em .08em}
+.frac>span:last-child{padding:.08em .22em 0}
+.dm .frac{font-size:1em}
+.sqrt{display:inline-flex;align-items:stretch;vertical-align:baseline}
+.sqrt .rt{font-size:1.05em;margin-right:-.02em}
+.sqrt .rd{border-top:1px solid currentColor;padding:0 .12em 0 .08em;margin-top:.18em}
+.ovl{text-decoration:overline}
+.int{font-size:1.35em;line-height:1;vertical-align:-.18em;margin:0 .04em 0 .02em;font-style:normal}
+.dm .int{font-size:1.75em;vertical-align:-.3em}
+.bs{font-size:1.25em;line-height:1;vertical-align:-.12em}
+.il{display:inline-flex;flex-direction:column;justify-content:space-between;vertical-align:.62em;font-size:.72em;line-height:1.05;height:2.35em;margin-left:-.1em;margin-right:.08em}
+.dm .il{height:3.25em;vertical-align:1.05em}
+.il>span:first-child{margin-left:.3em}
+sub.is{vertical-align:-.65em;margin-left:-.12em}
+.dm sub.is{vertical-align:-.9em}
+.ul{display:inline-flex;flex-direction:column;align-items:center;vertical-align:top;line-height:1.3}
+.ulo{position:relative}
+.ult{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);font-size:.7em;line-height:1.1;white-space:nowrap}
+.ul.hs{margin-top:.75em}
+.ulu{font-size:.7em;line-height:1.1;white-space:nowrap}
+.dm .ul{vertical-align:top}
+.s1{display:inline-block;width:.17em}.s2{display:inline-block;width:.28em}.sn{display:inline-block;margin-left:-.17em}
+.q1{display:inline-block;width:1em}.q2{display:inline-block;width:2em}
+.hlm{background:var(--accent-soft);border-radius:4px;padding:0 .15em;box-shadow:0 0 0 1px var(--accent)}
+.bxd{border:1.5px solid currentColor;padding:.1em .35em;border-radius:3px}
+.lr{display:inline-flex;align-items:stretch;vertical-align:middle;margin:0 .06em}
+.lr>.lri{display:inline-flex;align-items:center;padding:.1em .12em}
+.lr::before,.lr::after{content:"";flex:none;width:.34em}
+.lr.lp::before{border-left:1.4px solid currentColor;border-radius:.6em 0 0 .6em / 50% 0 0 50%}
+.lr.rp::after{border-right:1.4px solid currentColor;border-radius:0 .6em .6em 0 / 0 50% 50% 0}
+.lr.lb::before{border:1.4px solid currentColor;border-right:none;width:.25em}
+.lr.rb::after{border:1.4px solid currentColor;border-left:none;width:.25em}
+.lr.lv::before{border-left:1.3px solid currentColor;width:.15em}
+.lr.rv::after{border-right:1.3px solid currentColor;width:.15em}
+.lr.ln::before,.lr.rn::after{width:0}
+.lr.lc::before{content:"{";width:auto;align-self:center;font-size:1.5em;line-height:1}
+.lr.rc::after{content:"}";width:auto;align-self:center;font-size:1.5em;line-height:1}
+.mat{display:inline-flex;vertical-align:middle;align-items:stretch;margin:.1em .15em;line-height:1.35}
+.mat::before,.mat::after{content:"";width:.38em;flex:none}
+.mat::before{border-left:1.5px solid currentColor;border-radius:.6em 0 0 .6em / 50% 0 0 50%}
+.mat::after{border-right:1.5px solid currentColor;border-radius:0 .6em .6em 0 / 0 50% 50% 0}
+.mat.det::before{border-radius:0;width:.18em;border-left-width:1.3px}
+.mat.det::after{border-radius:0;width:.18em;border-right-width:1.3px}
+.mat.sq::before{border:1.5px solid currentColor;border-right:none;border-radius:0;width:.25em}
+.mat.sq::after{border:1.5px solid currentColor;border-left:none;border-radius:0;width:.25em}
+.mat.bare::before,.mat.bare::after{border:none;width:0}
+.mat>.g{display:grid;grid-template-columns:repeat(var(--c),auto);column-gap:.8em;row-gap:.12em;padding:.2em .35em;align-items:center;justify-items:center}
+.cases{display:inline-flex;align-items:center;vertical-align:middle}
+.cases .cb{font-size:calc(var(--r) * 1.05em + .3em);line-height:1;font-weight:300;transform:scaleX(.7);margin-right:.05em}
+.cases>.g{display:grid;grid-template-columns:auto auto;column-gap:1.2em;row-gap:.1em;justify-items:start;align-items:center}
+.eqs{display:inline-grid;grid-template-columns:auto auto;column-gap:.1em;row-gap:.35em;align-items:center;text-align:left}
+.eqs>span:nth-child(odd){text-align:right;justify-self:end}
+.eqs>span:nth-child(even){text-align:left;justify-self:start}
+
+/* ---- 枠 ---- */
+.box{border:1.5px solid var(--line);border-left-width:6px;border-radius:10px;padding:12px 16px;margin:18px 0;background:var(--card)}
+.box-t{font-weight:700;margin-bottom:.3em}
+.box.def{border-color:var(--def);background:var(--def-bg)}
+.box.def .box-t{color:var(--def)}
+.box.thm{border-color:var(--thm);background:var(--thm-bg)}
+.box.thm .box-t{color:var(--thm)}
+.box.warn{border-color:var(--warn);background:var(--warn-bg)}
+.box.warn .box-t{color:var(--warn)}
+.box.note{border-color:var(--line);border-left-color:var(--muted)}
+.box ol,.box ul{margin:.3em 0}
+.ex{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:16px 0}
+.ex-t{font-weight:700;color:var(--accent);margin-bottom:.2em}
+.mis{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:14px 0}
+.mis .bad,.mis .good{border-radius:6px;padding:6px 10px;margin:.4em 0}
+.mis .bad{background:var(--bad-bg)}
+.mis .good{background:var(--good-bg)}
+.mis .bad::before{content:"✗ よくある誤り　";color:var(--bad);font-weight:700}
+.mis .good::before{content:"✓ 正しくは　";color:var(--good);font-weight:700}
+.prob{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:16px 0}
+.prob-t{font-weight:700;margin-bottom:.2em}
+.prob-t .lv{font-weight:400;font-size:.8rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin-left:6px;white-space:nowrap}
+details{margin-top:10px;border-top:1px dashed var(--line);padding-top:8px}
+summary{cursor:pointer;color:var(--accent);font-weight:700;list-style:none;display:inline-block;padding:4px 12px;border:1px solid var(--accent);border-radius:999px;font-size:.92rem}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▶ ";font-size:.8em}
+details[open] summary::before{content:"▼ "}
+details[open] summary{margin-bottom:8px}
+.check{color:var(--muted);font-size:.92rem}
+.steps{counter-reset:st;list-style:none;padding-left:0}
+.steps>li{counter-increment:st;position:relative;padding-left:2.2em;margin:.5em 0}
+.steps>li::before{content:counter(st);position:absolute;left:0;top:.2em;width:1.6em;height:1.6em;border-radius:50%;background:var(--accent);color:var(--card);font-weight:700;font-size:.85em;display:flex;align-items:center;justify-content:center}
+.kw{font-weight:700;color:var(--accent)}
+
+/* ---- デモ ---- */
+.demo{border:2px solid var(--accent);border-radius:14px;padding:14px 16px 16px;margin:22px 0;background:var(--card)}
+.demo-t{font-weight:700;color:var(--accent);font-size:1.05rem;margin-bottom:.3em}
+.demo-t::before{content:"▶ 動かしてみよう　"}
+.demo-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:700px){.demo-grid{grid-template-columns:minmax(0,1fr)}}
+.cv{width:100%;max-width:440px;aspect-ratio:1/1;display:block;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:10px;touch-action:none;user-select:none;-webkit-user-select:none}
+.cv.wide{max-width:none;aspect-ratio:16/10}
+.cv.short{aspect-ratio:2/1;max-width:none}
+.cap{font-size:.85rem;color:var(--muted);text-align:center;margin:.2em 0 0}
+.ctrl{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin:8px 0}
+.ctrl label{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;max-width:100%}
+select,button,input{font:inherit;color:inherit}
+select{max-width:100%;min-width:0}
+select,input[type=text],input:not([type]),input[type=number]{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:3px 6px}
+input.expr{font-family:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;font-size:.95rem;width:16em;max-width:100%}
+input.num{width:4.2em;text-align:center}
+input.bad{border-color:var(--bad);background:var(--bad-bg)}
+button{background:var(--accent-soft);color:var(--accent);border:1px solid var(--accent);border-radius:8px;padding:4px 12px;cursor:pointer;font-size:.92rem}
+button:hover{background:var(--accent);color:var(--card)}
+button.on{background:var(--accent);color:var(--card)}
+input[type=range]{accent-color:var(--accent);width:150px;max-width:100%}
+.sl{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:4px 14px;margin:6px 0}
+.sl label{display:flex;align-items:center;gap:6px;white-space:nowrap}
+.sl input[type=range]{flex:1;min-width:0;width:auto}
+.sv{min-width:3.2em;text-align:right;font-variant-numeric:tabular-nums}
+.out{background:var(--soft);border-radius:10px;padding:10px 12px;margin:10px 0;overflow-x:auto}
+.out .row{margin:.3em 0}
+.ok{color:var(--good);font-weight:700}
+.ng{color:var(--bad);font-weight:700}
+.tag{display:inline-block;padding:1px 10px;border-radius:999px;font-weight:700;font-size:.92rem}
+.tag.ok{background:var(--good-bg)}
+.tag.ng{background:var(--bad-bg)}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.88rem;color:var(--muted);margin:6px 0}
+.legend span::before{content:"";display:inline-block;width:12px;height:4px;border-radius:2px;background:var(--k);margin-right:5px;vertical-align:middle}
+.hint{font-size:.85rem;color:var(--muted)}
+table.t{border-collapse:collapse;margin:8px 0;font-size:.95rem}
+table.t th,table.t td{border:1px solid var(--line);padding:4px 10px;text-align:center}
+table.t th{background:var(--soft)}
+table.t td.l,table.t th.l{text-align:left}
+.tablewrap{overflow-x:auto}
+.quiz .q{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:10px 0}
+.quiz .opts{display:flex;flex-wrap:wrap;gap:6px;margin:.4em 0}
+.quiz .opts button{background:var(--bg);color:var(--fg);border-color:var(--line)}
+.quiz .opts button.right{background:var(--good-bg);border-color:var(--good);color:var(--good)}
+.quiz .opts button.wrong{background:var(--bad-bg);border-color:var(--bad);color:var(--bad)}
+.quiz .fb{font-size:.92rem;margin-top:.3em}
+footer.pn{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:16px;margin-top:40px;font-size:.92rem}
+footer.pn a{text-decoration:none}
+@media (max-width:520px){
+  body{font-size:15.5px}
+  h1{font-size:1.45rem}
+  .box,.ex,.mis,.prob,.demo{padding:10px 12px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+<div class="crumb"><a href="index.html">解析学II</a> ・ 第8回</div>
+<h1>陰関数定理, 条件付き極値問題</h1>
+<p class="lead">方程式 <span class="m"><span class="mn"><i>g</i>(<i>x</i>, <i>y</i>) =</span> <span class="mn">0</span></span> が表す曲線は、局所的には関数 <span class="m"><span class="mn"><i>y</i> =</span> <span class="mn"><i>φ</i>(<i>x</i>)</span></span> のグラフとみなせます（陰関数定理）。その曲線の上で <span class="m"><span class="mn"><i>f</i>(<i>x</i>, <i>y</i>)</span></span> の最大・最小を探すのが条件付き極値問題で、答えの候補は「<span class="m"><span class="mn">∇<i>f</i></span></span> と <span class="m"><span class="mn">∇<i>g</i></span></span> が平行な点」です（ラグランジュの未定乗数法）。</p>
+<nav class="toc" aria-label="目次"><a href="#s1">1. 何の話か（直感）</a><a href="#s2">2. 定理</a><a href="#s3">3. 具体例</a><a class="demo-link" href="#demo">▶ ∇f と ∇g が平行な点</a><a href="#s4">4. よくある間違い</a><a href="#s5">5. 練習問題</a></nav>
+</header>
+<main class="doc">
+<section id="s1">
+<h2>1. 何の話か（直感）</h2>
+<h3>(1) 陰関数</h3>
+<p>円 <span class="m"><span class="mn"><i>x</i><sup>2</sup> + <i>y</i><sup>2</sup> =</span> <span class="mn">1</span></span> は、全体としては1つの関数 <span class="m"><span class="mn"><i>y</i> =</span> <span class="mn"><i>φ</i>(<i>x</i>)</span></span> のグラフではありません（1つの <span class="m"><span class="mn"><i>x</i></span></span> に <span class="m"><span class="mn"><i>y</i></span></span> が2つ）。しかし点 <span class="m"><span class="mn">(0.6, 0.8)</span></span> の<strong>近くだけ</strong>見れば <span class="m"><span class="mn"><i>y</i> =</span> <span class="mn"><span class="sqrt"><span class="rt">√</span><span class="rd">1 − <i>x</i><sup>2</sup></span></span></span></span> のグラフです。このように <span class="m"><span class="mn"><i>g</i>(<i>x</i>, <i>y</i>) =</span> <span class="mn">0</span></span> から（局所的に）決まる関数 <span class="m"><span class="mn"><i>y</i> =</span> <span class="mn"><i>φ</i>(<i>x</i>)</span></span> を<strong>陰関数</strong>といいます。</p>
+<p>陰関数の式が具体的に書けなくても、導関数は計算できます。<span class="m"><span class="mn"><i>g</i>(<i>x</i>, <i>φ</i>(<i>x</i>)) =</span> <span class="mn">0</span></span> を <span class="m"><span class="mn"><i>x</i></span></span> で微分すると連鎖律から <span class="m"><span class="mn"><i>g</i><sub><i>x</i></sub> + <i>g</i><sub><i>y</i></sub><i>φ</i><span class="pr">′</span>(<i>x</i>) =</span> <span class="mn">0</span></span>、よって <span class="m"><span class="mn"><i>φ</i><span class="pr">′</span>(<i>x</i>) =</span> <span class="mn">−<span class="frac"><span><i>g</i><sub><i>x</i></sub></span><span><i>g</i><sub><i>y</i></sub></span></span></span></span> です。</p>
+<h3>(2) 条件付き極値</h3>
+<p>「円周 <span class="m"><span class="mn"><i>x</i><sup>2</sup> + <i>y</i><sup>2</sup> =</span> <span class="mn">2</span></span> の上で <span class="m"><span class="mn"><i>f</i> =</span> <span class="mn"><i>x</i><i>y</i></span></span> を最大にせよ」のように、<strong>制約条件 <span class="m"><span class="mn"><i>g</i>(<i>x</i>, <i>y</i>) =</span> <span class="mn">0</span></span> の上だけ</strong>で <span class="m"><span class="mn"><i>f</i></span></span> の最大・最小を考えます。</p>
+<p>曲線 <span class="m"><span class="mn"><i>g</i> =</span> <span class="mn">0</span></span> に沿って歩きながら <span class="m"><span class="mn"><i>f</i></span></span> の等高線をまたいでいくと、<span class="m"><span class="mn"><i>f</i></span></span> の値は増えたり減ったりします。値が最大・最小になるのは、曲線が <span class="m"><span class="mn"><i>f</i></span></span> の等高線と<strong>接する</strong>ところ。接するとき2本の曲線の法線（<span class="m"><span class="mn">∇<i>f</i></span></span> と <span class="m"><span class="mn">∇<i>g</i></span></span>）は平行なので</p>
+<div class="dm">∇<i>f</i> = <i>λ</i>∇<i>g</i><span class="q1"></span><span class="tx">（ある実数 </span><i>λ</i><span class="tx">）</span></div>
+<p>これが<strong>ラグランジュの未定乗数法</strong>の考え方です（下のデモで確かめられます）。</p>
+</section>
+
+<section id="s2">
+<h2>2. 定理</h2>
+<div class="box thm">
+<div class="box-t">定理 1（陰関数定理）</div>
+<p><span class="m"><span class="mn"><i>g</i>(<i>x</i>, <i>y</i>)</span></span> は <span class="m"><span class="mn"><i>C</i><sup>1</sup></span></span> 級で、<span class="m"><span class="mn"><i>g</i>(<i>a</i>, <i>b</i>) =</span> <span class="mn">0</span></span>, <span class="m"><span class="mn"><i>g</i><sub><i>y</i></sub>(<i>a</i>, <i>b</i>) ≠</span> <span class="mn">0</span></span> とします。このとき <span class="m"><span class="mn"><i>x</i> =</span> <span class="mn"><i>a</i></span></span> の近くで定義された <span class="m"><span class="mn"><i>C</i><sup>1</sup></span></span> 級関数 <span class="m"><span class="mn"><i>y</i> =</span> <span class="mn"><i>φ</i>(<i>x</i>)</span></span> で</p>
+<div class="dm"><i>φ</i>(<i>a</i>) = <i>b</i>, <span class="q2"></span><i>g</i>(<i>x</i>, <i>φ</i>(<i>x</i>)) = 0</div>
+<p>をみたすものがただ1つ存在し、</p>
+<div class="dm"><i>φ</i><span class="pr">′</span>(<i>x</i>) = −<span class="frac"><span><i>g</i><sub><i>x</i></sub>(<i>x</i>, <i>φ</i>(<i>x</i>))</span><span><i>g</i><sub><i>y</i></sub>(<i>x</i>, <i>φ</i>(<i>x</i>))</span></span></div>
+<p class="small muted"><span class="m"><span class="mn"><i>g</i><sub><i>x</i></sub>(<i>a</i>, <i>b</i>) ≠</span> <span class="mn">0</span></span> なら、<span class="m"><span class="mn"><i>x</i></span></span> と <span class="m"><span class="mn"><i>y</i></span></span> の役割を入れ替えて <span class="m"><span class="mn"><i>x</i> =</span> <span class="mn"><i>ψ</i>(<i>y</i>)</span></span> と表せます。<span class="m"><span class="mn"><i>g</i><sub><i>x</i></sub> =</span> <span class="mn"><i>g</i><sub><i>y</i></sub> =</span> <span class="mn">0</span></span> の点（特異点）では、曲線がとがったり交差したりすることがあります。</p>
+</div>
+<div class="box thm">
+<div class="box-t">定理 2（陰関数の極値）</div>
+<p>陰関数 <span class="m"><span class="mn"><i>y</i> =</span> <span class="mn"><i>φ</i>(<i>x</i>)</span></span> が <span class="m"><span class="mn"><i>x</i> =</span> <span class="mn"><i>a</i></span></span> で極値をとる候補は <span class="m"><span class="mn"><i>φ</i><span class="pr">′</span>(<i>a</i>) =</span> <span class="mn">0</span></span>、つまり <span class="m"><span class="mn"><i>g</i><sub><i>x</i></sub>(<i>a</i>, <i>b</i>) =</span> <span class="mn">0</span></span> の点。そこで <span class="m"><span class="mn"><i>g</i></span></span> が <span class="m"><span class="mn"><i>C</i><sup>2</sup></span></span> 級なら</p>
+<div class="dm"><i>φ</i><span class="pr">′′</span>(<i>a</i>) = −<span class="frac"><span><i>g</i><sub><i>x</i><i>x</i></sub>(<i>a</i>, <i>b</i>)</span><span><i>g</i><sub><i>y</i></sub>(<i>a</i>, <i>b</i>)</span></span></div>
+<p>で、<span class="m"><span class="mn"><i>φ</i><span class="pr">′′</span>(<i>a</i>) &lt;</span> <span class="mn">0</span></span> なら<strong>極大</strong>、<span class="m"><span class="mn"><i>φ</i><span class="pr">′′</span>(<i>a</i>) &gt;</span> <span class="mn">0</span></span> なら<strong>極小</strong>。</p>
+<p class="small muted">一般の点での2階導関数は <span class="m"><span class="mn"><i>φ</i><span class="pr">′′</span> =</span> <span class="mn">−<span class="frac"><span><i>g</i><sub><i>x</i><i>x</i></sub><i>g</i><span class="ss"><span>2</span><span><i>y</i></span></span> − 2<i>g</i><sub><i>x</i><i>y</i></sub><i>g</i><sub><i>x</i></sub><i>g</i><sub><i>y</i></sub> + <i>g</i><sub><i>y</i><i>y</i></sub><i>g</i><span class="ss"><span>2</span><span><i>x</i></span></span></span><span><i>g</i><span class="ss"><span>3</span><span><i>y</i></span></span></span></span></span></span>。<span class="m"><span class="mn"><i>g</i><sub><i>x</i></sub> =</span> <span class="mn">0</span></span> の点では第1項だけが残ります。</p>
+</div>
+<div class="box thm">
+<div class="box-t">定理 3（ラグランジュの未定乗数法）</div>
+<p><span class="m"><span class="mn"><i>f</i>,</span> <span class="mn"><i>g</i></span></span> は <span class="m"><span class="mn"><i>C</i><sup>1</sup></span></span> 級とします。条件 <span class="m"><span class="mn"><i>g</i>(<i>x</i>, <i>y</i>) =</span> <span class="mn">0</span></span> のもとで <span class="m"><span class="mn"><i>f</i>(<i>x</i>, <i>y</i>)</span></span> が点 <span class="m"><span class="mn">(<i>a</i>, <i>b</i>)</span></span> で極値をとり、<span class="m"><span class="mn">∇<i>g</i>(<i>a</i>, <i>b</i>) ≠</span> <span class="mn"><b class="vec">0</b></span></span> ならば、ある実数 <span class="m"><span class="mn"><i>λ</i></span></span> があって</p>
+<div class="dm"><i>f</i><sub><i>x</i></sub>(<i>a</i>, <i>b</i>) = <i>λ</i><i>g</i><sub><i>x</i></sub>(<i>a</i>, <i>b</i>), <span class="q2"></span><i>f</i><sub><i>y</i></sub>(<i>a</i>, <i>b</i>) = <i>λ</i><i>g</i><sub><i>y</i></sub>(<i>a</i>, <i>b</i>)</div>
+<p>同じことですが、<span class="m"><span class="mn"><i>F</i>(<i>x</i>, <i>y</i>, <i>λ</i>) =</span> <span class="mn"><i>f</i>(<i>x</i>, <i>y</i>) − <i>λ</i><i>g</i>(<i>x</i>, <i>y</i>)</span></span> とおいて <span class="m"><span class="mn"><i>F</i><sub><i>x</i></sub> =</span> <span class="mn"><i>F</i><sub><i>y</i></sub> =</span> <span class="mn"><i>F</i><sub><i>λ</i></sub> =</span> <span class="mn">0</span></span> を解きます（<span class="m"><span class="mn"><i>F</i><sub><i>λ</i></sub> =</span> <span class="mn">0</span></span> が条件 <span class="m"><span class="mn"><i>g</i> =</span> <span class="mn">0</span></span>）。</p>
+</div>
+<div class="box note">
+<div class="box-t">条件付き極値の解き方</div>
+<ol class="steps">
+<li>連立方程式 <span class="m"><span class="mn"><i>f</i><sub><i>x</i></sub> =</span> <span class="mn"><i>λ</i><i>g</i><sub><i>x</i></sub></span></span>, <span class="m"><span class="mn"><i>f</i><sub><i>y</i></sub> =</span> <span class="mn"><i>λ</i><i>g</i><sub><i>y</i></sub></span></span>, <span class="m"><span class="mn"><i>g</i> =</span> <span class="mn">0</span></span> を解いて候補点を出す（<span class="m"><span class="mn"><i>λ</i></span></span> を消去すると <span class="m"><span class="mn"><i>f</i><sub><i>x</i></sub><i>g</i><sub><i>y</i></sub> − <i>f</i><sub><i>y</i></sub><i>g</i><sub><i>x</i></sub> =</span> <span class="mn">0</span></span>）。</li>
+<li><span class="m"><span class="mn"><i>g</i><sub><i>x</i></sub> =</span> <span class="mn"><i>g</i><sub><i>y</i></sub> =</span> <span class="mn">0</span></span> となる <span class="m"><span class="mn"><i>g</i> =</span> <span class="mn">0</span></span> 上の点（特異点）があれば、それも候補に加える。</li>
+<li>曲線 <span class="m"><span class="mn"><i>g</i> =</span> <span class="mn">0</span></span> が<strong>有界閉集合</strong>（円や楕円など）なら、<span class="m"><span class="mn"><i>f</i></span></span> は最大値・最小値をもつので、候補点での <span class="m"><span class="mn"><i>f</i></span></span> の値を比べて最大・最小を決める。</li>
+</ol>
+<p class="small muted">定理3は「極値なら平行」という<strong>必要条件</strong>です。候補点が本当に極値かどうかは、手順3のような議論で確かめます。</p>
+</div>
+</section>
+
+<section id="s3">
+<h2>3. 具体例</h2>
+<div class="ex">
+<div class="ex-t">例 1：陰関数の微分</div>
+<p><span class="m"><span class="mn"><i>g</i> =</span> <span class="mn"><i>x</i><sup>3</sup> + <i>y</i><sup>3</sup> − 3<i>x</i><i>y</i></span></span> とすると <span class="m"><span class="mn"><i>g</i><sub><i>x</i></sub> =</span> <span class="mn">3<i>x</i><sup>2</sup> − 3<i>y</i></span></span>, <span class="m"><span class="mn"><i>g</i><sub><i>y</i></sub> =</span> <span class="mn">3<i>y</i><sup>2</sup> − 3<i>x</i></span></span>。<span class="m"><span class="mn"><i>g</i><sub><i>y</i></sub> ≠</span> <span class="mn">0</span></span> の点の近くで</p>
+<div class="dm"><span class="frac"><span><i>d</i><i>y</i></span><span><i>d</i><i>x</i></span></span> = −<span class="frac"><span>3<i>x</i><sup>2</sup> − 3<i>y</i></span><span>3<i>y</i><sup>2</sup> − 3<i>x</i></span></span> = <span class="frac"><span><i>y</i> − <i>x</i><sup>2</sup></span><span><i>y</i><sup>2</sup> − <i>x</i></span></span></div>
+<p>円 <span class="m"><span class="mn"><i>x</i><sup>2</sup> + <i>y</i><sup>2</sup> =</span> <span class="mn">1</span></span> なら <span class="m"><span class="mn"><span class="frac"><span><i>d</i><i>y</i></span><span><i>d</i><i>x</i></span></span> =</span> <span class="mn">−<span class="frac"><span><i>x</i></span><span><i>y</i></span></span></span></span>。点 <span class="m"><span class="mn">(0.6, 0.8)</span></span> での傾きは <span class="m"><span class="mn">−0.75</span></span> です。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 2：陰関数の極値</div>
+<p><span class="m"><span class="mn"><i>x</i><sup>2</sup> + <i>x</i><i>y</i> + <i>y</i><sup>2</sup> =</span> <span class="mn">3</span></span> で定まる陰関数 <span class="m"><span class="mn"><i>y</i> =</span> <span class="mn"><i>φ</i>(<i>x</i>)</span></span> の極値。<span class="m"><span class="mn"><i>g</i> =</span> <span class="mn"><i>x</i><sup>2</sup> + <i>x</i><i>y</i> + <i>y</i><sup>2</sup> − 3</span></span> とします。</p>
+<p><span class="m"><span class="mn"><i>g</i><sub><i>x</i></sub> =</span> <span class="mn">2<i>x</i> + <i>y</i> =</span> <span class="mn">0</span></span> より <span class="m"><span class="mn"><i>y</i> =</span> <span class="mn">−2<i>x</i></span></span>。<span class="m"><span class="mn"><i>g</i> =</span> <span class="mn">0</span></span> に代入して <span class="m"><span class="mn"><i>x</i><sup>2</sup> − 2<i>x</i><sup>2</sup> + 4<i>x</i><sup>2</sup> =</span> <span class="mn">3</span></span>、<span class="m"><span class="mn"><i>x</i> =</span> <span class="mn"> ± 1</span></span>。候補は <span class="m"><span class="mn">(1, −2)</span></span>, <span class="m"><span class="mn">(−1, 2)</span></span>。</p>
+<p><span class="m"><span class="mn"><i>g</i><sub><i>x</i><i>x</i></sub> =</span> <span class="mn">2</span></span>, <span class="m"><span class="mn"><i>g</i><sub><i>y</i></sub> =</span> <span class="mn"><i>x</i> + 2<i>y</i></span></span>。</p>
+<ul>
+<li><span class="m"><span class="mn">(1, −2)</span></span>：<span class="m"><span class="mn"><i>g</i><sub><i>y</i></sub> =</span> <span class="mn">−3</span></span>、<span class="m"><span class="mn"><i>φ</i><span class="pr">′′</span> =</span> <span class="mn">−<span class="frac"><span>2</span><span>−3</span></span> =</span> <span class="mn"><span class="frac"><span>2</span><span>3</span></span> &gt;</span> <span class="mn">0</span></span> → <strong>極小値 <span class="m"><span class="mn">−2</span></span></strong></li>
+<li><span class="m"><span class="mn">(−1, 2)</span></span>：<span class="m"><span class="mn"><i>g</i><sub><i>y</i></sub> =</span> <span class="mn">3</span></span>、<span class="m"><span class="mn"><i>φ</i><span class="pr">′′</span> =</span> <span class="mn">−<span class="frac"><span>2</span><span>3</span></span> &lt;</span> <span class="mn">0</span></span> → <strong>極大値 <span class="m"><span class="mn">2</span></span></strong></li>
+</ul>
+</div>
+<div class="ex">
+<div class="ex-t">例 3：ラグランジュの未定乗数法</div>
+<p>条件 <span class="m"><span class="mn"><i>x</i><sup>2</sup> + <i>y</i><sup>2</sup> =</span> <span class="mn">2</span></span> のもとで <span class="m"><span class="mn"><i>f</i> =</span> <span class="mn"><i>x</i><i>y</i></span></span> の最大値・最小値。<span class="m"><span class="mn"><i>g</i> =</span> <span class="mn"><i>x</i><sup>2</sup> + <i>y</i><sup>2</sup> − 2</span></span>, <span class="m"><span class="mn">∇<i>f</i> =</span> <span class="mn">(<i>y</i>, <i>x</i>)</span></span>, <span class="m"><span class="mn">∇<i>g</i> =</span> <span class="mn">(2<i>x</i>, 2<i>y</i>)</span></span>。</p>
+<div class="dm"><i>y</i> = 2<i>λ</i><i>x</i>, <span class="q2"></span><i>x</i> = 2<i>λ</i><i>y</i>, <span class="q2"></span><i>x</i><sup>2</sup> + <i>y</i><sup>2</sup> = 2</div>
+<p>第1式を第2式に代入して <span class="m"><span class="mn"><i>x</i> =</span> <span class="mn">4<i>λ</i><sup>2</sup><i>x</i></span></span>。<span class="m"><span class="mn"><i>x</i> =</span> <span class="mn">0</span></span> なら <span class="m"><span class="mn"><i>y</i> =</span> <span class="mn">0</span></span> となり条件に反するので <span class="m"><span class="mn"><i>λ</i> =</span> <span class="mn"> ± <span class="frac"><span>1</span><span>2</span></span></span></span>。</p>
+<ul>
+<li><span class="m"><span class="mn"><i>λ</i> =</span> <span class="mn"><span class="frac"><span>1</span><span>2</span></span></span></span>：<span class="m"><span class="mn"><i>y</i> =</span> <span class="mn"><i>x</i></span></span>、<span class="m"><span class="mn">2<i>x</i><sup>2</sup> =</span> <span class="mn">2</span></span> より <span class="m"><span class="mn">(1, 1)</span></span>, <span class="m"><span class="mn">(−1, −1)</span></span>、<span class="m"><span class="mn"><i>f</i> =</span> <span class="mn">1</span></span></li>
+<li><span class="m"><span class="mn"><i>λ</i> =</span> <span class="mn">−<span class="frac"><span>1</span><span>2</span></span></span></span>：<span class="m"><span class="mn"><i>y</i> =</span> <span class="mn">−<i>x</i></span></span> より <span class="m"><span class="mn">(1, −1)</span></span>, <span class="m"><span class="mn">(−1, 1)</span></span>、<span class="m"><span class="mn"><i>f</i> =</span> <span class="mn">−1</span></span></li>
+</ul>
+<p>円周は有界閉集合なので <span class="m"><span class="mn"><i>f</i></span></span> は最大値・最小値をもち、それは候補のどれか。よって<strong>最大値 <span class="m"><span class="mn">1</span></span>、最小値 <span class="m"><span class="mn">−1</span></span></strong>。（<span class="m"><span class="mn">∇<i>g</i> =</span> <span class="mn"><b class="vec">0</b></span></span> となるのは原点だけで、円周上にはない。）</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 4：楕円上の1次関数</div>
+<p>条件 <span class="m"><span class="mn"><i>x</i><sup>2</sup> + 4<i>y</i><sup>2</sup> =</span> <span class="mn">4</span></span> のもとで <span class="m"><span class="mn"><i>f</i> =</span> <span class="mn"><i>x</i> + <i>y</i></span></span>。<span class="m"><span class="mn">1 =</span> <span class="mn">2<i>λ</i><i>x</i></span></span>, <span class="m"><span class="mn">1 =</span> <span class="mn">8<i>λ</i><i>y</i></span></span> より <span class="m"><span class="mn"><i>x</i> =</span> <span class="mn">4<i>y</i></span></span>。条件に代入して <span class="m"><span class="mn">20<i>y</i><sup>2</sup> =</span> <span class="mn">4</span></span>、<span class="m"><span class="mn"><i>y</i> =</span> <span class="mn"> ± <span class="frac"><span>1</span><span><span class="sqrt"><span class="rt">√</span><span class="rd">5</span></span></span></span></span></span>, <span class="m"><span class="mn"><i>x</i> =</span> <span class="mn"> ± <span class="frac"><span>4</span><span><span class="sqrt"><span class="rt">√</span><span class="rd">5</span></span></span></span></span></span>（複号同順）。<span class="m"><span class="mn"><i>f</i> =</span> <span class="mn"> ± <span class="sqrt"><span class="rt">√</span><span class="rd">5</span></span></span></span> なので<strong>最大値 <span class="m"><span class="mn"><span class="sqrt"><span class="rt">√</span><span class="rd">5</span></span></span></span>、最小値 <span class="m"><span class="mn">−<span class="sqrt"><span class="rt">√</span><span class="rd">5</span></span></span></span></strong>。</p>
+<p class="check">図形的には、直線 <span class="m"><span class="mn"><i>x</i> + <i>y</i> =</span> <span class="mn"><i>c</i></span></span> が楕円に接するときの <span class="m"><span class="mn"><i>c</i></span></span> を求めていることになります。</p>
+</div>
+
+<div class="demo" id="demo" data-toc="▶ ∇f と ∇g が平行な点">
+<div class="demo-t">制約曲線の上で f を最大・最小にする</div>
+<p class="small">太い線が条件 <span class="m"><span class="mn"><i>g</i>(<i>x</i>, <i>y</i>) =</span> <span class="mn">0</span></span>、細い線が <span class="m"><span class="mn"><i>f</i></span></span> の等高線です。<span style="color:var(--c5)">●</span> を曲線に沿ってドラッグしてください。<span style="color:var(--c4)">緑</span>が <span class="m"><span class="mn">∇<i>f</i></span></span>、<span style="color:var(--c2)">赤</span>が <span class="m"><span class="mn">∇<i>g</i></span></span>（どちらも向きだけ表示）。2本が<strong>平行になる点</strong>で、右のグラフの <span class="m"><span class="mn"><i>f</i></span></span> が山や谷になります。</p>
+<div class="ctrl"><label>例：<select id="pre"></select></label></div>
+<div class="ctrl"><label><span class="m"><span class="mn"><i>f</i> =</span></span> <input id="ef" class="expr" value="x y" autocomplete="off" spellcheck="false"></label><label><span class="m"><span class="mn"><i>g</i> =</span></span> <input id="eg" class="expr" value="x^2+y^2-2" autocomplete="off" spellcheck="false"></label><span class="m"><span class="mn"> =</span> <span class="mn">0</span></span></div>
+<div class="demo-grid">
+<div><canvas class="cv" id="cv"></canvas><p class="cap"><span class="m"><span class="mn"><i>f</i></span></span> の等高線と条件 <span class="m"><span class="mn"><i>g</i> =</span> <span class="mn">0</span></span></p></div>
+<div><canvas class="cv" id="cg"></canvas><p class="cap">曲線上の <span class="m"><span class="mn"><i>f</i></span></span> の値（横軸：原点から見た角度 <span class="m"><span class="mn"><i>θ</i></span></span>）</p></div>
+</div>
+<div class="out" id="out"></div>
+<p class="hint">この図では、曲線を「原点から角度 <span class="m"><span class="mn"><i>θ</i></span></span> の方向に見た点」で表しています（原点を囲む円・楕円などの曲線用）。</p>
+</div>
+</section>
+
+<section id="s4">
+<h2>4. よくある間違い</h2>
+<div class="mis">
+<p class="bad"><span class="m"><span class="mn"><i>f</i><sub><i>x</i></sub> =</span> <span class="mn"><i>λ</i><i>g</i><sub><i>x</i></sub></span></span>, <span class="m"><span class="mn"><i>f</i><sub><i>y</i></sub> =</span> <span class="mn"><i>λ</i><i>g</i><sub><i>y</i></sub></span></span> だけを解いて、条件 <span class="m"><span class="mn"><i>g</i> =</span> <span class="mn">0</span></span> を使い忘れる。</p>
+<p class="good">未知数は <span class="m"><span class="mn"><i>x</i>,</span> <span class="mn"><i>y</i>,</span> <span class="mn"><i>λ</i></span></span> の3つなので、<strong>式も3つ</strong>（<span class="m"><span class="mn"><i>g</i> =</span> <span class="mn">0</span></span> を含む）必要です。</p>
+</div>
+<div class="mis">
+<p class="bad">陰関数の導関数を <span class="m"><span class="mn"><span class="frac"><span><i>d</i><i>y</i></span><span><i>d</i><i>x</i></span></span> =</span> <span class="mn"><span class="frac"><span><i>g</i><sub><i>x</i></sub></span><span><i>g</i><sub><i>y</i></sub></span></span></span></span> とする。</p>
+<p class="good">マイナスがつきます：<span class="m"><span class="mn"><span class="frac"><span><i>d</i><i>y</i></span><span><i>d</i><i>x</i></span></span> =</span> <span class="mn">−<span class="frac"><span><i>g</i><sub><i>x</i></sub></span><span><i>g</i><sub><i>y</i></sub></span></span></span></span>。<span class="m"><span class="mn"><i>g</i><sub><i>x</i></sub> + <i>g</i><sub><i>y</i></sub><span class="frac"><span><i>d</i><i>y</i></span><span><i>d</i><i>x</i></span></span> =</span> <span class="mn">0</span></span> から毎回導けば間違えません。</p>
+</div>
+<div class="mis">
+<p class="bad">ラグランジュの方法で出た点は、すべて極値である。</p>
+<p class="good">出てくるのは<strong>候補</strong>です。有界閉集合なら値の比較で最大・最小が決まりますが、直線のように有界でない曲線では、最大値がないこともあります（問題4）。</p>
+</div>
+<div class="mis">
+<p class="bad"><span class="m"><span class="mn"><i>y</i> =</span> <span class="mn">2<i>λ</i><i>x</i></span></span>, <span class="m"><span class="mn"><i>x</i> =</span> <span class="mn">2<i>λ</i><i>y</i></span></span> から辺々割って <span class="m"><span class="mn"><span class="frac"><span><i>y</i></span><span><i>x</i></span></span> =</span> <span class="mn"><span class="frac"><span><i>x</i></span><span><i>y</i></span></span></span></span>。</p>
+<p class="good">割る前に <span class="m"><span class="mn"><i>x</i> =</span> <span class="mn">0</span></span> や <span class="m"><span class="mn"><i>y</i> =</span> <span class="mn">0</span></span> の場合を別に調べます。割り算は「0でない」ことを確認してから。</p>
+</div>
+</section>
+
+<section id="s5">
+<h2>5. 練習問題</h2>
+<div class="prob">
+<div class="prob-t">問題 1 <span class="lv">陰関数の微分</span></div>
+<p>次の式で定まる陰関数 <span class="m"><span class="mn"><i>y</i> =</span> <span class="mn"><i>φ</i>(<i>x</i>)</span></span> について <span class="m"><span class="mn"><span class="frac"><span><i>d</i><i>y</i></span><span><i>d</i><i>x</i></span></span></span></span> を求めてください。</p>
+<p>(1) <span class="m"><span class="mn"><i>x</i><sup>2</sup> − <i>x</i><i>y</i> + <i>y</i><sup>2</sup> =</span> <span class="mn">3</span></span>　　(2) <span class="m"><span class="mn"><i>e</i><sup><i>x</i><i>y</i></sup> =</span> <span class="mn"><i>x</i> + <i>y</i></span></span></p>
+<details><summary>解答を見る</summary>
+<p>(1) <span class="m"><span class="mn"><i>g</i><sub><i>x</i></sub> =</span> <span class="mn">2<i>x</i> − <i>y</i></span></span>, <span class="m"><span class="mn"><i>g</i><sub><i>y</i></sub> =</span> <span class="mn">−<i>x</i> + 2<i>y</i></span></span> より <span class="m"><span class="mn"><span class="frac"><span><i>d</i><i>y</i></span><span><i>d</i><i>x</i></span></span> =</span> <span class="mn">−<span class="frac"><span>2<i>x</i> − <i>y</i></span><span>2<i>y</i> − <i>x</i></span></span></span></span></p>
+<p>(2) <span class="m"><span class="mn"><i>g</i> =</span> <span class="mn"><i>e</i><sup><i>x</i><i>y</i></sup> − <i>x</i> − <i>y</i></span></span>, <span class="m"><span class="mn"><i>g</i><sub><i>x</i></sub> =</span> <span class="mn"><i>y</i><i>e</i><sup><i>x</i><i>y</i></sup> − 1</span></span>, <span class="m"><span class="mn"><i>g</i><sub><i>y</i></sub> =</span> <span class="mn"><i>x</i><i>e</i><sup><i>x</i><i>y</i></sup> − 1</span></span> より <span class="m"><span class="mn"><span class="frac"><span><i>d</i><i>y</i></span><span><i>d</i><i>x</i></span></span> =</span> <span class="mn">−<span class="frac"><span><i>y</i><i>e</i><sup><i>x</i><i>y</i></sup> − 1</span><span><i>x</i><i>e</i><sup><i>x</i><i>y</i></sup> − 1</span></span></span></span></p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 2 <span class="lv">接線</span></div>
+<p>曲線 <span class="m"><span class="mn"><i>x</i><sup>2</sup> + <i>x</i><i>y</i> + <i>y</i><sup>2</sup> =</span> <span class="mn">7</span></span> の点 <span class="m"><span class="mn">(1, 2)</span></span> における接線を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p><span class="m"><span class="mn"><i>g</i><sub><i>x</i></sub> =</span> <span class="mn">2<i>x</i> + <i>y</i> =</span> <span class="mn">4</span></span>, <span class="m"><span class="mn"><i>g</i><sub><i>y</i></sub> =</span> <span class="mn"><i>x</i> + 2<i>y</i> =</span> <span class="mn">5</span></span>。接線 <span class="m"><span class="mn">4(<i>x</i> − 1) + 5(<i>y</i> − 2) =</span> <span class="mn">0</span></span>、すなわち <span class="m"><span class="mn">4<i>x</i> + 5<i>y</i> =</span> <span class="mn">14</span></span>。（第6回の「勾配は等高線に垂直」と同じ。）</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 3 <span class="lv">陰関数の極値</span></div>
+<p><span class="m"><span class="mn"><i>x</i><sup>3</sup> + <i>y</i><sup>3</sup> − 3<i>x</i><i>y</i> =</span> <span class="mn">0</span></span> で定まる陰関数 <span class="m"><span class="mn"><i>y</i> =</span> <span class="mn"><i>φ</i>(<i>x</i>)</span></span> の極値を求めてください（<span class="m"><span class="mn"><i>x</i> &gt;</span> <span class="mn">0</span></span> の範囲）。</p>
+<details><summary>解答を見る</summary>
+<p><span class="m"><span class="mn"><i>g</i><sub><i>x</i></sub> =</span> <span class="mn">3<i>x</i><sup>2</sup> − 3<i>y</i> =</span> <span class="mn">0</span></span> より <span class="m"><span class="mn"><i>y</i> =</span> <span class="mn"><i>x</i><sup>2</sup></span></span>。代入して <span class="m"><span class="mn"><i>x</i><sup>3</sup> + <i>x</i><sup>6</sup> − 3<i>x</i><sup>3</sup> =</span> <span class="mn">0</span></span>、<span class="m"><span class="mn"><i>x</i><sup>3</sup>(<i>x</i><sup>3</sup> − 2) =</span> <span class="mn">0</span></span>。<span class="m"><span class="mn"><i>x</i> &gt;</span> <span class="mn">0</span></span> より <span class="m"><span class="mn"><i>x</i> =</span> <span class="mn"><span class="sqrt"><span class="rt">√</span><span class="rd">[</span></span>3]2</span></span>, <span class="m"><span class="mn"><i>y</i> =</span> <span class="mn"><span class="sqrt"><span class="rt">√</span><span class="rd">[</span></span>3]4</span></span>。</p>
+<p><span class="m"><span class="mn"><i>g</i><sub><i>y</i></sub> =</span> <span class="mn">3<i>y</i><sup>2</sup> − 3<i>x</i> =</span> <span class="mn">3(2<sup>4/3</sup> − 2<sup>1/3</sup>) =</span> <span class="mn">3 · 2<sup>1/3</sup> &gt;</span> <span class="mn">0</span></span>, <span class="m"><span class="mn"><i>g</i><sub><i>x</i><i>x</i></sub> =</span> <span class="mn">6<i>x</i> =</span> <span class="mn">6 · 2<sup>1/3</sup></span></span>。<span class="m"><span class="mn"><i>φ</i><span class="pr">′′</span> =</span> <span class="mn">−<span class="frac"><span><i>g</i><sub><i>x</i><i>x</i></sub></span><span><i>g</i><sub><i>y</i></sub></span></span> =</span> <span class="mn">−2 &lt;</span> <span class="mn">0</span></span>。</p>
+<p><strong><span class="m"><span class="mn"><i>x</i> =</span> <span class="mn"><span class="sqrt"><span class="rt">√</span><span class="rd">[</span></span>3]2</span></span> で極大値 <span class="m"><span class="mn"><span class="sqrt"><span class="rt">√</span><span class="rd">[</span></span>3]4</span></span></strong>。（原点は <span class="m"><span class="mn"><i>g</i><sub><i>x</i></sub> =</span> <span class="mn"><i>g</i><sub><i>y</i></sub> =</span> <span class="mn">0</span></span> の特異点で、曲線が交差しています。）</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 4 <span class="lv">ラグランジュ：直線</span></div>
+<p>条件 <span class="m"><span class="mn"><i>x</i> + 2<i>y</i> =</span> <span class="mn">5</span></span> のもとで <span class="m"><span class="mn"><i>f</i> =</span> <span class="mn"><i>x</i><sup>2</sup> + <i>y</i><sup>2</sup></span></span> の最小値を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p><span class="m"><span class="mn">2<i>x</i> =</span> <span class="mn"><i>λ</i></span></span>, <span class="m"><span class="mn">2<i>y</i> =</span> <span class="mn">2<i>λ</i></span></span> より <span class="m"><span class="mn"><i>y</i> =</span> <span class="mn">2<i>x</i></span></span>。<span class="m"><span class="mn"><i>x</i> + 4<i>x</i> =</span> <span class="mn">5</span></span> から <span class="m"><span class="mn">(1, 2)</span></span>、<span class="m"><span class="mn"><i>f</i> =</span> <span class="mn">5</span></span>。</p>
+<p><span class="m"><span class="mn"><i>f</i></span></span> は原点からの距離の2乗。直線上で遠くへ行けば <span class="m"><span class="mn"><i>f</i></span></span> はいくらでも大きくなるので最大値はなく、ただ1つの候補 <span class="m"><span class="mn">(1, 2)</span></span> で<strong>最小値 <span class="m"><span class="mn">5</span></span></strong>（原点から直線への距離 <span class="m"><span class="mn"><span class="sqrt"><span class="rt">√</span><span class="rd">5</span></span></span></span> の2乗）。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 5 <span class="lv">ラグランジュ：楕円</span></div>
+<p>条件 <span class="m"><span class="mn"><i>x</i><sup>2</sup> + <i>x</i><i>y</i> + <i>y</i><sup>2</sup> =</span> <span class="mn">3</span></span> のもとで <span class="m"><span class="mn"><i>f</i> =</span> <span class="mn"><i>x</i><sup>2</sup> + <i>y</i><sup>2</sup></span></span> の最大値・最小値を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p><span class="m"><span class="mn">∇<i>f</i> =</span> <span class="mn">(2<i>x</i>, 2<i>y</i>)</span></span>, <span class="m"><span class="mn">∇<i>g</i> =</span> <span class="mn">(2<i>x</i> + <i>y</i>, <span class="s1"></span><i>x</i> + 2<i>y</i>)</span></span>。平行条件 <span class="m"><span class="mn"><i>f</i><sub><i>x</i></sub><i>g</i><sub><i>y</i></sub> − <i>f</i><sub><i>y</i></sub><i>g</i><sub><i>x</i></sub> =</span> <span class="mn">0</span></span>：<span class="m"><span class="mn">2<i>x</i>(<i>x</i> + 2<i>y</i>) − 2<i>y</i>(2<i>x</i> + <i>y</i>) =</span> <span class="mn">2(<i>x</i><sup>2</sup> − <i>y</i><sup>2</sup>) =</span> <span class="mn">0</span></span>、よって <span class="m"><span class="mn"><i>y</i> =</span> <span class="mn"> ± <i>x</i></span></span>。</p>
+<p><span class="m"><span class="mn"><i>y</i> =</span> <span class="mn"><i>x</i></span></span>：<span class="m"><span class="mn">3<i>x</i><sup>2</sup> =</span> <span class="mn">3</span></span> → <span class="m"><span class="mn">( ± 1,  ± 1)</span></span>、<span class="m"><span class="mn"><i>f</i> =</span> <span class="mn">2</span></span>。<span class="m"><span class="mn"><i>y</i> =</span> <span class="mn">−<i>x</i></span></span>：<span class="m"><span class="mn"><i>x</i><sup>2</sup> =</span> <span class="mn">3</span></span> → <span class="m"><span class="mn">( ± <span class="sqrt"><span class="rt">√</span><span class="rd">3</span></span>,  ∓ <span class="sqrt"><span class="rt">√</span><span class="rd">3</span></span>)</span></span>、<span class="m"><span class="mn"><i>f</i> =</span> <span class="mn">6</span></span>。</p>
+<p>条件の曲線は楕円（有界閉集合）なので <strong>最大値 <span class="m"><span class="mn">6</span></span>、最小値 <span class="m"><span class="mn">2</span></span></strong>。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 6 <span class="lv">応用</span></div>
+<p>楕円 <span class="m"><span class="mn"><span class="frac"><span><i>x</i><sup>2</sup></span><span>4</span></span> + <i>y</i><sup>2</sup> =</span> <span class="mn">1</span></span> に内接し、各辺が座標軸に平行な長方形の面積の最大値を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>第1象限の頂点を <span class="m"><span class="mn">(<i>x</i>, <i>y</i>)</span></span> <span class="m"><span class="mn">(<i>x</i>, <i>y</i> &gt;</span> <span class="mn">0)</span></span> とすると面積は <span class="m"><span class="mn"><i>f</i> =</span> <span class="mn">4<i>x</i><i>y</i></span></span>。<span class="m"><span class="mn"><i>g</i> =</span> <span class="mn"><span class="frac"><span><i>x</i><sup>2</sup></span><span>4</span></span> + <i>y</i><sup>2</sup> − 1</span></span>。</p>
+<p><span class="m"><span class="mn">4<i>y</i> =</span> <span class="mn"><i>λ</i> · <span class="frac"><span><i>x</i></span><span>2</span></span></span></span>, <span class="m"><span class="mn">4<i>x</i> =</span> <span class="mn"><i>λ</i> · 2<i>y</i></span></span>。<span class="m"><span class="mn"><i>λ</i></span></span> を消去すると <span class="m"><span class="mn">4<i>y</i> · 2<i>y</i> =</span> <span class="mn">4<i>x</i> · <span class="frac"><span><i>x</i></span><span>2</span></span></span></span>、<span class="m"><span class="mn"><i>x</i><sup>2</sup> =</span> <span class="mn">4<i>y</i><sup>2</sup></span></span>、<span class="m"><span class="mn"><i>x</i> =</span> <span class="mn">2<i>y</i></span></span>。条件より <span class="m"><span class="mn">2<i>y</i><sup>2</sup> =</span> <span class="mn">1</span></span>、<span class="m"><span class="mn"><i>y</i> =</span> <span class="mn"><span class="frac"><span>1</span><span><span class="sqrt"><span class="rt">√</span><span class="rd">2</span></span></span></span></span></span>, <span class="m"><span class="mn"><i>x</i> =</span> <span class="mn"><span class="sqrt"><span class="rt">√</span><span class="rd">2</span></span></span></span>。</p>
+<p>面積の最大値は <span class="m"><span class="mn">4 · <span class="sqrt"><span class="rt">√</span><span class="rd">2</span></span> · <span class="frac"><span>1</span><span><span class="sqrt"><span class="rt">√</span><span class="rd">2</span></span></span></span> =</span> <span class="mn">4</span></span>。（一般に楕円 <span class="m"><span class="mn"><span class="frac"><span><i>x</i><sup>2</sup></span><span><i>a</i><sup>2</sup></span></span> + <span class="frac"><span><i>y</i><sup>2</sup></span><span><i>b</i><sup>2</sup></span></span> =</span> <span class="mn">1</span></span> なら <span class="m"><span class="mn">2<i>a</i><i>b</i></span></span>。）</p>
+</details>
+</div>
+</section>
+</main>
+<footer class="pn"><a href="07-extremum.html">← 第7回 極値問題</a><a href="index.html">目次 →</a></footer>
+</div>
+<script>
+"use strict";
+/* ===== 小さな TeX → HTML 変換器（外部ライブラリなし） =====
+   tex("\\frac{\\partial f}{\\partial x}")       … インライン用 HTML
+   tex("...", true)                              … ディスプレイ用 HTML
+   対応：上付き/下付き, \frac, \sqrt, \left \right, \int/\iint (上下端), \lim/\max/\sum (下付き),
+         pmatrix / vmatrix / cases / aligned, \text, \bm, \overline, \clr{c2}{..}, \hl{..} など */
+const TEX=(()=>{
+"use strict";
+const GREEK={alpha:"α",beta:"β",gamma:"γ",delta:"δ",epsilon:"ε",varepsilon:"ε",zeta:"ζ",eta:"η",theta:"θ",vartheta:"ϑ",iota:"ι",kappa:"κ",lambda:"λ",mu:"μ",nu:"ν",xi:"ξ",pi:"π",rho:"ρ",sigma:"σ",tau:"τ",phi:"ϕ",varphi:"φ",chi:"χ",psi:"ψ",omega:"ω"};
+const UGREEK={Gamma:"Γ",Delta:"Δ",Theta:"Θ",Lambda:"Λ",Xi:"Ξ",Pi:"Π",Sigma:"Σ",Phi:"Φ",Psi:"Ψ",Omega:"Ω"};
+const ORD={partial:"∂",nabla:"∇",infty:"∞",ldots:"…",cdots:"⋯",dots:"…",vdots:"⋮",R:"ℝ",emptyset:"∅",varnothing:"∅",forall:"∀",exists:"∃",prime:"′",ell:"ℓ","|":"‖",lvert:"|",rvert:"|",therefore:"∴",because:"∵",square:"□",checkmark:"✓",star:"★"};
+const BIN={pm:"±",mp:"∓",times:"×",cdot:"·",cap:"∩",cup:"∪",setminus:"∖",circ:"∘",div:"÷"};
+const REL={mid:"|",le:"≤",leq:"≤",ge:"≥",geq:"≥",ne:"≠",neq:"≠",approx:"≈",to:"→",rightarrow:"→",leftarrow:"←",mapsto:"↦",in:"∈",notin:"∉",ni:"∋",subset:"⊂",subseteq:"⊆",supset:"⊃",Rightarrow:"⇒",implies:"⇒",Leftarrow:"⇐",iff:"⇔",Leftrightarrow:"⇔",equiv:"≡",sim:"∼",simeq:"≃",perp:"⊥",parallel:"∥",ll:"≪",gg:"≫",lt:"&lt;",gt:"&gt;",colon:":",nearrow:"↗",searrow:"↘",uparrow:"↑",downarrow:"↓",longrightarrow:"⟶"};
+const FN=new Set(["sin","cos","tan","cot","sec","csc","log","ln","exp","arcsin","arccos","arctan","sinh","cosh","tanh","det","dim","rank","grad","sgn","deg","Im","Ker","Tan","Arctan","Arcsin","Arccos"]);
+const UNDER=new Set(["lim","max","min","sup","inf","sum","prod","limsup","liminf"]);
+const INTS={int:"∫",iint:"∬",iiint:"∭",oint:"∮"};
+const BB={R:"ℝ",N:"ℕ",Z:"ℤ",Q:"ℚ",C:"ℂ"};
+const NB=" ", NN=" ";
+const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+
+function tokenize(s){
+  const t=[]; let i=0;
+  const raw=()=>{ // { ... } を生のまま読む
+    while(i<s.length&&/\s/.test(s[i])) i++;
+    if(s[i]!=="{") return "";
+    let d=0,j=i;
+    for(;j<s.length;j++){ if(s[j]==="\\"){j++;continue;} if(s[j]==="{") d++; else if(s[j]==="}"){d--; if(d===0) break;} }
+    const r=s.slice(i+1,j); i=j+1; return r;
+  };
+  while(i<s.length){
+    const c=s[i];
+    if(c==="\\"){
+      let j=i+1;
+      if(/[A-Za-z]/.test(s[j]||"")){
+        while(j<s.length&&/[A-Za-z]/.test(s[j])) j++;
+        const v=s.slice(i+1,j); i=j;
+        if(v==="text"||v==="mbox"||v==="textrm") t.push({k:"text",v:raw()});
+        else if(v==="mathrm"||v==="rm") t.push({k:"rm",v:raw()});
+        else if(v==="begin"||v==="end") t.push({k:v,v:raw()});
+        else if(v==="clr") t.push({k:"clr",v:raw()});
+        else if(v==="mathbb") t.push({k:"ch",v:BB[raw()]||"?"});
+        else if(v==="operatorname") t.push({k:"fnname",v:raw()});
+        else t.push({k:"cmd",v});
+      } else { t.push({k:"cmd",v:s[j]||""}); i=j+1; }
+    } else if(/\s/.test(c)) i++;
+    else if("{}^_&".includes(c)){ t.push({k:c}); i++; }
+    else { t.push({k:"ch",v:c}); i++; }
+  }
+  return t;
+}
+
+function render(src,display){
+  const T=tokenize(src); let p=0;
+  const peek=()=>T[p], next=()=>T[p++];
+  const isStop=(tok,stops)=>!tok||stops.some(f=>f(tok));
+  function list(stops){
+    const out=[];
+    while(!isStop(peek(),stops)){ const a=atom(); if(a) out.push(a); }
+    return out;
+  }
+  function group(){ // { ... } または1トークン
+    const tok=peek();
+    if(!tok) return "";
+    if(tok.k==="{"){ next(); const a=list([t=>t.k==="}"]); next(); return join(a,false); }
+    const a=atom(true); return a?a.h:"";
+  }
+  function scripts(a){
+    let sup=null,sub=null,primes="";
+    for(;;){
+      const tok=peek(); if(!tok) break;
+      if(tok.k==="^"){ next(); sup=group(); }
+      else if(tok.k==="_"){ next(); sub=group(); }
+      else if(tok.k==="ch"&&tok.v==="'"){ next(); primes+="′"; }
+      else break;
+    }
+    if(primes) a.h+='<span class="pr">'+primes+"</span>";
+    if(sup===null&&sub===null) return a;
+    if(a.lim==="under"){
+      a.h='<span class="ul'+(sup!==null?" hs":"")+'"><span class="ulo">'+a.h+(sup!==null?'<span class="ult">'+sup+"</span>":"")+"</span>"+(sub!==null?'<span class="ulu">'+sub+"</span>":"")+"</span>";
+      return a;
+    }
+    if(a.lim==="int"){
+      if(sup!==null&&sub!==null) a.h+='<span class="il"><span>'+sup+"</span><span>"+sub+"</span></span>";
+      else if(sub!==null) a.h+='<sub class="is">'+sub+"</sub>";
+      else a.h+="<sup>"+sup+"</sup>";
+      return a;
+    }
+    if(sup!==null&&sub!==null) a.h+='<span class="ss"><span>'+sup+"</span><span>"+sub+"</span></span>";
+    else if(sup!==null) a.h+="<sup>"+sup+"</sup>";
+    else a.h+="<sub>"+sub+"</sub>";
+    if(a.c==="fn"&&sup!==null) a.c="fn"; // \sin^2 x
+    return a;
+  }
+  function delim(tok){
+    if(!tok) return "n";
+    if(tok.k==="ch") return {"(":"p",")":"p","[":"b","]":"b","|":"v",".":"n"}[tok.v]||"n";
+    if(tok.k==="cmd") return {"{":"c","}":"c","|":"V",lvert:"v",rvert:"v",langle:"a",rangle:"a"}[tok.v]||"n";
+    return "n";
+  }
+  function env(name){
+    const rows=[[]]; let cell=[];
+    for(;;){
+      const tok=peek();
+      if(!tok){break;}
+      if(tok.k==="end"){ next(); break; }
+      if(tok.k==="&"){ next(); rows[rows.length-1].push(join(cell,false)); cell=[]; continue; }
+      if(tok.k==="cmd"&&tok.v==="\\"){ next(); rows[rows.length-1].push(join(cell,false)); cell=[]; rows.push([]); continue; }
+      const a=atom(); if(a) cell.push(a);
+    }
+    rows[rows.length-1].push(join(cell,false));
+    if(rows.length>1&&rows[rows.length-1].length===1&&rows[rows.length-1][0]==="") rows.pop();
+    const nc=Math.max(...rows.map(r=>r.length));
+    const cells=rows.map(r=>{while(r.length<nc) r.push(""); return r.map(c=>"<span>"+c+"</span>").join("");}).join("");
+    if(name==="aligned"||name==="align"||name==="align*")
+      return {h:'<span class="eqs" style="--c:'+nc+'">'+cells+"</span>",c:"ord"};
+    if(name==="cases")
+      return {h:'<span class="cases" style="--r:'+rows.length+'"><span class="cb">{</span><span class="g">'+cells+"</span></span>",c:"ord"};
+    const cls=name==="vmatrix"?"mat det":name==="bmatrix"?"mat sq":name==="matrix"?"mat bare":"mat";
+    return {h:'<span class="'+cls+'"><span class="g" style="--c:'+nc+'">'+cells+"</span></span>",c:"ord"};
+  }
+  function atom(single){
+    const tok=next(); if(!tok) return null;
+    let a=null;
+    switch(tok.k){
+      case "{":{ const l=list([t=>t.k==="}"]); next(); a={h:join(l,false),c:"ord"}; break; }
+      case "}": return null;
+      case "^": case "_": return null;
+      case "&": return null;
+      case "text": a={h:'<span class="tx">'+esc(tok.v).replace(/ /g,NB)+"</span>",c:"ord"}; break;
+      case "rm": a={h:'<span class="rmn">'+esc(tok.v)+"</span>",c:"ord"}; break;
+      case "fnname": a={h:'<span class="fn">'+esc(tok.v)+"</span>",c:"fn"}; break;
+      case "begin": a=env(tok.v); break;
+      case "end": return null;
+      case "clr":{ const g=group(); a={h:'<span style="color:var(--'+esc(tok.v)+')">'+g+"</span>",c:"ord"}; break; }
+      case "ch":{
+        const c=tok.v;
+        if(/[A-Za-z]/.test(c)) a={h:"<i>"+c+"</i>",c:"ord"};
+        else if(/[0-9]/.test(c)){
+          let s=c;
+          if(!single) while(peek()&&peek().k==="ch"&&/[0-9.]/.test(peek().v)){ if(peek().v==="."&&!(T[p+1]&&T[p+1].k==="ch"&&/[0-9]/.test(T[p+1].v))) break; s+=next().v; }
+          a={h:s,c:"ord"};
+        }
+        else if(c==="+") a={h:"+",c:"bin"};
+        else if(c==="-") a={h:"−",c:"bin"};
+        else if(c==="*") a={h:"∗",c:"bin"};
+        else if(c==="=") a={h:"=",c:"rel"};
+        else if(c==="<") a={h:"&lt;",c:"rel"};
+        else if(c===">") a={h:"&gt;",c:"rel"};
+        else if(c===":") a={h:":",c:"rel"};
+        else if(c===","||c===";") a={h:c,c:"punct"};
+        else if(c==="("||c==="[") a={h:c,c:"open"};
+        else if(c===")"||c==="]") a={h:c,c:"close"};
+        else if(c==="'") a={h:"′",c:"ord"};
+        else if(c==="~") a={h:NB,c:"sp"};
+        else a={h:esc(c),c:"ord"};
+        break;
+      }
+      case "cmd":{
+        const v=tok.v;
+        if(GREEK[v]) a={h:"<i>"+GREEK[v]+"</i>",c:"ord"};
+        else if(UGREEK[v]) a={h:UGREEK[v],c:"ord"};
+        else if(ORD[v]!==undefined) a={h:ORD[v],c:"ord"};
+        else if(BIN[v]) a={h:BIN[v],c:"bin",always:true};
+        else if(REL[v]) a={h:REL[v],c:"rel"};
+        else if(FN.has(v)) a={h:'<span class="fn">'+v+"</span>",c:"fn"};
+        else if(UNDER.has(v)) a={h:v==="sum"?'<span class="bs">∑</span>':v==="prod"?'<span class="bs">∏</span>':'<span class="fn">'+v+"</span>",c:"op",lim:(v==="sum"||v==="prod")&&!display?"int":"under"};
+        else if(INTS[v]) a={h:'<span class="int">'+INTS[v]+"</span>",c:"op",lim:"int"};
+        else if(v==="frac"||v==="dfrac"||v==="tfrac"){ const n=group(), d=group(); a={h:'<span class="frac"><span>'+n+"</span><span>"+d+"</span></span>",c:"ord"}; }
+        else if(v==="sqrt"){ const g=group(); a={h:'<span class="sqrt"><span class="rt">√</span><span class="rd">'+g+"</span></span>",c:"ord"}; }
+        else if(v==="bm"||v==="mathbf"||v==="boldsymbol"){ const g=group(); a={h:'<b class="vec">'+g+"</b>",c:"ord"}; }
+        else if(v==="overline"||v==="bar"){ const g=group(); a={h:'<span class="ovl">'+g+"</span>",c:"ord"}; }
+        else if(v==="hat"){ const g=group(); a={h:g+"̂",c:"ord"}; }
+        else if(v==="tilde"){ const g=group(); a={h:g+"̃",c:"ord"}; }
+        else if(v==="hl"){ const g=group(); a={h:'<span class="hlm">'+g+"</span>",c:"ord"}; }
+        else if(v==="boxed"){ const g=group(); a={h:'<span class="bxd">'+g+"</span>",c:"ord"}; }
+        else if(v==="left"){
+          const L=delim(next());
+          const inner=list([t=>t.k==="cmd"&&t.v==="right"]); next();
+          const R=delim(next());
+          a={h:'<span class="lr l'+L+" r"+R+'"><span class="lri">'+join(inner,false)+"</span></span>",c:"ord"};
+        }
+        else if(v==="right") return null;
+        else if(v==="{"||v==="langle") a={h:v==="{"?"{":"⟨",c:"open"};
+        else if(v==="}"||v==="rangle") a={h:v==="}"?"}":"⟩",c:"close"};
+        else if(v===",") a={h:'<span class="s1"></span>',c:"sp"};
+        else if(v===";"||v===":") a={h:'<span class="s2"></span>',c:"sp"};
+        else if(v==="!") a={h:'<span class="sn"></span>',c:"sp"};
+        else if(v===" ") a={h:NB,c:"sp"};
+        else if(v==="quad") a={h:'<span class="q1"></span>',c:"sp",brk:true};
+        else if(v==="qquad") a={h:'<span class="q2"></span>',c:"sp",brk:true};
+        else if(v==="displaystyle"||v==="limits"||v==="nolimits"||v==="textstyle") return null;
+        else if(v==="\\") a={h:"<br>",c:"sp"};
+        else if(v==="#"||v==="%"||v==="$"||v==="&"||v==="_") a={h:esc(v),c:"ord"};
+        else a={h:'<span style="color:red">\\'+esc(v)+"</span>",c:"ord"};
+        break;
+      }
+    }
+    if(!a) return null;
+    if(single) return a;
+    return scripts(a);
+  }
+  function join(atoms,top){
+    let out="", prev=null; const segs=[];
+    const cut=()=>{ segs.push(out); out=""; };
+    if(top) depth=0;
+    for(let i=0;i<atoms.length;i++){
+      const a=atoms[i]; let c=a.c;
+      let un=false;
+      if(c==="bin"&&!a.always&&(!prev||["bin","rel","open","punct","op","un"].includes(prev.c))){ c="ord"; un=true; }
+      if(c==="bin") out+=NB+a.h+NB;
+      else if(c==="rel"){ out+=NB+a.h; if(top) cut(); else out+=NB; }
+      else if(c==="punct"){ out+=a.h; if(top&&depth===0) cut(); else out+=NN; }
+      else{
+        if(prev&&(prev.c==="fn"||prev.c==="op")&&c!=="open"&&c!=="sp"&&c!=="close"&&c!=="punct") out+='<span class="s1"></span>';
+        else if(prev&&c==="fn"&&(prev.c==="ord"||prev.c==="close")) out+='<span class="s1"></span>';
+        out+=a.h;
+        if(a.brk&&top) cut();
+        if(c==="open") depth++; else if(c==="close"&&depth>0) depth--;
+      }
+      prev={c:un?"un":c};
+    }
+    if(!top) return out;
+    cut();
+    return segs.filter(x=>x!=="").map(x=>'<span class="mn">'+x+"</span>").join(" ");
+  }
+  let depth=0;
+  const h=join(list([]),!display);
+  return h;
+}
+function tex(src,display){
+  const h=render(src,!!display);
+  return display?'<div class="dm">'+h+"</div>":'<span class="m">'+h+"</span>";
+}
+/* 本文中の $$...$$ と $...$ を変換（\$ はドル記号） */
+function texify(html){
+  return html.replace(/\$\$([\s\S]+?)\$\$|\\\$|\$([^$]+?)\$/g,(m,d,i)=>{
+    if(m==="\\$") return "$";
+    return d!==undefined?tex(d.trim(),true):tex(i,false);
+  });
+}
+return {tex,texify};
+})();
+const tex=TEX.tex;
+
+/* ===== 数式の構文解析・数値計算・記号微分 =====
+   const e=EX.parse("x^2*y+sin(x y)")  … 構文木（エラー時は例外）
+   EX.fn(e,["x","y"])                  … 数値関数 (x,y)=>…
+   EX.d(e,"x")                         … 偏導関数（簡約済み）
+   EX.tex(e)                           … 表示用 TeX 文字列（tex() で HTML に） */
+const EX=(()=>{
+"use strict";
+const FNS={sin:1,cos:1,tan:1,exp:1,log:1,ln:1,sqrt:1,abs:1,arctan:1,atan:1,arcsin:1,asin:1,arccos:1,acos:1,sinh:1,cosh:1,tanh:1};
+const ALIAS={ln:"log",atan:"arctan",asin:"arcsin",acos:"arccos"};
+const N=v=>({t:"n",v}), V=n=>({t:"v",n});
+const add=(...a)=>({t:"+",a}), mul=(...a)=>({t:"*",a}), pw=(b,e)=>({t:"^",b,e}), F=(f,x)=>({t:"f",f,x});
+const neg=a=>mul(N(-1),a);
+
+/* ---------- 字句解析・構文解析 ---------- */
+function lex(s){
+  s=s.replace(/[−ー－–]/g,"-").replace(/[×·・∗]/g,"*").replace(/÷|／/g,"/").replace(/＾/g,"^")
+     .replace(/²/g,"^2").replace(/³/g,"^3").replace(/π/g,"pi").replace(/（/g,"(").replace(/）/g,")").replace(/\*\*/g,"^");
+  const t=[]; let i=0;
+  while(i<s.length){
+    const c=s[i];
+    if(/\s/.test(c)){i++;continue;}
+    if(/[0-9.]/.test(c)){ let j=i; while(j<s.length&&/[0-9.]/.test(s[j])) j++; const v=parseFloat(s.slice(i,j)); if(isNaN(v)) throw new Error("数の書き方が正しくありません"); t.push({k:"n",v}); i=j; continue; }
+    if(/[A-Za-z]/.test(c)){ let j=i; while(j<s.length&&/[A-Za-z]/.test(s[j])) j++; t.push({k:"id",v:s.slice(i,j)}); i=j; continue; }
+    if("+-*/^(),|".includes(c)){ t.push({k:c}); i++; continue; }
+    throw new Error("使えない文字があります：「"+c+"」");
+  }
+  // 識別子を 関数名 / pi / 1文字変数 に分解
+  const out=[];
+  for(const tok of t){
+    if(tok.k!=="id"){out.push(tok);continue;}
+    let w=tok.v;
+    while(w.length){
+      let hit=null;
+      for(const f of Object.keys(FNS).sort((a,b)=>b.length-a.length)) if(w.startsWith(f)){hit=f;break;}
+      if(hit){ out.push({k:"fn",v:ALIAS[hit]||hit}); w=w.slice(hit.length); continue; }
+      if(w.startsWith("pi")){ out.push({k:"n",v:Math.PI,pi:true}); w=w.slice(2); continue; }
+      out.push({k:"var",v:w[0]}); w=w.slice(1);
+    }
+  }
+  return out;
+}
+function parse(src){
+  const T=lex(String(src)); let p=0;
+  if(!T.length) throw new Error("式が空です");
+  const peek=()=>T[p], next=()=>T[p++];
+  const expect=k=>{ if(!peek()||peek().k!==k) throw new Error("「"+k+"」が足りません"); next(); };
+  function expr(){
+    let a=term(); const terms=[a];
+    while(peek()&&(peek().k==="+"||peek().k==="-")){ const op=next().k; const b=term(); terms.push(op==="-"?neg(b):b); }
+    return terms.length===1?a:add(...terms);
+  }
+  const startsPrimary=tok=>tok&&(tok.k==="n"||tok.k==="var"||tok.k==="fn"||tok.k==="(");
+  function term(){
+    const fs=[unary()];
+    for(;;){
+      const tok=peek();
+      if(tok&&tok.k==="*"){ next(); fs.push(unary()); }
+      else if(tok&&tok.k==="/"){ next(); fs.push(pw(unary(),N(-1))); }
+      else if(startsPrimary(tok)) fs.push(power());
+      else break;
+    }
+    return fs.length===1?fs[0]:mul(...fs);
+  }
+  function unary(){
+    const tok=peek();
+    if(tok&&tok.k==="-"){ next(); return neg(unary()); }
+    if(tok&&tok.k==="+"){ next(); return unary(); }
+    return power();
+  }
+  function power(){
+    const b=primary();
+    if(peek()&&peek().k==="^"){ next(); const e=unary(); return pw(b,e); }
+    return b;
+  }
+  function primary(){
+    const tok=next();
+    if(!tok) throw new Error("式が途中で終わっています");
+    if(tok.k==="n") return tok.pi?{t:"n",v:Math.PI,pi:true}:N(tok.v);
+    if(tok.k==="var"){
+      if(tok.v==="e") return {t:"n",v:Math.E,e:true};
+      return V(tok.v);
+    }
+    if(tok.k==="("){ const e=expr(); expect(")"); return e; }
+    if(tok.k==="|"){ const e=expr(); expect("|"); return F("abs",e); }
+    if(tok.k==="fn"){
+      let ex=null;
+      if(peek()&&peek().k==="^"){ next(); ex=unary(); }   // sin^2 x
+      let arg;
+      if(peek()&&peek().k==="("){ next(); arg=expr(); expect(")"); }
+      else arg=power();
+      let r=tok.v==="sqrt"?pw(arg,N(0.5)):F(tok.v,arg);
+      return ex?pw(r,ex):r;
+    }
+    throw new Error("式の書き方が正しくありません");
+  }
+  const e=expr();
+  if(p<T.length) throw new Error("式の書き方が正しくありません（"+(T[p].k==="fn"||T[p].k==="var"?T[p].v:T[p].k)+" の付近）");
+  return fixE(e);
+}
+// e^u → exp(u)
+function fixE(e){
+  if(e.t==="^"&&e.b.t==="n"&&e.b.e) return F("exp",fixE(e.e));
+  if(e.t==="^") return pw(fixE(e.b),fixE(e.e));
+  if(e.t==="+"||e.t==="*") return {t:e.t,a:e.a.map(fixE)};
+  if(e.t==="f") return F(e.f,fixE(e.x));
+  return e;
+}
+
+/* ---------- 有理数近似 ---------- */
+function frac(x){
+  if(!isFinite(x)) return null;
+  if(Number.isInteger(x)) return [x,1];
+  for(let d=2;d<=720;d++){ const n=Math.round(x*d); if(Math.abs(n/d-x)<1e-10*Math.max(1,Math.abs(x))) return [n,d]; }
+  return null;
+}
+const isN=(e,v)=>e.t==="n"&&(v===undefined||Math.abs(e.v-v)<1e-12);
+const nice=x=>frac(x)!==null;
+
+/* ---------- 文字列キー（同類項の判定用） ---------- */
+function key(e){
+  switch(e.t){
+    case "n": return "#"+(+e.v.toPrecision(12));
+    case "v": return e.n;
+    case "+": return "("+e.a.map(key).join("+")+")";
+    case "*": return "("+e.a.map(key).join("*")+")";
+    case "^": return "("+key(e.b)+"^"+key(e.e)+")";
+    case "f": return e.f+"("+key(e.x)+")";
+  }
+}
+const dep=(e,v)=>e.t==="v"?e.n===v:e.t==="n"?false:e.t==="^"?dep(e.b,v)||dep(e.e,v):e.t==="f"?dep(e.x,v):e.a.some(x=>dep(x,v));
+
+/* ---------- 簡約 ---------- */
+function rank(e){ // 積の中の並び順
+  if(e.t==="n") return 0;
+  if(e.t==="v") return 1;
+  if(e.t==="^"&&e.b.t==="v") return 1;
+  if(e.t==="+"||(e.t==="^"&&e.b.t==="+")) return 2;
+  if(e.t==="f"&&e.f==="exp") return 4;
+  return 3;
+}
+const baseName=e=>e.t==="v"?e.n:e.t==="^"&&e.b.t==="v"?e.b.n:"~"+key(e);
+function S(e){
+  switch(e.t){
+    case "n": case "v": return e;
+    case "f":{
+      const x=S(e.x);
+      if(x.t==="n"){
+        if(isN(x,0)&&["sin","tan","arctan","arcsin","sinh","tanh","abs"].includes(e.f)) return N(0);
+        if(isN(x,0)&&(e.f==="cos"||e.f==="cosh"||e.f==="exp")) return N(1);
+        if(isN(x,1)&&e.f==="log") return N(0);
+        if(e.f==="abs") return N(Math.abs(x.v));
+        if(e.f==="log"&&x.e) return N(1);
+      }
+      if(e.f==="log"&&x.t==="f"&&x.f==="exp") return x.x;
+      if(e.f==="exp"&&x.t==="f"&&x.f==="log") return x.x;
+      return F(e.f,x);
+    }
+    case "^":{
+      const b=S(e.b), ex=S(e.e);
+      if(isN(ex,0)) return N(1);
+      if(isN(ex,1)) return b;
+      if(b.t==="n"&&ex.t==="n"){ const r=Math.pow(b.v,ex.v); if(nice(r)&&!b.pi&&!b.e) return N(r); }
+      if(isN(b,1)) return N(1);
+      if(isN(b,0)&&ex.t==="n"&&ex.v>0) return N(0);
+      if(b.t==="^"&&ex.t==="n"&&Number.isInteger(ex.v)) return S(pw(b.b,mul(b.e,ex)));
+      if(b.t==="*"&&ex.t==="n"&&Number.isInteger(ex.v)) return S(mul(...b.a.map(f=>pw(f,ex))));
+      if(b.t==="f"&&b.f==="exp") return S(F("exp",mul(b.x,ex)));
+      if(b.t==="+"&&ex.t==="n"&&Number.isInteger(ex.v)){ // (y^2/x^2+1)^n → (y^2+x^2)^n x^{-2n}
+        const tg=together(b);
+        if(tg&&tg.numer.t!=="n") return S(mul(pw(tg.numer,ex),...tg.den.map(d=>pw(d,N(-ex.v)))));
+      }
+      return pw(b,ex);
+    }
+    case "*":{
+      let c=1; const fs=[];
+      const push=f=>{ if(f.t==="*") f.a.forEach(push); else if(f.t==="n"&&!f.pi&&!f.e) c*=f.v; else fs.push(f); };
+      e.a.map(S).forEach(push);
+      if(c===0) return N(0);
+      // 同じ底をまとめる（指数を足す）
+      const groups=new Map(); let expArg=[];
+      for(const f of fs){
+        if(f.t==="f"&&f.f==="exp"){ expArg.push(f.x); continue; }
+        const b=f.t==="^"?f.b:f, ex=f.t==="^"?f.e:N(1), k=key(b);
+        if(groups.has(k)) groups.get(k).e.push(ex); else groups.set(k,{b,e:[ex]});
+      }
+      let out=[];
+      for(const {b,e:ex} of groups.values()){
+        const ee=S(add(...ex)); const r=S(pw(b,ee));
+        if(r.t==="n"&&!r.pi&&!r.e) c*=r.v; else if(r.t==="*"){ r.a.forEach(x=>{ if(x.t==="n"&&!x.pi&&!x.e) c*=x.v; else out.push(x); }); } else out.push(r);
+      }
+      if(expArg.length){ const ea=S(add(...expArg)); if(!isN(ea,0)) out.push(F("exp",ea)); }
+      if(c===0) return N(0);
+      const fk=f=>f.t==="f"?key(f.x)+"|"+f.f:f.t==="^"&&f.b.t==="f"?key(f.b.x)+"|"+f.b.f:"";
+      out.sort((p,q)=>rank(p)-rank(q)||(rank(p)===1?baseName(p).localeCompare(baseName(q)):rank(p)===3?fk(p).localeCompare(fk(q)):0));
+      if(!out.length) return N(c);
+      if(c===1&&out.length===1) return out[0];
+      return c===1?mul(...out):mul(N(c),...out);
+    }
+    case "+":{
+      const terms=[];
+      const push=t=>{ if(t.t==="+") t.a.forEach(push); else terms.push(t); };
+      e.a.map(S).forEach(push);
+      const m=new Map(); let c=0;
+      for(const t of terms){
+        if(t.t==="n"&&!t.pi&&!t.e){ c+=t.v; continue; }
+        let co=1, rest=t;
+        if(t.t==="*"&&t.a[0].t==="n"&&!t.a[0].pi&&!t.a[0].e){ co=t.a[0].v; rest=t.a.length===2?t.a[1]:mul(...t.a.slice(1)); }
+        const k=key(rest);
+        if(m.has(k)) m.get(k).co+=co; else m.set(k,{co,rest});
+      }
+      const out=[];
+      for(const {co,rest} of m.values()){
+        if(Math.abs(co)<1e-13) continue;
+        out.push(co===1?rest:S(mul(N(co),rest)));
+      }
+      if(Math.abs(c)>1e-13) out.push(N(c));
+      if(!out.length) return N(0);
+      return out.length===1?out[0]:add(...out);
+    }
+  }
+}
+
+/* ---------- 微分 ---------- */
+function D(e,v){
+  if(!dep(e,v)) return N(0);
+  switch(e.t){
+    case "v": return N(1);
+    case "+": return add(...e.a.map(x=>D(x,v)));
+    case "*": return add(...e.a.map((x,i)=>mul(D(x,v),...e.a.filter((_,j)=>j!==i))));
+    case "^":{
+      const {b,e:ex}=e;
+      if(!dep(ex,v)) return mul(ex,pw(b,add(ex,N(-1))),D(b,v));
+      if(!dep(b,v)) return mul(e,F("log",b),D(ex,v));
+      return mul(e,add(mul(D(ex,v),F("log",b)),mul(ex,D(b,v),pw(b,N(-1)))));
+    }
+    case "f":{
+      const u=e.x, du=D(u,v); let g;
+      switch(e.f){
+        case "sin": g=F("cos",u); break;
+        case "cos": g=neg(F("sin",u)); break;
+        case "tan": g=pw(F("cos",u),N(-2)); break;
+        case "exp": g=F("exp",u); break;
+        case "log": g=pw(u,N(-1)); break;
+        case "abs": g=mul(u,pw(F("abs",u),N(-1))); break;
+        case "arctan": g=pw(add(N(1),pw(u,N(2))),N(-1)); break;
+        case "arcsin": g=pw(add(N(1),neg(pw(u,N(2)))),N(-0.5)); break;
+        case "arccos": g=neg(pw(add(N(1),neg(pw(u,N(2)))),N(-0.5))); break;
+        case "sinh": g=F("cosh",u); break;
+        case "cosh": g=F("sinh",u); break;
+        case "tanh": g=pw(F("cosh",u),N(-2)); break;
+      }
+      return mul(g,du);
+    }
+  }
+  return N(0);
+}
+const d=(e,v)=>S(D(e,v));
+
+/* ---------- 展開・通分（表示用） ---------- */
+function expand(e){
+  if(e.t==="+") return S(add(...e.a.map(expand)));
+  if(e.t==="^"&&e.b.t==="+"&&e.e.t==="n"&&Number.isInteger(e.e.v)&&e.e.v>1&&e.e.v<=6) return expand(mul(...Array(e.e.v).fill(e.b)));
+  if(e.t==="*"){
+    let terms=[N(1)];
+    for(const f0 of e.a){ const f=expand(f0); const fs=f.t==="+"?f.a:[f]; const nt=[]; for(const t of terms) for(const g of fs) nt.push(S(mul(t,g))); terms=nt; if(terms.length>200) return e; }
+    return S(add(...terms));
+  }
+  return e;
+}
+function together(e){
+  if(e.t!=="+") return null;
+  const parts=e.a.map(t=>{ const fs=t.t==="*"?t.a:[t], num=[], den=[];
+    fs.forEach(f=>{ if(f.t==="^"&&f.e.t==="n"&&f.e.v<0) den.push({b:f.b,e:-f.e.v}); else num.push(f); }); return {num,den}; });
+  if(!parts.some(p=>p.den.length)) return null;
+  const L=new Map();
+  parts.forEach(p=>p.den.forEach(d=>{ const k=key(d.b); if(!L.has(k)||L.get(k).e<d.e) L.set(k,{b:d.b,e:d.e}); }));
+  const terms=[];
+  for(const p of parts){
+    const own=new Map(p.den.map(d=>[key(d.b),d.e])), extra=[];
+    for(const [k,{b,e:ex}] of L){ const df=ex-(own.get(k)||0); if(Math.abs(df-Math.round(df))>1e-9) return null; if(df>0) extra.push(pw(b,N(Math.round(df)))); }
+    terms.push(mul(...p.num,...extra));
+  }
+  let numer=expand(S(add(...terms)));
+  if(isN(numer,0)) return N(0);
+  const den=[...L.values()].map(({b,e:ex})=>S(pw(b,N(ex))));
+  return {numer,den};
+}
+/* ---------- 数値関数へ ---------- */
+const JSF={sin:"Math.sin",cos:"Math.cos",tan:"Math.tan",exp:"Math.exp",log:"Math.log",abs:"Math.abs",arctan:"Math.atan",arcsin:"Math.asin",arccos:"Math.acos",sinh:"Math.sinh",cosh:"Math.cosh",tanh:"Math.tanh"};
+function js(e,ps){
+  switch(e.t){
+    case "n": return "("+e.v+")";
+    case "v": if(!ps.includes(e.n)) throw new Error("変数 "+e.n+" は使えません（使える変数："+ps.join(", ")+"）"); return e.n;
+    case "+": return "("+e.a.map(x=>js(x,ps)).join("+")+")";
+    case "*": return "("+e.a.map(x=>js(x,ps)).join("*")+")";
+    case "^":
+      if(isN(e.e,2)){ const b=js(e.b,ps); return "(("+b+")*("+b+"))"; }
+      if(isN(e.e,0.5)) return "Math.sqrt("+js(e.b,ps)+")";
+      if(e.e.t==="n"&&Number.isInteger(e.e.v)) return "Math.pow("+js(e.b,ps)+","+e.e.v+")";
+      if(e.e.t==="n"){ const fr=frac(e.e.v); if(fr&&fr[1]%2===1) return "__oddroot("+js(e.b,ps)+","+fr[0]+","+fr[1]+")"; }
+      return "Math.pow("+js(e.b,ps)+","+js(e.e,ps)+")";
+    case "f": return JSF[e.f]+"("+js(e.x,ps)+")";
+  }
+}
+function fn(e,ps=["x","y"]){
+  const body=js(e,ps);
+  const f=new Function("__oddroot",...ps,"return "+body+";");
+  const oddroot=(b,p,q)=>Math.sign(b)**p*Math.pow(Math.abs(b),p/q);
+  return (...a)=>f(oddroot,...a);
+}
+const vars=e=>{ const s=new Set(); (function w(x){ if(x.t==="v") s.add(x.n); else if(x.t==="^"){w(x.b);w(x.e);} else if(x.t==="f") w(x.x); else if(x.a) x.a.forEach(w); })(e); return [...s].sort(); };
+
+/* ---------- TeX 文字列へ ---------- */
+function numTeX(v,inExp){
+  if(Math.abs(v-Math.PI)<1e-12) return "\\pi";
+  const fr=frac(v);
+  if(fr){ const [n,dd]=fr; if(dd===1) return String(n); return (n<0?"-":"")+(inExp?Math.abs(n)+"/"+dd:"\\frac{"+Math.abs(n)+"}{"+dd+"}"); }
+  return String(+v.toPrecision(5));
+}
+const coefOf=e=>e.t==="n"&&!e.pi&&!e.e?e.v:(e.t==="*"&&e.a[0].t==="n"&&!e.a[0].pi?e.a[0].v:1);
+function negate(e){ // 先頭係数の符号を反転
+  if(e.t==="n") return N(-e.v);
+  if(e.t==="*"&&e.a[0].t==="n"){ const c=-e.a[0].v; const r=e.a.slice(1); return c===1?(r.length===1?r[0]:mul(...r)):mul(N(c),...r); }
+  return neg(e);
+}
+function T(e,ctx){
+  ctx=ctx||{};
+  switch(e.t){
+    case "n": return e.e?"e":numTeX(e.v,ctx.exp);
+    case "v": return e.n;
+    case "+":{
+      // 分数の項があれば通分して1つの分数に
+      if(!ctx.notog){
+        const tg=together(e);
+        if(tg&&tg.numer.t!=="n"||tg&&tg.numer.t==="n"){
+          if(tg.numer.t==="n"&&tg.numer.v===0) return "0";
+          let nu=tg.numer, g=1, sign=1;
+          let ts=nu.t==="+"?nu.a.slice():[nu];
+          const cs=ts.map(coefOf);
+          if(cs.every(c=>Number.isInteger(c))){ g=cs.reduce((a,c)=>{a=Math.abs(a);c=Math.abs(c);while(c){[a,c]=[c,a%c];}return a;},0)||1; }
+          if(cs.every(c=>c<0)) sign=-1;
+          if(g!==1||sign<0) ts=ts.map(t=>S(mul(N(sign/g),t)));
+          const fp=ts.findIndex(t=>coefOf(t)>0); if(fp>0) ts.unshift(ts.splice(fp,1)[0]);
+          nu=ts.length===1?ts[0]:add(...ts);
+          const nt=T(nu,{notog:true}), dt=T(mul(...tg.den),{notog:true});
+          const numTxt=g>1?(nu.t==="+"?g+"("+nt+")":nt==="1"?String(g):g+nt):nt;
+          return (sign<0?"-":"")+"\\frac{"+numTxt+"}{"+dt+"}";
+        }
+      }
+      // 指数関数などの共通因数をくくり出して表示： 2xe^u + x^2e^u → (2x + x^2)e^u
+      if(!ctx.nofac){
+        const facs=t=>t.t==="*"?t.a:[t];
+        const ok=f=>!(f.t==="n"||f.t==="v"||(f.t==="^"&&f.b.t==="v"&&f.e.t==="n"));
+        let common=facs(e.a[0]).filter(ok);
+        for(const t of e.a.slice(1)){ const ks=facs(t).map(key); common=common.filter(c=>ks.includes(key(c))); }
+        if(common.length){
+          const ck=common.map(key);
+          const rest=e.a.map(t=>{ const left=[...ck]; const r=facs(t).filter(f=>{ const i=left.indexOf(key(f)); if(i>=0){left.splice(i,1); return false;} return true; }); return r.length?(r.length===1?r[0]:mul(...r)):N(1); });
+          const rs=S(add(...rest));
+          if(rs.t==="+") return T(mul(rs,...common),Object.assign({},ctx,{nofac:false}));
+        }
+      }
+      let s="";
+      e.a.forEach((t,i)=>{
+        if(i===0){ s+=T(t,ctx); return; }
+        if(coefOf(t)<0) s+=" - "+T(negate(t),ctx); else s+=" + "+T(t,ctx);
+      });
+      return s;
+    }
+    case "*":{
+      let c=1; const num=[], den=[];
+      e.a.forEach(f=>{
+        if(f.t==="n"&&!f.pi&&!f.e){ c*=f.v; return; }
+        if(f.t==="^"&&f.e.t==="n"&&f.e.v<0) den.push(S(pw(f.b,N(-f.e.v))));
+        else num.push(f);
+      });
+      let sign="";
+      if(c<0){ sign="-"; c=-c; }
+      const fr=frac(c);
+      let cn=c, cd=1; if(fr){cn=fr[0];cd=fr[1];}
+      const multi=num.length+(cn!==1?1:0)>1;
+      const fac=(f)=>{
+        const s=T(f,ctx);
+        if(f.t==="+") return /\\frac/.test(s)?"\\left("+s+"\\right)":"("+s+")";
+        return s;
+      };
+      const joinF=(arr,lead)=>{
+        let s=lead; let prevNum=lead!=="";
+        arr.forEach(f=>{ const t=fac(f); if(prevNum&&/^[0-9]/.test(t)) s+=" \\cdot "; s+=t; prevNum=/[0-9]$/.test(t)||(f.t==="^"); });
+        return s;
+      };
+      if(den.length||cd!==1){
+        const solo=(arr,c)=>arr.length===1&&c===1&&arr[0].t==="+"?T(arr[0],ctx):null;
+        const nTop=solo(num,cn)??joinF(num,cn!==1||!num.length?numTeX(cn):"");
+        const dBot=solo(den,cd)??joinF(den,cd!==1?String(cd):"");
+        return sign+"\\frac{"+nTop+"}{"+dBot+"}";
+      }
+      void multi;
+      return sign+joinF(num,cn!==1?numTeX(cn):"");
+    }
+    case "^":{
+      const {b,e:ex}=e;
+      if(isN(ex,0.5)) return "\\sqrt{"+T(b)+"}";
+      if(ex.t==="n"&&ex.v<0){ return "\\frac{1}{"+T(S(pw(b,N(-ex.v))))+"}"; }
+      const es=T(ex,{exp:true});
+      if(b.t==="f"&&b.f!=="exp"&&b.f!=="abs"&&ex.t==="n"&&ex.v>0&&Number.isInteger(ex.v)){
+        const a=T(b.x);
+        return "\\"+b.f+"^{"+es+"}"+(argSimple(b.x)?" "+a:"("+a+")");
+      }
+      let bs=T(b);
+      if(b.t==="+"||b.t==="*"||b.t==="^"||(b.t==="n"&&b.v<0)||(b.t==="f"&&b.f!=="abs"&&b.f!=="exp")) bs=/\\frac/.test(bs)?"\\left("+bs+"\\right)":"("+bs+")";
+      else if(b.t==="n"&&!Number.isInteger(b.v)&&!b.pi) bs="\\left("+bs+"\\right)";
+      return bs+"^{"+es+"}";
+    }
+    case "f":{
+      const a=T(e.x);
+      if(e.f==="exp") return "e^{"+T(e.x,{exp:true})+"}";
+      if(e.f==="abs") return "\\left|"+a+"\\right|";
+      return "\\"+e.f+(argSimple(e.x)?" "+a:(/\\frac/.test(a)?"\\left("+a+"\\right)":"("+a+")"));
+    }
+  }
+}
+const argSimple=x=>x.t==="v"||(x.t==="n"&&x.v>=0);
+const tex=e=>T(e);
+
+function tryParse(s){ try{ return {ok:true,e:S(parse(s))}; }catch(err){ return {ok:false,err:err.message}; } }
+return {parse:s=>S(parse(s)),tryParse,d,D,S,fn,tex,vars,frac,key,N,V};
+})();
+
+/* ===== 描画（canvas）：平面図 Plot2D と 曲面 Surface3D ===== */
+const $=s=>document.querySelector(s);
+const cssv=n=>getComputedStyle(document.documentElement).getPropertyValue("--"+n).trim()||"#888";
+const REDRAW=new Set();
+try{ matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>REDRAW.forEach(f=>f())); }catch(e){}
+function hex2rgb(h){
+  h=h.replace("#",""); if(h.length===3) h=h.split("").map(c=>c+c).join("");
+  const n=parseInt(h,16); return [(n>>16)&255,(n>>8)&255,n&255];
+}
+const rgba=(c,a)=>{ const [r,g,b]=hex2rgb(c); return `rgba(${r},${g},${b},${a})`; };
+function cmap(t){ // 0..1 → [r,g,b]（テーマの s0→s3）
+  const cs=[cssv("s0"),cssv("s1"),cssv("s2"),cssv("s3")].map(hex2rgb);
+  t=Math.max(0,Math.min(1,isFinite(t)?t:0))*3; const i=Math.min(2,Math.floor(t)), u=t-i;
+  return [0,1,2].map(k=>cs[i][k]+(cs[i+1][k]-cs[i][k])*u);
+}
+function niceStep(range,target){
+  const raw=range/target, p=Math.pow(10,Math.floor(Math.log10(raw))), m=raw/p;
+  return (m<1.5?1:m<3.5?2:m<7.5?5:10)*p;
+}
+function fnum(x,dg=3){ // 表示用の数
+  if(!isFinite(x)) return x>0?"∞":x<0?"−∞":"—";
+  if(Math.abs(x)<1e-12) x=0;
+  let s=Number.isInteger(x)?String(x):(+x.toFixed(dg)).toString();
+  if(s==="-0") s="0";
+  return s.replace("-","−");
+}
+function fitCanvas(cv){
+  const dpr=Math.min(2.5,window.devicePixelRatio||1), w=cv.clientWidth||400, h=cv.clientHeight||400;
+  if(cv.width!==Math.round(w*dpr)||cv.height!==Math.round(h*dpr)){ cv.width=Math.round(w*dpr); cv.height=Math.round(h*dpr); }
+  const ctx=cv.getContext("2d"); ctx.setTransform(dpr,0,0,dpr,0,0); return {ctx,w,h,dpr};
+}
+const MATHFONT='"Times New Roman","STIX Two Text",Times,serif';
+
+/* ---------- 平面 ---------- */
+class Plot2D{
+  constructor(cv,o={}){
+    this.cv=cv; this.o=Object.assign({xmin:-3,xmax:3,ymin:-3,ymax:3,equal:true,grid:true,axes:true,xl:"x",yl:"y",ticks:true},o);
+    this.handles=[]; this.onDraw=null; this.drag=null;
+    const ro=new ResizeObserver(()=>this.draw()); ro.observe(cv);
+    REDRAW.add(()=>this.draw());
+    cv.addEventListener("pointerdown",e=>{
+      const [px,py]=this.mouse(e); let best=null,bd=24;
+      for(const h of this.handles){ const p=h.get(); const d=Math.hypot(this.X(p[0])-px,this.Y(p[1])-py); if(d<bd){bd=d;best=h;} }
+      if(!best&&this.onClick){ this.onClick(this.toWorld(px,py)); return; }
+      if(!best) return;
+      this.drag=best; cv.setPointerCapture(e.pointerId); e.preventDefault(); this.move(e);
+    });
+    cv.addEventListener("pointermove",e=>{ if(this.drag) this.move(e); });
+    const end=()=>{ if(this.drag&&this.drag.end) this.drag.end(); this.drag=null; };
+    cv.addEventListener("pointerup",end); cv.addEventListener("pointercancel",end);
+  }
+  mouse(e){ const r=this.cv.getBoundingClientRect(); return [e.clientX-r.left,e.clientY-r.top]; }
+  move(e){
+    const [px,py]=this.mouse(e); let [x,y]=this.toWorld(px,py); const h=this.drag, s=h.snap||0;
+    const o=this.v; x=Math.max(o.xmin,Math.min(o.xmax,x)); y=Math.max(o.ymin,Math.min(o.ymax,y));
+    if(s){ x=Math.round(x/s)*s; y=Math.round(y/s)*s; x=+x.toFixed(6); y=+y.toFixed(6); }
+    if(h.constrain) [x,y]=h.constrain([x,y]);
+    h.set([x,y]); this.draw();
+  }
+  setView(o){ Object.assign(this.o,o); this.draw(); }
+  view(){
+    const {ctx,w,h}=fitCanvas(this.cv); this.ctx=ctx; this.w=w; this.h=h;
+    let {xmin,xmax,ymin,ymax}=this.o;
+    if(this.o.equal){
+      const sx=w/(xmax-xmin), sy=h/(ymax-ymin);
+      if(sx>sy){ const c=(xmin+xmax)/2, half=w/sy/2; xmin=c-half; xmax=c+half; }
+      else { const c=(ymin+ymax)/2, half=h/sx/2; ymin=c-half; ymax=c+half; }
+    }
+    this.v={xmin,xmax,ymin,ymax}; this.sx=w/(xmax-xmin); this.sy=h/(ymax-ymin);
+  }
+  X(x){return (x-this.v.xmin)*this.sx;} Y(y){return this.h-(y-this.v.ymin)*this.sy;}
+  toWorld(px,py){return [this.v.xmin+px/this.sx,this.v.ymin+(this.h-py)/this.sy];}
+  addHandle(h){ this.handles.push(h); return h; }
+  draw(){
+    if(!this.cv.isConnected) return;
+    this.view(); const c=this.ctx; c.clearRect(0,0,this.w,this.h);
+    c.fillStyle=cssv("card"); c.fillRect(0,0,this.w,this.h);
+    if(this.onBack) this.onBack(this);
+    if(this.o.grid) this.drawGrid();
+    if(this.onDraw) this.onDraw(this);
+    for(const h of this.handles){ if(h.hidden&&h.hidden()) continue; const p=h.get(); this.dot(p,h.color||cssv("c5"),{r:7,ring:true}); if(h.label) this.text(p,h.label,h.color||cssv("c5"),{dx:9,dy:-9,bold:true}); }
+  }
+  drawGrid(){
+    const c=this.ctx, v=this.v, st=this.o.step||niceStep(Math.max(v.xmax-v.xmin,v.ymax-v.ymin),8);
+    c.lineWidth=1; c.strokeStyle=cssv("grid"); c.beginPath();
+    for(let x=Math.ceil(v.xmin/st)*st;x<=v.xmax;x+=st){ c.moveTo(this.X(x),0); c.lineTo(this.X(x),this.h); }
+    for(let y=Math.ceil(v.ymin/st)*st;y<=v.ymax;y+=st){ c.moveTo(0,this.Y(y)); c.lineTo(this.w,this.Y(y)); }
+    c.stroke();
+    if(!this.o.axes) return;
+    c.strokeStyle=cssv("axis"); c.lineWidth=1.4; c.beginPath();
+    if(v.ymin<=0&&v.ymax>=0){ c.moveTo(0,this.Y(0)); c.lineTo(this.w,this.Y(0)); }
+    if(v.xmin<=0&&v.xmax>=0){ c.moveTo(this.X(0),0); c.lineTo(this.X(0),this.h); }
+    c.stroke();
+    const ax=cssv("axis");
+    const y0=Math.max(v.ymin,Math.min(v.ymax,0)), x0=Math.max(v.xmin,Math.min(v.xmax,0));
+    this.text([v.xmax,y0],this.o.xl,ax,{dx:-12,dy:-6,size:15});
+    this.text([x0,v.ymax],this.o.yl,ax,{dx:6,dy:16,size:15});
+    if(this.o.ticks){
+      const big=niceStep(Math.max(v.xmax-v.xmin,v.ymax-v.ymin),4);
+      for(let x=Math.ceil(v.xmin/big)*big;x<v.xmax-big*0.3;x+=big){ if(Math.abs(x)<1e-9||this.X(x)<14) continue; this.text([x,y0],fnum(x),ax,{dy:14,size:11,italic:false,align:"center"}); }
+      for(let y=Math.ceil(v.ymin/big)*big;y<v.ymax-big*0.3;y+=big){ if(Math.abs(y)<1e-9||this.Y(y)>this.h-8) continue; this.text([x0,y],fnum(y),ax,{dx:-4,dy:4,size:11,italic:false,align:"right"}); }
+    }
+  }
+  /* 色の塗り分け（ヒートマップ）：f の値を [lo,hi] で色に */
+  heat(f,lo,hi,o={}){
+    const c=this.ctx, step=o.step||4, nx=Math.ceil(this.w/step), ny=Math.ceil(this.h/step);
+    const off=document.createElement("canvas"); off.width=nx; off.height=ny;
+    const oc=off.getContext("2d"), img=oc.createImageData(nx,ny), a=o.alpha==null?0.55:o.alpha;
+    const bg=hex2rgb(cssv("card"));
+    for(let j=0;j<ny;j++) for(let i=0;i<nx;i++){
+      const [x,y]=this.toWorld((i+0.5)*step,(j+0.5)*step); const z=f(x,y), k=(j*nx+i)*4;
+      if(!isFinite(z)){ img.data[k+3]=0; continue; }
+      const col=cmap((z-lo)/(hi-lo));
+      for(let q=0;q<3;q++) img.data[k+q]=bg[q]*(1-a)+col[q]*a;
+      img.data[k+3]=255;
+    }
+    oc.putImageData(img,0,0); c.imageSmoothingEnabled=true; c.drawImage(off,0,0,nx*step,ny*step);
+  }
+  /* 領域の塗りつぶし（pred(x,y) が真のところ） */
+  region(pred,color,alpha=0.25,step=3){
+    const c=this.ctx, nx=Math.ceil(this.w/step), ny=Math.ceil(this.h/step);
+    const off=document.createElement("canvas"); off.width=nx; off.height=ny;
+    const oc=off.getContext("2d"), img=oc.createImageData(nx,ny), col=hex2rgb(color);
+    for(let j=0;j<ny;j++) for(let i=0;i<nx;i++){
+      const [x,y]=this.toWorld((i+0.5)*step,(j+0.5)*step);
+      if(pred(x,y)){ const k=(j*nx+i)*4; img.data[k]=col[0]; img.data[k+1]=col[1]; img.data[k+2]=col[2]; img.data[k+3]=255*alpha; }
+    }
+    oc.putImageData(img,0,0); c.imageSmoothingEnabled=false; c.drawImage(off,0,0,nx*step,ny*step); c.imageSmoothingEnabled=true;
+  }
+  /* 等高線（marching squares） */
+  contour(f,levels,color,o={}){
+    const c=this.ctx, n=o.n||90, v=this.v, nx=n, ny=Math.round(n*this.h/this.w)||n;
+    const dx=(v.xmax-v.xmin)/nx, dy=(v.ymax-v.ymin)/ny, Z=[];
+    for(let j=0;j<=ny;j++){ const r=[]; for(let i=0;i<=nx;i++) r.push(f(v.xmin+i*dx,v.ymin+j*dy)); Z.push(r); }
+    c.lineWidth=o.width||1.4; c.setLineDash(o.dash||[]);
+    levels.forEach((L,li)=>{
+      c.strokeStyle=typeof color==="function"?color(L,li):color; c.beginPath();
+      for(let j=0;j<ny;j++) for(let i=0;i<nx;i++){
+        const z=[Z[j][i],Z[j][i+1],Z[j+1][i+1],Z[j+1][i]];
+        if(z.some(t=>!isFinite(t))) continue;
+        if(o.maxJump&&Math.max(...z)-Math.min(...z)>o.maxJump) continue;
+        const px=[v.xmin+i*dx,v.xmin+(i+1)*dx,v.xmin+(i+1)*dx,v.xmin+i*dx], py=[v.ymin+j*dy,v.ymin+j*dy,v.ymin+(j+1)*dy,v.ymin+(j+1)*dy];
+        const pts=[];
+        for(let e=0;e<4;e++){ const a=e, b=(e+1)%4; const za=z[a]-L, zb=z[b]-L;
+          if((za<0)!==(zb<0)){ const t=za/(za-zb); pts.push([px[a]+(px[b]-px[a])*t,py[a]+(py[b]-py[a])*t]); } }
+        if(pts.length>=2){ c.moveTo(this.X(pts[0][0]),this.Y(pts[0][1])); c.lineTo(this.X(pts[1][0]),this.Y(pts[1][1])); }
+        if(pts.length===4){ c.moveTo(this.X(pts[2][0]),this.Y(pts[2][1])); c.lineTo(this.X(pts[3][0]),this.Y(pts[3][1])); }
+      }
+      c.stroke();
+    });
+    c.setLineDash([]);
+  }
+  curve(fn,t0,t1,color,o={}){
+    const c=this.ctx, n=o.n||300; c.strokeStyle=color; c.lineWidth=o.width||2.2; c.setLineDash(o.dash||[]); c.beginPath();
+    let pen=false;
+    for(let i=0;i<=n;i++){ const p=fn(t0+(t1-t0)*i/n);
+      if(!p||!isFinite(p[0])||!isFinite(p[1])||Math.abs(p[1])>1e6){pen=false;continue;}
+      const X=this.X(p[0]),Y=this.Y(p[1]); if(pen) c.lineTo(X,Y); else c.moveTo(X,Y); pen=true; }
+    c.stroke(); c.setLineDash([]);
+  }
+  line(p,q,color,o={}){ const c=this.ctx; c.strokeStyle=color; c.lineWidth=o.width||2; c.setLineDash(o.dash||[]); c.globalAlpha=o.alpha==null?1:o.alpha; c.beginPath(); c.moveTo(this.X(p[0]),this.Y(p[1])); c.lineTo(this.X(q[0]),this.Y(q[1])); c.stroke(); c.setLineDash([]); c.globalAlpha=1; }
+  infLine(p,d,color,o={}){ const L=Math.hypot(d[0],d[1]); if(L<1e-12) return; const t=4*Math.max(this.v.xmax-this.v.xmin,this.v.ymax-this.v.ymin)/L; this.line([p[0]-t*d[0],p[1]-t*d[1]],[p[0]+t*d[0],p[1]+t*d[1]],color,o); }
+  arrow(p,q,color,o={}){
+    const c=this.ctx, x1=this.X(p[0]),y1=this.Y(p[1]),x2=this.X(q[0]),y2=this.Y(q[1]), L=Math.hypot(x2-x1,y2-y1);
+    c.strokeStyle=color; c.fillStyle=color; c.lineWidth=o.width||2.6; c.globalAlpha=o.alpha==null?1:o.alpha;
+    if(L>1){
+      const ux=(x2-x1)/L,uy=(y2-y1)/L,h=Math.min(o.head||12,L*0.6),w=h*0.45;
+      c.beginPath(); c.moveTo(x1,y1); c.lineTo(x2-ux*h*0.8,y2-uy*h*0.8); c.stroke();
+      c.beginPath(); c.moveTo(x2,y2); c.lineTo(x2-ux*h-uy*w,y2-uy*h+ux*w); c.lineTo(x2-ux*h+uy*w,y2-uy*h-ux*w); c.closePath(); c.fill();
+    }
+    c.globalAlpha=1;
+    if(o.label) this.text(q,o.label,color,{dx:o.ldx==null?6:o.ldx,dy:o.ldy==null?-6:o.ldy,bold:true});
+  }
+  dot(p,color,o={}){
+    const c=this.ctx; c.beginPath(); c.arc(this.X(p[0]),this.Y(p[1]),o.r||4.5,0,7);
+    if(o.ring){ c.fillStyle=cssv("card"); c.fill(); c.lineWidth=2.6; c.strokeStyle=color; c.stroke(); }
+    else { c.fillStyle=color; c.fill(); }
+    if(o.label) this.text(p,o.label,color,{dx:o.dx==null?7:o.dx,dy:o.dy==null?-7:o.dy,bold:o.bold});
+  }
+  poly(pts,color,o={}){
+    const c=this.ctx; c.beginPath(); pts.forEach((p,i)=>i?c.lineTo(this.X(p[0]),this.Y(p[1])):c.moveTo(this.X(p[0]),this.Y(p[1]))); c.closePath();
+    if(o.fill!==false){ c.fillStyle=rgba(color,o.alpha==null?0.2:o.alpha); c.fill(); }
+    if(o.stroke){ c.strokeStyle=o.stroke; c.lineWidth=o.width||1.5; c.setLineDash(o.dash||[]); c.stroke(); c.setLineDash([]); }
+  }
+  text(p,s,color,o={}){
+    const jp=/[\u3000-\u9fff\uff00-\uffef]/.test(s);
+    const c=this.ctx; c.font=(o.italic===false||jp?"":"italic ")+(o.bold?"700 ":"")+(jp?(o.size||15)-2:(o.size||15))+"px "+(jp?cssv("textfont"):(o.font||MATHFONT));
+    c.textAlign=o.align||"left"; c.textBaseline="alphabetic";
+    const x=this.X(p[0])+(o.dx||0), y=this.Y(p[1])+(o.dy||0);
+    c.lineJoin="round"; c.lineWidth=4; c.strokeStyle=cssv("card"); c.strokeText(s,x,y); c.fillStyle=color; c.fillText(s,x,y);
+  }
+}
+
+/* ---------- 曲面 z = f(x, y) ---------- */
+class Surface3D{
+  constructor(cv,o={}){
+    this.cv=cv; this.o=Object.assign({xr:[-2,2],yr:[-2,2],zr:null,n:34,az:-0.75,el:0.42,zs:0.8,clip:true,mesh:true,alpha:1,labels:["x","y","z"]},o);
+    this.f=o.f||((x,y)=>0); this.extra=null; this.cache=null;
+    const ro=new ResizeObserver(()=>this.draw()); ro.observe(cv);
+    REDRAW.add(()=>this.draw());
+    let last=null;
+    cv.addEventListener("pointerdown",e=>{ last=[e.clientX,e.clientY]; cv.setPointerCapture(e.pointerId); e.preventDefault(); });
+    cv.addEventListener("pointermove",e=>{ if(!last) return;
+      const dx=e.clientX-last[0], dy=e.clientY-last[1]; last=[e.clientX,e.clientY];
+      this.o.az-=dx*0.011; this.o.el=Math.max(-0.2,Math.min(1.55,this.o.el+dy*0.011)); this.draw(); });
+    const end=()=>{last=null;}; cv.addEventListener("pointerup",end); cv.addEventListener("pointercancel",end);
+  }
+  set(o){ if(o.f) this.f=o.f; Object.assign(this.o,o); this.cache=null; this.draw(); }
+  grid(){
+    if(this.cache) return this.cache;
+    const {xr,yr,n}=this.o, Z=[]; let lo=Infinity,hi=-Infinity;
+    for(let j=0;j<=n;j++){ const r=[]; for(let i=0;i<=n;i++){ const x=xr[0]+(xr[1]-xr[0])*i/n, y=yr[0]+(yr[1]-yr[0])*j/n; let z=this.f(x,y); if(!isFinite(z)) z=NaN; r.push(z); if(isFinite(z)){lo=Math.min(lo,z);hi=Math.max(hi,z);} } Z.push(r); }
+    if(!isFinite(lo)){lo=-1;hi=1;} if(hi-lo<1e-9){lo-=1;hi+=1;}
+    const zr=this.o.zr||[lo,hi];
+    return this.cache={Z,zr};
+  }
+  // 世界座標 → 画面座標と奥行き
+  P(x,y,z){
+    const {xr,yr,az,el,zs}=this.o, zr=this.zr;
+    const X=(2*(x-xr[0])/(xr[1]-xr[0])-1), Y=(2*(y-yr[0])/(yr[1]-yr[0])-1), Z=(2*(z-zr[0])/(zr[1]-zr[0])-1)*zs;
+    const ca=Math.cos(az), sa=Math.sin(az), x1=X*ca-Y*sa, y1=X*sa+Y*ca;
+    const ce=Math.cos(el), se=Math.sin(el);
+    const u=x1, v=Z*ce+y1*se, d=y1*ce-Z*se;
+    return [this.cx+u*this.S, this.cy-v*this.S, d];
+  }
+  draw(){
+    if(!this.cv.isConnected) return;
+    const {ctx,w,h}=fitCanvas(this.cv); this.ctx=ctx; this.w=w; this.h=h;
+    this.S=Math.min(w,h)*0.34; this.cx=w/2; this.cy=h/2+this.S*0.05;
+    const {Z,zr}=this.grid(); this.zr=zr;
+    const {xr,yr,n}=this.o; const prims=[];
+    ctx.fillStyle=cssv("card"); ctx.fillRect(0,0,w,h);
+    // 床と枠
+    const fl=zr[0], axc=cssv("axis"), gc=cssv("grid");
+    const corners=[[xr[0],yr[0]],[xr[1],yr[0]],[xr[1],yr[1]],[xr[0],yr[1]]];
+    ctx.lineWidth=1;
+    const st=niceStep(Math.max(xr[1]-xr[0],yr[1]-yr[0]),6);
+    ctx.strokeStyle=gc; ctx.beginPath();
+    for(let x=Math.ceil(xr[0]/st)*st;x<=xr[1]+1e-9;x+=st){ const a=this.P(x,yr[0],fl),b=this.P(x,yr[1],fl); ctx.moveTo(a[0],a[1]); ctx.lineTo(b[0],b[1]); }
+    for(let y=Math.ceil(yr[0]/st)*st;y<=yr[1]+1e-9;y+=st){ const a=this.P(xr[0],y,fl),b=this.P(xr[1],y,fl); ctx.moveTo(a[0],a[1]); ctx.lineTo(b[0],b[1]); }
+    ctx.stroke();
+    ctx.strokeStyle=axc; ctx.beginPath(); corners.forEach((c,i)=>{ const p=this.P(c[0],c[1],fl); i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]); }); ctx.closePath(); ctx.stroke();
+    if(this.o.floor) this.o.floor(this);
+    // 縦の軸（最も奥の角）
+    let far=0,fd=-Infinity; corners.forEach((c,i)=>{ const d=this.P(c[0],c[1],fl)[2]; if(d>fd){fd=d;far=i;} });
+    const fc=corners[far], a=this.P(fc[0],fc[1],zr[0]), b=this.P(fc[0],fc[1],zr[1]);
+    ctx.strokeStyle=axc; ctx.beginPath(); ctx.moveTo(a[0],a[1]); ctx.lineTo(b[0],b[1]); ctx.stroke();
+    // 曲面
+    const L=[-0.35,-0.5,0.8], Ln=Math.hypot(...L);
+    const dx=(xr[1]-xr[0])/n, dy=(yr[1]-yr[0])/n, zspan=zr[1]-zr[0];
+    const sc=(this.o.zs*2/zspan);
+    if(this.o.surface!==false) for(let j=0;j<n;j++) for(let i=0;i<n;i++){
+      const z4=[Z[j][i],Z[j][i+1],Z[j+1][i+1],Z[j+1][i]];
+      if(z4.some(z=>!isFinite(z))) continue;
+      if(this.o.clip&&z4.some(z=>z<zr[0]-1e-9||z>zr[1]+1e-9)) continue;
+      const x0=xr[0]+i*dx, y0=yr[0]+j*dy;
+      const pts=[this.P(x0,y0,z4[0]),this.P(x0+dx,y0,z4[1]),this.P(x0+dx,y0+dy,z4[2]),this.P(x0,y0+dy,z4[3])];
+      const zx=((z4[1]-z4[0])+(z4[2]-z4[3]))/2*sc/(2*dx/(xr[1]-xr[0])), zy=((z4[3]-z4[0])+(z4[2]-z4[1]))/2*sc/(2*dy/(yr[1]-yr[0]));
+      const nl=Math.hypot(zx,zy,1), sh=Math.abs((-zx*L[0]-zy*L[1]+L[2])/(nl*Ln));
+      const zm=(z4[0]+z4[1]+z4[2]+z4[3])/4, col=cmap((zm-zr[0])/zspan), k=0.55+0.45*sh;
+      prims.push({d:(pts[0][2]+pts[1][2]+pts[2][2]+pts[3][2])/4,pts,fill:`rgba(${col[0]*k|0},${col[1]*k|0},${col[2]*k|0},${this.o.alpha})`,stroke:this.o.mesh?"rgba(0,0,0,0.13)":null});
+    }
+    const api={
+      line:(p,q,color,o={})=>{ const A=this.P(...p),B=this.P(...q); prims.push({d:(A[2]+B[2])/2-(o.bias==null?0.04:o.bias),line:[A,B],color,width:o.width||2.5,dash:o.dash}); },
+      path:(pts,color,o={})=>{ for(let i=0;i+1<pts.length;i++){ if(pts[i].some(t=>!isFinite(t))||pts[i+1].some(t=>!isFinite(t))) continue; api.line(pts[i],pts[i+1],color,o);} },
+      dot:(p,color,o={})=>{ const A=this.P(...p); prims.push({d:A[2]-(o.bias==null?0.08:o.bias),dot:A,color,r:o.r||5,label:o.label}); },
+      quad:(ps,color,alpha,o={})=>{ const pts=ps.map(p=>this.P(...p)); prims.push({d:pts.reduce((s,p)=>s+p[2],0)/pts.length-(o.bias||0),pts,fill:rgba(color,alpha),stroke:o.stroke||null}); },
+      P:(x,y,z)=>this.P(x,y,z),
+      // 4隅 c0..c3 の四角形を m×m に分割して置く（前後関係を正しくするため）
+      sheet:(c,color,alpha,m=6,o={})=>{ const L=(p,q,t)=>p.map((v,i)=>v+(q[i]-v)*t);
+        for(let i=0;i<m;i++) for(let j=0;j<m;j++){ const P=(u,v)=>L(L(c[0],c[1],u),L(c[3],c[2],u),v);
+          api.quad([P(i/m,j/m),P((i+1)/m,j/m),P((i+1)/m,(j+1)/m),P(i/m,(j+1)/m)],color,alpha,o); } }
+    };
+    if(this.extra) this.extra(api,this);
+    prims.sort((p,q)=>q.d-p.d);
+    for(const p of prims){
+      if(p.pts){ ctx.beginPath(); p.pts.forEach((q,i)=>i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1])); ctx.closePath(); ctx.fillStyle=p.fill; ctx.fill(); if(p.stroke){ctx.strokeStyle=p.stroke; ctx.lineWidth=0.6; ctx.stroke();} else { ctx.strokeStyle=p.fill; ctx.lineWidth=0.5; ctx.stroke(); } }
+      else if(p.line){ ctx.strokeStyle=p.color; ctx.lineWidth=p.width; ctx.setLineDash(p.dash||[]); ctx.lineCap="round"; ctx.beginPath(); ctx.moveTo(p.line[0][0],p.line[0][1]); ctx.lineTo(p.line[1][0],p.line[1][1]); ctx.stroke(); ctx.setLineDash([]); }
+      else if(p.dot){ ctx.beginPath(); ctx.arc(p.dot[0],p.dot[1],p.r,0,7); ctx.fillStyle=p.color; ctx.fill(); ctx.lineWidth=2; ctx.strokeStyle=cssv("card"); ctx.stroke();
+        if(p.label){ ctx.font="italic 700 14px "+MATHFONT; ctx.lineWidth=4; ctx.strokeText(p.label,p.dot[0]+8,p.dot[1]-8); ctx.fillStyle=p.color; ctx.fillText(p.label,p.dot[0]+8,p.dot[1]-8);} }
+    }
+    // 軸ラベル
+    ctx.font="italic 15px "+MATHFONT; ctx.fillStyle=axc; ctx.textAlign="center";
+    const lx=this.P((xr[0]+xr[1])/2,yr[0]-(yr[1]-yr[0])*0.12,fl), ly=this.P(xr[0]-(xr[1]-xr[0])*0.12,(yr[0]+yr[1])/2,fl), lz=this.P(fc[0],fc[1],zr[1]);
+    ctx.fillText(this.o.labels[0],lx[0],lx[1]+5); ctx.fillText(this.o.labels[1],ly[0],ly[1]+5); ctx.fillText(this.o.labels[2],lz[0],lz[1]-8);
+    ctx.font="11px "+MATHFONT; ctx.textAlign="left";
+    for(const zv of [zr[0],zr[1]]){ const q=this.P(fc[0],fc[1],zv); ctx.fillText(fnum(zv,2),q[0]+6,q[1]+4); }
+  }
+}
+/* 数値微分など */
+const NUM={
+  dx:(f,x,y,h=1e-5)=>(f(x+h,y)-f(x-h,y))/(2*h),
+  dy:(f,x,y,h=1e-5)=>(f(x,y+h)-f(x,y-h))/(2*h),
+  simpson(g,a,b,n=200){ if(n%2) n++; const h=(b-a)/n; let s=g(a)+g(b); for(let i=1;i<n;i++) s+=(i%2?4:2)*g(a+i*h); return s*h/3; },
+  dbl(f,a,b,lo,hi,n=120){ // ∫_a^b ∫_{lo(x)}^{hi(x)} f dy dx
+    return NUM.simpson(x=>{ const c=lo(x),d=hi(x); return d>c?NUM.simpson(y=>{const v=f(x,y); return isFinite(v)?v:0;},c,d,n):0; },a,b,n);
+  }
+};
+/* 数式入力欄のヘルパー：入力 → {e, f} または null */
+function exprField(inp,ps,onok){
+  const msg=document.createElement("div"); msg.className="hint"; inp.insertAdjacentElement("afterend",msg);
+  const run=()=>{
+    const r=EX.tryParse(inp.value);
+    if(r.ok){ const bad=EX.vars(r.e).filter(v=>!ps.includes(v)); if(bad.length){ r.ok=false; r.err="変数 "+bad.join(", ")+" は使えません（"+ps.join(", ")+" を使ってください）"; } }
+    inp.classList.toggle("bad",!r.ok); msg.textContent=r.ok?"":r.err; msg.style.color=r.ok?"":"var(--bad)";
+    if(r.ok) onok(r.e,EX.fn(r.e,ps));
+  };
+  inp.addEventListener("input",run); return run;
+}
+/* 等高線の線分（f = L となる所）を返す */
+function isoSegs(f,xr,yr,n,L){
+  const dx=(xr[1]-xr[0])/n, dy=(yr[1]-yr[0])/n, Z=[], segs=[];
+  for(let j=0;j<=n;j++){ const r=[]; for(let i=0;i<=n;i++) r.push(f(xr[0]+i*dx,yr[0]+j*dy)); Z.push(r); }
+  for(let j=0;j<n;j++) for(let i=0;i<n;i++){
+    const z=[Z[j][i],Z[j][i+1],Z[j+1][i+1],Z[j+1][i]]; if(z.some(t=>!isFinite(t))) continue;
+    const px=[xr[0]+i*dx,xr[0]+(i+1)*dx,xr[0]+(i+1)*dx,xr[0]+i*dx], py=[yr[0]+j*dy,yr[0]+j*dy,yr[0]+(j+1)*dy,yr[0]+(j+1)*dy], pts=[];
+    for(let e=0;e<4;e++){ const a=e,b=(e+1)%4, za=z[a]-L, zb=z[b]-L; if((za<0)!==(zb<0)){ const t=za/(za-zb); pts.push([px[a]+(px[b]-px[a])*t,py[a]+(py[b]-py[a])*t]); } }
+    if(pts.length>=2) segs.push([pts[0],pts[1]]); if(pts.length===4) segs.push([pts[2],pts[3]]);
+  }
+  return segs;
+}
+/* プリセット選択肢を select に入れる */
+function fillSelect(sel,items){ sel.innerHTML=""; items.forEach((it,i)=>{ const o=document.createElement("option"); o.value=i; o.textContent=it; sel.appendChild(o); }); }
+/* 係数つきの項の TeX：cx(2,"x")="2x", cx(-1,"x")="-x", cx(0.5,"x")="0.5x" */
+function cx(c,v){ const s=fnum(c,3).replace("−","-"); return c===0?"0":c===1?v:c===-1?"-"+v:s+v; }
+/* 一次式などの TeX を組み立てる
+   sh("x",1)="x-1", sh("x",-2)="x+2", sh("x",0)="x"
+   lc([[5,""],[2,"(x-1)"],[-4,"(y-2)"]])="5+2(x-1)-4(y-2)" */
+const nstr=(v,dg=3)=>fnum(Math.abs(v),dg);
+function sh(v,a,dg=3){ return Math.abs(a)<1e-12?v:a>0?v+"-"+nstr(a,dg):v+"+"+nstr(a,dg); }
+function lc(terms,dg=3){
+  let s="";
+  for(const [c,t] of terms){
+    if(Math.abs(c)<1e-12) continue;
+    const mag=(t&&Math.abs(Math.abs(c)-1)<1e-12)?"":nstr(c,dg);
+    const body=mag+(t||"");
+    s+=s===""?(c<0?"-":"")+body:(c<0?"-":"+")+body;
+  }
+  return s===""?"0":s;
+}
+
+</script>
+<script>
+const PRE=[["x y","x^2+y^2-2","f = xy, x²+y² = 2（例3）"],["x+y","x^2+4y^2-4","f = x+y, x²+4y² = 4（例4）"],["x^2+y^2","x^2+x y+y^2-3","f = x²+y², x²+xy+y² = 3（問題5）"],["4x y","x^2/4+y^2-1","f = 4xy, x²/4+y² = 1（問題6）"],["x^2-y^2+x","x^2+y^2-1","f = x²−y²+x, x²+y² = 1"],["y","x^2+x y+y^2-3","f = y, x²+xy+y² = 3（例2）"]];
+fillSelect($("#pre"),PRE.map(p=>p[2]));
+let F,Fx,Fy,G,Gx,Gy, th=0.4, fr=[-1,1], cands=[];
+const PL=new Plot2D($("#cv"),{xmin:-2.5,xmax:2.5,ymin:-2.5,ymax:2.5});
+const PG=new Plot2D($("#cg"),{xmin:0,xmax:2*Math.PI,ymin:-1,ymax:1,equal:false,xl:"θ",yl:"f",ticks:false});
+function rad(t){ // 原点から角度 t の方向で g=0 となる最初の点
+  const u=[Math.cos(t),Math.sin(t)], h=r=>G(r*u[0],r*u[1]);
+  let r0=0.02, v0=h(r0);
+  for(let r=0.04;r<=5;r+=0.02){ const v=h(r); if(isFinite(v)&&isFinite(v0)&&(v0<0)!==(v<0)){ let a=r-0.02,b=r; for(let k=0;k<50;k++){ const m=(a+b)/2; if((h(a)<0)!==(h(m)<0)) b=m; else a=m; } const R=(a+b)/2; return [R*u[0],R*u[1]]; } v0=v; }
+  return null;
+}
+const cross=p=>Fx(...p)*Gy(...p)-Fy(...p)*Gx(...p);
+PL.addHandle({get:()=>rad(th)||[0,0],set:p=>{th=Math.atan2(p[1],p[0]); if(th<0) th+=2*Math.PI; upd();},color:cssv("c5"),hidden:()=>!rad(th)});
+REDRAW.add(()=>PL.handles[0].color=cssv("c5"));
+PL.onDraw=p=>{
+  const L=[]; for(let i=1;i<16;i++) L.push(fr[0]+(fr[1]-fr[0])*i/16);
+  p.heat(F,fr[0],fr[1],{alpha:0.35});
+  p.contour(F,L,rgba(cssv("fg"),0.3),{n:110,width:1});
+  p.contour(G,[0],cssv("fg"),{n:220,width:3.2});
+  cands.forEach(c=>{ p.contour(F,[c.f],cssv(c.max?"c2":"c1"),{n:160,width:1.6,dash:[5,4]}); p.dot(c.p,cssv(c.max?"c2":"c1"),{r:5}); });
+  const q=rad(th); if(!q) return;
+  const a=[Fx(...q),Fy(...q)], b=[Gx(...q),Gy(...q)], na=Math.hypot(...a), nb=Math.hypot(...b);
+  if(na>1e-9) p.arrow(q,[q[0]+0.8*a[0]/na,q[1]+0.8*a[1]/na],cssv("c4"),{label:"∇f"});
+  if(nb>1e-9) p.arrow(q,[q[0]+0.8*b[0]/nb,q[1]+0.8*b[1]/nb],cssv("c2"),{label:"∇g",ldx:-30});
+};
+PG.onDraw=p=>{
+  p.curve(t=>{ const q=rad(t); return q?[t,F(...q)]:null; },0,2*Math.PI,cssv("c5"),{width:2.6,n:360});
+  cands.forEach(c=>p.dot([c.t,c.f],cssv(c.max?"c2":"c1"),{r:5,label:fnum(c.f,3),bold:true}));
+  const q=rad(th); if(q) p.dot([th,F(...q)],cssv("c5"),{r:6,ring:true});
+};
+function findCands(){
+  cands=[]; const N=720; let prev=null;
+  for(let i=0;i<=N;i++){
+    const t=2*Math.PI*i/N, q=rad(t); if(!q){prev=null;continue;}
+    const c=cross(q);
+    if(prev&&(prev.c<0)!==(c<0)&&isFinite(c)&&isFinite(prev.c)){
+      let a=prev.t,b=t; for(let k=0;k<40;k++){ const m=(a+b)/2, qm=rad(m); if(!qm) break; if((cross(rad(a))<0)!==(cross(qm)<0)) b=m; else a=m; }
+      const tm=(a+b)/2, qm=rad(tm); if(qm&&!cands.some(c=>Math.hypot(c.p[0]-qm[0],c.p[1]-qm[1])<1e-3)){
+        const fm=F(...qm), f1=F(...rad(tm-0.02)), f2=F(...rad(tm+0.02));
+        if(fm>=f1&&fm>=f2) cands.push({t:tm,p:qm,f:fm,max:true}); else if(fm<=f1&&fm<=f2) cands.push({t:tm,p:qm,f:fm,max:false});
+      }
+    }
+    prev={t,c};
+  }
+}
+function upd(){
+  const q=rad(th), out=$("#out");
+  if(!q){ out.innerHTML='<span class="ng">この角度の方向に曲線 g = 0 が見つかりません。</span>'; PL.draw(); PG.draw(); return; }
+  const a=[Fx(...q),Fy(...q)], b=[Gx(...q),Gy(...q)], cr=cross(q), nb=Math.hypot(...b), na=Math.hypot(...a);
+  const par=Math.abs(cr)<0.02*Math.max(1e-9,na*nb);
+  let s=`<div class="row">点 ${tex("("+fnum(q[0],3)+","+fnum(q[1],3)+")")}：${tex("f="+fnum(F(...q),4))}</div>`;
+  s+=`<div class="row">${tex("\\nabla f=("+fnum(a[0],3)+","+fnum(a[1],3)+"),\\quad \\nabla g=("+fnum(b[0],3)+","+fnum(b[1],3)+")")}</div>`;
+  s+=`<div class="row">平行の判定 ${tex("f_xg_y-f_yg_x="+fnum(cr,3))}　${par?'<span class="tag ok">ほぼ平行！ '+tex("\\lambda\\approx"+fnum((a[0]*b[0]+a[1]*b[1])/(nb*nb),3))+'</span>':''}</div>`;
+  if(cands.length){
+    const mx=Math.max(...cands.map(c=>c.f)), mn=Math.min(...cands.map(c=>c.f));
+    s+=`<div class="row small">曲線上の候補（${tex("\\nabla f\\parallel\\nabla g")} の点）：`+cands.map(c=>`<span style="color:var(--${c.max?"c2":"c1"})">${tex("("+fnum(c.p[0],3)+","+fnum(c.p[1],3)+")")}で ${fnum(c.f,4)}</span>`).join("、")+`</div><div class="row small">最大値 ${fnum(mx,4)}、最小値 ${fnum(mn,4)}</div>`;
+  }
+  out.innerHTML=s; PL.draw(); PG.draw();
+}
+function setup(){
+  findCands();
+  let lo=Infinity,hi=-Infinity; for(let i=0;i<=40;i++) for(let j=0;j<=40;j++){ const z=F(-2.5+5*i/40,-2.5+5*j/40); if(isFinite(z)){lo=Math.min(lo,z);hi=Math.max(hi,z);} } fr=[lo,hi];
+  let a=Infinity,b=-Infinity; for(let i=0;i<=200;i++){ const q=rad(2*Math.PI*i/200); if(q){ const v=F(...q); a=Math.min(a,v); b=Math.max(b,v);} }
+  if(isFinite(a)){ const pd=(b-a)*0.2+0.1; PG.o.ymin=a-pd; PG.o.ymax=b+pd; }
+  upd();
+}
+let okF=false, okG=false;
+const rf=exprField($("#ef"),["x","y"],(e,f)=>{ F=f; Fx=EX.fn(EX.d(e,"x")); Fy=EX.fn(EX.d(e,"y")); okF=true; if(okG) setup(); });
+const rg=exprField($("#eg"),["x","y"],(e,f)=>{ G=f; Gx=EX.fn(EX.d(e,"x")); Gy=EX.fn(EX.d(e,"y")); okG=true; if(okF) setup(); });
+$("#pre").addEventListener("change",e=>{ const i=+e.target.value; $("#ef").value=PRE[i][0]; $("#eg").value=PRE[i][1]; okG=false; rf(); rg(); });
+rf(); rg();
+</script>
+</body>
+</html>

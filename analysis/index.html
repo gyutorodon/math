@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>解析学II 目次</title>
+<meta name="description" content="解析学II（多変数の微分積分）の学習用ページの目次">
+<style>
+:root{
+  --bg:#f7f6f2; --card:#ffffff; --fg:#1d2127; --muted:#5d6672; --line:#d8dbe0; --soft:#eef0f3;
+  --accent:#2453c9; --accent-soft:#e8eefc;
+  --def:#2453c9; --def-bg:#edf2fd;
+  --thm:#1d7f49; --thm-bg:#eaf6ef;
+  --warn:#b8620a; --warn-bg:#fdf3e4;
+  --bad:#c0392b; --bad-bg:#fbeceb; --good:#1d7f49; --good-bg:#e9f6ee;
+  --c1:#2453c9; --c2:#d0336a; --c3:#d9800b; --c4:#1d8a52; --c5:#7b4bc4;
+  --s0:#3b5bdb; --s1:#22a39f; --s2:#e8c547; --s3:#e8590c;
+  --grid:#e3e5e9; --axis:#8a929c;
+  --mathfont:"Times New Roman","STIX Two Text","Cambria Math","Noto Serif",Times,serif;
+  --textfont:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP","Yu Gothic UI","Yu Gothic","Meiryo",system-ui,sans-serif;
+  color-scheme:light dark;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#14161a; --card:#1c1f24; --fg:#e5e7ea; --muted:#a2a9b3; --line:#363b43; --soft:#252930;
+    --accent:#7ea3ff; --accent-soft:#1f2a44;
+    --def:#7ea3ff; --def-bg:#1a2338;
+    --thm:#5fcf8f; --thm-bg:#16291e;
+    --warn:#f0a54a; --warn-bg:#2e2412;
+    --bad:#ff7b6e; --bad-bg:#341b19; --good:#5fcf8f; --good-bg:#16291e;
+    --c1:#7ea3ff; --c2:#ff6f9c; --c3:#f5a742; --c4:#5fcf8f; --c5:#b58cff;
+    --s0:#4c6ef5; --s1:#20c9b5; --s2:#f2d45c; --s3:#ff8a3d;
+    --grid:#2a2f36; --axis:#6b737e;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--textfont);font-size:16.5px;line-height:1.85;}
+.wrap{max-width:860px;margin:0 auto;padding:24px 16px 64px}
+a{color:var(--accent)}
+header.top{margin-bottom:28px}
+.crumb{font-size:.85rem;color:var(--muted);letter-spacing:.04em}
+.crumb a{color:var(--muted)}
+h1{font-size:1.75rem;line-height:1.4;margin:.2em 0 .4em}
+.lead{color:var(--muted);margin:0 0 1em}
+.toc{display:flex;flex-wrap:wrap;gap:6px 8px;font-size:.88rem}
+.toc a{display:inline-block;padding:3px 10px;border:1px solid var(--line);border-radius:999px;text-decoration:none;color:var(--fg);background:var(--card)}
+.toc a:hover{border-color:var(--accent);color:var(--accent)}
+.toc a.demo-link{border-color:var(--accent);color:var(--accent)}
+section{margin:0 0 40px}
+h2{font-size:1.35rem;margin:0 0 .7em;padding-bottom:.3em;border-bottom:2px solid var(--line)}
+h3{font-size:1.08rem;margin:1.6em 0 .5em}
+p{margin:.6em 0}
+ul,ol{padding-left:1.4em;margin:.5em 0}
+li{margin:.2em 0}
+.muted{color:var(--muted)}
+.small{font-size:.88rem}
+
+/* ---- 数式 ---- */
+.m,.dm{font-family:var(--mathfont);font-size:1.07em;font-style:normal}
+.m{white-space:normal}
+.mn{white-space:nowrap}
+.m i,.dm i{font-style:italic;padding-right:.03em}
+.dm{display:block;text-align:center;margin:.8em 0;overflow-x:auto;overflow-y:hidden;padding:.3em 0;line-height:1.6}
+.dm.left{text-align:left}
+.tx{font-family:var(--textfont);font-size:.92em}
+.rmn,.fn{font-style:normal}
+.vec{font-weight:700}.vec i{font-weight:700}
+sup,sub{font-size:.72em;line-height:0}
+sup{vertical-align:.55em} sub{vertical-align:-.3em}
+.frac sup,.frac sub,.ss sup,.ss sub{font-size:.85em}
+.pr{margin-left:.02em}
+.ss{display:inline-flex;flex-direction:column;vertical-align:.42em;font-size:.72em;line-height:1.05;margin-left:.04em;text-align:left}
+.ss>span{display:block}
+.frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;margin:0 .12em;line-height:1.2;font-size:.92em}
+.frac>span:first-child{border-bottom:1px solid currentColor;padding:0 .22em .08em}
+.frac>span:last-child{padding:.08em .22em 0}
+.dm .frac{font-size:1em}
+.sqrt{display:inline-flex;align-items:stretch;vertical-align:baseline}
+.sqrt .rt{font-size:1.05em;margin-right:-.02em}
+.sqrt .rd{border-top:1px solid currentColor;padding:0 .12em 0 .08em;margin-top:.18em}
+.ovl{text-decoration:overline}
+.int{font-size:1.35em;line-height:1;vertical-align:-.18em;margin:0 .04em 0 .02em;font-style:normal}
+.dm .int{font-size:1.75em;vertical-align:-.3em}
+.bs{font-size:1.25em;line-height:1;vertical-align:-.12em}
+.il{display:inline-flex;flex-direction:column;justify-content:space-between;vertical-align:.62em;font-size:.72em;line-height:1.05;height:2.35em;margin-left:-.1em;margin-right:.08em}
+.dm .il{height:3.25em;vertical-align:1.05em}
+.il>span:first-child{margin-left:.3em}
+sub.is{vertical-align:-.65em;margin-left:-.12em}
+.dm sub.is{vertical-align:-.9em}
+.ul{display:inline-flex;flex-direction:column;align-items:center;vertical-align:top;line-height:1.3}
+.ulo{position:relative}
+.ult{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);font-size:.7em;line-height:1.1;white-space:nowrap}
+.ul.hs{margin-top:.75em}
+.ulu{font-size:.7em;line-height:1.1;white-space:nowrap}
+.dm .ul{vertical-align:top}
+.s1{display:inline-block;width:.17em}.s2{display:inline-block;width:.28em}.sn{display:inline-block;margin-left:-.17em}
+.q1{display:inline-block;width:1em}.q2{display:inline-block;width:2em}
+.hlm{background:var(--accent-soft);border-radius:4px;padding:0 .15em;box-shadow:0 0 0 1px var(--accent)}
+.bxd{border:1.5px solid currentColor;padding:.1em .35em;border-radius:3px}
+.lr{display:inline-flex;align-items:stretch;vertical-align:middle;margin:0 .06em}
+.lr>.lri{display:inline-flex;align-items:center;padding:.1em .12em}
+.lr::before,.lr::after{content:"";flex:none;width:.34em}
+.lr.lp::before{border-left:1.4px solid currentColor;border-radius:.6em 0 0 .6em / 50% 0 0 50%}
+.lr.rp::after{border-right:1.4px solid currentColor;border-radius:0 .6em .6em 0 / 0 50% 50% 0}
+.lr.lb::before{border:1.4px solid currentColor;border-right:none;width:.25em}
+.lr.rb::after{border:1.4px solid currentColor;border-left:none;width:.25em}
+.lr.lv::before{border-left:1.3px solid currentColor;width:.15em}
+.lr.rv::after{border-right:1.3px solid currentColor;width:.15em}
+.lr.ln::before,.lr.rn::after{width:0}
+.lr.lc::before{content:"{";width:auto;align-self:center;font-size:1.5em;line-height:1}
+.lr.rc::after{content:"}";width:auto;align-self:center;font-size:1.5em;line-height:1}
+.mat{display:inline-flex;vertical-align:middle;align-items:stretch;margin:.1em .15em;line-height:1.35}
+.mat::before,.mat::after{content:"";width:.38em;flex:none}
+.mat::before{border-left:1.5px solid currentColor;border-radius:.6em 0 0 .6em / 50% 0 0 50%}
+.mat::after{border-right:1.5px solid currentColor;border-radius:0 .6em .6em 0 / 0 50% 50% 0}
+.mat.det::before{border-radius:0;width:.18em;border-left-width:1.3px}
+.mat.det::after{border-radius:0;width:.18em;border-right-width:1.3px}
+.mat.sq::before{border:1.5px solid currentColor;border-right:none;border-radius:0;width:.25em}
+.mat.sq::after{border:1.5px solid currentColor;border-left:none;border-radius:0;width:.25em}
+.mat.bare::before,.mat.bare::after{border:none;width:0}
+.mat>.g{display:grid;grid-template-columns:repeat(var(--c),auto);column-gap:.8em;row-gap:.12em;padding:.2em .35em;align-items:center;justify-items:center}
+.cases{display:inline-flex;align-items:center;vertical-align:middle}
+.cases .cb{font-size:calc(var(--r) * 1.05em + .3em);line-height:1;font-weight:300;transform:scaleX(.7);margin-right:.05em}
+.cases>.g{display:grid;grid-template-columns:auto auto;column-gap:1.2em;row-gap:.1em;justify-items:start;align-items:center}
+.eqs{display:inline-grid;grid-template-columns:auto auto;column-gap:.1em;row-gap:.35em;align-items:center;text-align:left}
+.eqs>span:nth-child(odd){text-align:right;justify-self:end}
+.eqs>span:nth-child(even){text-align:left;justify-self:start}
+
+/* ---- 枠 ---- */
+.box{border:1.5px solid var(--line);border-left-width:6px;border-radius:10px;padding:12px 16px;margin:18px 0;background:var(--card)}
+.box-t{font-weight:700;margin-bottom:.3em}
+.box.def{border-color:var(--def);background:var(--def-bg)}
+.box.def .box-t{color:var(--def)}
+.box.thm{border-color:var(--thm);background:var(--thm-bg)}
+.box.thm .box-t{color:var(--thm)}
+.box.warn{border-color:var(--warn);background:var(--warn-bg)}
+.box.warn .box-t{color:var(--warn)}
+.box.note{border-color:var(--line);border-left-color:var(--muted)}
+.box ol,.box ul{margin:.3em 0}
+.ex{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:16px 0}
+.ex-t{font-weight:700;color:var(--accent);margin-bottom:.2em}
+.mis{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:14px 0}
+.mis .bad,.mis .good{border-radius:6px;padding:6px 10px;margin:.4em 0}
+.mis .bad{background:var(--bad-bg)}
+.mis .good{background:var(--good-bg)}
+.mis .bad::before{content:"✗ よくある誤り　";color:var(--bad);font-weight:700}
+.mis .good::before{content:"✓ 正しくは　";color:var(--good);font-weight:700}
+.prob{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:16px 0}
+.prob-t{font-weight:700;margin-bottom:.2em}
+.prob-t .lv{font-weight:400;font-size:.8rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin-left:6px;white-space:nowrap}
+details{margin-top:10px;border-top:1px dashed var(--line);padding-top:8px}
+summary{cursor:pointer;color:var(--accent);font-weight:700;list-style:none;display:inline-block;padding:4px 12px;border:1px solid var(--accent);border-radius:999px;font-size:.92rem}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▶ ";font-size:.8em}
+details[open] summary::before{content:"▼ "}
+details[open] summary{margin-bottom:8px}
+.check{color:var(--muted);font-size:.92rem}
+.steps{counter-reset:st;list-style:none;padding-left:0}
+.steps>li{counter-increment:st;position:relative;padding-left:2.2em;margin:.5em 0}
+.steps>li::before{content:counter(st);position:absolute;left:0;top:.2em;width:1.6em;height:1.6em;border-radius:50%;background:var(--accent);color:var(--card);font-weight:700;font-size:.85em;display:flex;align-items:center;justify-content:center}
+.kw{font-weight:700;color:var(--accent)}
+
+/* ---- デモ ---- */
+.demo{border:2px solid var(--accent);border-radius:14px;padding:14px 16px 16px;margin:22px 0;background:var(--card)}
+.demo-t{font-weight:700;color:var(--accent);font-size:1.05rem;margin-bottom:.3em}
+.demo-t::before{content:"▶ 動かしてみよう　"}
+.demo-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:700px){.demo-grid{grid-template-columns:minmax(0,1fr)}}
+.cv{width:100%;max-width:440px;aspect-ratio:1/1;display:block;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:10px;touch-action:none;user-select:none;-webkit-user-select:none}
+.cv.wide{max-width:none;aspect-ratio:16/10}
+.cv.short{aspect-ratio:2/1;max-width:none}
+.cap{font-size:.85rem;color:var(--muted);text-align:center;margin:.2em 0 0}
+.ctrl{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin:8px 0}
+.ctrl label{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;max-width:100%}
+select,button,input{font:inherit;color:inherit}
+select{max-width:100%;min-width:0}
+select,input[type=text],input:not([type]),input[type=number]{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:3px 6px}
+input.expr{font-family:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;font-size:.95rem;width:16em;max-width:100%}
+input.num{width:4.2em;text-align:center}
+input.bad{border-color:var(--bad);background:var(--bad-bg)}
+button{background:var(--accent-soft);color:var(--accent);border:1px solid var(--accent);border-radius:8px;padding:4px 12px;cursor:pointer;font-size:.92rem}
+button:hover{background:var(--accent);color:var(--card)}
+button.on{background:var(--accent);color:var(--card)}
+input[type=range]{accent-color:var(--accent);width:150px;max-width:100%}
+.sl{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:4px 14px;margin:6px 0}
+.sl label{display:flex;align-items:center;gap:6px;white-space:nowrap}
+.sl input[type=range]{flex:1;min-width:0;width:auto}
+.sv{min-width:3.2em;text-align:right;font-variant-numeric:tabular-nums}
+.out{background:var(--soft);border-radius:10px;padding:10px 12px;margin:10px 0;overflow-x:auto}
+.out .row{margin:.3em 0}
+.ok{color:var(--good);font-weight:700}
+.ng{color:var(--bad);font-weight:700}
+.tag{display:inline-block;padding:1px 10px;border-radius:999px;font-weight:700;font-size:.92rem}
+.tag.ok{background:var(--good-bg)}
+.tag.ng{background:var(--bad-bg)}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.88rem;color:var(--muted);margin:6px 0}
+.legend span::before{content:"";display:inline-block;width:12px;height:4px;border-radius:2px;background:var(--k);margin-right:5px;vertical-align:middle}
+.hint{font-size:.85rem;color:var(--muted)}
+table.t{border-collapse:collapse;margin:8px 0;font-size:.95rem}
+table.t th,table.t td{border:1px solid var(--line);padding:4px 10px;text-align:center}
+table.t th{background:var(--soft)}
+table.t td.l,table.t th.l{text-align:left}
+.tablewrap{overflow-x:auto}
+.quiz .q{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:10px 0}
+.quiz .opts{display:flex;flex-wrap:wrap;gap:6px;margin:.4em 0}
+.quiz .opts button{background:var(--bg);color:var(--fg);border-color:var(--line)}
+.quiz .opts button.right{background:var(--good-bg);border-color:var(--good);color:var(--good)}
+.quiz .opts button.wrong{background:var(--bad-bg);border-color:var(--bad);color:var(--bad)}
+.quiz .fb{font-size:.92rem;margin-top:.3em}
+footer.pn{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:16px;margin-top:40px;font-size:.92rem}
+footer.pn a{text-decoration:none}
+@media (max-width:520px){
+  body{font-size:15.5px}
+  h1{font-size:1.45rem}
+  .box,.ex,.mis,.prob,.demo{padding:10px 12px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+<div class="crumb">大学1年 数学</div>
+<h1>解析学II（多変数の微分積分）</h1>
+<p class="lead">2変数関数の偏微分から、極値問題、2重積分・変数変換・広義積分まで。各回に「直感 → 定義 → 具体例 → 動かしてみよう → よくある間違い → 練習問題」の順でまとめています。</p>
+</header>
+<style>
+.idx{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.idx li{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+.idx a{text-decoration:none;color:var(--fg);display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.idx a:hover .ti{color:var(--accent)}
+.idx .no{font-size:.85rem;color:var(--accent);font-weight:700;min-width:3.6em}
+.idx .ti{font-weight:700;font-size:1.05rem}
+.idx .ds{display:block;font-size:.88rem;color:var(--muted);margin-top:2px}
+.part{font-size:.95rem;color:var(--muted);margin:22px 0 8px;font-weight:700}
+</style>
+<main>
+<p class="part">前半：多変数関数の微分</p>
+<ol class="idx">
+<li><a href="01-multivariable.html"><span class="no">第1回</span><span class="ti">多変数関数</span></a><span class="ds">2変数関数のグラフと等高線、定義域、2変数の極限と連続性</span></li>
+<li><a href="02-partial-derivative.html"><span class="no">第2回</span><span class="ti">偏微分</span></a><span class="ds">偏微分係数・偏導関数、高次偏導関数、全微分可能性と接平面、C¹級</span></li>
+<li><a href="03-chain-rule.html"><span class="no">第3回</span><span class="ti">合成関数の偏微分</span></a><span class="ds">連鎖律 dz/dt = f_x x′ + f_y y′、変数変換 (u,v)・極座標での偏微分</span></li>
+<li><a href="04-exercise1.html"><span class="no">第4回</span><span class="ti">演習I（偏微分の基本計算）</span></a><span class="ds">偏導関数・2次偏導関数・連鎖律・定義による計算の型別演習と答え合わせ計算機</span></li>
+<li><a href="05-taylor.html"><span class="no">第5回</span><span class="ti">Taylor展開, 近似</span></a><span class="ds">2変数のテイラーの定理、1次近似・2次近似、近似値の計算</span></li>
+<li><a href="06-gradient.html"><span class="no">第6回</span><span class="ti">方向微分と勾配</span></a><span class="ds">方向微分係数 D_u f = ∇f·u、勾配ベクトルの意味、等高線の接線と法線</span></li>
+<li><a href="07-extremum.html"><span class="no">第7回</span><span class="ti">極値問題</span></a><span class="ds">停留点 f_x=f_y=0、ヘッセ行列式による極大・極小・鞍点の判定</span></li>
+<li><a href="08-implicit-lagrange.html"><span class="no">第8回</span><span class="ti">陰関数定理, 条件付き極値問題</span></a><span class="ds">陰関数の存在と微分 dy/dx = −g_x/g_y、ラグランジュの未定乗数法</span></li>
+</ol>
+<p class="part">後半：2重積分</p>
+<ol class="idx">
+
+</ol>
+</main>
+</div>
+</body>
+</html>
