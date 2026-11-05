@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第3回 基底・次元・座標｜線形代数IIA</title>
+<style>
+:root{
+  --bg:#f7f6f2; --card:#ffffff; --fg:#1d2127; --muted:#5d6672; --line:#d8dbe0; --soft:#eef0f3;
+  --accent:#2453c9; --accent-soft:#e8eefc;
+  --def:#2453c9; --def-bg:#edf2fd;
+  --thm:#1d7f49; --thm-bg:#eaf6ef;
+  --warn:#b8620a; --warn-bg:#fdf3e4;
+  --bad:#c0392b; --bad-bg:#fbeceb; --good:#1d7f49; --good-bg:#e9f6ee;
+  --c1:#2453c9; --c2:#d0336a; --c3:#d9800b; --c4:#1d8a52; --c5:#7b4bc4;
+  --grid:#e3e5e9; --axis:#8a929c;
+  --mathfont:"Times New Roman","STIX Two Text","Cambria Math","Noto Serif",Times,serif;
+  color-scheme:light dark;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#14161a; --card:#1c1f24; --fg:#e5e7ea; --muted:#a2a9b3; --line:#363b43; --soft:#252930;
+    --accent:#7ea3ff; --accent-soft:#1f2a44;
+    --def:#7ea3ff; --def-bg:#1a2338;
+    --thm:#5fcf8f; --thm-bg:#16291e;
+    --warn:#f0a54a; --warn-bg:#2e2412;
+    --bad:#ff7b6e; --bad-bg:#341b19; --good:#5fcf8f; --good-bg:#16291e;
+    --c1:#7ea3ff; --c2:#ff6f9c; --c3:#f5a742; --c4:#5fcf8f; --c5:#b58cff;
+    --grid:#2a2f36; --axis:#6b737e;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);
+  font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP","Yu Gothic UI","Yu Gothic","Meiryo",system-ui,sans-serif;
+  font-size:16.5px;line-height:1.85;}
+.wrap{max-width:860px;margin:0 auto;padding:24px 16px 64px}
+a{color:var(--accent)}
+header.top{margin-bottom:28px}
+.crumb{font-size:.85rem;color:var(--muted);letter-spacing:.04em}
+h1{font-size:1.75rem;line-height:1.4;margin:.2em 0 .4em}
+.lead{color:var(--muted);margin:0 0 1em}
+.toc{display:flex;flex-wrap:wrap;gap:6px 8px;font-size:.88rem}
+.toc a{display:inline-block;padding:3px 10px;border:1px solid var(--line);border-radius:999px;text-decoration:none;color:var(--fg);background:var(--card)}
+.toc a:hover{border-color:var(--accent);color:var(--accent)}
+.toc a.demo-link{border-color:var(--accent);color:var(--accent)}
+section{margin:0 0 40px}
+h2{font-size:1.35rem;margin:0 0 .7em;padding-bottom:.3em;border-bottom:2px solid var(--line)}
+h3{font-size:1.08rem;margin:1.6em 0 .5em}
+p{margin:.6em 0}
+ul,ol{padding-left:1.4em;margin:.5em 0}
+li{margin:.2em 0}
+strong{color:var(--fg)}
+.muted{color:var(--muted)}
+.small{font-size:.88rem}
+
+/* ---- 数式 ---- */
+.doc i,.mi,.dm i,.box i{font-family:var(--mathfont);font-style:italic;font-size:1.08em}
+.vec{font-family:var(--mathfont);font-weight:700;font-style:italic;font-size:1.08em}
+.rm{font-family:var(--mathfont);font-style:normal}
+.dm{display:block;text-align:center;margin:.9em 0;overflow-x:auto;overflow-y:hidden;padding:.25em 0;line-height:1.6}
+.dm.left{text-align:left}
+.eqs{display:grid;grid-template-columns:auto auto;justify-content:center;column-gap:.4em;row-gap:.25em;align-items:center}
+.eqs>span:nth-child(odd){text-align:right}
+.eqs>span:nth-child(even){text-align:left}
+.frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;margin:0 .12em;line-height:1.15;font-size:.9em}
+.frac>span:first-child{border-bottom:1px solid currentColor;padding:0 .2em .05em}
+.frac>span:last-child{padding:.05em .2em 0}
+.mat{display:inline-flex;vertical-align:middle;align-items:stretch;margin:.1em .15em;line-height:1.35}
+.mat::before,.mat::after{content:"";width:.32em;border:1.4px solid currentColor;flex:none}
+.mat::before{border-right:none}
+.mat::after{border-left:none}
+.mat.det::before,.mat.det::after{border-top:none;border-bottom:none;width:.18em}
+.mat.det::after{border-right-width:1.4px}
+.mat>.g{display:grid;grid-template-columns:repeat(var(--c),auto);column-gap:.75em;row-gap:.12em;padding:.2em .35em;align-items:center;justify-items:center}
+.mat .hl{background:var(--accent-soft);border-radius:4px;padding:0 .2em;outline:1px solid var(--accent)}
+.mat .pv{color:var(--c2);font-weight:700}
+.nw{display:inline-block;max-width:100%;text-indent:0}
+
+/* ---- 枠 ---- */
+.box{border:1.5px solid var(--line);border-left-width:6px;border-radius:10px;padding:12px 16px;margin:18px 0;background:var(--card)}
+.box-t{font-weight:700;margin-bottom:.3em}
+.box.def{border-color:var(--def);background:var(--def-bg)}
+.box.def .box-t{color:var(--def)}
+.box.thm{border-color:var(--thm);background:var(--thm-bg)}
+.box.thm .box-t{color:var(--thm)}
+.box.warn{border-color:var(--warn);background:var(--warn-bg)}
+.box.warn .box-t{color:var(--warn)}
+.box.note{border-color:var(--line);border-left-color:var(--muted)}
+.box ol,.box ul{margin:.3em 0}
+.ax{display:grid;grid-template-columns:auto 1fr;column-gap:.8em;row-gap:.15em;margin:.4em 0}
+.ax>b{font-weight:700;white-space:nowrap}
+.ex{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:16px 0}
+.ex-t{font-weight:700;color:var(--accent);margin-bottom:.2em}
+.mis{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:14px 0}
+.mis .bad,.mis .good{border-radius:6px;padding:6px 10px;margin:.4em 0}
+.mis .bad{background:var(--bad-bg)}
+.mis .good{background:var(--good-bg)}
+.mis .bad::before{content:"✗ よくある誤り　";color:var(--bad);font-weight:700}
+.mis .good::before{content:"✓ 正しくは　";color:var(--good);font-weight:700}
+.prob{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:16px 0}
+.prob-t{font-weight:700;margin-bottom:.2em}
+details{margin-top:10px;border-top:1px dashed var(--line);padding-top:8px}
+summary{cursor:pointer;color:var(--accent);font-weight:700;list-style:none;display:inline-block;padding:4px 12px;border:1px solid var(--accent);border-radius:999px;font-size:.92rem}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▶ ";font-size:.8em}
+details[open] summary::before{content:"▼ "}
+details[open] summary{margin-bottom:8px}
+.check{color:var(--muted);font-size:.92rem}
+
+/* ---- デモ ---- */
+.demo{border:2px solid var(--accent);border-radius:14px;padding:14px 16px 16px;margin:22px 0;background:var(--card)}
+.demo-t{font-weight:700;color:var(--accent);font-size:1.05rem;margin-bottom:.3em}
+.demo-t::before{content:"▶ 動かしてみよう　"}
+.demo-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:700px){.demo-grid{grid-template-columns:minmax(0,1fr)}}
+.plot{width:100%;max-width:440px;aspect-ratio:1/1;display:block;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:10px;touch-action:none;user-select:none;-webkit-user-select:none;overflow:hidden}
+.plot text{font-family:var(--mathfont);font-style:italic}
+.ctrl{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin:8px 0}
+.ctrl label{display:inline-flex;align-items:center;gap:6px}
+select,button,input{font:inherit;color:inherit}
+select{max-width:100%;min-width:0}
+.ctrl label{flex-wrap:wrap;max-width:100%}
+select,input[type=text],input:not([type]){background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:3px 6px}
+button{background:var(--accent-soft);color:var(--accent);border:1px solid var(--accent);border-radius:8px;padding:4px 12px;cursor:pointer;font-size:.92rem}
+button:hover{background:var(--accent);color:var(--card)}
+button.on{background:var(--accent);color:var(--card)}
+input[type=range]{accent-color:var(--accent);width:150px;max-width:100%}
+input.num{width:3.6em;text-align:center;padding:2px 2px}
+input.bad{border-color:var(--bad);background:var(--bad-bg)}
+.minput{display:inline-flex;vertical-align:middle;margin:2px 4px}
+.minput::before,.minput::after{content:"";width:.4em;border:1.5px solid currentColor;flex:none}
+.minput::before{border-right:none}.minput::after{border-left:none}
+.minput>.g{display:grid;grid-template-columns:repeat(var(--c),auto);gap:4px;padding:4px}
+.out{background:var(--soft);border-radius:10px;padding:10px 12px;margin:10px 0;overflow-x:auto}
+.out .row{margin:.3em 0}
+.ok{color:var(--good);font-weight:700}
+.ng{color:var(--bad);font-weight:700}
+.tag{display:inline-block;padding:1px 10px;border-radius:999px;font-weight:700;font-size:.92rem}
+.tag.ok{background:var(--good-bg)}
+.tag.ng{background:var(--bad-bg)}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.88rem;color:var(--muted);margin:6px 0}
+.legend span::before{content:"";display:inline-block;width:12px;height:4px;border-radius:2px;background:var(--k);margin-right:5px;vertical-align:middle}
+table.t{border-collapse:collapse;margin:8px 0;font-size:.95rem}
+table.t th,table.t td{border:1px solid var(--line);padding:4px 10px;text-align:center}
+table.t th{background:var(--soft)}
+.tablewrap{overflow-x:auto}
+footer.pn{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:16px;margin-top:40px;font-size:.92rem}
+footer.pn a{text-decoration:none}
+@media (max-width:520px){
+  body{font-size:15.5px}
+  h1{font-size:1.45rem}
+  .box,.ex,.mis,.prob,.demo{padding:10px 12px}
+}
+.sl{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:4px 14px}
+.sl label{display:flex;align-items:center;gap:6px}
+.sl input[type=range]{flex:1;min-width:0;width:auto}
+.sv{min-width:2.8em;text-align:right;font-variant-numeric:tabular-nums}
+.demo-grid.eq{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+@media (max-width:700px){.demo-grid.eq{grid-template-columns:minmax(0,1fr)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+<div class="crumb">線形代数IIA ・ 第3回</div>
+<h1>基底・次元・座標</h1>
+<p class="lead">基底は空間の「ものさし（座標軸）」の選び方、次元はそのものさしの本数です。同じベクトルでも、基底を変えると座標の数値が変わります。</p>
+<nav class="toc" aria-label="目次"><a href="#s1">1. 何の話か（直感）</a><a href="#s2">2. 定義</a><a href="#s3">3. 具体例</a><a href="#s4">4. よくある間違い</a><a href="#s5">5. 練習問題</a><a class="demo-link" href="#demo">▶ 動かしてみよう</a></nav>
+</header>
+<main class="doc">
+<section id="s1">
+<h2>1. 何の話か（直感）</h2>
+<p>平面上の点を (3, 1) のように2つの数で表せるのは、「<i>x</i> 方向に1目盛り」「<i>y</i> 方向に1目盛り」という2本のものさし <span class="nw"><b class="vec">e</b><sub>1</sub> = (1, 0)</span>, <span class="nw"><b class="vec">e</b><sub>2</sub> = (0, 1)</span> を決めているからです。</p>
+<p>しかし、ものさしは斜めでも、長さがばらばらでも構いません。条件は次の2つだけです。</p>
+<ul>
+<li><strong>むだがない</strong>（一次独立）：どのものさしも、ほかのものさしで代用できない</li>
+<li><strong>足りている</strong>（生成する）：空間のどのベクトルも、ものさしの組み合わせで表せる</li>
+</ul>
+<p>この2条件を満たすものさしの組を<strong>基底</strong>、その本数を<strong>次元</strong>といいます。ℝ² の基底はどう選んでも必ず2本です。そして、ベクトルを基底の組み合わせで表したときの係数が<strong>座標</strong>です。同じ矢印でも、ものさしを変えれば座標は変わります。下の図で確かめましょう。</p>
+
+<div class="demo" id="demo">
+<div class="demo-t">基底を変えると座標が変わる</div>
+<p class="small">基底を選ぶと、その基底の「斜めの方眼」が表示されます。<span style="color:var(--c5)">●<b class="vec">x</b></span> をドラッグしてベクトルを変えられます。<span style="color:var(--c1)">●<b class="vec">b</b><sub>1</sub></span>, <span style="color:var(--c2)">●<b class="vec">b</b><sub>2</sub></span> をドラッグすると、自分で基底を決められます。</p>
+<div class="ctrl"><label>基底：<select id="bsel"></select></label></div>
+<div class="demo-grid">
+<div><svg class="plot" id="pl" role="img" aria-label="基底と座標の図"></svg>
+<div class="legend"><span style="--k:var(--c1)">b₁ 方向</span><span style="--k:var(--c2)">b₂ 方向</span><span style="--k:var(--c5)">x</span></div></div>
+<div><div class="out" id="res"></div><div class="tablewrap" id="tbl"></div></div>
+</div>
+</div>
+</section>
+
+<section id="s2">
+<h2>2. 定義</h2>
+<div class="box def">
+<div class="box-t">定義 1（生成する部分空間）</div>
+<p><b class="vec">a</b><sub>1</sub>, …, <b class="vec">a</b><sub><i>k</i></sub> の一次結合全体</p>
+<div class="dm">⟨<b class="vec">a</b><sub>1</sub>, …, <b class="vec">a</b><sub><i>k</i></sub>⟩ = { <i>c</i><sub>1</sub><b class="vec">a</b><sub>1</sub> + ⋯ + <i>c</i><sub><i>k</i></sub><b class="vec">a</b><sub><i>k</i></sub> | <i>c</i><sub><i>i</i></sub> ∈ ℝ }</div>
+<p>は部分空間です。これを <b class="vec">a</b><sub>1</sub>, …, <b class="vec">a</b><sub><i>k</i></sub> が<strong>生成する（張る）部分空間</strong>といいます。<span class="nw"><i>V</i> = ⟨<b class="vec">a</b><sub>1</sub>, …, <b class="vec">a</b><sub><i>k</i></sub>⟩</span> のとき、<b class="vec">a</b><sub>1</sub>, …, <b class="vec">a</b><sub><i>k</i></sub> は <i>V</i> を<strong>生成する</strong>といいます。</p>
+</div>
+<div class="box def">
+<div class="box-t">定義 2（基底）</div>
+<p>線形空間 <i>V</i> のベクトルの組 <span class="nw">(<b class="vec">b</b><sub>1</sub>, …, <b class="vec">b</b><sub><i>n</i></sub>)</span> が次の2条件を満たすとき、<i>V</i> の<strong>基底</strong>といいます。</p>
+<div class="ax">
+<b>(B1)</b><span><b class="vec">b</b><sub>1</sub>, …, <b class="vec">b</b><sub><i>n</i></sub> は<strong>一次独立</strong>である</span>
+<b>(B2)</b><span><b class="vec">b</b><sub>1</sub>, …, <b class="vec">b</b><sub><i>n</i></sub> は <i>V</i> を<strong>生成する</strong></span>
+</div>
+</div>
+<div class="box thm">
+<div class="box-t">定理 1（次元）</div>
+<p><i>V</i> の基底に含まれるベクトルの本数は、基底の選び方によらず一定です。この本数を <i>V</i> の<strong>次元</strong>といい、<span class="nw">dim <i>V</i></span> と書きます。ただし <span class="nw">dim { <b class="vec">0</b> } = 0</span> と約束します。</p>
+</div>
+<div class="box def">
+<div class="box-t">定義 3（座標）</div>
+<p>(<b class="vec">b</b><sub>1</sub>, …, <b class="vec">b</b><sub><i>n</i></sub>) を <i>V</i> の基底とすると、各 <b class="vec">v</b> ∈ <i>V</i> は</p>
+<div class="dm"><b class="vec">v</b> = <i>x</i><sub>1</sub><b class="vec">b</b><sub>1</sub> + <i>x</i><sub>2</sub><b class="vec">b</b><sub>2</sub> + ⋯ + <i>x</i><sub><i>n</i></sub><b class="vec">b</b><sub><i>n</i></sub></div>
+<p>と<strong>ただ1通りに</strong>表せます。この係数を並べた <span class="nw"><sup>t</sup>(<i>x</i><sub>1</sub>, …, <i>x</i><sub><i>n</i></sub>) ∈ ℝⁿ</span> を、基底に関する <b class="vec">v</b> の<strong>座標</strong>（座標ベクトル）といいます。</p>
+<p class="small muted">1通りである理由：2通り <span class="nw">Σ<i>x</i><sub><i>i</i></sub><b class="vec">b</b><sub><i>i</i></sub> = Σ<i>y</i><sub><i>i</i></sub><b class="vec">b</b><sub><i>i</i></sub></span> に書けたとすると <span class="nw">Σ(<i>x</i><sub><i>i</i></sub> − <i>y</i><sub><i>i</i></sub>)<b class="vec">b</b><sub><i>i</i></sub> = <b class="vec">0</b></span>。一次独立なので <span class="nw"><i>x</i><sub><i>i</i></sub> = <i>y</i><sub><i>i</i></sub></span>。</p>
+</div>
+<div class="box thm">
+<div class="box-t">定理 2（次元がわかっているとき）</div>
+<p><span class="nw">dim <i>V</i> = <i>n</i></span> とします。<i>V</i> の <i>n</i> 本のベクトルについて、</p>
+<div class="dm">一次独立である　⇔　<i>V</i> を生成する　⇔　基底である</div>
+<p>つまり本数が次元と一致していれば、(B1) と (B2) の<strong>片方を確かめるだけ</strong>で基底だとわかります。特に ℝⁿ の <i>n</i> 本は「列に並べた行列の行列式 ≠ 0」なら基底です。</p>
+</div>
+</section>
+
+<section id="s3">
+<h2>3. 具体例</h2>
+<div class="ex">
+<div class="ex-t">例 1：ℝⁿ の標準基底</div>
+<p><span class="nw"><b class="vec">e</b><sub>1</sub> = (1, 0, …, 0)</span>, …, <span class="nw"><b class="vec">e</b><sub><i>n</i></sub> = (0, …, 0, 1)</span> は ℝⁿ の基底（<strong>標準基底</strong>）で、<span class="nw">dim ℝⁿ = <i>n</i></span>。標準基底に関する座標は、ベクトルの成分そのものです。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 2：ℝ² の別の基底と座標</div>
+<p><span class="nw"><b class="vec">b</b><sub>1</sub> = (1, 1)</span>, <span class="nw"><b class="vec">b</b><sub>2</sub> = (−1, 1)</span> は <span class="nw">det <span class="mat"><span class="g" style="--c:2"><span>1</span><span>−1</span><span>1</span><span>1</span></span></span> = 2 ≠ 0</span> なので基底です（定理2）。<span class="nw"><b class="vec">v</b> = (3, 1)</span> の座標を求めるには <span class="nw"><i>x</i><sub>1</sub><b class="vec">b</b><sub>1</sub> + <i>x</i><sub>2</sub><b class="vec">b</b><sub>2</sub> = <b class="vec">v</b></span> を解きます。</p>
+<div class="dm"><span class="eqs"><span><i>x</i><sub>1</sub> − <i>x</i><sub>2</sub></span><span>= 3</span><span><i>x</i><sub>1</sub> + <i>x</i><sub>2</sub></span><span>= 1</span></span>　⇒　<i>x</i><sub>1</sub> = 2,　<i>x</i><sub>2</sub> = −1</div>
+<p>よってこの基底に関する座標は <span class="nw">(2, −1)</span> です。標準基底での座標 (3, 1) とは違う数になります。</p>
+<p class="check">確認：<span class="nw">2(1, 1) − (−1, 1) = (3, 1)</span>。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 3：多項式の空間</div>
+<p>ℝ[<i>x</i>]<sub>2</sub> の基底として (1, <i>x</i>, <i>x</i>²) がとれるので <span class="nw">dim ℝ[<i>x</i>]<sub>2</sub> = 3</span>（一般に <span class="nw">dim ℝ[<i>x</i>]<sub><i>n</i></sub> = <i>n</i> + 1</span>）。<span class="nw"><i>f</i> = 3 − <i>x</i> + 2<i>x</i>²</span> の座標は (3, −1, 2) です。</p>
+<p>別の基底 (1, <i>x</i> − 1, (<i>x</i> − 1)²) をとると、<span class="nw"><i>x</i>² = 1 + 2(<i>x</i> − 1) + (<i>x</i> − 1)²</span> なので、<i>x</i>² の座標は (0, 0, 1) から (1, 2, 1) に変わります。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 4：行列の空間</div>
+<p><i>M</i><sub>2</sub>(ℝ) の基底として</p>
+<div class="dm"><i>E</i><sub>11</sub> = <span class="mat"><span class="g" style="--c:2"><span>1</span><span>0</span><span>0</span><span>0</span></span></span>,　<i>E</i><sub>12</sub> = <span class="mat"><span class="g" style="--c:2"><span>0</span><span>1</span><span>0</span><span>0</span></span></span>,　<i>E</i><sub>21</sub> = <span class="mat"><span class="g" style="--c:2"><span>0</span><span>0</span><span>1</span><span>0</span></span></span>,　<i>E</i><sub>22</sub> = <span class="mat"><span class="g" style="--c:2"><span>0</span><span>0</span><span>0</span><span>1</span></span></span></div>
+<p>がとれるので <span class="nw">dim <i>M</i><sub>2</sub>(ℝ) = 4</span>。<span class="nw"><span class="mat"><span class="g" style="--c:2"><span><i>a</i></span><span><i>b</i></span><span><i>c</i></span><span><i>d</i></span></span></span> = <i>aE</i><sub>11</sub> + <i>bE</i><sub>12</sub> + <i>cE</i><sub>21</sub> + <i>dE</i><sub>22</sub></span> です。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 5：部分空間の基底と次元</div>
+<p><span class="nw"><i>W</i> = { <b class="vec">x</b> ∈ ℝ³ | <i>x</i><sub>1</sub> + 2<i>x</i><sub>2</sub> − <i>x</i><sub>3</sub> = 0 }</span>。<span class="nw"><i>x</i><sub>3</sub> = <i>x</i><sub>1</sub> + 2<i>x</i><sub>2</sub></span> なので、<i>x</i><sub>1</sub> = <i>s</i>, <i>x</i><sub>2</sub> = <i>t</i> とおくと</p>
+<div class="dm"><b class="vec">x</b> = <span class="mat"><span class="g" style="--c:1"><span><i>s</i></span><span><i>t</i></span><span><i>s</i> + 2<i>t</i></span></span></span> = <i>s</i><span class="mat"><span class="g" style="--c:1"><span>1</span><span>0</span><span>1</span></span></span> + <i>t</i><span class="mat"><span class="g" style="--c:1"><span>0</span><span>1</span><span>2</span></span></span></div>
+<p>この2本は <i>W</i> を生成し、第1・第2成分を見れば一次独立です。よって基底は (1, 0, 1), (0, 1, 2) で、<span class="nw">dim <i>W</i> = 2</span>（平面）です。</p>
+</div>
+</section>
+
+<section id="s4">
+<h2>4. よくある間違い</h2>
+<div class="mis">
+<p class="bad">(1, 0), (0, 1), (1, 1) は ℝ² を生成するので基底である。</p>
+<p class="good">生成はしますが、(1, 1) = (1, 0) + (0, 1) なので一次独立ではありません。基底は<strong>独立かつ生成</strong>の両方が必要です。ℝ² の基底は必ず2本です。</p>
+</div>
+<div class="mis">
+<p class="bad">ベクトル (3, 1) の座標は、どんな基底でも (3, 1) である。</p>
+<p class="good">(3, 1) は<strong>標準基底</strong>に関する座標です。基底 ((1, 1), (−1, 1)) に関する座標は (2, −1) です。座標は基底を決めて初めて決まります。</p>
+</div>
+<div class="mis">
+<p class="bad">基底 (<b class="vec">b</b><sub>1</sub>, <b class="vec">b</b><sub>2</sub>) と (<b class="vec">b</b><sub>2</sub>, <b class="vec">b</b><sub>1</sub>) は同じなので、座標も同じ。</p>
+<p class="good">座標を考えるときの基底は<strong>順番つき</strong>です。順番を入れ替えると座標の成分も入れ替わります。</p>
+</div>
+<div class="mis">
+<p class="bad">ℝ³ の中の、式1本で定まる部分空間 <i>W</i> は「式が1本だから1次元」。</p>
+<p class="good">式は自由度を<strong>減らす</strong>ものです。独立な式が1本なら <span class="nw">dim <i>W</i> = 3 − 1 = 2</span>。基底を実際に求めて本数を数えるのが確実です。</p>
+</div>
+<div class="mis">
+<p class="bad">零空間 { <b class="vec">0</b> } の基底は <b class="vec">0</b> なので、次元は 1。</p>
+<p class="good"><b class="vec">0</b> だけの組は一次従属なので基底になれません。{ <b class="vec">0</b> } の基底は空集合で、<span class="nw">dim { <b class="vec">0</b> } = 0</span> です。</p>
+</div>
+</section>
+
+<section id="s5">
+<h2>5. 練習問題</h2>
+<div class="prob">
+<div class="prob-t">問題 1</div>
+<p><span class="nw"><b class="vec">b</b><sub>1</sub> = (1, 2)</span>, <span class="nw"><b class="vec">b</b><sub>2</sub> = (3, 4)</span> が ℝ² の基底であることを確かめ、<span class="nw"><b class="vec">v</b> = (5, 6)</span> のこの基底に関する座標を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p><span class="nw">det <span class="mat"><span class="g" style="--c:2"><span>1</span><span>3</span><span>2</span><span>4</span></span></span> = 4 − 6 = −2 ≠ 0</span> なので、2本は一次独立で、ℝ² の基底です（定理2）。</p>
+<div class="dm"><span class="eqs"><span><i>x</i><sub>1</sub> + 3<i>x</i><sub>2</sub></span><span>= 5</span><span>2<i>x</i><sub>1</sub> + 4<i>x</i><sub>2</sub></span><span>= 6</span></span>　⇒　<i>x</i><sub>1</sub> = −1,　<i>x</i><sub>2</sub> = 2</div>
+<p>座標は <strong>(−1, 2)</strong>。</p>
+<p class="check">確認：<span class="nw">−(1, 2) + 2(3, 4) = (5, 6)</span>。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 2</div>
+<p><span class="nw"><i>W</i> = { <b class="vec">x</b> ∈ ℝ⁴ | <i>x</i><sub>1</sub> + <i>x</i><sub>2</sub> + <i>x</i><sub>3</sub> + <i>x</i><sub>4</sub> = 0,　<i>x</i><sub>1</sub> − <i>x</i><sub>2</sub> = 0 }</span> の基底と次元を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>2式目から <i>x</i><sub>2</sub> = <i>x</i><sub>1</sub>。1式目に入れて <span class="nw"><i>x</i><sub>4</sub> = −2<i>x</i><sub>1</sub> − <i>x</i><sub>3</sub></span>。<i>x</i><sub>1</sub> = <i>s</i>, <i>x</i><sub>3</sub> = <i>t</i> とおくと</p>
+<div class="dm"><b class="vec">x</b> = <span class="mat"><span class="g" style="--c:1"><span><i>s</i></span><span><i>s</i></span><span><i>t</i></span><span>−2<i>s</i> − <i>t</i></span></span></span> = <i>s</i><span class="mat"><span class="g" style="--c:1"><span>1</span><span>1</span><span>0</span><span>−2</span></span></span> + <i>t</i><span class="mat"><span class="g" style="--c:1"><span>0</span><span>0</span><span>1</span><span>−1</span></span></span></div>
+<p>この2本は <i>W</i> を生成し、第1・第3成分を見れば一次独立です。よって基底は <span class="nw">(1, 1, 0, −2), (0, 0, 1, −1)</span>、<strong>dim <i>W</i> = 2</strong>。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 3</div>
+<p>ℝ[<i>x</i>]<sub>2</sub> の基底 (1, 1 + <i>x</i>, 1 + <i>x</i> + <i>x</i>²) に関する、<span class="nw"><i>f</i> = 3 − <i>x</i> + 2<i>x</i>²</span> の座標を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p><span class="nw"><i>a</i> · 1 + <i>b</i>(1 + <i>x</i>) + <i>c</i>(1 + <i>x</i> + <i>x</i>²) = (<i>a</i> + <i>b</i> + <i>c</i>) + (<i>b</i> + <i>c</i>)<i>x</i> + <i>cx</i>²</span> を <i>f</i> と比べて</p>
+<div class="dm"><i>c</i> = 2,　<i>b</i> + <i>c</i> = −1,　<i>a</i> + <i>b</i> + <i>c</i> = 3　⇒　<i>a</i> = 4,　<i>b</i> = −3,　<i>c</i> = 2</div>
+<p>座標は <strong>(4, −3, 2)</strong>。</p>
+<p class="check">確認：<span class="nw">4 − 3(1 + <i>x</i>) + 2(1 + <i>x</i> + <i>x</i>²) = 3 − <i>x</i> + 2<i>x</i>²</span>。</p>
+</details>
+</div>
+</section>
+</main>
+<footer class="pn"><a href="02-linear-independence.html">← 第2回 一次独立と一次従属</a><a href="04-change-of-basis.html">第4回 基底変換と座標変換 →</a></footer>
+</div>
+<script>
+"use strict";
+/* ===== 有理数（分数を誤差なく計算する） ===== */
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){const t=a%b;a=b;b=t;}return a;}
+class Q{
+  constructor(n,d=1){
+    if(d===0) throw new Error("division by zero");
+    if(d<0){n=-n;d=-d;}
+    const g=gcd(n,d)||1; this.n=n/g; this.d=d/g;
+    if(this.n===0) this.n=0; // -0 を避ける
+  }
+  static of(x){return x instanceof Q?x:new Q(x,1);}
+  static parse(s){
+    s=String(s).trim().replace(/[−ー－–]/g,"-").replace(/＋/g,"+").replace(/／/g,"/");
+    if(s==="") return null;
+    let m=s.match(/^([+-]?\d+)\s*\/\s*([+-]?\d+)$/);
+    if(m){const d=parseInt(m[2],10); if(d===0) return null; return new Q(parseInt(m[1],10),d);}
+    m=s.match(/^([+-]?)(\d*)(?:\.(\d+))?$/);
+    if(m&&(m[2]||m[3])){
+      const k=(m[3]||"").length, den=Math.pow(10,k);
+      const num=parseInt((m[2]||"0")+(m[3]||""),10)*(m[1]==="-"?-1:1);
+      return new Q(num,den);
+    }
+    return null;
+  }
+  add(o){o=Q.of(o);return new Q(this.n*o.d+o.n*this.d,this.d*o.d);}
+  sub(o){o=Q.of(o);return new Q(this.n*o.d-o.n*this.d,this.d*o.d);}
+  mul(o){o=Q.of(o);return new Q(this.n*o.n,this.d*o.d);}
+  div(o){o=Q.of(o);return new Q(this.n*o.d,this.d*o.n);}
+  neg(){return new Q(-this.n,this.d);}
+  isZero(){return this.n===0;}
+  eq(o){o=Q.of(o);return this.n===o.n&&this.d===o.d;}
+  val(){return this.n/this.d;}
+  str(){const s=this.n<0?"−":"";const a=Math.abs(this.n);return this.d===1?s+a:s+a+"/"+this.d;}
+  html(){
+    const s=this.n<0?"−":""; const a=Math.abs(this.n);
+    if(this.d===1) return s+a;
+    return s+'<span class="frac"><span>'+a+'</span><span>'+this.d+'</span></span>';
+  }
+}
+const q=(n,d=1)=>new Q(n,d);
+const toQ=x=>x instanceof Q?x:(typeof x==="number"?numToQ(x):Q.parse(x));
+function numToQ(x){ // 小数→分数（小さい分母で近似）
+  if(Number.isInteger(x)) return q(x);
+  for(let d=2;d<=1000;d++){const n=Math.round(x*d); if(Math.abs(n/d-x)<1e-9) return q(n,d);}
+  return q(Math.round(x*1e6),1e6);
+}
+
+/* ===== 行列（Q の2次元配列） ===== */
+const LA={
+  Qm(A){return A.map(r=>r.map(toQ));},
+  clone(A){return A.map(r=>r.slice());},
+  id(n){return Array.from({length:n},(_,i)=>Array.from({length:n},(_,j)=>q(i===j?1:0)));},
+  T(A){return A[0].map((_,j)=>A.map(r=>r[j]));},
+  col(A,j){return A.map(r=>r[j]);},
+  fromCols(cols){return cols[0].map((_,i)=>cols.map(c=>c[i]));},
+  mul(A,B){return A.map(r=>B[0].map((_,j)=>r.reduce((s,a,k)=>s.add(a.mul(B[k][j])),q(0))));},
+  mv(A,x){return A.map(r=>r.reduce((s,a,k)=>s.add(a.mul(x[k])),q(0)));},
+  isZeroVec(x){return x.every(v=>v.isZero());},
+  rref(A0){
+    const A=LA.clone(A0), m=A.length, n=A[0].length, piv=[]; let r=0;
+    for(let c=0;c<n&&r<m;c++){
+      let p=-1; for(let i=r;i<m;i++){if(!A[i][c].isZero()){p=i;break;}}
+      if(p<0) continue;
+      [A[r],A[p]]=[A[p],A[r]];
+      const k=A[r][c]; A[r]=A[r].map(v=>v.div(k));
+      for(let i=0;i<m;i++){ if(i!==r&&!A[i][c].isZero()){const f=A[i][c]; A[i]=A[i].map((v,j)=>v.sub(f.mul(A[r][j])));} }
+      piv.push(c); r++;
+    }
+    return {R:A,piv};
+  },
+  rank(A){return LA.rref(A).piv.length;},
+  nullspace(A){
+    const {R,piv}=LA.rref(A), n=A[0].length, free=[];
+    for(let j=0;j<n;j++) if(!piv.includes(j)) free.push(j);
+    return free.map(f=>{
+      const x=Array.from({length:n},()=>q(0)); x[f]=q(1);
+      piv.forEach((p,i)=>{x[p]=R[i][f].neg();});
+      // 分母を払って整数ベクトルに
+      let L=1; x.forEach(v=>{L=L/gcd(L,v.d)*v.d;});
+      const y=x.map(v=>v.mul(L)); let G=0; y.forEach(v=>{G=gcd(G,v.n);});
+      return G>1?y.map(v=>v.div(G)):y;
+    });
+  },
+  det(A0){
+    const A=LA.clone(A0), n=A.length; let d=q(1);
+    for(let c=0;c<n;c++){
+      let p=-1; for(let i=c;i<n;i++) if(!A[i][c].isZero()){p=i;break;}
+      if(p<0) return q(0);
+      if(p!==c){[A[c],A[p]]=[A[p],A[c]]; d=d.neg();}
+      d=d.mul(A[c][c]);
+      for(let i=c+1;i<n;i++){const f=A[i][c].div(A[c][c]); A[i]=A[i].map((v,j)=>v.sub(f.mul(A[c][j])));}
+    }
+    return d;
+  },
+  inv(A){
+    const n=A.length, M=A.map((r,i)=>r.concat(LA.id(n)[i]));
+    const {R,piv}=LA.rref(M);
+    if(piv.length<n||piv[n-1]!==n-1) return null;
+    return R.map(r=>r.slice(n));
+  }
+};
+
+/* ===== HTML 生成 ===== */
+const H=x=>(x instanceof Q)?x.html():(typeof x==="number"?toQ(x).html():String(x));
+function matHTML(A,opt={}){
+  const c=A[0].length; let s='<span class="mat'+(opt.det?' det':'')+'"><span class="g" style="--c:'+c+'">';
+  A.forEach((r,i)=>r.forEach((v,j)=>{
+    const cls=opt.cls?opt.cls(i,j):"";
+    s+='<span'+(cls?' class="'+cls+'"':'')+'>'+H(v)+'</span>';
+  }));
+  return s+'</span></span>';
+}
+const vecHTML=(x,opt)=>matHTML(x.map(v=>[v]),opt);
+const rowVecHTML=x=>"("+x.map(H).join(", ")+")";
+
+/* ===== 行列の入力欄 ===== */
+function matrixInput(container,m,n,values,onchange){
+  container.innerHTML=""; const wrap=document.createElement("span"); wrap.className="minput";
+  const g=document.createElement("span"); g.className="g"; g.style.setProperty("--c",n); wrap.appendChild(g);
+  const inputs=[];
+  for(let i=0;i<m;i++){inputs.push([]);for(let j=0;j<n;j++){
+    const inp=document.createElement("input"); inp.className="num"; inp.setAttribute("inputmode","text");
+    inp.setAttribute("aria-label",(i+1)+"行"+(j+1)+"列"); inp.autocomplete="off";
+    const v=values&&values[i]&&values[i][j]!==undefined?values[i][j]:0;
+    inp.value=(v instanceof Q)?v.str().replace("−","-"):String(v);
+    inp.addEventListener("input",()=>{onchange&&onchange();});
+    g.appendChild(inp); inputs[i].push(inp);
+  }}
+  container.appendChild(wrap);
+  return {
+    get(){let ok=true; const A=inputs.map(r=>r.map(inp=>{const v=Q.parse(inp.value); inp.classList.toggle("bad",!v); if(!v) ok=false; return v;})); return ok?A:null;},
+    set(vals){inputs.forEach((r,i)=>r.forEach((inp,j)=>{const v=vals[i][j]; inp.value=(v instanceof Q)?v.str().replace("−","-"):String(v); inp.classList.remove("bad");}));}
+  };
+}
+
+/* ===== 平面の図（SVG） ===== */
+const SVGNS="http://www.w3.org/2000/svg";
+function sv(tag,attrs,parent,style){
+  const e=document.createElementNS(SVGNS,tag);
+  for(const k in attrs) e.setAttribute(k,attrs[k]);
+  if(style) for(const k in style) e.style[k]=style[k];
+  if(parent) parent.appendChild(e); return e;
+}
+class Plane{
+  constructor(svg,opt={}){
+    this.svg=svg; this.R=opt.R||5; this.W=400; this.s=this.W/(2*this.R);
+    svg.setAttribute("viewBox","0 0 400 400");
+    this.gGrid=sv("g",{},svg); this.gMain=sv("g",{},svg); this.gTop=sv("g",{},svg);
+    this.handles=[]; if(opt.grid!==false) this.drawGrid();
+  }
+  X(x){return this.W/2+x*this.s;} Y(y){return this.W/2-y*this.s;}
+  drawGrid(){
+    const g=this.gGrid, R=this.R;
+    for(let k=-R;k<=R;k++){
+      sv("line",{x1:this.X(k),y1:0,x2:this.X(k),y2:this.W,"stroke-width":1},g,{stroke:"var(--grid)"});
+      sv("line",{x1:0,y1:this.Y(k),x2:this.W,y2:this.Y(k),"stroke-width":1},g,{stroke:"var(--grid)"});
+    }
+    sv("line",{x1:0,y1:this.Y(0),x2:this.W,y2:this.Y(0),"stroke-width":1.5},g,{stroke:"var(--axis)"});
+    sv("line",{x1:this.X(0),y1:0,x2:this.X(0),y2:this.W,"stroke-width":1.5},g,{stroke:"var(--axis)"});
+    this.text([R-0.35,0.35],"x","var(--axis)",{size:14,anchor:"end",layer:g});
+    this.text([0.3,R-0.55],"y","var(--axis)",{size:14,layer:g});
+    for(const k of [-R+1,R-1]){ if(k===0) continue;
+      this.text([k,-0.55],String(k).replace("-","−"),"var(--axis)",{size:11,anchor:"middle",italic:false,layer:g});
+      this.text([-0.25,k-0.12],String(k).replace("-","−"),"var(--axis)",{size:11,anchor:"end",italic:false,layer:g});
+    }
+  }
+  clear(){this.gMain.replaceChildren();}
+  line(p,r,color,o={}){
+    return sv("line",{x1:this.X(p[0]),y1:this.Y(p[1]),x2:this.X(r[0]),y2:this.Y(r[1]),"stroke-width":o.width||2,"stroke-linecap":"round"},o.layer||this.gMain,
+      {stroke:color,strokeDasharray:o.dash||"",opacity:o.opacity==null?1:o.opacity});
+  }
+  infLine(p,d,color,o={}){
+    const L=Math.hypot(d[0],d[1]); if(L<1e-12) return;
+    const t=4*this.R/L; return this.line([p[0]-t*d[0],p[1]-t*d[1]],[p[0]+t*d[0],p[1]+t*d[1]],color,o);
+  }
+  poly(pts,fill,o={}){
+    return sv("polygon",{points:pts.map(p=>this.X(p[0])+","+this.Y(p[1])).join(" ")},o.layer||this.gMain,
+      {fill:fill,fillOpacity:o.opacity==null?0.18:o.opacity,stroke:o.stroke||"none",strokeWidth:o.sw||1.5,strokeDasharray:o.dash||""});
+  }
+  circle(c,r,fill,o={}){
+    return sv("circle",{cx:this.X(c[0]),cy:this.Y(c[1]),r:r*this.s},o.layer||this.gMain,{fill:fill,fillOpacity:o.opacity==null?0.18:o.opacity,stroke:o.stroke||"none",strokeWidth:1.5});
+  }
+  arrow(p,r,color,o={}){
+    const x1=this.X(p[0]),y1=this.Y(p[1]),x2=this.X(r[0]),y2=this.Y(r[1]);
+    const L=Math.hypot(x2-x1,y2-y1), g=sv("g",{},o.layer||this.gMain,{opacity:o.opacity==null?1:o.opacity});
+    if(L<0.5){ sv("circle",{cx:x1,cy:y1,r:4},g,{fill:color}); }
+    else{
+      const ux=(x2-x1)/L,uy=(y2-y1)/L,h=Math.min(12,L*0.6),w=h*0.45;
+      sv("line",{x1,y1,x2:x2-ux*h*0.8,y2:y2-uy*h*0.8,"stroke-width":o.width||3,"stroke-linecap":"round"},g,{stroke:color,strokeDasharray:o.dash||""});
+      sv("polygon",{points:`${x2},${y2} ${x2-ux*h-uy*w},${y2-uy*h+ux*w} ${x2-ux*h+uy*w},${y2-uy*h-ux*w}`},g,{fill:color});
+    }
+    if(o.label){
+      const lx=x2+(o.ldx==null?8:o.ldx), ly=y2+(o.ldy==null?-8:o.ldy);
+      const t=sv("text",{x:lx,y:ly,"font-size":15,"font-weight":700},g,{fill:color,paintOrder:"stroke",stroke:"var(--card)",strokeWidth:"4px",strokeLinejoin:"round"});
+      t.innerHTML=o.label;
+    }
+    return g;
+  }
+  text(p,str,color,o={}){
+    const t=sv("text",{x:this.X(p[0])+(o.dx||0),y:this.Y(p[1])+(o.dy||0),"font-size":o.size||14,"text-anchor":o.anchor||"start"},o.layer||this.gMain,
+      {fill:color,fontStyle:o.italic===false?"normal":"italic",paintOrder:"stroke",stroke:"var(--card)",strokeWidth:"3px",strokeLinejoin:"round",fontWeight:o.bold?"700":"400"});
+    t.innerHTML=str; return t;
+  }
+  toWorld(ev){
+    const pt=this.svg.createSVGPoint(); pt.x=ev.clientX; pt.y=ev.clientY;
+    const p=pt.matrixTransform(this.svg.getScreenCTM().inverse());
+    return [(p.x-this.W/2)/this.s,(this.W/2-p.y)/this.s];
+  }
+  // ドラッグできる点：get() で現在位置、set([x,y]) で更新
+  handle(get,set,color,o={}){
+    const g=sv("g",{},this.gTop,{cursor:"grab"});
+    const hit=sv("circle",{r:20},g,{fill:"transparent"});
+    const dot=sv("circle",{r:8,"stroke-width":2.5},g,{fill:"var(--card)",stroke:color});
+    const snap=o.snap||1, R=this.R-0.3;
+    const h={sync:()=>{const p=get(); for(const c of [hit,dot]){c.setAttribute("cx",this.X(p[0]));c.setAttribute("cy",this.Y(p[1]));}}};
+    let drag=false;
+    g.addEventListener("pointerdown",e=>{drag=true;g.setPointerCapture(e.pointerId);g.style.cursor="grabbing";e.preventDefault();});
+    g.addEventListener("pointermove",e=>{ if(!drag) return;
+      let [x,y]=this.toWorld(e);
+      x=Math.max(-R,Math.min(R,Math.round(x/snap)*snap)); y=Math.max(-R,Math.min(R,Math.round(y/snap)*snap));
+      x=+x.toFixed(6); y=+y.toFixed(6);
+      const p=get(); if(p[0]!==x||p[1]!==y){ set([x,y]); }
+    });
+    const end=()=>{drag=false;g.style.cursor="grab";};
+    g.addEventListener("pointerup",end); g.addEventListener("pointercancel",end);
+    this.handles.push(h); h.sync(); return h;
+  }
+  syncHandles(){this.handles.forEach(h=>h.sync());}
+}
+// 一次結合の式  c1 a1 + c2 a2 + ...  （names は HTML の配列）
+function combHTML(cs,names){
+  let s="";
+  cs.forEach((c,i)=>{ c=toQ(c); if(c.isZero()) return;
+    const neg=c.n<0, a=neg?c.neg():c, co=a.eq(1)?"":a.html();
+    s+=(s===""?(neg?"−":""):(neg?" − ":" + "))+co+names[i];
+  });
+  return s===""?"0":s;
+}
+const fmt=x=>H(toQ(Math.abs(x)<1e-12?0:x));
+const $=s=>document.querySelector(s);
+
+</script>
+<script>
+const PRE=[
+  {name:"標準基底 e₁=(1,0), e₂=(0,1)",b:[[1,0],[0,1]]},
+  {name:"b₁=(1,1), b₂=(−1,1)",b:[[1,1],[-1,1]]},
+  {name:"b₁=(2,1), b₂=(1,2)",b:[[2,1],[1,2]]},
+  {name:"b₁=(1,0), b₂=(1,1)",b:[[1,0],[1,1]]},
+  {name:"自分で決める（図の点を動かす）",b:null},
+];
+const sel=$("#bsel");
+PRE.forEach((p,i)=>{const o=document.createElement("option");o.value=i;o.textContent=p.name;sel.appendChild(o);});
+const P=new Plane($("#pl"),{R:5});
+let B=PRE[1].b.map(r=>r.slice()), x=[3,1]; sel.value=1;
+function coords(B,x){ // B = [b1,b2]（各 [x,y]）
+  const M=LA.fromCols(B.map(c=>c.map(toQ))), Mi=LA.inv(M);
+  return Mi?LA.mv(Mi,x.map(toQ)):null;
+}
+const V=(n)=>`<b class="vec">${n}</b>`;
+function render(){
+  P.clear();
+  const [b1,b2]=B, c=coords(B,x);
+  if(c){
+    for(let k=-12;k<=12;k++){
+      P.infLine([k*b1[0],k*b1[1]],b2,"var(--c2)",{width:k===0?2:1,opacity:k===0?0.55:0.28});
+      P.infLine([k*b2[0],k*b2[1]],b1,"var(--c1)",{width:k===0?2:1,opacity:k===0?0.55:0.28});
+    }
+    const c1=c[0].val(),c2=c[1].val(), m=[c1*b1[0],c1*b1[1]];
+    P.arrow([0,0],m,"var(--c1)",{width:2.5,opacity:0.6,dash:"6 4"});
+    P.arrow(m,x,"var(--c2)",{width:2.5,opacity:0.6,dash:"6 4"});
+  }
+  P.arrow([0,0],b1,"var(--c1)",{label:"b₁",width:4});
+  P.arrow([0,0],b2,"var(--c2)",{label:"b₂",width:4});
+  P.arrow([0,0],x,"var(--c5)",{label:"x",width:3.5});
+  P.syncHandles();
+  let s=`<div class="row">${V("b")}<sub>1</sub> = ${rowVecHTML(b1.map(toQ))},　${V("b")}<sub>2</sub> = ${rowVecHTML(b2.map(toQ))}</div>`;
+  s+=`<div class="row">${V("x")} = ${rowVecHTML(x.map(toQ))}（標準基底での座標）</div>`;
+  if(!c){ s+=`<div class="row"><span class="tag ng">基底ではありません</span> ${V("b")}<sub>1</sub>, ${V("b")}<sub>2</sub> が同一直線上にある（一次従属）ので、座標が決まりません。</div>`; }
+  else{
+    s+=`<div class="row"><span class="tag ok">基底です</span> det = ${LA.det(LA.fromCols(B.map(v=>v.map(toQ)))).html()} ≠ 0</div>`;
+    s+=`<div class="row" style="font-size:1.08em">${V("x")} = ${combHTML(c,[V("b")+"<sub>1</sub>",V("b")+"<sub>2</sub>"])}</div>`;
+    s+=`<div class="row">この基底に関する座標：<b>${rowVecHTML(c)}</b></div>`;
+  }
+  $("#res").innerHTML=s;
+  // 全プリセットでの座標の比較
+  let t='<table class="t"><tr><th>基底</th><th>{{x}} の座標</th></tr>'.replace("{{x}}",V("x"));
+  PRE.forEach((p,i)=>{ const bb=p.b||(sel.value==="4"?B:null); if(!bb) return; const cc=coords(bb,x);
+    t+=`<tr${String(i)===sel.value?' style="background:var(--accent-soft)"':''}><td class="small">${p.name.replace(/（.*）/,"")}</td><td>${cc?rowVecHTML(cc):"—"}</td></tr>`; });
+  $("#tbl").innerHTML='<p class="small muted" style="margin-bottom:0">同じ '+V("x")+' の、基底ごとの座標：</p>'+t+'</table>';
+}
+P.handle(()=>B[0],p=>{B[0]=p;sel.value=4;render();},"var(--c1)");
+P.handle(()=>B[1],p=>{B[1]=p;sel.value=4;render();},"var(--c2)");
+P.handle(()=>x,p=>{x=p;render();},"var(--c5)",{snap:0.5});
+sel.addEventListener("change",()=>{const p=PRE[+sel.value]; if(p.b) B=p.b.map(r=>r.slice()); render();});
+render();
+</script>
+</body>
+</html>
