@@ -158,6 +158,12 @@ footer.pn a{text-decoration:none}
 .sv{min-width:2.8em;text-align:right;font-variant-numeric:tabular-nums}
 .demo-grid.eq{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
 @media (max-width:700px){.demo-grid.eq{grid-template-columns:minmax(0,1fr)}}
+/* 教科書に合わせて行列は丸かっこ */
+.mat::before,.mat::after,.minput::before,.minput::after{border:none;width:.38em}
+.mat::before,.minput::before{border-left:1.5px solid currentColor;border-radius:.6em 0 0 .6em / 50% 0 0 50%}
+.mat::after,.minput::after{border-right:1.5px solid currentColor;border-radius:0 .6em .6em 0 / 0 50% 50% 0}
+.mat.det::before,.mat.det::after{border-radius:0;width:.18em}
+.prob-t .src{font-weight:400;font-size:.8rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin-left:6px;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -181,7 +187,7 @@ footer.pn a{text-decoration:none}
 <p><span class="nw"><i>f</i> : <i>V</i> → <i>W</i></span> を線形写像、<span class="nw"><i>B</i> = (<b class="vec">v</b><sub>1</sub>, …, <b class="vec">v</b><sub><i>n</i></sub>)</span> を <i>V</i> の基底、<span class="nw"><i>C</i> = (<b class="vec">w</b><sub>1</sub>, …, <b class="vec">w</b><sub><i>m</i></sub>)</span> を <i>W</i> の基底とします。</p>
 <div class="box def">
 <div class="box-t">定義（表現行列）</div>
-<p>各 <i>f</i>(<b class="vec">v</b><sub><i>j</i></sub>) を <i>C</i> の一次結合で表します。</p>
+<p>各 <i>f</i>(<b class="vec">v</b><sub><i>j</i></sub>) を <i>C</i> の1次結合で表します。</p>
 <div class="dm"><i>f</i>(<b class="vec">v</b><sub><i>j</i></sub>) = <i>a</i><sub>1<i>j</i></sub><b class="vec">w</b><sub>1</sub> + <i>a</i><sub>2<i>j</i></sub><b class="vec">w</b><sub>2</sub> + ⋯ + <i>a</i><sub><i>mj</i></sub><b class="vec">w</b><sub><i>m</i></sub>　　(<i>j</i> = 1, …, <i>n</i>)</div>
 <p>この係数を<strong>第 <i>j</i> 列</strong>に並べた <i>m</i> × <i>n</i> 行列 <span class="nw"><i>A</i> = (<i>a</i><sub><i>ij</i></sub>)</span> を、基底 <i>B</i>, <i>C</i> に関する <i>f</i> の<strong>表現行列</strong>といいます。まとめて書くと</p>
 <div class="dm">( <i>f</i>(<b class="vec">v</b><sub>1</sub>) ⋯ <i>f</i>(<b class="vec">v</b><sub><i>n</i></sub>) ) = ( <b class="vec">w</b><sub>1</sub> ⋯ <b class="vec">w</b><sub><i>m</i></sub> ) <i>A</i></div>
@@ -268,34 +274,37 @@ footer.pn a{text-decoration:none}
 <section id="s5">
 <h2>5. 練習問題</h2>
 <div class="prob">
-<div class="prob-t">問題 1</div>
-<p>線形変換 <span class="nw"><i>T</i> : ℝ[<i>x</i>]<sub>2</sub> → ℝ[<i>x</i>]<sub>2</sub></span>, <span class="nw"><i>T</i>(<i>f</i>)(<i>x</i>) = <i>f</i>(<i>x</i> + 1)</span> の、基底 (1, <i>x</i>, <i>x</i>²) に関する表現行列を求めてください。</p>
+<div class="prob-t">問題 1 <span class="src">教科書 練習問題5 [A] 13 の類題</span></div>
+<p>2次以下の多項式全体からなる線形空間の線形変換 <i>T</i> を</p>
+<div class="dm"><i>T</i>(<i>f</i>(<i>x</i>)) = 2<i>f</i>(<i>x</i>) + <i>f</i>(1)<i>x</i></div>
+<p>で決めるとき、<i>T</i> の基底 {1, <i>x</i>, <i>x</i>²} に関する表現行列を求めてください。</p>
 <details><summary>解答を見る</summary>
-<div class="dm"><span class="eqs"><span><i>T</i>(1) = 1</span><span>= 1 · 1 + 0 · <i>x</i> + 0 · <i>x</i>²</span><span><i>T</i>(<i>x</i>) = <i>x</i> + 1</span><span>= 1 · 1 + 1 · <i>x</i> + 0 · <i>x</i>²</span><span><i>T</i>(<i>x</i>²) = (<i>x</i> + 1)²</span><span>= 1 · 1 + 2 · <i>x</i> + 1 · <i>x</i>²</span></span></div>
-<div class="dm"><i>A</i> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>1</span><span>1</span><span>0</span><span>1</span><span>2</span><span>0</span><span>0</span><span>1</span></span></span></div>
+<div class="dm"><span class="eqs"><span><i>T</i>(1) = 2 + <i>x</i></span><span>= 2 · 1 + 1 · <i>x</i> + 0 · <i>x</i>²</span><span><i>T</i>(<i>x</i>) = 2<i>x</i> + 1 · <i>x</i> = 3<i>x</i></span><span>= 0 · 1 + 3 · <i>x</i> + 0 · <i>x</i>²</span><span><i>T</i>(<i>x</i>²) = 2<i>x</i>² + 1 · <i>x</i></span><span>= 0 · 1 + 1 · <i>x</i> + 2 · <i>x</i>²</span></span></div>
+<p>係数を列に並べて</p>
+<div class="dm"><i>A</i> = <span class="mat"><span class="g" style="--c:3"><span>2</span><span>0</span><span>0</span><span>1</span><span>3</span><span>1</span><span>0</span><span>0</span><span>2</span></span></span></div>
+<p class="small muted"><i>f</i>(1) は「<i>f</i> に 1 を代入した数」です。<i>f</i> = <i>x</i>² なら <i>f</i>(1) = 1 です。</p>
 </details>
 </div>
 <div class="prob">
-<div class="prob-t">問題 2</div>
-<p><span class="nw"><i>f</i>(<b class="vec">x</b>) = <span class="mat"><span class="g" style="--c:2"><span>3</span><span>1</span><span>0</span><span>2</span></span></span><b class="vec">x</b></span> の、基底 <span class="nw"><i>B</i> = ((1, 0), (1, −1))</span>（定義域・値域とも）に関する表現行列を求めてください。</p>
+<div class="prob-t">問題 2 <span class="src">教科書 練習問題5 [A] 9 の類題</span></div>
+<p>次の ℝ³ の線形変換に対応する行列、および基底 <span class="nw">{ <span class="mat"><span class="g" style="--c:1"><span>1</span><span>0</span><span>0</span></span></span>, <span class="mat"><span class="g" style="--c:1"><span>1</span><span>1</span><span>0</span></span></span>, <span class="mat"><span class="g" style="--c:1"><span>1</span><span>1</span><span>1</span></span></span> }</span> に関する表現行列を求めてください。</p>
+<div class="dm"><span class="mat"><span class="g" style="--c:1"><span><i>x</i><sub>1</sub></span><span><i>x</i><sub>2</sub></span><span><i>x</i><sub>3</sub></span></span></span> ↦ <span class="mat"><span class="g" style="--c:1"><span><i>x</i><sub>1</sub> + <i>x</i><sub>2</sub></span><span><i>x</i><sub>2</sub> − <i>x</i><sub>3</sub></span><span>2<i>x</i><sub>1</sub> + <i>x</i><sub>3</sub></span></span></span></div>
 <details><summary>解答を見る</summary>
-<p><span class="nw"><i>f</i>(1, 0) = (3, 0) = 3 · (1, 0) + 0 · (1, −1)</span>、<span class="nw"><i>f</i>(1, −1) = (2, −2) = 0 · (1, 0) + 2 · (1, −1)</span>。</p>
-<div class="dm"><i>A</i> = <span class="mat"><span class="g" style="--c:2"><span>3</span><span>0</span><span>0</span><span>2</span></span></span></div>
-<p class="check">別解：<span class="nw"><i>P</i> = <span class="mat"><span class="g" style="--c:2"><span>1</span><span>1</span><span>0</span><span>−1</span></span></span></span> として <span class="nw"><i>P</i><sup>−1</sup><i>MP</i></span> を計算しても同じ結果になります（<i>P</i><sup>−1</sup> = <i>P</i>）。</p>
+<p>対応する行列（標準基底での表現行列）は</p>
+<div class="dm"><i>M</i> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>1</span><span>0</span><span>0</span><span>1</span><span>−1</span><span>2</span><span>0</span><span>1</span></span></span></div>
+<p>基底を列に並べた行列を <span class="nw"><i>B</i> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>1</span><span>1</span><span>0</span><span>1</span><span>1</span><span>0</span><span>0</span><span>1</span></span></span></span> とすると、表現行列は <span class="nw"><i>B</i><sup>−1</sup><i>MB</i></span>。</p>
+<div class="dm"><i>MB</i> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>2</span><span>2</span><span>0</span><span>1</span><span>0</span><span>2</span><span>2</span><span>3</span></span></span>，　<i>B</i><sup>−1</sup> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>−1</span><span>0</span><span>0</span><span>1</span><span>−1</span><span>0</span><span>0</span><span>1</span></span></span>，　<i>B</i><sup>−1</sup><i>MB</i> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>1</span><span>2</span><span>−2</span><span>−1</span><span>−3</span><span>2</span><span>2</span><span>3</span></span></span></div>
+<p class="check">「動かしてみよう」の ℝ³ → ℝ³ の例「問題2」でも確認できます。第1列の確認：<span class="nw"><i>f</i>(1, 0, 0) = (1, 0, 2)</span>。<span class="nw">1 · (1, 0, 0) − 2 · (1, 1, 0) + 2 · (1, 1, 1) = (1, 0, 2)</span> ✓</p>
 </details>
 </div>
 <div class="prob">
-<div class="prob-t">問題 3</div>
-<p><span class="nw"><i>f</i> : ℝ² → ℝ³</span>, <span class="nw"><i>f</i>(<i>x</i>, <i>y</i>) = (<i>x</i>, <i>x</i> + <i>y</i>, <i>y</i>)</span> の、基底 <span class="nw"><i>B</i> = ((1, 1), (1, −1))</span>, <span class="nw"><i>C</i> = ((1, 0, 0), (1, 1, 0), (1, 1, 1))</span> に関する表現行列を求めてください。</p>
+<div class="prob-t">問題 3 <span class="src">教科書 練習問題5 [A] 12 の類題</span></div>
+<p>dim <i>V</i> = 3 として、<i>V</i> の線形変換 <i>f</i> の基底 { <b class="vec">a</b><sub>1</sub>, <b class="vec">a</b><sub>2</sub>, <b class="vec">a</b><sub>3</sub>} に関する表現行列を <span class="nw"><i>A</i> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>2</span><span>0</span><span>0</span><span>1</span><span>−1</span><span>1</span><span>0</span><span>2</span></span></span></span> とします。このとき、<i>f</i> の基底 <span class="nw">{ <b class="vec">a</b><sub>1</sub>, <b class="vec">a</b><sub>1</sub> + <b class="vec">a</b><sub>2</sub>, <b class="vec">a</b><sub>1</sub> + <b class="vec">a</b><sub>2</sub> + <b class="vec">a</b><sub>3</sub> }</span> に関する表現行列を求めてください。</p>
 <details><summary>解答を見る</summary>
-<p><span class="nw"><i>f</i>(1, 1) = (1, 2, 1)</span>, <span class="nw"><i>f</i>(1, −1) = (1, 0, −1)</span>。<span class="nw"><i>a</i>(1, 0, 0) + <i>b</i>(1, 1, 0) + <i>c</i>(1, 1, 1) = (<i>a</i> + <i>b</i> + <i>c</i>, <i>b</i> + <i>c</i>, <i>c</i>)</span> と比べて</p>
-<ul>
-<li>(1, 2, 1)：<i>c</i> = 1, <i>b</i> = 1, <i>a</i> = −1 → <i>C</i> 座標 (−1, 1, 1)</li>
-<li>(1, 0, −1)：<i>c</i> = −1, <i>b</i> = 1, <i>a</i> = 1 → <i>C</i> 座標 (1, 1, −1)</li>
-</ul>
-<div class="dm"><i>A</i> = <span class="mat"><span class="g" style="--c:2"><span>−1</span><span>1</span><span>1</span><span>1</span><span>1</span><span>−1</span></span></span></div>
-<p class="check">確認：第2列について <span class="nw">1 · (1, 0, 0) + 1 · (1, 1, 0) − 1 · (1, 1, 1) = (1, 0, −1)</span>。</p>
-<p class="check">上の計算機で「ℝ² → ℝ³」の例「問題3」を選ぶと確認できます。</p>
+<p>基底変換の行列は（新しい基底の係数を列に並べて）<span class="nw"><i>P</i> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>1</span><span>1</span><span>0</span><span>1</span><span>1</span><span>0</span><span>0</span><span>1</span></span></span></span>。定理2より <span class="nw"><i>A</i>′ = <i>P</i><sup>−1</sup><i>AP</i></span>。</p>
+<div class="dm"><i>AP</i> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>3</span><span>3</span><span>0</span><span>1</span><span>0</span><span>1</span><span>1</span><span>3</span></span></span>，　<i>P</i><sup>−1</sup> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>−1</span><span>0</span><span>0</span><span>1</span><span>−1</span><span>0</span><span>0</span><span>1</span></span></span></div>
+<div class="dm"><i>A</i>′ = <i>P</i><sup>−1</sup><i>AP</i> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>2</span><span>3</span><span>−1</span><span>0</span><span>−3</span><span>1</span><span>1</span><span>3</span></span></span></div>
+<p class="check">確認：上の「動かしてみよう」で ℝ³ → ℝ³ の例「問題3」を選ぶと、同じ結果になります。</p>
 </details>
 </div>
 </section>
@@ -548,12 +557,13 @@ const $=s=>document.querySelector(s);
 <script>
 const PRE={
  "2,2":[["例2：対角化できる基底",[[2,1],[1,2]],[[1,1],[1,-1]],[[1,1],[1,-1]]],
-        ["問題2",[[3,1],[0,2]],[[1,1],[0,-1]],[[1,1],[0,-1]]],
+        ["対角行列になる例2",[[3,1],[0,2]],[[1,1],[0,-1]],[[1,1],[0,-1]]],
         ["B と C が異なる例",[[1,2],[3,4]],[[1,1],[0,1]],[[1,0],[1,1]]]],
  "3,3":[["対角化できる基底",[[2,1,0],[1,2,0],[0,0,3]],[[1,1,0],[1,-1,0],[0,0,1]],[[1,1,0],[1,-1,0],[0,0,1]]],
-        ["問題1（f(x+1) の係数）",[[1,1,1],[0,1,2],[0,0,1]],[[1,0,0],[0,1,0],[0,0,1]],[[1,0,0],[0,1,0],[0,0,1]]]],
+        ["問題2",[[1,1,0],[0,1,-1],[2,0,1]],[[1,1,1],[0,1,1],[0,0,1]],[[1,1,1],[0,1,1],[0,0,1]]],
+        ["問題3（M = A, B = C = P）",[[1,2,0],[0,1,-1],[1,0,2]],[[1,1,1],[0,1,1],[0,0,1]],[[1,1,1],[0,1,1],[0,0,1]]]],
  "3,2":[["例3",[[1,1,0],[0,1,1]],[[1,1,1],[0,1,1],[0,0,1]],[[1,1],[0,1]]]],
- "2,3":[["問題3",[[1,0],[1,1],[0,1]],[[1,1],[1,-1]],[[1,1,1],[0,1,1],[0,0,1]]]]
+ "2,3":[["ℝ² → ℝ³ の例",[[1,0],[1,1],[0,1]],[[1,1],[1,-1]],[[1,1,1],[0,1,1],[0,0,1]]]]
 };
 let n=2,m=2,iM,iB,iC;
 const V=s=>`<b class="vec">${s}</b>`;
@@ -573,7 +583,7 @@ function calc(){
   const M=iM.get(),B=iB.get(),C=iC.get(),out=$("#res");
   if(!M||!B||!C){out.innerHTML='<span class="ng">数値または分数を入力してください。</span>';return;}
   const Bi=LA.inv(B),Ci=LA.inv(C);
-  if(!Bi||!Ci){out.innerHTML=`<span class="tag ng">基底ではありません</span> ${!Bi?"<i>B</i>":"<i>C</i>"} の列ベクトルが一次従属です（行列式 = 0）。`;return;}
+  if(!Bi||!Ci){out.innerHTML=`<span class="tag ng">基底ではありません</span> ${!Bi?"<i>B</i>":"<i>C</i>"} の列ベクトルが1次従属です（行列式 = 0）。`;return;}
   const A=LA.mul(Ci,LA.mul(M,B));
   const wn=[...Array(m)].map((_,i)=>V("w")+"<sub>"+(i+1)+"</sub>");
   let s='<div class="tablewrap"><table class="t"><tr><th><i>j</i></th><th>① '+V("v")+'<sub><i>j</i></sub> ↦ <i>M</i>'+V("v")+'<sub><i>j</i></sub></th><th>② <i>C</i> で表す</th><th>③ 第<i>j</i>列</th></tr>';

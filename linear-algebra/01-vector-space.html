@@ -158,6 +158,12 @@ footer.pn a{text-decoration:none}
 .sv{min-width:2.8em;text-align:right;font-variant-numeric:tabular-nums}
 .demo-grid.eq{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
 @media (max-width:700px){.demo-grid.eq{grid-template-columns:minmax(0,1fr)}}
+/* 教科書に合わせて行列は丸かっこ */
+.mat::before,.mat::after,.minput::before,.minput::after{border:none;width:.38em}
+.mat::before,.minput::before{border-left:1.5px solid currentColor;border-radius:.6em 0 0 .6em / 50% 0 0 50%}
+.mat::after,.minput::after{border-right:1.5px solid currentColor;border-radius:0 .6em .6em 0 / 0 50% 50% 0}
+.mat.det::before,.mat.det::after{border-radius:0;width:.18em}
+.prob-t .src{font-weight:400;font-size:.8rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin-left:6px;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -196,6 +202,7 @@ footer.pn a{text-decoration:none}
 <b>(V7)</b><span><span class="nw">(<i>cd</i>)<b class="vec">v</b> = <i>c</i>(<i>d</i><b class="vec">v</b>)</span></span>
 <b>(V8)</b><span><span class="nw">1<b class="vec">v</b> = <b class="vec">v</b></span></span>
 </div>
+<p class="small muted">教科書によっては零ベクトルを <b class="vec">o</b> と書きます。このページでは <b class="vec">0</b> と書きますが、同じものです。</p>
 <p class="small muted">和とスカラー倍の結果がまた <i>V</i> に入ること（<i>V</i> の中で「閉じている」こと）も、定義の前提に含まれています。</p>
 </div>
 
@@ -318,39 +325,43 @@ footer.pn a{text-decoration:none}
 <section id="s5">
 <h2>5. 練習問題</h2>
 <div class="prob">
-<div class="prob-t">問題 1</div>
-<p>次の ℝ³ の部分集合は部分空間かどうか判定してください。</p>
-<p>(a) <span class="nw"><i>W</i><sub>a</sub> = { <b class="vec">x</b> | <i>x</i><sub>1</sub> − <i>x</i><sub>2</sub> + 3<i>x</i><sub>3</sub> = 0 }</span>　(b) <span class="nw"><i>W</i><sub>b</sub> = { <b class="vec">x</b> | <i>x</i><sub>1</sub><i>x</i><sub>2</sub> = 0 }</span>　(c) <span class="nw"><i>W</i><sub>c</sub> = { <b class="vec">x</b> | <i>x</i><sub>1</sub> = 2<i>x</i><sub>2</sub> + 1 }</span></p>
+<div class="prob-t">問題 1 <span class="src">教科書 練習問題4 [A] 5 の類題</span></div>
+<p>次の ℝ³ の部分集合は部分空間になるか判定してください。</p>
+<p>(1) <span class="nw"><i>W</i><sub>1</sub> = { <b class="vec">x</b> | <i>x</i><sub>1</sub> + <i>x</i><sub>3</sub> = 0 }</span>　(2) <span class="nw"><i>W</i><sub>2</sub> = { <b class="vec">x</b> | <i>x</i><sub>1</sub> ≥ <i>x</i><sub>2</sub> }</span><br>(3) <span class="nw"><i>W</i><sub>3</sub> = { <b class="vec">x</b> | <i>x</i><sub>1</sub> = 2<i>x</i><sub>3</sub> }</span>　(4) <span class="nw"><i>W</i><sub>4</sub> = { <b class="vec">x</b> | <i>x</i><sub>1</sub>, <i>x</i><sub>2</sub>, <i>x</i><sub>3</sub> は整数 }</span></p>
 <details><summary>解答を見る</summary>
-<p><strong>(a) 部分空間です。</strong>(S1) 0 − 0 + 0 = 0。(S2) <b class="vec">x</b>, <b class="vec">y</b> ∈ <i>W</i><sub>a</sub> なら <span class="nw">(<i>x</i><sub>1</sub>+<i>y</i><sub>1</sub>) − (<i>x</i><sub>2</sub>+<i>y</i><sub>2</sub>) + 3(<i>x</i><sub>3</sub>+<i>y</i><sub>3</sub>) = 0 + 0 = 0</span>。(S3) <span class="nw"><i>c</i>(<i>x</i><sub>1</sub> − <i>x</i><sub>2</sub> + 3<i>x</i><sub>3</sub>) = 0</span>。</p>
-<p><strong>(b) 部分空間ではありません。</strong>(1, 0, 0), (0, 1, 0) ∈ <i>W</i><sub>b</sub> ですが、和 (1, 1, 0) は 1·1 = 1 ≠ 0 なので <i>W</i><sub>b</sub> に入りません。</p>
-<p><strong>(c) 部分空間ではありません。</strong><b class="vec">0</b> = (0, 0, 0) は 0 ≠ 2·0 + 1 なので <b class="vec">0</b> ∉ <i>W</i><sub>c</sub>。</p>
+<p><strong>(1) 部分空間です。</strong>(S1) 0 + 0 = 0。(S2) <b class="vec">x</b>, <b class="vec">y</b> ∈ <i>W</i><sub>1</sub> なら <span class="nw">(<i>x</i><sub>1</sub> + <i>y</i><sub>1</sub>) + (<i>x</i><sub>3</sub> + <i>y</i><sub>3</sub>) = (<i>x</i><sub>1</sub> + <i>x</i><sub>3</sub>) + (<i>y</i><sub>1</sub> + <i>y</i><sub>3</sub>) = 0</span>。(S3) <span class="nw"><i>cx</i><sub>1</sub> + <i>cx</i><sub>3</sub> = <i>c</i>(<i>x</i><sub>1</sub> + <i>x</i><sub>3</sub>) = 0</span>。</p>
+<p><strong>(2) 部分空間ではありません。</strong>(1, 0, 0) ∈ <i>W</i><sub>2</sub>（1 ≥ 0）ですが、<span class="nw">(−1) · (1, 0, 0) = (−1, 0, 0)</span> は −1 ≥ 0 を満たさないので <i>W</i><sub>2</sub> に入りません（スカラー倍で閉じていない）。</p>
+<p><strong>(3) 部分空間です。</strong>(S1) 0 = 2·0。(S2) <span class="nw"><i>x</i><sub>1</sub> + <i>y</i><sub>1</sub> = 2<i>x</i><sub>3</sub> + 2<i>y</i><sub>3</sub> = 2(<i>x</i><sub>3</sub> + <i>y</i><sub>3</sub>)</span>。(S3) <span class="nw"><i>cx</i><sub>1</sub> = <i>c</i> · 2<i>x</i><sub>3</sub> = 2(<i>cx</i><sub>3</sub>)</span>。</p>
+<p><strong>(4) 部分空間ではありません。</strong>和では閉じていますが、(1, 0, 0) ∈ <i>W</i><sub>4</sub> に実数 <span class="frac"><span>1</span><span>2</span></span> をかけた <span class="nw">(<span class="frac"><span>1</span><span>2</span></span>, 0, 0)</span> は <i>W</i><sub>4</sub> に入りません。スカラーは<strong>すべての実数</strong>をとることに注意しましょう。</p>
 </details>
 </div>
 <div class="prob">
-<div class="prob-t">問題 2</div>
-<p>2次の対称行列全体 <span class="nw"><i>S</i> = { <i>A</i> ∈ <i>M</i><sub>2</sub>(ℝ) | <sup>t</sup><i>A</i> = <i>A</i> }</span> が <i>M</i><sub>2</sub>(ℝ) の部分空間であることを示してください。</p>
+<div class="prob-t">問題 2 <span class="src">教科書 練習問題4 [B] 4 の類題</span></div>
+<p>2次の実行列全体 <i>M</i><sub>2</sub> の次の部分集合は、部分空間になるか判定してください。</p>
+<p>(1) <span class="nw"><i>W</i><sub>1</sub> = { <i>A</i> | <sup>t</sup><i>A</i> = −<i>A</i> }</span>（交代行列）　(2) <span class="nw"><i>W</i><sub>2</sub> = { <i>A</i> | <i>A</i>² = <i>O</i> }</span>　(3) <span class="nw"><i>W</i><sub>3</sub> = { <i>A</i> | tr <i>A</i> = 0 }</span></p>
 <details><summary>解答を見る</summary>
-<p>転置の性質 <span class="nw"><sup>t</sup>(<i>A</i> + <i>B</i>) = <sup>t</sup><i>A</i> + <sup>t</sup><i>B</i></span>、<span class="nw"><sup>t</sup>(<i>cA</i>) = <i>c</i> <sup>t</sup><i>A</i></span> を使います。</p>
+<p><strong>(1) 部分空間です。</strong>(S1) <span class="nw"><sup>t</sup><i>O</i> = <i>O</i> = −<i>O</i></span>。(S2) <span class="nw"><sup>t</sup>(<i>A</i> + <i>B</i>) = <sup>t</sup><i>A</i> + <sup>t</sup><i>B</i> = −<i>A</i> − <i>B</i> = −(<i>A</i> + <i>B</i>)</span>。(S3) <span class="nw"><sup>t</sup>(<i>cA</i>) = <i>c</i> <sup>t</sup><i>A</i> = −<i>cA</i></span>。</p>
+<p><strong>(2) 部分空間ではありません。</strong><span class="nw"><i>A</i> = <span class="mat"><span class="g" style="--c:2"><span>0</span><span>1</span><span>0</span><span>0</span></span></span></span>, <span class="nw"><i>B</i> = <span class="mat"><span class="g" style="--c:2"><span>0</span><span>0</span><span>1</span><span>0</span></span></span></span> はどちらも 2乗すると <i>O</i> ですが、</p>
+<div class="dm">(<i>A</i> + <i>B</i>)² = <span class="mat"><span class="g" style="--c:2"><span>0</span><span>1</span><span>1</span><span>0</span></span></span>² = <span class="mat"><span class="g" style="--c:2"><span>1</span><span>0</span><span>0</span><span>1</span></span></span> ≠ <i>O</i></div>
+<p>なので和で閉じていません。</p>
+<p><strong>(3) 部分空間です。</strong>tr <i>O</i> = 0。<span class="nw">tr(<i>A</i> + <i>B</i>) = tr <i>A</i> + tr <i>B</i> = 0</span>、<span class="nw">tr(<i>cA</i>) = <i>c</i> tr <i>A</i> = 0</span>。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 3 <span class="src">教科書 練習問題4 [B] 9 の類題</span></div>
+<p><i>B</i> を <i>n</i> 次行列とするとき、<span class="nw"><i>AB</i> = <i>BA</i></span> を満たす <i>n</i> 次行列 <i>A</i> の全体 <i>W</i> は、<i>n</i> 次行列全体のつくる線形空間 <i>M</i><sub><i>n</i></sub> の部分空間であることを示してください。</p>
+<details><summary>解答を見る</summary>
 <ul>
-<li>(S1)　<sup>t</sup><i>O</i> = <i>O</i> なので <i>O</i> ∈ <i>S</i>。</li>
-<li>(S2)　<i>A</i>, <i>B</i> ∈ <i>S</i> なら <span class="nw"><sup>t</sup>(<i>A</i> + <i>B</i>) = <sup>t</sup><i>A</i> + <sup>t</sup><i>B</i> = <i>A</i> + <i>B</i></span>。よって <i>A</i> + <i>B</i> ∈ <i>S</i>。</li>
-<li>(S3)　<span class="nw"><sup>t</sup>(<i>cA</i>) = <i>c</i> <sup>t</sup><i>A</i> = <i>cA</i></span>。よって <i>cA</i> ∈ <i>S</i>。</li>
+<li>(S1)　<span class="nw"><i>OB</i> = <i>O</i> = <i>BO</i></span> なので <i>O</i> ∈ <i>W</i>。</li>
+<li>(S2)　<i>A</i><sub>1</sub>, <i>A</i><sub>2</sub> ∈ <i>W</i> なら <span class="nw">(<i>A</i><sub>1</sub> + <i>A</i><sub>2</sub>)<i>B</i> = <i>A</i><sub>1</sub><i>B</i> + <i>A</i><sub>2</sub><i>B</i> = <i>BA</i><sub>1</sub> + <i>BA</i><sub>2</sub> = <i>B</i>(<i>A</i><sub>1</sub> + <i>A</i><sub>2</sub>)</span>。</li>
+<li>(S3)　<span class="nw">(<i>cA</i>)<i>B</i> = <i>c</i>(<i>AB</i>) = <i>c</i>(<i>BA</i>) = <i>B</i>(<i>cA</i>)</span>。</li>
 </ul>
-<p>以上より <i>S</i> は部分空間です。</p>
-</details>
-</div>
-<div class="prob">
-<div class="prob-t">問題 3</div>
-<p>ℝ[<i>x</i>]<sub>2</sub> の部分集合 <span class="nw"><i>U</i> = { <i>f</i> | <i>f</i>(1) = 0 }</span> と <span class="nw"><i>U</i>′ = { <i>f</i> | <i>f</i>(1) = 1 }</span> は、それぞれ部分空間かどうか答えてください。</p>
-<details><summary>解答を見る</summary>
-<p><strong><i>U</i> は部分空間です。</strong>(S1) 零多項式 0 は 1 を代入しても 0。(S2) <span class="nw">(<i>f</i> + <i>g</i>)(1) = <i>f</i>(1) + <i>g</i>(1) = 0 + 0 = 0</span>。(S3) <span class="nw">(<i>cf</i>)(1) = <i>c</i> · <i>f</i>(1) = 0</span>。</p>
-<p><strong><i>U</i>′ は部分空間ではありません。</strong>零多項式は 1 を代入すると 0 ≠ 1 なので、(S1) が成り立ちません（たとえば <i>f</i> = 1 ∈ <i>U</i>′ でも 2<i>f</i> = 2 ∉ <i>U</i>′ という反例でも構いません）。</p>
+<p>よって <i>W</i> は部分空間です。行列の分配法則とスカラー倍の性質だけで示せることを確認しましょう。</p>
 </details>
 </div>
 </section>
 </main>
-<footer class="pn"><span></span><a href="02-linear-independence.html">第2回 一次独立と一次従属 →</a></footer>
+<footer class="pn"><span></span><a href="02-linear-independence.html">第2回 1次独立と1次従属 →</a></footer>
 </div>
 <script>
 "use strict";

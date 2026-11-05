@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>第2回 一次独立と一次従属｜線形代数IIA</title>
+<title>第2回 1次独立と1次従属｜線形代数IIA</title>
 <style>
 :root{
   --bg:#f7f6f2; --card:#ffffff; --fg:#1d2127; --muted:#5d6672; --line:#d8dbe0; --soft:#eef0f3;
@@ -158,14 +158,20 @@ footer.pn a{text-decoration:none}
 .sv{min-width:2.8em;text-align:right;font-variant-numeric:tabular-nums}
 .demo-grid.eq{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
 @media (max-width:700px){.demo-grid.eq{grid-template-columns:minmax(0,1fr)}}
+/* 教科書に合わせて行列は丸かっこ */
+.mat::before,.mat::after,.minput::before,.minput::after{border:none;width:.38em}
+.mat::before,.minput::before{border-left:1.5px solid currentColor;border-radius:.6em 0 0 .6em / 50% 0 0 50%}
+.mat::after,.minput::after{border-right:1.5px solid currentColor;border-radius:0 .6em .6em 0 / 0 50% 50% 0}
+.mat.det::before,.mat.det::after{border-radius:0;width:.18em}
+.prob-t .src{font-weight:400;font-size:.8rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin-left:6px;white-space:nowrap}
 </style>
 </head>
 <body>
 <div class="wrap">
 <header class="top">
 <div class="crumb">線形代数IIA ・ 第2回</div>
-<h1>一次独立と一次従属</h1>
-<p class="lead">ベクトルの組に「むだ」があるかどうかを判定します。むだのない組を一次独立、むだのある組を一次従属といいます。判定は同次連立1次方程式を解くことに帰着します。</p>
+<h1>1次独立と1次従属</h1>
+<p class="lead">ベクトルの組に「むだ」があるかどうかを判定します。むだのない組を1次独立、むだのある組を1次従属といいます。判定は同次連立1次方程式を解くことに帰着します。</p>
 <nav class="toc" aria-label="目次"><a href="#s1">1. 何の話か（直感）</a><a href="#s2">2. 定義</a><a href="#s3">3. 具体例</a><a href="#s4">4. よくある間違い</a><a href="#s5">5. 練習問題</a><a class="demo-link" href="#demo">▶ 動かしてみよう</a></nav>
 </header>
 <main class="doc">
@@ -176,7 +182,7 @@ footer.pn a{text-decoration:none}
 <li>ℝ² の2本のベクトルが<strong>同一直線上</strong>にあると、片方はもう片方の定数倍です。2本あっても「1方向」にしか進めません。</li>
 <li>ℝ³ の3本のベクトルが<strong>同一平面上</strong>にあると、どれか1本は残り2本の組み合わせで作れます。3本あっても「平面」の中しか動けません。</li>
 </ul>
-<p>むだがない状態を<strong>一次独立</strong>、むだがある状態を<strong>一次従属</strong>といいます。図で言えば、ℝ² では2本が作る平行四辺形の面積、ℝ³ では3本が作る平行六面体の体積が 0 になるかどうかです。下の「動かしてみよう」で、ベクトルを動かして確かめてください。</p>
+<p>むだがない状態を<strong>1次独立</strong>、むだがある状態を<strong>1次従属</strong>といいます。図で言えば、ℝ² では2本が作る平行四辺形の面積、ℝ³ では3本が作る平行六面体の体積が 0 になるかどうかです。下の「動かしてみよう」で、ベクトルを動かして確かめてください。</p>
 
 <div class="demo" id="demo">
 <div class="demo-t">同一直線上・同一平面上になる様子を見る</div>
@@ -200,30 +206,30 @@ footer.pn a{text-decoration:none}
 <section id="s2">
 <h2>2. 定義</h2>
 <div class="box def">
-<div class="box-t">定義（一次結合・一次関係）</div>
-<p>ベクトル <b class="vec">a</b><sub>1</sub>, …, <b class="vec">a</b><sub><i>k</i></sub> と実数 <i>c</i><sub>1</sub>, …, <i>c</i><sub><i>k</i></sub> に対し、<span class="nw"><i>c</i><sub>1</sub><b class="vec">a</b><sub>1</sub> + ⋯ + <i>c</i><sub><i>k</i></sub><b class="vec">a</b><sub><i>k</i></sub></span> を<strong>一次結合</strong>（線形結合）といいます。また</p>
+<div class="box-t">定義（1次結合・1次関係）</div>
+<p>ベクトル <b class="vec">a</b><sub>1</sub>, …, <b class="vec">a</b><sub><i>k</i></sub> と実数 <i>c</i><sub>1</sub>, …, <i>c</i><sub><i>k</i></sub> に対し、<span class="nw"><i>c</i><sub>1</sub><b class="vec">a</b><sub>1</sub> + ⋯ + <i>c</i><sub><i>k</i></sub><b class="vec">a</b><sub><i>k</i></sub></span> を<strong>1次結合</strong>（線形結合）といいます。また</p>
 <div class="dm"><i>c</i><sub>1</sub><b class="vec">a</b><sub>1</sub> + <i>c</i><sub>2</sub><b class="vec">a</b><sub>2</sub> + ⋯ + <i>c</i><sub><i>k</i></sub><b class="vec">a</b><sub><i>k</i></sub> = <b class="vec">0</b>　　(★)</div>
-<p>の形の式を<strong>一次関係</strong>といいます。<i>c</i><sub>1</sub> = ⋯ = <i>c</i><sub><i>k</i></sub> = 0 なら (★) はいつも成り立ちます（<strong>自明な一次関係</strong>）。</p>
+<p>の形の式を<strong>1次関係</strong>といいます。<i>c</i><sub>1</sub> = ⋯ = <i>c</i><sub><i>k</i></sub> = 0 なら (★) はいつも成り立ちます（<strong>自明な1次関係</strong>）。</p>
 </div>
 <div class="box def">
-<div class="box-t">定義（一次独立・一次従属）</div>
+<div class="box-t">定義（1次独立・1次従属）</div>
 <ul>
-<li>(★) を満たす <span class="nw">(<i>c</i><sub>1</sub>, …, <i>c</i><sub><i>k</i></sub>)</span> が <span class="nw"><i>c</i><sub>1</sub> = ⋯ = <i>c</i><sub><i>k</i></sub> = 0</span> <strong>しかない</strong>とき、<b class="vec">a</b><sub>1</sub>, …, <b class="vec">a</b><sub><i>k</i></sub> は<strong>一次独立</strong>であるといいます。</li>
-<li>少なくとも1つは 0 でない <span class="nw">(<i>c</i><sub>1</sub>, …, <i>c</i><sub><i>k</i></sub>)</span> で (★) が成り立つとき、<strong>一次従属</strong>であるといいます。</li>
+<li>(★) を満たす <span class="nw">(<i>c</i><sub>1</sub>, …, <i>c</i><sub><i>k</i></sub>)</span> が <span class="nw"><i>c</i><sub>1</sub> = ⋯ = <i>c</i><sub><i>k</i></sub> = 0</span> <strong>しかない</strong>とき、<b class="vec">a</b><sub>1</sub>, …, <b class="vec">a</b><sub><i>k</i></sub> は<strong>1次独立</strong>であるといいます。</li>
+<li>少なくとも1つは 0 でない <span class="nw">(<i>c</i><sub>1</sub>, …, <i>c</i><sub><i>k</i></sub>)</span> で (★) が成り立つとき、<strong>1次従属</strong>であるといいます。</li>
 </ul>
 </div>
 <div class="box thm">
 <div class="box-t">定理 1（従属の言いかえ）</div>
-<p><b class="vec">a</b><sub>1</sub>, …, <b class="vec">a</b><sub><i>k</i></sub> が一次従属 ⇔ どれか1つのベクトルが、残りのベクトルの一次結合で書ける。</p>
+<p><b class="vec">a</b><sub>1</sub>, …, <b class="vec">a</b><sub><i>k</i></sub> が1次従属 ⇔ どれか1つのベクトルが、残りのベクトルの1次結合で書ける。</p>
 <p class="small muted">理由：<i>c</i><sub><i>j</i></sub> ≠ 0 なら (★) を <i>c</i><sub><i>j</i></sub> で割って移項すると <span class="nw"><b class="vec">a</b><sub><i>j</i></sub> = −Σ<sub><i>i</i>≠<i>j</i></sub> (<i>c</i><sub><i>i</i></sub>/<i>c</i><sub><i>j</i></sub>) <b class="vec">a</b><sub><i>i</i></sub></span> となります。</p>
 </div>
 <div class="box thm">
 <div class="box-t">定理 2（連立方程式による判定）</div>
 <p><b class="vec">a</b><sub>1</sub>, …, <b class="vec">a</b><sub><i>k</i></sub> ∈ ℝⁿ を<strong>列</strong>に並べた <i>n</i> × <i>k</i> 行列を <span class="nw"><i>A</i> = (<b class="vec">a</b><sub>1</sub> ⋯ <b class="vec">a</b><sub><i>k</i></sub>)</span> とすると、(★) は同次連立1次方程式 <span class="nw"><i>A</i><b class="vec">c</b> = <b class="vec">0</b></span>（<b class="vec">c</b> = <sup>t</sup>(<i>c</i><sub>1</sub>, …, <i>c</i><sub><i>k</i></sub>)）です。よって</p>
-<div class="dm">一次独立　⇔　<i>A</i><b class="vec">c</b> = <b class="vec">0</b> の解が <b class="vec">c</b> = <b class="vec">0</b> だけ　⇔　rank <i>A</i> = <i>k</i></div>
+<div class="dm">1次独立　⇔　<i>A</i><b class="vec">c</b> = <b class="vec">0</b> の解が <b class="vec">c</b> = <b class="vec">0</b> だけ　⇔　rank <i>A</i> = <i>k</i></div>
 <ul>
-<li><i>k</i> = <i>n</i>（正方行列）のときは：一次独立 ⇔ det <i>A</i> ≠ 0</li>
-<li><i>k</i> &gt; <i>n</i> のときは：rank <i>A</i> ≤ <i>n</i> &lt; <i>k</i> なので<strong>必ず一次従属</strong></li>
+<li><i>k</i> = <i>n</i>（正方行列）のときは：1次独立 ⇔ det <i>A</i> ≠ 0（教科書の記号では |<i>A</i>| ≠ 0）</li>
+<li><i>k</i> &gt; <i>n</i> のときは：rank <i>A</i> ≤ <i>n</i> &lt; <i>k</i> なので<strong>必ず1次従属</strong></li>
 </ul>
 </div>
 </section>
@@ -232,71 +238,73 @@ footer.pn a{text-decoration:none}
 <h2>3. 具体例</h2>
 <div class="ex">
 <div class="ex-t">例 1：ℝ² の2本（従属）</div>
-<p><span class="nw"><b class="vec">a</b><sub>1</sub> = (1, 2)</span>, <span class="nw"><b class="vec">a</b><sub>2</sub> = (2, 4)</span> は <span class="nw"><b class="vec">a</b><sub>2</sub> = 2<b class="vec">a</b><sub>1</sub></span> なので、<span class="nw">2<b class="vec">a</b><sub>1</sub> − <b class="vec">a</b><sub>2</sub> = <b class="vec">0</b></span> という自明でない一次関係があります。よって一次従属です。実際 <span class="nw">det <span class="mat"><span class="g" style="--c:2"><span>1</span><span>2</span><span>2</span><span>4</span></span></span> = 4 − 4 = 0</span>。</p>
+<p><span class="nw"><b class="vec">a</b><sub>1</sub> = (1, 2)</span>, <span class="nw"><b class="vec">a</b><sub>2</sub> = (2, 4)</span> は <span class="nw"><b class="vec">a</b><sub>2</sub> = 2<b class="vec">a</b><sub>1</sub></span> なので、<span class="nw">2<b class="vec">a</b><sub>1</sub> − <b class="vec">a</b><sub>2</sub> = <b class="vec">0</b></span> という自明でない1次関係があります。よって1次従属です。実際 <span class="nw">det <span class="mat"><span class="g" style="--c:2"><span>1</span><span>2</span><span>2</span><span>4</span></span></span> = 4 − 4 = 0</span>。</p>
 </div>
 <div class="ex">
 <div class="ex-t">例 2：ℝ³ の3本（独立）</div>
 <p><span class="nw"><b class="vec">a</b><sub>1</sub> = (1, 1, 0)</span>, <span class="nw"><b class="vec">a</b><sub>2</sub> = (0, 1, 1)</span>, <span class="nw"><b class="vec">a</b><sub>3</sub> = (1, 0, 1)</span>。<span class="nw"><i>c</i><sub>1</sub><b class="vec">a</b><sub>1</sub> + <i>c</i><sub>2</sub><b class="vec">a</b><sub>2</sub> + <i>c</i><sub>3</sub><b class="vec">a</b><sub>3</sub> = <b class="vec">0</b></span> を成分で書くと</p>
 <div class="dm"><span class="eqs"><span><i>c</i><sub>1</sub> + <i>c</i><sub>3</sub></span><span>= 0</span><span><i>c</i><sub>1</sub> + <i>c</i><sub>2</sub></span><span>= 0</span><span><i>c</i><sub>2</sub> + <i>c</i><sub>3</sub></span><span>= 0</span></span></div>
-<p>1式目と2式目から <span class="nw"><i>c</i><sub>3</sub> = −<i>c</i><sub>1</sub></span>, <span class="nw"><i>c</i><sub>2</sub> = −<i>c</i><sub>1</sub></span>。3式目に入れると <span class="nw">−2<i>c</i><sub>1</sub> = 0</span> より <i>c</i><sub>1</sub> = 0、したがって <span class="nw"><i>c</i><sub>1</sub> = <i>c</i><sub>2</sub> = <i>c</i><sub>3</sub> = 0</span>。一次独立です（det = 2 ≠ 0 でも確認できます）。</p>
+<p>1式目と2式目から <span class="nw"><i>c</i><sub>3</sub> = −<i>c</i><sub>1</sub></span>, <span class="nw"><i>c</i><sub>2</sub> = −<i>c</i><sub>1</sub></span>。3式目に入れると <span class="nw">−2<i>c</i><sub>1</sub> = 0</span> より <i>c</i><sub>1</sub> = 0、したがって <span class="nw"><i>c</i><sub>1</sub> = <i>c</i><sub>2</sub> = <i>c</i><sub>3</sub> = 0</span>。1次独立です（det = 2 ≠ 0 でも確認できます）。</p>
 </div>
 <div class="ex">
 <div class="ex-t">例 3：ℝ³ の3本（従属）— 行基本変形で判定</div>
 <p><span class="nw"><b class="vec">a</b><sub>1</sub> = (1, 2, 3)</span>, <span class="nw"><b class="vec">a</b><sub>2</sub> = (2, −1, 1)</span>, <span class="nw"><b class="vec">a</b><sub>3</sub> = (3, 1, 4)</span> を列に並べて簡約化します。</p>
 <div class="dm"><i>A</i> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>2</span><span>3</span><span>2</span><span>−1</span><span>1</span><span>3</span><span>1</span><span>4</span></span></span> → <span class="mat"><span class="g" style="--c:3"><span>1</span><span>2</span><span>3</span><span>0</span><span>−5</span><span>−5</span><span>0</span><span>−5</span><span>−5</span></span></span> → <span class="mat"><span class="g" style="--c:3"><span>1</span><span>0</span><span>1</span><span>0</span><span>1</span><span>1</span><span>0</span><span>0</span><span>0</span></span></span></div>
-<p>rank <i>A</i> = 2 &lt; 3 なので一次従属です。最後の行列から <span class="nw"><i>c</i><sub>1</sub> = −<i>t</i></span>, <span class="nw"><i>c</i><sub>2</sub> = −<i>t</i></span>, <span class="nw"><i>c</i><sub>3</sub> = <i>t</i></span>。<i>t</i> = 1 として <span class="nw">−<b class="vec">a</b><sub>1</sub> − <b class="vec">a</b><sub>2</sub> + <b class="vec">a</b><sub>3</sub> = <b class="vec">0</b></span>、つまり <span class="nw"><b class="vec">a</b><sub>3</sub> = <b class="vec">a</b><sub>1</sub> + <b class="vec">a</b><sub>2</sub></span>（3本は同一平面上）です。</p>
+<p>rank <i>A</i> = 2 &lt; 3 なので1次従属です。最後の行列から <span class="nw"><i>c</i><sub>1</sub> = −<i>t</i></span>, <span class="nw"><i>c</i><sub>2</sub> = −<i>t</i></span>, <span class="nw"><i>c</i><sub>3</sub> = <i>t</i></span>。<i>t</i> = 1 として <span class="nw">−<b class="vec">a</b><sub>1</sub> − <b class="vec">a</b><sub>2</sub> + <b class="vec">a</b><sub>3</sub> = <b class="vec">0</b></span>、つまり <span class="nw"><b class="vec">a</b><sub>3</sub> = <b class="vec">a</b><sub>1</sub> + <b class="vec">a</b><sub>2</sub></span>（3本は同一平面上）です。</p>
 </div>
 <div class="ex">
 <div class="ex-t">例 4：多項式（独立）</div>
 <p>ℝ[<i>x</i>]<sub>2</sub> の 1, 1 + <i>x</i>, 1 + <i>x</i> + <i>x</i>² について、</p>
 <div class="dm"><i>c</i><sub>1</sub> · 1 + <i>c</i><sub>2</sub>(1 + <i>x</i>) + <i>c</i><sub>3</sub>(1 + <i>x</i> + <i>x</i>²) = (<i>c</i><sub>1</sub> + <i>c</i><sub>2</sub> + <i>c</i><sub>3</sub>) + (<i>c</i><sub>2</sub> + <i>c</i><sub>3</sub>)<i>x</i> + <i>c</i><sub>3</sub><i>x</i>² = 0</div>
-<p>が多項式として 0 なので、各係数が 0：<i>c</i><sub>3</sub> = 0, <i>c</i><sub>2</sub> = 0, <i>c</i><sub>1</sub> = 0。一次独立です。</p>
+<p>が多項式として 0 なので、各係数が 0：<i>c</i><sub>3</sub> = 0, <i>c</i><sub>2</sub> = 0, <i>c</i><sub>1</sub> = 0。1次独立です。</p>
 </div>
 <div class="ex">
 <div class="ex-t">例 5：関数（独立）</div>
-<p>sin <i>x</i>, cos <i>x</i> について、すべての <i>x</i> で <span class="nw"><i>c</i><sub>1</sub> sin <i>x</i> + <i>c</i><sub>2</sub> cos <i>x</i> = 0</span> とします。<i>x</i> = 0 を代入すると <i>c</i><sub>2</sub> = 0、<i>x</i> = π/2 を代入すると <i>c</i><sub>1</sub> = 0。よって一次独立です。</p>
+<p>sin <i>x</i>, cos <i>x</i> について、すべての <i>x</i> で <span class="nw"><i>c</i><sub>1</sub> sin <i>x</i> + <i>c</i><sub>2</sub> cos <i>x</i> = 0</span> とします。<i>x</i> = 0 を代入すると <i>c</i><sub>2</sub> = 0、<i>x</i> = π/2 を代入すると <i>c</i><sub>1</sub> = 0。よって1次独立です。</p>
 </div>
 <div class="ex">
 <div class="ex-t">例 6：本数が多すぎる（必ず従属）</div>
-<p>ℝ³ の4本 (1, 0, 0), (0, 1, 0), (0, 0, 1), (1, 2, 3) は、定理2より（4 &gt; 3）計算しなくても一次従属です。実際 <span class="nw">(1, 2, 3) = 1·(1, 0, 0) + 2·(0, 1, 0) + 3·(0, 0, 1)</span>。</p>
+<p>ℝ³ の4本 (1, 0, 0), (0, 1, 0), (0, 0, 1), (1, 2, 3) は、定理2より（4 &gt; 3）計算しなくても1次従属です。実際 <span class="nw">(1, 2, 3) = 1·(1, 0, 0) + 2·(0, 1, 0) + 3·(0, 0, 1)</span>。</p>
 </div>
 </section>
 
 <section id="s4">
 <h2>4. よくある間違い</h2>
 <div class="mis">
-<p class="bad">ℝ³ の3本で、どの2本も平行でないから一次独立である。</p>
+<p class="bad">ℝ³ の3本で、どの2本も平行でないから1次独立である。</p>
 <p class="good">3本が<strong>同一平面上</strong>にあれば従属です。たとえば (1, 0, 0), (0, 1, 0), (1, 1, 0) はどの2本も平行ではありませんが、(1, 1, 0) = (1, 0, 0) + (0, 1, 0) なので従属です。</p>
 </div>
 <div class="mis">
-<p class="bad"><span class="nw"><i>c</i><sub>1</sub> = <i>c</i><sub>2</sub> = <i>c</i><sub>3</sub> = 0</span> を代入すると (★) が成り立つので、一次独立である。</p>
+<p class="bad"><span class="nw"><i>c</i><sub>1</sub> = <i>c</i><sub>2</sub> = <i>c</i><sub>3</sub> = 0</span> を代入すると (★) が成り立つので、1次独立である。</p>
 <p class="good">自明な解 <b class="vec">c</b> = <b class="vec">0</b> はどんなベクトルでも成り立ちます。示すべきなのは「(★) が成り立つ<strong>ならば</strong> <i>c</i><sub>1</sub> = ⋯ = 0」という向きです。(★) を仮定して係数を求めましょう。</p>
 </div>
 <div class="mis">
 <p class="bad"><b class="vec">0</b> を含む組でも、ほかのベクトルが独立なら全体も独立である。</p>
-<p class="good"><b class="vec">0</b> を含む組は<strong>必ず従属</strong>です。<span class="nw">1 · <b class="vec">0</b> + 0 · <b class="vec">a</b><sub>2</sub> + ⋯ = <b class="vec">0</b></span> が自明でない一次関係だからです。</p>
+<p class="good"><b class="vec">0</b> を含む組は<strong>必ず従属</strong>です。<span class="nw">1 · <b class="vec">0</b> + 0 · <b class="vec">a</b><sub>2</sub> + ⋯ = <b class="vec">0</b></span> が自明でない1次関係だからです。</p>
 </div>
 <div class="mis">
 <p class="bad">ベクトルを行に並べて簡約化し、その結果から係数 <i>c</i><sub><i>i</i></sub> を読み取る。</p>
-<p class="good">rank（独立かどうか）は行に並べても列に並べても同じですが、<strong>一次関係の係数を読み取るには列に並べた</strong> <i>A</i><b class="vec">c</b> = <b class="vec">0</b> を解く必要があります。</p>
+<p class="good">rank（独立かどうか）は行に並べても列に並べても同じですが、<strong>1次関係の係数を読み取るには列に並べた</strong> <i>A</i><b class="vec">c</b> = <b class="vec">0</b> を解く必要があります。</p>
 </div>
 </section>
 
 <section id="s5">
 <h2>5. 練習問題</h2>
 <div class="prob">
-<div class="prob-t">問題 1</div>
-<p><span class="nw"><b class="vec">a</b><sub>1</sub> = (1, 2, 3)</span>, <span class="nw"><b class="vec">a</b><sub>2</sub> = (4, 5, 6)</span>, <span class="nw"><b class="vec">a</b><sub>3</sub> = (7, 8, 9)</span> は一次独立か判定し、従属なら自明でない一次関係を1つ求めてください。</p>
+<div class="prob-t">問題 1 <span class="src">教科書 練習問題4 [A] 11 の類題</span></div>
+<p>ℝ³ のベクトル <span class="nw"><b class="vec">a</b> = <span class="mat"><span class="g" style="--c:1"><span>1</span><span>0</span><span>2</span></span></span>, <b class="vec">b</b> = <span class="mat"><span class="g" style="--c:1"><span>2</span><span>1</span><span>3</span></span></span>, <b class="vec">c</b> = <span class="mat"><span class="g" style="--c:1"><span>0</span><span>1</span><span>−1</span></span></span></span> について、<b class="vec">a</b>, <b class="vec">b</b>, <b class="vec">c</b> は1次独立か、また ℝ³ を生成するかを調べてください。さらに、<b class="vec">v</b> = <sup>t</sup>(<i>v</i><sub>1</sub>, <i>v</i><sub>2</sub>, <i>v</i><sub>3</sub>) が ⟨<b class="vec">a</b>, <b class="vec">b</b>, <b class="vec">c</b>⟩ に属するための条件を求めてください。</p>
 <details><summary>解答を見る</summary>
-<div class="dm"><span class="mat"><span class="g" style="--c:3"><span>1</span><span>4</span><span>7</span><span>2</span><span>5</span><span>8</span><span>3</span><span>6</span><span>9</span></span></span> → <span class="mat"><span class="g" style="--c:3"><span>1</span><span>4</span><span>7</span><span>0</span><span>−3</span><span>−6</span><span>0</span><span>−6</span><span>−12</span></span></span> → <span class="mat"><span class="g" style="--c:3"><span>1</span><span>0</span><span>−1</span><span>0</span><span>1</span><span>2</span><span>0</span><span>0</span><span>0</span></span></span></div>
-<p>rank = 2 &lt; 3 なので<strong>一次従属</strong>です。<span class="nw"><i>c</i><sub>1</sub> = <i>t</i>, <i>c</i><sub>2</sub> = −2<i>t</i>, <i>c</i><sub>3</sub> = <i>t</i></span> より、<i>t</i> = 1 として</p>
-<div class="dm"><b class="vec">a</b><sub>1</sub> − 2<b class="vec">a</b><sub>2</sub> + <b class="vec">a</b><sub>3</sub> = <b class="vec">0</b></div>
-<p class="check">確認：(1, 2, 3) − (8, 10, 12) + (7, 8, 9) = (0, 0, 0)。</p>
+<div class="dm"><span class="mat"><span class="g" style="--c:3"><span>1</span><span>2</span><span>0</span><span>0</span><span>1</span><span>1</span><span>2</span><span>3</span><span>−1</span></span></span> → <span class="mat"><span class="g" style="--c:3"><span>1</span><span>2</span><span>0</span><span>0</span><span>1</span><span>1</span><span>0</span><span>−1</span><span>−1</span></span></span> → <span class="mat"><span class="g" style="--c:3"><span>1</span><span>0</span><span>−2</span><span>0</span><span>1</span><span>1</span><span>0</span><span>0</span><span>0</span></span></span></div>
+<p>rank = 2 &lt; 3 なので<strong>1次従属</strong>で、<strong>ℝ³ を生成しません</strong>。最後の行列から <span class="nw">2<b class="vec">a</b> − <b class="vec">b</b> + <b class="vec">c</b> = <b class="vec">0</b></span>、つまり <span class="nw"><b class="vec">c</b> = <b class="vec">b</b> − 2<b class="vec">a</b></span> なので、<span class="nw">⟨<b class="vec">a</b>, <b class="vec">b</b>, <b class="vec">c</b>⟩ = ⟨<b class="vec">a</b>, <b class="vec">b</b>⟩</span>（原点を通る平面）です。</p>
+<p><b class="vec">v</b> ∈ ⟨<b class="vec">a</b>, <b class="vec">b</b>⟩ となる条件は、<span class="nw"><i>s</i><b class="vec">a</b> + <i>t</i><b class="vec">b</b> = <b class="vec">v</b></span> が解をもつことです。拡大係数行列を変形すると</p>
+<div class="dm"><span class="mat"><span class="g" style="--c:3"><span>1</span><span>2</span><span><i>v</i><sub>1</sub></span><span>0</span><span>1</span><span><i>v</i><sub>2</sub></span><span>2</span><span>3</span><span><i>v</i><sub>3</sub></span></span></span> → <span class="mat"><span class="g" style="--c:3"><span>1</span><span>2</span><span><i>v</i><sub>1</sub></span><span>0</span><span>1</span><span><i>v</i><sub>2</sub></span><span>0</span><span>−1</span><span><i>v</i><sub>3</sub> − 2<i>v</i><sub>1</sub></span></span></span> → <span class="mat"><span class="g" style="--c:3"><span>1</span><span>2</span><span><i>v</i><sub>1</sub></span><span>0</span><span>1</span><span><i>v</i><sub>2</sub></span><span>0</span><span>0</span><span><i>v</i><sub>3</sub> − 2<i>v</i><sub>1</sub> + <i>v</i><sub>2</sub></span></span></span></div>
+<p>解をもつのは最後の行が 0 = 0 のとき、つまり <strong><span class="nw">2<i>v</i><sub>1</sub> − <i>v</i><sub>2</sub> − <i>v</i><sub>3</sub> = 0</span></strong> です。</p>
+<p class="check">確認：<b class="vec">a</b> は 2 − 0 − 2 = 0、<b class="vec">b</b> は 4 − 1 − 3 = 0、<b class="vec">c</b> は 0 − 1 + 1 = 0 で、どれも条件を満たします。</p>
 </details>
 </div>
 <div class="prob">
 <div class="prob-t">問題 2</div>
-<p><span class="nw">(1, 1, <i>a</i>)</span>, <span class="nw">(1, <i>a</i>, 1)</span>, <span class="nw">(<i>a</i>, 1, 1)</span> が一次従属になるような実数 <i>a</i> をすべて求めてください。</p>
+<p><span class="nw">(1, 1, <i>a</i>)</span>, <span class="nw">(1, <i>a</i>, 1)</span>, <span class="nw">(<i>a</i>, 1, 1)</span> が1次従属になるような実数 <i>a</i> をすべて求めてください。</p>
 <details><summary>解答を見る</summary>
 <p>3本を列に並べた行列式が 0 になる <i>a</i> を求めます。</p>
 <div class="dm"><span class="mat det"><span class="g" style="--c:3"><span>1</span><span>1</span><span><i>a</i></span><span>1</span><span><i>a</i></span><span>1</span><span><i>a</i></span><span>1</span><span>1</span></span></span> = (<i>a</i> − 1) − (1 − <i>a</i>) + <i>a</i>(1 − <i>a</i>²) = −(<i>a</i> − 1)²(<i>a</i> + 2)</div>
@@ -305,12 +313,14 @@ footer.pn a{text-decoration:none}
 </details>
 </div>
 <div class="prob">
-<div class="prob-t">問題 3</div>
-<p><b class="vec">a</b>, <b class="vec">b</b>, <b class="vec">c</b> が一次独立ならば、<span class="nw"><b class="vec">a</b> + <b class="vec">b</b>, <b class="vec">b</b> + <b class="vec">c</b>, <b class="vec">c</b> + <b class="vec">a</b></span> も一次独立であることを示してください。</p>
+<div class="prob-t">問題 3 <span class="src">教科書 練習問題4 [B] 5, 6 の類題</span></div>
+<p><b class="vec">a</b><sub>1</sub>, <b class="vec">a</b><sub>2</sub>, <b class="vec">a</b><sub>3</sub> が1次独立であるとします。</p>
+<p>(1) <span class="nw"><b class="vec">a</b><sub>1</sub> − <b class="vec">a</b><sub>2</sub>, <b class="vec">a</b><sub>2</sub> − <b class="vec">a</b><sub>3</sub>, <b class="vec">a</b><sub>3</sub></span> も1次独立であることを示してください。<br>(2) <span class="nw"><b class="vec">a</b><sub>1</sub> − <b class="vec">a</b><sub>2</sub>, <b class="vec">a</b><sub>2</sub> − <b class="vec">a</b><sub>3</sub>, <b class="vec">a</b><sub>3</sub> − <b class="vec">a</b><sub>1</sub></span> は1次従属であることを示してください。</p>
 <details><summary>解答を見る</summary>
-<p><span class="nw"><i>x</i>(<b class="vec">a</b> + <b class="vec">b</b>) + <i>y</i>(<b class="vec">b</b> + <b class="vec">c</b>) + <i>z</i>(<b class="vec">c</b> + <b class="vec">a</b>) = <b class="vec">0</b></span> と仮定します。整理すると</p>
-<div class="dm">(<i>x</i> + <i>z</i>)<b class="vec">a</b> + (<i>x</i> + <i>y</i>)<b class="vec">b</b> + (<i>y</i> + <i>z</i>)<b class="vec">c</b> = <b class="vec">0</b></div>
-<p><b class="vec">a</b>, <b class="vec">b</b>, <b class="vec">c</b> は一次独立なので <span class="nw"><i>x</i> + <i>z</i> = <i>x</i> + <i>y</i> = <i>y</i> + <i>z</i> = 0</span>。3式を足すと <span class="nw">2(<i>x</i> + <i>y</i> + <i>z</i>) = 0</span>、ここから各式を引いて <span class="nw"><i>x</i> = <i>y</i> = <i>z</i> = 0</span>。よって一次独立です。</p>
+<p>(1) <span class="nw"><i>x</i>(<b class="vec">a</b><sub>1</sub> − <b class="vec">a</b><sub>2</sub>) + <i>y</i>(<b class="vec">a</b><sub>2</sub> − <b class="vec">a</b><sub>3</sub>) + <i>z</i><b class="vec">a</b><sub>3</sub> = <b class="vec">0</b></span> と仮定して整理すると</p>
+<div class="dm"><i>x</i><b class="vec">a</b><sub>1</sub> + (<i>y</i> − <i>x</i>)<b class="vec">a</b><sub>2</sub> + (<i>z</i> − <i>y</i>)<b class="vec">a</b><sub>3</sub> = <b class="vec">0</b></div>
+<p><b class="vec">a</b><sub>1</sub>, <b class="vec">a</b><sub>2</sub>, <b class="vec">a</b><sub>3</sub> は1次独立なので <span class="nw"><i>x</i> = 0, <i>y</i> − <i>x</i> = 0, <i>z</i> − <i>y</i> = 0</span>。順に解いて <span class="nw"><i>x</i> = <i>y</i> = <i>z</i> = 0</span>。よって1次独立です。</p>
+<p>(2) 3本をすべて足すと <span class="nw">(<b class="vec">a</b><sub>1</sub> − <b class="vec">a</b><sub>2</sub>) + (<b class="vec">a</b><sub>2</sub> − <b class="vec">a</b><sub>3</sub>) + (<b class="vec">a</b><sub>3</sub> − <b class="vec">a</b><sub>1</sub>) = <b class="vec">0</b></span>。係数 (1, 1, 1) は 0 でないので、これは自明でない1次関係です。よって1次従属です。</p>
 </details>
 </div>
 </section>
@@ -568,12 +578,12 @@ function statusHTML(cols,n){
   let s=`<div class="row"><i>A</i> = (${names.join(" ")}) = ${matHTML(A)}</div>`;
   if(k===n) s+=`<div class="row">det <i>A</i> = ${LA.det(A).html()}</div>`;
   s+=`<div class="row">rank <i>A</i> = ${r}</div>`;
-  if(r===k){ s+=`<div class="row"><span class="tag ok">一次独立</span> 自明な一次関係しかありません。</div>`; }
+  if(r===k){ s+=`<div class="row"><span class="tag ok">1次独立</span> 自明な1次関係しかありません。</div>`; }
   else{
     const c=LA.nullspace(A)[0];
     let shape = n===2 ? (r===1?"2本は同一直線上にあります。":"2本とも零ベクトルです。") :
       (r===2?"3本は同一平面上にあります。":(r===1?"3本は同一直線上にあります。":"すべて零ベクトルです。"));
-    s+=`<div class="row"><span class="tag ng">一次従属</span> ${shape}</div><div class="row">一次関係の例：${combHTML(c,names)} = ${ZERO}</div>`;
+    s+=`<div class="row"><span class="tag ng">1次従属</span> ${shape}</div><div class="row">1次関係の例：${combHTML(c,names)} = ${ZERO}</div>`;
   }
   return s;
 }

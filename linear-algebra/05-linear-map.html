@@ -158,6 +158,12 @@ footer.pn a{text-decoration:none}
 .sv{min-width:2.8em;text-align:right;font-variant-numeric:tabular-nums}
 .demo-grid.eq{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
 @media (max-width:700px){.demo-grid.eq{grid-template-columns:minmax(0,1fr)}}
+/* 教科書に合わせて行列は丸かっこ */
+.mat::before,.mat::after,.minput::before,.minput::after{border:none;width:.38em}
+.mat::before,.minput::before{border-left:1.5px solid currentColor;border-radius:.6em 0 0 .6em / 50% 0 0 50%}
+.mat::after,.minput::after{border-right:1.5px solid currentColor;border-radius:0 .6em .6em 0 / 0 50% 50% 0}
+.mat.det::before,.mat.det::after{border-radius:0;width:.18em}
+.prob-t .src{font-weight:400;font-size:.8rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin-left:6px;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -216,7 +222,7 @@ footer.pn a{text-decoration:none}
 <p><i>f</i> が線形写像なら</p>
 <ul>
 <li><span class="nw"><i>f</i>(<b class="vec">0</b>) = <b class="vec">0</b></span>　（(L2) で <i>c</i> = 0 とする）</li>
-<li><span class="nw"><i>f</i>(<i>c</i><sub>1</sub><b class="vec">v</b><sub>1</sub> + ⋯ + <i>c</i><sub><i>k</i></sub><b class="vec">v</b><sub><i>k</i></sub>) = <i>c</i><sub>1</sub><i>f</i>(<b class="vec">v</b><sub>1</sub>) + ⋯ + <i>c</i><sub><i>k</i></sub><i>f</i>(<b class="vec">v</b><sub><i>k</i></sub>)</span>　（一次結合を保つ）</li>
+<li><span class="nw"><i>f</i>(<i>c</i><sub>1</sub><b class="vec">v</b><sub>1</sub> + ⋯ + <i>c</i><sub><i>k</i></sub><b class="vec">v</b><sub><i>k</i></sub>) = <i>c</i><sub>1</sub><i>f</i>(<b class="vec">v</b><sub>1</sub>) + ⋯ + <i>c</i><sub><i>k</i></sub><i>f</i>(<b class="vec">v</b><sub><i>k</i></sub>)</span>　（1次結合を保つ）</li>
 </ul>
 </div>
 <div class="box thm">
@@ -283,32 +289,36 @@ footer.pn a{text-decoration:none}
 <section id="s5">
 <h2>5. 練習問題</h2>
 <div class="prob">
-<div class="prob-t">問題 1</div>
-<p>次の写像 ℝ² → ℝ² (または ℝ³ → ℝ²) が線形写像かどうか判定してください。</p>
-<p>(a) <span class="nw"><i>f</i>(<i>x</i>, <i>y</i>) = (<i>x</i> + <i>y</i>, 2<i>x</i> − <i>y</i>)</span>　(b) <span class="nw"><i>g</i>(<i>x</i>, <i>y</i>) = (<i>x</i> + 1, <i>y</i>)</span>　(c) <span class="nw"><i>h</i>(<i>x</i>, <i>y</i>, <i>z</i>) = (<i>xy</i>, <i>z</i>)</span></p>
+<div class="prob-t">問題 1 <span class="src">教科書 練習問題5 [A] 1 の類題</span></div>
+<p>次の写像は線形写像になるかどうか調べてください。</p>
+<div class="dm left">(1) <i>f</i><span class="mat"><span class="g" style="--c:1"><span><i>x</i><sub>1</sub></span><span><i>x</i><sub>2</sub></span></span></span> = <span class="mat"><span class="g" style="--c:1"><span><i>x</i><sub>1</sub> − 2<i>x</i><sub>2</sub></span><span>4<i>x</i><sub>2</sub> + 3</span></span></span>　　(2) <i>f</i>(<i>x</i>) = <span class="mat"><span class="g" style="--c:1"><span>2<i>x</i></span><span><i>x</i>³</span></span></span><br>(3) <i>f</i><span class="mat"><span class="g" style="--c:1"><span><i>x</i><sub>1</sub></span><span><i>x</i><sub>2</sub></span></span></span> = <span class="mat"><span class="g" style="--c:1"><span><i>x</i><sub>1</sub> − <i>x</i><sub>2</sub></span><span>2<i>x</i><sub>1</sub></span><span><i>x</i><sub>2</sub></span></span></span>　　(4) <i>f</i><span class="mat"><span class="g" style="--c:1"><span><i>x</i><sub>1</sub></span><span><i>x</i><sub>2</sub></span><span><i>x</i><sub>3</sub></span></span></span> = <span class="mat"><span class="g" style="--c:1"><span><i>x</i><sub>2</sub><i>x</i><sub>3</sub></span><span><i>x</i><sub>1</sub></span></span></span></div>
 <details><summary>解答を見る</summary>
-<p><strong>(a) 線形です。</strong><span class="nw"><i>f</i>(<b class="vec">x</b>) = <span class="mat"><span class="g" style="--c:2"><span>1</span><span>1</span><span>2</span><span>−1</span></span></span><b class="vec">x</b></span> と行列で書けるからです（例1）。</p>
-<p><strong>(b) 線形ではありません。</strong><span class="nw"><i>g</i>(0, 0) = (1, 0) ≠ <b class="vec">0</b></span>。</p>
-<p><strong>(c) 線形ではありません。</strong><span class="nw"><i>h</i>(2 · (1, 1, 0)) = <i>h</i>(2, 2, 0) = (4, 0)</span> ですが <span class="nw">2<i>h</i>(1, 1, 0) = (2, 0)</span>。(L2) が不成立。</p>
+<p><strong>(1) 線形ではありません。</strong><span class="nw"><i>f</i>(<b class="vec">0</b>) = (0, 3) ≠ <b class="vec">0</b></span>。</p>
+<p><strong>(2) 線形ではありません。</strong><span class="nw"><i>f</i>(2 · 1) = (4, 8)</span> ですが <span class="nw">2<i>f</i>(1) = (4, 2)</span>。(L2) が不成立。</p>
+<p><strong>(3) 線形です。</strong><span class="nw"><i>f</i>(<b class="vec">x</b>) = <span class="mat"><span class="g" style="--c:2"><span>1</span><span>−1</span><span>2</span><span>0</span><span>0</span><span>1</span></span></span><b class="vec">x</b></span> と行列で書けるからです。</p>
+<p><strong>(4) 線形ではありません。</strong><span class="nw"><i>f</i>(2 · (0, 1, 1)) = <i>f</i>(0, 2, 2) = (4, 0)</span> ですが <span class="nw">2<i>f</i>(0, 1, 1) = (2, 0)</span>。</p>
+<p class="small muted">見分け方：各成分が <i>x</i><sub><i>i</i></sub> の「定数倍の和」だけでできていれば線形です。定数項、2乗・3乗、積 <i>x</i><sub><i>i</i></sub><i>x</i><sub><i>j</i></sub> があれば線形ではありません（反例を1つ示して確かめます）。</p>
 </details>
 </div>
 <div class="prob">
-<div class="prob-t">問題 2</div>
-<p>線形写像 <span class="nw"><i>f</i> : ℝ² → ℝ²</span> が <span class="nw"><i>f</i>(1, 0) = (2, 1)</span>, <span class="nw"><i>f</i>(0, 1) = (−1, 3)</span> を満たすとき、<span class="nw"><i>f</i>(3, −2)</span> と、<i>f</i> を表す行列 <i>A</i> を求めてください。</p>
+<div class="prob-t">問題 2 <span class="src">教科書 練習問題5 [A] 2 の類題</span></div>
+<p>2次実行列全体 <i>M</i><sub>2</sub> から ℝ への写像 <i>f</i>, <i>g</i> を、<span class="nw"><i>A</i> = <span class="mat"><span class="g" style="--c:2"><span><i>a</i><sub>11</sub></span><span><i>a</i><sub>12</sub></span><span><i>a</i><sub>21</sub></span><span><i>a</i><sub>22</sub></span></span></span></span> に対して</p>
+<div class="dm"><i>f</i>(<i>A</i>) = <i>a</i><sub>11</sub> + 2<i>a</i><sub>22</sub>，　<i>g</i>(<i>A</i>) = <i>a</i><sub>11</sub><i>a</i><sub>22</sub></div>
+<p>で決めるとき、<i>f</i> と <i>g</i> は線形写像になるか調べてください。</p>
 <details><summary>解答を見る</summary>
-<p>線形性より <span class="nw"><i>f</i>(3, −2) = 3<i>f</i>(1, 0) − 2<i>f</i>(0, 1) = (6, 3) − (−2, 6) = <strong>(8, −3)</strong></span>。</p>
-<p>行き先を列に並べて <span class="nw"><i>A</i> = <span class="mat"><span class="g" style="--c:2"><span>2</span><span>−1</span><span>1</span><span>3</span></span></span></span>。</p>
-<p class="check">確認：<span class="nw"><span class="mat"><span class="g" style="--c:2"><span>2</span><span>−1</span><span>1</span><span>3</span></span></span><span class="mat"><span class="g" style="--c:1"><span>3</span><span>−2</span></span></span> = <span class="mat"><span class="g" style="--c:1"><span>8</span><span>−3</span></span></span></span>。</p>
+<p><strong><i>f</i> は線形です。</strong><span class="nw"><i>f</i>(<i>A</i> + <i>B</i>) = (<i>a</i><sub>11</sub> + <i>b</i><sub>11</sub>) + 2(<i>a</i><sub>22</sub> + <i>b</i><sub>22</sub>) = <i>f</i>(<i>A</i>) + <i>f</i>(<i>B</i>)</span>、<span class="nw"><i>f</i>(<i>cA</i>) = <i>ca</i><sub>11</sub> + 2<i>ca</i><sub>22</sub> = <i>c f</i>(<i>A</i>)</span>。</p>
+<p><strong><i>g</i> は線形ではありません。</strong>単位行列 <i>E</i> について <span class="nw"><i>g</i>(2<i>E</i>) = 2 · 2 = 4</span> ですが <span class="nw">2<i>g</i>(<i>E</i>) = 2</span>。</p>
 </details>
 </div>
 <div class="prob">
-<div class="prob-t">問題 3</div>
-<p>線形写像 <span class="nw"><i>f</i> : ℝ² → ℝ²</span> が <span class="nw"><i>f</i>(1, 1) = (3, 1)</span>, <span class="nw"><i>f</i>(1, −1) = (1, −1)</span> を満たすとき、<i>f</i> を表す行列 <i>A</i> を求めてください。</p>
+<div class="prob-t">問題 3 <span class="src">教科書 練習問題5 [A] 7 の類題</span></div>
+<p>ℝ³ のベクトル <span class="nw"><span class="mat"><span class="g" style="--c:1"><span>1</span><span>1</span><span>0</span></span></span>, <span class="mat"><span class="g" style="--c:1"><span>0</span><span>1</span><span>1</span></span></span>, <span class="mat"><span class="g" style="--c:1"><span>1</span><span>1</span><span>1</span></span></span></span> を、それぞれ ℝ² のベクトル <span class="nw"><span class="mat"><span class="g" style="--c:1"><span>2</span><span>1</span></span></span>, <span class="mat"><span class="g" style="--c:1"><span>1</span><span>−1</span></span></span>, <span class="mat"><span class="g" style="--c:1"><span>3</span><span>0</span></span></span></span> にうつす線形写像 <span class="nw"><i>f</i> : ℝ³ → ℝ²</span> に対応する行列 <i>A</i> を求めてください。</p>
 <details><summary>解答を見る</summary>
-<p>2つの条件をまとめると <span class="nw"><i>A</i><span class="mat"><span class="g" style="--c:2"><span>1</span><span>1</span><span>1</span><span>−1</span></span></span> = <span class="mat"><span class="g" style="--c:2"><span>3</span><span>1</span><span>1</span><span>−1</span></span></span></span>。右から逆行列をかけて</p>
-<div class="dm"><i>A</i> = <span class="mat"><span class="g" style="--c:2"><span>3</span><span>1</span><span>1</span><span>−1</span></span></span><span class="mat"><span class="g" style="--c:2"><span>1</span><span>1</span><span>1</span><span>−1</span></span></span><sup>−1</sup> = <span class="mat"><span class="g" style="--c:2"><span>3</span><span>1</span><span>1</span><span>−1</span></span></span> · <span class="frac"><span>1</span><span>2</span></span><span class="mat"><span class="g" style="--c:2"><span>1</span><span>1</span><span>1</span><span>−1</span></span></span> = <span class="mat"><span class="g" style="--c:2"><span>2</span><span>1</span><span>0</span><span>1</span></span></span></div>
-<p class="check">確認：<span class="nw"><i>A</i><span class="mat"><span class="g" style="--c:1"><span>1</span><span>1</span></span></span> = <span class="mat"><span class="g" style="--c:1"><span>3</span><span>1</span></span></span></span>、<span class="nw"><i>A</i><span class="mat"><span class="g" style="--c:1"><span>1</span><span>−1</span></span></span> = <span class="mat"><span class="g" style="--c:1"><span>1</span><span>−1</span></span></span></span>。</p>
-<p class="small muted">別解：<span class="nw">(1, 0) = ½(1, 1) + ½(1, −1)</span> を使って <span class="nw"><i>f</i>(1, 0) = ½(3, 1) + ½(1, −1) = (2, 0)</span>、同様に <span class="nw"><i>f</i>(0, 1) = (1, 1)</span> と求めても構いません。</p>
+<p>条件をまとめると <span class="nw"><i>AU</i> = <i>Y</i></span>（<i>U</i> は与えられた ℝ³ のベクトルを列に並べた行列、<i>Y</i> は行き先を列に並べた行列）。よって <span class="nw"><i>A</i> = <i>YU</i><sup>−1</sup></span>。</p>
+<div class="dm"><i>U</i> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>0</span><span>1</span><span>1</span><span>1</span><span>1</span><span>0</span><span>1</span><span>1</span></span></span>，　<i>U</i><sup>−1</sup> = <span class="mat"><span class="g" style="--c:3"><span>0</span><span>1</span><span>−1</span><span>−1</span><span>1</span><span>0</span><span>1</span><span>−1</span><span>1</span></span></span></div>
+<div class="dm"><i>A</i> = <span class="mat"><span class="g" style="--c:3"><span>2</span><span>1</span><span>3</span><span>1</span><span>−1</span><span>0</span></span></span><span class="mat"><span class="g" style="--c:3"><span>0</span><span>1</span><span>−1</span><span>−1</span><span>1</span><span>0</span><span>1</span><span>−1</span><span>1</span></span></span> = <span class="mat"><span class="g" style="--c:3"><span>2</span><span>0</span><span>1</span><span>1</span><span>0</span><span>−1</span></span></span></div>
+<p class="check">確認：<span class="nw"><i>A</i>(1, 1, 0) = (2, 1)</span>、<span class="nw"><i>A</i>(0, 1, 1) = (1, −1)</span>、<span class="nw"><i>A</i>(1, 1, 1) = (3, 0)</span>。</p>
+<p class="small muted">別解：<span class="nw"><b class="vec">e</b><sub>1</sub> = (1, 1, 1) − (0, 1, 1)</span> などと標準基底を与えられたベクトルの1次結合で表し、<i>f</i>(<b class="vec">e</b><sub><i>j</i></sub>) を求めて列に並べても構いません。</p>
 </details>
 </div>
 </section>

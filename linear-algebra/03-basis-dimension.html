@@ -158,6 +158,12 @@ footer.pn a{text-decoration:none}
 .sv{min-width:2.8em;text-align:right;font-variant-numeric:tabular-nums}
 .demo-grid.eq{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
 @media (max-width:700px){.demo-grid.eq{grid-template-columns:minmax(0,1fr)}}
+/* 教科書に合わせて行列は丸かっこ */
+.mat::before,.mat::after,.minput::before,.minput::after{border:none;width:.38em}
+.mat::before,.minput::before{border-left:1.5px solid currentColor;border-radius:.6em 0 0 .6em / 50% 0 0 50%}
+.mat::after,.minput::after{border-right:1.5px solid currentColor;border-radius:0 .6em .6em 0 / 0 50% 50% 0}
+.mat.det::before,.mat.det::after{border-radius:0;width:.18em}
+.prob-t .src{font-weight:400;font-size:.8rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin-left:6px;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -174,7 +180,7 @@ footer.pn a{text-decoration:none}
 <p>平面上の点を (3, 1) のように2つの数で表せるのは、「<i>x</i> 方向に1目盛り」「<i>y</i> 方向に1目盛り」という2本のものさし <span class="nw"><b class="vec">e</b><sub>1</sub> = (1, 0)</span>, <span class="nw"><b class="vec">e</b><sub>2</sub> = (0, 1)</span> を決めているからです。</p>
 <p>しかし、ものさしは斜めでも、長さがばらばらでも構いません。条件は次の2つだけです。</p>
 <ul>
-<li><strong>むだがない</strong>（一次独立）：どのものさしも、ほかのものさしで代用できない</li>
+<li><strong>むだがない</strong>（1次独立）：どのものさしも、ほかのものさしで代用できない</li>
 <li><strong>足りている</strong>（生成する）：空間のどのベクトルも、ものさしの組み合わせで表せる</li>
 </ul>
 <p>この2条件を満たすものさしの組を<strong>基底</strong>、その本数を<strong>次元</strong>といいます。ℝ² の基底はどう選んでも必ず2本です。そして、ベクトルを基底の組み合わせで表したときの係数が<strong>座標</strong>です。同じ矢印でも、ものさしを変えれば座標は変わります。下の図で確かめましょう。</p>
@@ -195,7 +201,7 @@ footer.pn a{text-decoration:none}
 <h2>2. 定義</h2>
 <div class="box def">
 <div class="box-t">定義 1（生成する部分空間）</div>
-<p><b class="vec">a</b><sub>1</sub>, …, <b class="vec">a</b><sub><i>k</i></sub> の一次結合全体</p>
+<p><b class="vec">a</b><sub>1</sub>, …, <b class="vec">a</b><sub><i>k</i></sub> の1次結合全体</p>
 <div class="dm">⟨<b class="vec">a</b><sub>1</sub>, …, <b class="vec">a</b><sub><i>k</i></sub>⟩ = { <i>c</i><sub>1</sub><b class="vec">a</b><sub>1</sub> + ⋯ + <i>c</i><sub><i>k</i></sub><b class="vec">a</b><sub><i>k</i></sub> | <i>c</i><sub><i>i</i></sub> ∈ ℝ }</div>
 <p>は部分空間です。これを <b class="vec">a</b><sub>1</sub>, …, <b class="vec">a</b><sub><i>k</i></sub> が<strong>生成する（張る）部分空間</strong>といいます。<span class="nw"><i>V</i> = ⟨<b class="vec">a</b><sub>1</sub>, …, <b class="vec">a</b><sub><i>k</i></sub>⟩</span> のとき、<b class="vec">a</b><sub>1</sub>, …, <b class="vec">a</b><sub><i>k</i></sub> は <i>V</i> を<strong>生成する</strong>といいます。</p>
 </div>
@@ -203,7 +209,7 @@ footer.pn a{text-decoration:none}
 <div class="box-t">定義 2（基底）</div>
 <p>線形空間 <i>V</i> のベクトルの組 <span class="nw">(<b class="vec">b</b><sub>1</sub>, …, <b class="vec">b</b><sub><i>n</i></sub>)</span> が次の2条件を満たすとき、<i>V</i> の<strong>基底</strong>といいます。</p>
 <div class="ax">
-<b>(B1)</b><span><b class="vec">b</b><sub>1</sub>, …, <b class="vec">b</b><sub><i>n</i></sub> は<strong>一次独立</strong>である</span>
+<b>(B1)</b><span><b class="vec">b</b><sub>1</sub>, …, <b class="vec">b</b><sub><i>n</i></sub> は<strong>1次独立</strong>である</span>
 <b>(B2)</b><span><b class="vec">b</b><sub>1</sub>, …, <b class="vec">b</b><sub><i>n</i></sub> は <i>V</i> を<strong>生成する</strong></span>
 </div>
 </div>
@@ -216,12 +222,12 @@ footer.pn a{text-decoration:none}
 <p>(<b class="vec">b</b><sub>1</sub>, …, <b class="vec">b</b><sub><i>n</i></sub>) を <i>V</i> の基底とすると、各 <b class="vec">v</b> ∈ <i>V</i> は</p>
 <div class="dm"><b class="vec">v</b> = <i>x</i><sub>1</sub><b class="vec">b</b><sub>1</sub> + <i>x</i><sub>2</sub><b class="vec">b</b><sub>2</sub> + ⋯ + <i>x</i><sub><i>n</i></sub><b class="vec">b</b><sub><i>n</i></sub></div>
 <p>と<strong>ただ1通りに</strong>表せます。この係数を並べた <span class="nw"><sup>t</sup>(<i>x</i><sub>1</sub>, …, <i>x</i><sub><i>n</i></sub>) ∈ ℝⁿ</span> を、基底に関する <b class="vec">v</b> の<strong>座標</strong>（座標ベクトル）といいます。</p>
-<p class="small muted">1通りである理由：2通り <span class="nw">Σ<i>x</i><sub><i>i</i></sub><b class="vec">b</b><sub><i>i</i></sub> = Σ<i>y</i><sub><i>i</i></sub><b class="vec">b</b><sub><i>i</i></sub></span> に書けたとすると <span class="nw">Σ(<i>x</i><sub><i>i</i></sub> − <i>y</i><sub><i>i</i></sub>)<b class="vec">b</b><sub><i>i</i></sub> = <b class="vec">0</b></span>。一次独立なので <span class="nw"><i>x</i><sub><i>i</i></sub> = <i>y</i><sub><i>i</i></sub></span>。</p>
+<p class="small muted">1通りである理由：2通り <span class="nw">Σ<i>x</i><sub><i>i</i></sub><b class="vec">b</b><sub><i>i</i></sub> = Σ<i>y</i><sub><i>i</i></sub><b class="vec">b</b><sub><i>i</i></sub></span> に書けたとすると <span class="nw">Σ(<i>x</i><sub><i>i</i></sub> − <i>y</i><sub><i>i</i></sub>)<b class="vec">b</b><sub><i>i</i></sub> = <b class="vec">0</b></span>。1次独立なので <span class="nw"><i>x</i><sub><i>i</i></sub> = <i>y</i><sub><i>i</i></sub></span>。</p>
 </div>
 <div class="box thm">
 <div class="box-t">定理 2（次元がわかっているとき）</div>
 <p><span class="nw">dim <i>V</i> = <i>n</i></span> とします。<i>V</i> の <i>n</i> 本のベクトルについて、</p>
-<div class="dm">一次独立である　⇔　<i>V</i> を生成する　⇔　基底である</div>
+<div class="dm">1次独立である　⇔　<i>V</i> を生成する　⇔　基底である</div>
 <p>つまり本数が次元と一致していれば、(B1) と (B2) の<strong>片方を確かめるだけ</strong>で基底だとわかります。特に ℝⁿ の <i>n</i> 本は「列に並べた行列の行列式 ≠ 0」なら基底です。</p>
 </div>
 </section>
@@ -254,7 +260,7 @@ footer.pn a{text-decoration:none}
 <div class="ex-t">例 5：部分空間の基底と次元</div>
 <p><span class="nw"><i>W</i> = { <b class="vec">x</b> ∈ ℝ³ | <i>x</i><sub>1</sub> + 2<i>x</i><sub>2</sub> − <i>x</i><sub>3</sub> = 0 }</span>。<span class="nw"><i>x</i><sub>3</sub> = <i>x</i><sub>1</sub> + 2<i>x</i><sub>2</sub></span> なので、<i>x</i><sub>1</sub> = <i>s</i>, <i>x</i><sub>2</sub> = <i>t</i> とおくと</p>
 <div class="dm"><b class="vec">x</b> = <span class="mat"><span class="g" style="--c:1"><span><i>s</i></span><span><i>t</i></span><span><i>s</i> + 2<i>t</i></span></span></span> = <i>s</i><span class="mat"><span class="g" style="--c:1"><span>1</span><span>0</span><span>1</span></span></span> + <i>t</i><span class="mat"><span class="g" style="--c:1"><span>0</span><span>1</span><span>2</span></span></span></div>
-<p>この2本は <i>W</i> を生成し、第1・第2成分を見れば一次独立です。よって基底は (1, 0, 1), (0, 1, 2) で、<span class="nw">dim <i>W</i> = 2</span>（平面）です。</p>
+<p>この2本は <i>W</i> を生成し、第1・第2成分を見れば1次独立です。よって基底は (1, 0, 1), (0, 1, 2) で、<span class="nw">dim <i>W</i> = 2</span>（平面）です。</p>
 </div>
 </section>
 
@@ -262,7 +268,7 @@ footer.pn a{text-decoration:none}
 <h2>4. よくある間違い</h2>
 <div class="mis">
 <p class="bad">(1, 0), (0, 1), (1, 1) は ℝ² を生成するので基底である。</p>
-<p class="good">生成はしますが、(1, 1) = (1, 0) + (0, 1) なので一次独立ではありません。基底は<strong>独立かつ生成</strong>の両方が必要です。ℝ² の基底は必ず2本です。</p>
+<p class="good">生成はしますが、(1, 1) = (1, 0) + (0, 1) なので1次独立ではありません。基底は<strong>独立かつ生成</strong>の両方が必要です。ℝ² の基底は必ず2本です。</p>
 </div>
 <div class="mis">
 <p class="bad">ベクトル (3, 1) の座標は、どんな基底でも (3, 1) である。</p>
@@ -278,44 +284,56 @@ footer.pn a{text-decoration:none}
 </div>
 <div class="mis">
 <p class="bad">零空間 { <b class="vec">0</b> } の基底は <b class="vec">0</b> なので、次元は 1。</p>
-<p class="good"><b class="vec">0</b> だけの組は一次従属なので基底になれません。{ <b class="vec">0</b> } の基底は空集合で、<span class="nw">dim { <b class="vec">0</b> } = 0</span> です。</p>
+<p class="good"><b class="vec">0</b> だけの組は1次従属なので基底になれません。{ <b class="vec">0</b> } の基底は空集合で、<span class="nw">dim { <b class="vec">0</b> } = 0</span> です。</p>
 </div>
 </section>
 
 <section id="s5">
 <h2>5. 練習問題</h2>
 <div class="prob">
-<div class="prob-t">問題 1</div>
-<p><span class="nw"><b class="vec">b</b><sub>1</sub> = (1, 2)</span>, <span class="nw"><b class="vec">b</b><sub>2</sub> = (3, 4)</span> が ℝ² の基底であることを確かめ、<span class="nw"><b class="vec">v</b> = (5, 6)</span> のこの基底に関する座標を求めてください。</p>
+<div class="prob-t">問題 1 <span class="src">教科書 練習問題4 [A] 12 の類題</span></div>
+<p>ℝ⁴ の次の部分空間の次元と基底を求めてください。</p>
+<p>(1) <span class="nw"><i>W</i><sub>1</sub> = { <b class="vec">x</b> ∈ ℝ⁴ | <i>x</i><sub>1</sub> − <i>x</i><sub>2</sub> = 0,　<i>x</i><sub>3</sub> + 2<i>x</i><sub>4</sub> = 0 }</span></p>
+<p>(2) <span class="nw"><i>W</i><sub>2</sub> = { <b class="vec">x</b> ∈ ℝ⁴ | <span class="mat"><span class="g" style="--c:4"><span>1</span><span>1</span><span>2</span><span>1</span><span>2</span><span>1</span><span>3</span><span>4</span><span>1</span><span>0</span><span>1</span><span>3</span></span></span><b class="vec">x</b> = <b class="vec">0</b> }</span></p>
 <details><summary>解答を見る</summary>
-<p><span class="nw">det <span class="mat"><span class="g" style="--c:2"><span>1</span><span>3</span><span>2</span><span>4</span></span></span> = 4 − 6 = −2 ≠ 0</span> なので、2本は一次独立で、ℝ² の基底です（定理2）。</p>
-<div class="dm"><span class="eqs"><span><i>x</i><sub>1</sub> + 3<i>x</i><sub>2</sub></span><span>= 5</span><span>2<i>x</i><sub>1</sub> + 4<i>x</i><sub>2</sub></span><span>= 6</span></span>　⇒　<i>x</i><sub>1</sub> = −1,　<i>x</i><sub>2</sub> = 2</div>
-<p>座標は <strong>(−1, 2)</strong>。</p>
-<p class="check">確認：<span class="nw">−(1, 2) + 2(3, 4) = (5, 6)</span>。</p>
+<p>(1) <span class="nw"><i>x</i><sub>2</sub> = <i>x</i><sub>1</sub></span>, <span class="nw"><i>x</i><sub>3</sub> = −2<i>x</i><sub>4</sub></span>。<span class="nw"><i>x</i><sub>1</sub> = <i>s</i>, <i>x</i><sub>4</sub> = <i>t</i></span> とおくと</p>
+<div class="dm"><b class="vec">x</b> = <i>s</i><span class="mat"><span class="g" style="--c:1"><span>1</span><span>1</span><span>0</span><span>0</span></span></span> + <i>t</i><span class="mat"><span class="g" style="--c:1"><span>0</span><span>0</span><span>−2</span><span>1</span></span></span></div>
+<p>基底はこの2本、<strong>dim <i>W</i><sub>1</sub> = 2</strong>。</p>
+<p>(2) 係数行列を簡約化します。</p>
+<div class="dm"><span class="mat"><span class="g" style="--c:4"><span>1</span><span>1</span><span>2</span><span>1</span><span>2</span><span>1</span><span>3</span><span>4</span><span>1</span><span>0</span><span>1</span><span>3</span></span></span> → <span class="mat"><span class="g" style="--c:4"><span>1</span><span>1</span><span>2</span><span>1</span><span>0</span><span>−1</span><span>−1</span><span>2</span><span>0</span><span>−1</span><span>−1</span><span>2</span></span></span> → <span class="mat"><span class="g" style="--c:4"><span>1</span><span>0</span><span>1</span><span>3</span><span>0</span><span>1</span><span>1</span><span>−2</span><span>0</span><span>0</span><span>0</span><span>0</span></span></span></div>
+<p>自由変数 <span class="nw"><i>x</i><sub>3</sub> = <i>s</i>, <i>x</i><sub>4</sub> = <i>t</i></span> とおくと <span class="nw"><i>x</i><sub>1</sub> = −<i>s</i> − 3<i>t</i></span>, <span class="nw"><i>x</i><sub>2</sub> = −<i>s</i> + 2<i>t</i></span> なので</p>
+<div class="dm"><b class="vec">x</b> = <i>s</i><span class="mat"><span class="g" style="--c:1"><span>−1</span><span>−1</span><span>1</span><span>0</span></span></span> + <i>t</i><span class="mat"><span class="g" style="--c:1"><span>−3</span><span>2</span><span>0</span><span>1</span></span></span></div>
+<p>基底はこの2本、<strong>dim <i>W</i><sub>2</sub> = 2</strong>（= 4 − rank）。</p>
 </details>
 </div>
 <div class="prob">
-<div class="prob-t">問題 2</div>
-<p><span class="nw"><i>W</i> = { <b class="vec">x</b> ∈ ℝ⁴ | <i>x</i><sub>1</sub> + <i>x</i><sub>2</sub> + <i>x</i><sub>3</sub> + <i>x</i><sub>4</sub> = 0,　<i>x</i><sub>1</sub> − <i>x</i><sub>2</sub> = 0 }</span> の基底と次元を求めてください。</p>
+<div class="prob-t">問題 2 <span class="src">教科書 練習問題4 [A] 13 の類題</span></div>
+<p>2次以下の多項式全体のつくる線形空間 ℝ[<i>x</i>]<sub>2</sub> において、<span class="nw">{1 + <i>x</i>, 1 − <i>x</i>, <i>x</i>² + 1}</span> は基底になることを示してください。また、この基底に関する <span class="nw">3 + <i>x</i> + 2<i>x</i>²</span> の座標を求めてください。</p>
 <details><summary>解答を見る</summary>
-<p>2式目から <i>x</i><sub>2</sub> = <i>x</i><sub>1</sub>。1式目に入れて <span class="nw"><i>x</i><sub>4</sub> = −2<i>x</i><sub>1</sub> − <i>x</i><sub>3</sub></span>。<i>x</i><sub>1</sub> = <i>s</i>, <i>x</i><sub>3</sub> = <i>t</i> とおくと</p>
-<div class="dm"><b class="vec">x</b> = <span class="mat"><span class="g" style="--c:1"><span><i>s</i></span><span><i>s</i></span><span><i>t</i></span><span>−2<i>s</i> − <i>t</i></span></span></span> = <i>s</i><span class="mat"><span class="g" style="--c:1"><span>1</span><span>1</span><span>0</span><span>−2</span></span></span> + <i>t</i><span class="mat"><span class="g" style="--c:1"><span>0</span><span>0</span><span>1</span><span>−1</span></span></span></div>
-<p>この2本は <i>W</i> を生成し、第1・第3成分を見れば一次独立です。よって基底は <span class="nw">(1, 1, 0, −2), (0, 0, 1, −1)</span>、<strong>dim <i>W</i> = 2</strong>。</p>
+<p><span class="nw"><i>a</i>(1 + <i>x</i>) + <i>b</i>(1 − <i>x</i>) + <i>c</i>(<i>x</i>² + 1) = (<i>a</i> + <i>b</i> + <i>c</i>) + (<i>a</i> − <i>b</i>)<i>x</i> + <i>cx</i>²</span> です。</p>
+<p><strong>1次独立</strong>：これが 0 なら <span class="nw"><i>c</i> = 0</span>, <span class="nw"><i>a</i> − <i>b</i> = 0</span>, <span class="nw"><i>a</i> + <i>b</i> + <i>c</i> = 0</span>。よって <span class="nw"><i>a</i> = <i>b</i> = <i>c</i> = 0</span>。</p>
+<p>dim ℝ[<i>x</i>]<sub>2</sub> = 3 で、3本の1次独立なベクトルなので基底です（定理2）。</p>
+<p><strong>座標</strong>：<span class="nw">3 + <i>x</i> + 2<i>x</i>²</span> と係数を比べて <span class="nw"><i>c</i> = 2</span>, <span class="nw"><i>a</i> − <i>b</i> = 1</span>, <span class="nw"><i>a</i> + <i>b</i> = 1</span>。よって <span class="nw"><i>a</i> = 1, <i>b</i> = 0, <i>c</i> = 2</span>、座標は <strong>(1, 0, 2)</strong>。</p>
+<p class="check">確認：<span class="nw">(1 + <i>x</i>) + 2(<i>x</i>² + 1) = 3 + <i>x</i> + 2<i>x</i>²</span>。</p>
 </details>
 </div>
 <div class="prob">
-<div class="prob-t">問題 3</div>
-<p>ℝ[<i>x</i>]<sub>2</sub> の基底 (1, 1 + <i>x</i>, 1 + <i>x</i> + <i>x</i>²) に関する、<span class="nw"><i>f</i> = 3 − <i>x</i> + 2<i>x</i>²</span> の座標を求めてください。</p>
+<div class="prob-t">問題 3 <span class="src">教科書 練習問題4 [A] 15 の類題</span></div>
+<p>ℝ³ のベクトル <span class="nw"><b class="vec">a</b><sub>1</sub> = <span class="mat"><span class="g" style="--c:1"><span>1</span><span>0</span><span>1</span></span></span>, <b class="vec">a</b><sub>2</sub> = <span class="mat"><span class="g" style="--c:1"><span>0</span><span>1</span><span>1</span></span></span>, <b class="vec">a</b><sub>3</sub> = <span class="mat"><span class="g" style="--c:1"><span>1</span><span>1</span><span>0</span></span></span>, <b class="vec">a</b><sub>4</sub> = <span class="mat"><span class="g" style="--c:1"><span>1</span><span>−1</span><span>1</span></span></span></span> に対して <span class="nw"><i>W</i><sub>1</sub> = ⟨<b class="vec">a</b><sub>1</sub>, <b class="vec">a</b><sub>2</sub>⟩</span>, <span class="nw"><i>W</i><sub>2</sub> = ⟨<b class="vec">a</b><sub>3</sub>, <b class="vec">a</b><sub>4</sub>⟩</span> とおくとき、<i>W</i><sub>1</sub> + <i>W</i><sub>2</sub> と <i>W</i><sub>1</sub> ∩ <i>W</i><sub>2</sub> のそれぞれの次元と基底を求めてください。</p>
+<p class="small muted">ここで <span class="nw"><i>W</i><sub>1</sub> + <i>W</i><sub>2</sub> = { <b class="vec">w</b><sub>1</sub> + <b class="vec">w</b><sub>2</sub> | <b class="vec">w</b><sub>1</sub> ∈ <i>W</i><sub>1</sub>, <b class="vec">w</b><sub>2</sub> ∈ <i>W</i><sub>2</sub> } = ⟨<b class="vec">a</b><sub>1</sub>, <b class="vec">a</b><sub>2</sub>, <b class="vec">a</b><sub>3</sub>, <b class="vec">a</b><sub>4</sub>⟩</span>（和空間）です。</p>
 <details><summary>解答を見る</summary>
-<p><span class="nw"><i>a</i> · 1 + <i>b</i>(1 + <i>x</i>) + <i>c</i>(1 + <i>x</i> + <i>x</i>²) = (<i>a</i> + <i>b</i> + <i>c</i>) + (<i>b</i> + <i>c</i>)<i>x</i> + <i>cx</i>²</span> を <i>f</i> と比べて</p>
-<div class="dm"><i>c</i> = 2,　<i>b</i> + <i>c</i> = −1,　<i>a</i> + <i>b</i> + <i>c</i> = 3　⇒　<i>a</i> = 4,　<i>b</i> = −3,　<i>c</i> = 2</div>
-<p>座標は <strong>(4, −3, 2)</strong>。</p>
-<p class="check">確認：<span class="nw">4 − 3(1 + <i>x</i>) + 2(1 + <i>x</i> + <i>x</i>²) = 3 − <i>x</i> + 2<i>x</i>²</span>。</p>
+<p><strong><i>W</i><sub>1</sub> + <i>W</i><sub>2</sub></strong>：4本を列に並べた行列の rank を調べると 3 です（たとえば <b class="vec">a</b><sub>1</sub>, <b class="vec">a</b><sub>2</sub>, <b class="vec">a</b><sub>3</sub> を並べた行列式は <span class="nw">1·(0 − 1) − 0 + 1·(0 − 1) = −2 ≠ 0</span>）。よって <span class="nw"><i>W</i><sub>1</sub> + <i>W</i><sub>2</sub> = ℝ³</span>、<strong>次元 3</strong>、基底は <b class="vec">a</b><sub>1</sub>, <b class="vec">a</b><sub>2</sub>, <b class="vec">a</b><sub>3</sub>（標準基底でも可）。</p>
+<p><strong><i>W</i><sub>1</sub> ∩ <i>W</i><sub>2</sub></strong>：<span class="nw"><i>s</i><b class="vec">a</b><sub>1</sub> + <i>t</i><b class="vec">a</b><sub>2</sub> = <i>u</i><b class="vec">a</b><sub>3</sub> + <i>v</i><b class="vec">a</b><sub>4</sub></span> とおくと、成分で</p>
+<div class="dm"><i>s</i> = <i>u</i> + <i>v</i>,　<i>t</i> = <i>u</i> − <i>v</i>,　<i>s</i> + <i>t</i> = <i>v</i></div>
+<p>1式目と2式目を足すと <span class="nw"><i>s</i> + <i>t</i> = 2<i>u</i></span> なので <span class="nw"><i>v</i> = 2<i>u</i></span>、すると <span class="nw"><i>s</i> = 3<i>u</i>, <i>t</i> = −<i>u</i></span>。共通のベクトルは</p>
+<div class="dm">3<i>u</i><b class="vec">a</b><sub>1</sub> − <i>u</i><b class="vec">a</b><sub>2</sub> = <i>u</i><span class="mat"><span class="g" style="--c:1"><span>3</span><span>−1</span><span>2</span></span></span></div>
+<p>よって <span class="nw"><i>W</i><sub>1</sub> ∩ <i>W</i><sub>2</sub> = ⟨(3, −1, 2)⟩</span>、<strong>次元 1</strong>。</p>
+<p class="check">確認（次元公式）：<span class="nw">dim(<i>W</i><sub>1</sub> + <i>W</i><sub>2</sub>) = dim <i>W</i><sub>1</sub> + dim <i>W</i><sub>2</sub> − dim(<i>W</i><sub>1</sub> ∩ <i>W</i><sub>2</sub>)</span> に当てはめると <span class="nw">3 = 2 + 2 − 1</span> ✓</p>
 </details>
 </div>
 </section>
 </main>
-<footer class="pn"><a href="02-linear-independence.html">← 第2回 一次独立と一次従属</a><a href="04-change-of-basis.html">第4回 基底変換と座標変換 →</a></footer>
+<footer class="pn"><a href="02-linear-independence.html">← 第2回 1次独立と1次従属</a><a href="04-change-of-basis.html">第4回 基底変換と座標変換 →</a></footer>
 </div>
 <script>
 "use strict";
@@ -595,7 +613,7 @@ function render(){
   P.syncHandles();
   let s=`<div class="row">${V("b")}<sub>1</sub> = ${rowVecHTML(b1.map(toQ))},　${V("b")}<sub>2</sub> = ${rowVecHTML(b2.map(toQ))}</div>`;
   s+=`<div class="row">${V("x")} = ${rowVecHTML(x.map(toQ))}（標準基底での座標）</div>`;
-  if(!c){ s+=`<div class="row"><span class="tag ng">基底ではありません</span> ${V("b")}<sub>1</sub>, ${V("b")}<sub>2</sub> が同一直線上にある（一次従属）ので、座標が決まりません。</div>`; }
+  if(!c){ s+=`<div class="row"><span class="tag ng">基底ではありません</span> ${V("b")}<sub>1</sub>, ${V("b")}<sub>2</sub> が同一直線上にある（1次従属）ので、座標が決まりません。</div>`; }
   else{
     s+=`<div class="row"><span class="tag ok">基底です</span> det = ${LA.det(LA.fromCols(B.map(v=>v.map(toQ)))).html()} ≠ 0</div>`;
     s+=`<div class="row" style="font-size:1.08em">${V("x")} = ${combHTML(c,[V("b")+"<sub>1</sub>",V("b")+"<sub>2</sub>"])}</div>`;

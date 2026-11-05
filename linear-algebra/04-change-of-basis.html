@@ -158,6 +158,12 @@ footer.pn a{text-decoration:none}
 .sv{min-width:2.8em;text-align:right;font-variant-numeric:tabular-nums}
 .demo-grid.eq{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
 @media (max-width:700px){.demo-grid.eq{grid-template-columns:minmax(0,1fr)}}
+/* 教科書に合わせて行列は丸かっこ */
+.mat::before,.mat::after,.minput::before,.minput::after{border:none;width:.38em}
+.mat::before,.minput::before{border-left:1.5px solid currentColor;border-radius:.6em 0 0 .6em / 50% 0 0 50%}
+.mat::after,.minput::after{border-right:1.5px solid currentColor;border-radius:0 .6em .6em 0 / 0 50% 50% 0}
+.mat.det::before,.mat.det::after{border-radius:0;width:.18em}
+.prob-t .src{font-weight:400;font-size:.8rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin-left:6px;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -185,7 +191,7 @@ footer.pn a{text-decoration:none}
 <p>線形空間 <i>V</i> の2組の基底を <span class="nw"><i>B</i> = (<b class="vec">b</b><sub>1</sub>, …, <b class="vec">b</b><sub><i>n</i></sub>)</span>（古い基底）、<span class="nw"><i>B</i>′ = (<b class="vec">b</b>′<sub>1</sub>, …, <b class="vec">b</b>′<sub><i>n</i></sub>)</span>（新しい基底）とします。</p>
 <div class="box def">
 <div class="box-t">定義（基底の変換行列）</div>
-<p>新しい基底の各ベクトルを古い基底の一次結合で表します。</p>
+<p>新しい基底の各ベクトルを古い基底の1次結合で表します。</p>
 <div class="dm"><b class="vec">b</b>′<sub><i>j</i></sub> = <i>p</i><sub>1<i>j</i></sub><b class="vec">b</b><sub>1</sub> + <i>p</i><sub>2<i>j</i></sub><b class="vec">b</b><sub>2</sub> + ⋯ + <i>p</i><sub><i>nj</i></sub><b class="vec">b</b><sub><i>n</i></sub>　　(<i>j</i> = 1, …, <i>n</i>)</div>
 <p>この係数を<strong>第 <i>j</i> 列</strong>に並べた <i>n</i> 次正方行列 <span class="nw"><i>P</i> = (<i>p</i><sub><i>ij</i></sub>)</span> を、<i>B</i> から <i>B</i>′ への<strong>基底の変換行列</strong>といいます。まとめて書くと</p>
 <div class="dm">(<b class="vec">b</b>′<sub>1</sub> ⋯ <b class="vec">b</b>′<sub><i>n</i></sub>) = (<b class="vec">b</b><sub>1</sub> ⋯ <b class="vec">b</b><sub><i>n</i></sub>) <i>P</i></div>
@@ -270,28 +276,34 @@ footer.pn a{text-decoration:none}
 <section id="s5">
 <h2>5. 練習問題</h2>
 <div class="prob">
-<div class="prob-t">問題 1</div>
-<p>ℝ² の標準基底 <i>B</i> から <span class="nw"><i>B</i>′ = ((2, 1), (1, 1))</span> への変換行列 <i>P</i> を求め、<span class="nw"><b class="vec">v</b> = (3, 2)</span> の <i>B</i>′ に関する座標を求めてください。</p>
+<div class="prob-t">問題 1 <span class="src">教科書 練習問題4 [A] 16 の類題</span></div>
+<p>ℝ³ の2組の基底</p>
+<div class="dm">{ <b class="vec">u</b><sub>1</sub> = <span class="mat"><span class="g" style="--c:1"><span>1</span><span>1</span><span>0</span></span></span>, <b class="vec">u</b><sub>2</sub> = <span class="mat"><span class="g" style="--c:1"><span>0</span><span>1</span><span>1</span></span></span>, <b class="vec">u</b><sub>3</sub> = <span class="mat"><span class="g" style="--c:1"><span>0</span><span>0</span><span>1</span></span></span> }，　{ <b class="vec">v</b><sub>1</sub> = <span class="mat"><span class="g" style="--c:1"><span>1</span><span>2</span><span>1</span></span></span>, <b class="vec">v</b><sub>2</sub> = <span class="mat"><span class="g" style="--c:1"><span>1</span><span>1</span><span>1</span></span></span>, <b class="vec">v</b><sub>3</sub> = <span class="mat"><span class="g" style="--c:1"><span>0</span><span>1</span><span>2</span></span></span> }</div>
+<p>について、(1) 基底変換の行列 <span class="nw">{ <b class="vec">u</b><sub>1</sub>, <b class="vec">u</b><sub>2</sub>, <b class="vec">u</b><sub>3</sub> } →<sup><i>P</i></sup> { <b class="vec">v</b><sub>1</sub>, <b class="vec">v</b><sub>2</sub>, <b class="vec">v</b><sub>3</sub> }</span> を求めてください。(2) { <b class="vec">u</b><sub><i>i</i></sub> } に関する座標が (2, 1, 1) であるベクトルの、{ <b class="vec">v</b><sub><i>i</i></sub> } に関する座標を求めてください。</p>
 <details><summary>解答を見る</summary>
-<div class="dm"><i>P</i> = <span class="mat"><span class="g" style="--c:2"><span>2</span><span>1</span><span>1</span><span>1</span></span></span>，　det <i>P</i> = 1，　<i>P</i><sup>−1</sup> = <span class="mat"><span class="g" style="--c:2"><span>1</span><span>−1</span><span>−1</span><span>2</span></span></span></div>
-<div class="dm"><b class="vec">x</b>′ = <i>P</i><sup>−1</sup><span class="mat"><span class="g" style="--c:1"><span>3</span><span>2</span></span></span> = <span class="mat"><span class="g" style="--c:1"><span>1</span><span>1</span></span></span></div>
-<p class="check">確認：<span class="nw">1 · (2, 1) + 1 · (1, 1) = (3, 2)</span>。</p>
+<p>(1) <i>U</i> = (<b class="vec">u</b><sub>1</sub> <b class="vec">u</b><sub>2</sub> <b class="vec">u</b><sub>3</sub>)、<i>V</i> = (<b class="vec">v</b><sub>1</sub> <b class="vec">v</b><sub>2</sub> <b class="vec">v</b><sub>3</sub>) とすると <span class="nw"><i>P</i> = <i>U</i><sup>−1</sup><i>V</i></span>。</p>
+<div class="dm"><i>U</i><sup>−1</sup> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>0</span><span>0</span><span>−1</span><span>1</span><span>0</span><span>1</span><span>−1</span><span>1</span></span></span>，　<i>P</i> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>0</span><span>0</span><span>−1</span><span>1</span><span>0</span><span>1</span><span>−1</span><span>1</span></span></span><span class="mat"><span class="g" style="--c:3"><span>1</span><span>1</span><span>0</span><span>2</span><span>1</span><span>1</span><span>1</span><span>1</span><span>2</span></span></span> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>1</span><span>0</span><span>1</span><span>0</span><span>1</span><span>0</span><span>1</span><span>1</span></span></span></div>
+<p class="check">列の確認：<span class="nw"><b class="vec">v</b><sub>1</sub> = <b class="vec">u</b><sub>1</sub> + <b class="vec">u</b><sub>2</sub></span>、<span class="nw"><b class="vec">v</b><sub>2</sub> = <b class="vec">u</b><sub>1</sub> + <b class="vec">u</b><sub>3</sub></span>、<span class="nw"><b class="vec">v</b><sub>3</sub> = <b class="vec">u</b><sub>2</sub> + <b class="vec">u</b><sub>3</sub></span>。</p>
+<p>(2) <span class="nw"><b class="vec">x</b>′ = <i>P</i><sup>−1</sup><b class="vec">x</b></span>。<span class="nw"><i>P</i><b class="vec">x</b>′ = (2, 1, 1)</span> を解く方が楽です：<span class="nw"><i>x</i>′<sub>1</sub> + <i>x</i>′<sub>2</sub> = 2</span>, <span class="nw"><i>x</i>′<sub>1</sub> + <i>x</i>′<sub>3</sub> = 1</span>, <span class="nw"><i>x</i>′<sub>2</sub> + <i>x</i>′<sub>3</sub> = 1</span>。3式を足して <span class="nw"><i>x</i>′<sub>1</sub> + <i>x</i>′<sub>2</sub> + <i>x</i>′<sub>3</sub> = 2</span>、各式を引いて <strong><b class="vec">x</b>′ = (1, 1, 0)</strong>。</p>
+<p class="check">確認：<span class="nw">2<b class="vec">u</b><sub>1</sub> + <b class="vec">u</b><sub>2</sub> + <b class="vec">u</b><sub>3</sub> = (2, 3, 2)</span>、<span class="nw"><b class="vec">v</b><sub>1</sub> + <b class="vec">v</b><sub>2</sub> = (2, 3, 2)</span>。</p>
 </details>
 </div>
 <div class="prob">
-<div class="prob-t">問題 2</div>
-<p>ℝ² の基底 <span class="nw"><i>B</i> = ((1, 1), (1, 2))</span> から <span class="nw"><i>B</i>′ = ((1, 0), (1, −1))</span> への変換行列 <i>P</i> を求めてください。また、<i>B</i> に関する座標が (1, 1) であるベクトルの、<i>B</i>′ に関する座標を求めてください。</p>
+<div class="prob-t">問題 2 <span class="src">教科書 練習問題4 [A] 17 の類題</span></div>
+<p><span class="nw">ℝ³ = ⟨<b class="vec">a</b>, <b class="vec">b</b>, <b class="vec">c</b>⟩</span>（<b class="vec">a</b>, <b class="vec">b</b>, <b class="vec">c</b> は基底）のとき、次の基底変換の行列を求めてください。</p>
+<p>(1) <span class="nw">{ <b class="vec">a</b>, <b class="vec">b</b>, <b class="vec">c</b> } → { <b class="vec">b</b>, <b class="vec">c</b>, <b class="vec">a</b> }</span>　(2) <span class="nw">{ <b class="vec">a</b>, <b class="vec">b</b>, <b class="vec">c</b> } → { <b class="vec">a</b>, <b class="vec">a</b> + <b class="vec">b</b>, <b class="vec">a</b> + <b class="vec">b</b> + <b class="vec">c</b> }</span></p>
 <details><summary>解答を見る</summary>
-<div class="dm"><i>P</i> = <i>B</i><sup>−1</sup><i>B</i>′ = <span class="mat"><span class="g" style="--c:2"><span>2</span><span>−1</span><span>−1</span><span>1</span></span></span><span class="mat"><span class="g" style="--c:2"><span>1</span><span>1</span><span>0</span><span>−1</span></span></span> = <span class="mat"><span class="g" style="--c:2"><span>2</span><span>3</span><span>−1</span><span>−2</span></span></span></div>
-<p class="check">列の確認：<span class="nw">2<b class="vec">b</b><sub>1</sub> − <b class="vec">b</b><sub>2</sub> = (1, 0) = <b class="vec">b</b>′<sub>1</sub></span>、<span class="nw">3<b class="vec">b</b><sub>1</sub> − 2<b class="vec">b</b><sub>2</sub> = (1, −1) = <b class="vec">b</b>′<sub>2</sub></span>。</p>
-<p><span class="nw">det <i>P</i> = −4 + 3 = −1</span> より <span class="nw"><i>P</i><sup>−1</sup> = <span class="mat"><span class="g" style="--c:2"><span>2</span><span>3</span><span>−1</span><span>−2</span></span></span></span>（この <i>P</i> はたまたま <i>P</i><sup>−1</sup> = <i>P</i>）。</p>
-<div class="dm"><b class="vec">x</b>′ = <i>P</i><sup>−1</sup><span class="mat"><span class="g" style="--c:1"><span>1</span><span>1</span></span></span> = <span class="mat"><span class="g" style="--c:1"><span>5</span><span>−3</span></span></span></div>
-<p class="check">確認：ベクトルは <span class="nw"><b class="vec">b</b><sub>1</sub> + <b class="vec">b</b><sub>2</sub> = (2, 3)</span>。<span class="nw">5(1, 0) − 3(1, −1) = (2, 3)</span> で一致します。</p>
+<p>新しい基底の各ベクトルを <b class="vec">a</b>, <b class="vec">b</b>, <b class="vec">c</b> で表し、係数を<strong>列</strong>に並べます。</p>
+<p>(1) <span class="nw"><b class="vec">b</b> = 0<b class="vec">a</b> + 1<b class="vec">b</b> + 0<b class="vec">c</b></span>、<span class="nw"><b class="vec">c</b> = 0<b class="vec">a</b> + 0<b class="vec">b</b> + 1<b class="vec">c</b></span>、<span class="nw"><b class="vec">a</b> = 1<b class="vec">a</b> + 0<b class="vec">b</b> + 0<b class="vec">c</b></span> より</p>
+<div class="dm"><i>P</i> = <span class="mat"><span class="g" style="--c:3"><span>0</span><span>0</span><span>1</span><span>1</span><span>0</span><span>0</span><span>0</span><span>1</span><span>0</span></span></span></div>
+<p>(2) 係数はそれぞれ (1, 0, 0), (1, 1, 0), (1, 1, 1) なので</p>
+<div class="dm"><i>P</i> = <span class="mat"><span class="g" style="--c:3"><span>1</span><span>1</span><span>1</span><span>0</span><span>1</span><span>1</span><span>0</span><span>0</span><span>1</span></span></span></div>
+<p class="small muted">注意：(1) で <i>P</i> を「行」に並べると <span class="mat"><span class="g" style="--c:3"><span>0</span><span>1</span><span>0</span><span>0</span><span>0</span><span>1</span><span>1</span><span>0</span><span>0</span></span></span> となり、逆の変換 { <b class="vec">b</b>, <b class="vec">c</b>, <b class="vec">a</b> } → { <b class="vec">a</b>, <b class="vec">b</b>, <b class="vec">c</b> } の行列になってしまいます。</p>
 </details>
 </div>
 <div class="prob">
 <div class="prob-t">問題 3</div>
-<p>ℝ[<i>x</i>]<sub>1</sub> の基底 <span class="nw"><i>B</i> = (1, <i>x</i>)</span> から <span class="nw"><i>B</i>′ = (1 + <i>x</i>, 1 − <i>x</i>)</span> への変換行列を求め、<span class="nw">3 + 5<i>x</i></span> の <i>B</i>′ に関する座標を求めてください。</p>
+<p>ℝ[<i>x</i>]<sub>1</sub> の基底 <span class="nw">{1, <i>x</i>}</span> から <span class="nw">{1 + <i>x</i>, 1 − <i>x</i>}</span> への基底変換の行列を求め、<span class="nw">3 + 5<i>x</i></span> の新しい基底に関する座標を求めてください。</p>
 <details><summary>解答を見る</summary>
 <p><span class="nw">1 + <i>x</i> = 1 · 1 + 1 · <i>x</i></span>、<span class="nw">1 − <i>x</i> = 1 · 1 − 1 · <i>x</i></span> なので</p>
 <div class="dm"><i>P</i> = <span class="mat"><span class="g" style="--c:2"><span>1</span><span>1</span><span>1</span><span>−1</span></span></span>，　<i>P</i><sup>−1</sup> = <span class="frac"><span>1</span><span>2</span></span><span class="mat"><span class="g" style="--c:2"><span>1</span><span>1</span><span>1</span><span>−1</span></span></span></div>
@@ -550,8 +562,9 @@ const $=s=>document.querySelector(s);
 const PRE={
   2:[{n:"例1：標準基底 → ((1,1),(−1,1))",B:[[1,0],[0,1]],B2:[[1,-1],[1,1]],x:[[3],[1]]},
      {n:"例2：((1,0),(1,1)) → ((1,1),(−1,1))",B:[[1,1],[0,1]],B2:[[1,-1],[1,1]],x:[[2],[1]]},
-     {n:"問題2",B:[[1,1],[1,2]],B2:[[1,1],[0,-1]],x:[[1],[1]]}],
-  3:[{n:"標準基底 → ((1,1,0),(0,1,1),(1,0,1))",B:[[1,0,0],[0,1,0],[0,0,1]],B2:[[1,0,1],[1,1,0],[0,1,1]],x:[[2],[3],[1]]},
+     {n:"((1,1),(1,2)) → ((1,0),(1,−1))",B:[[1,1],[1,2]],B2:[[1,1],[0,-1]],x:[[1],[1]]}],
+  3:[{n:"問題1：{u} → {v}",B:[[1,0,0],[1,1,0],[0,1,1]],B2:[[1,1,0],[2,1,1],[1,1,2]],x:[[2],[1],[1]]},
+     {n:"標準基底 → ((1,1,0),(0,1,1),(1,0,1))",B:[[1,0,0],[0,1,0],[0,0,1]],B2:[[1,0,1],[1,1,0],[0,1,1]],x:[[2],[3],[1]]},
      {n:"例3 の係数（多項式の空間）",B:[[1,0,0],[0,1,0],[0,0,1]],B2:[[1,-1,1],[0,1,-2],[0,0,1]],x:[[0],[0],[1]]}]
 };
 let n=2, inB, inB2, inX;
@@ -573,7 +586,7 @@ function calc(){
   const B=inB.get(),B2=inB2.get(),X=inX.get(); const out=$("#res");
   if(!B||!B2||!X){out.innerHTML='<span class="ng">数値または分数を入力してください。</span>';return;}
   const x=X.map(r=>r[0]), Bi=LA.inv(B), B2i=LA.inv(B2);
-  if(!Bi||!B2i){out.innerHTML=`<span class="tag ng">基底ではありません</span> ${!Bi?"<i>B</i>":"<i>B</i>′"} の列ベクトルが一次従属です（行列式 = 0）。`; drawPlot(null); return;}
+  if(!Bi||!B2i){out.innerHTML=`<span class="tag ng">基底ではありません</span> ${!Bi?"<i>B</i>":"<i>B</i>′"} の列ベクトルが1次従属です（行列式 = 0）。`; drawPlot(null); return;}
   const Pm=LA.mul(Bi,B2), Pi=LA.inv(Pm), xp=LA.mv(Pi,x), v=LA.mv(B,x), chk=LA.mv(Pm,xp);
   const bn=j=>V("b")+"<sub>"+(j+1)+"</sub>", bpn=j=>V("b")+"′<sub>"+(j+1)+"</sub>";
   let s=`<div class="row"><b>① 変換行列</b>　<i>P</i> = <i>B</i><sup>−1</sup><i>B</i>′ = ${matHTML(Bi)}${matHTML(B2)} = ${matHTML(Pm)}</div>`;
