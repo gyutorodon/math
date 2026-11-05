@@ -34,6 +34,7 @@
   }
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--textfont);font-size:16.5px;line-height:1.85;}
 .wrap{max-width:860px;margin:0 auto;padding:24px 16px 64px}
@@ -96,10 +97,13 @@ sub.is{vertical-align:-.65em;margin-left:-.12em}
 .dm .ul{vertical-align:top}
 .s1{display:inline-block;width:.17em}.s2{display:inline-block;width:.28em}.sn{display:inline-block;margin-left:-.17em}
 .q1{display:inline-block;width:1em}.q2{display:inline-block;width:2em}
+.xa{display:inline-flex;flex-direction:column;align-items:center;vertical-align:-.1em;line-height:1}
+.xal{font-size:.7em;padding:0 .3em;white-space:nowrap}
+.xar{font-size:1.25em;line-height:.6;transform:scaleX(1.6);margin:0 .4em}
 .hlm{background:var(--accent-soft);border-radius:4px;padding:0 .15em;box-shadow:0 0 0 1px var(--accent)}
 .bxd{border:1.5px solid currentColor;padding:.1em .35em;border-radius:3px}
 .lr{display:inline-flex;align-items:stretch;vertical-align:middle;margin:0 .06em}
-.lr>.lri{display:inline-flex;align-items:center;padding:.1em .12em}
+.lr>.lri{display:block;align-self:center;padding:.1em .12em}
 .lr::before,.lr::after{content:"";flex:none;width:.34em}
 .lr.lp::before{border-left:1.4px solid currentColor;border-radius:.6em 0 0 .6em / 50% 0 0 50%}
 .lr.rp::after{border-right:1.4px solid currentColor;border-radius:0 .6em .6em 0 / 0 50% 50% 0}
@@ -122,7 +126,7 @@ sub.is{vertical-align:-.65em;margin-left:-.12em}
 .mat>.g{display:grid;grid-template-columns:repeat(var(--c),auto);column-gap:.8em;row-gap:.12em;padding:.2em .35em;align-items:center;justify-items:center}
 .cases{display:inline-flex;align-items:center;vertical-align:middle}
 .cases .cb{font-size:calc(var(--r) * 1.05em + .3em);line-height:1;font-weight:300;transform:scaleX(.7);margin-right:.05em}
-.cases>.g{display:grid;grid-template-columns:auto auto;column-gap:1.2em;row-gap:.1em;justify-items:start;align-items:center}
+.cases>.g{display:grid;grid-template-columns:repeat(var(--cc,2),auto);column-gap:1.2em;row-gap:.1em;justify-items:start;align-items:center}
 .eqs{display:inline-grid;grid-template-columns:auto auto;column-gap:.1em;row-gap:.35em;align-items:center;text-align:left}
 .eqs>span:nth-child(odd){text-align:right;justify-self:end}
 .eqs>span:nth-child(even){text-align:left;justify-self:start}
@@ -393,7 +397,7 @@ footer.pn a{text-decoration:none}
 <div class="prob">
 <div class="prob-t">問題 4 <span class="lv">連続性</span></div>
 <p>次の関数 <span class="m"><span class="mn"><i>f</i></span></span> が原点で連続かどうか調べてください。</p>
-<div class="dm"><span class="tx">(1)</span> <i>f</i>(<i>x</i>, <i>y</i>) = <span class="cases" style="--r:2"><span class="cb">{</span><span class="g"><span><span class="frac"><span><i>x</i><sup>3</sup></span><span><i>x</i><sup>2</sup> + <i>y</i><sup>2</sup></span></span></span><span>(<i>x</i>, <i>y</i>) ≠ (0, 0)</span><span>0</span><span>(<i>x</i>, <i>y</i>) = (0, 0)</span></span></span><span class="q2"></span><span class="tx">(2)</span> <i>f</i>(<i>x</i>, <i>y</i>) = <span class="cases" style="--r:2"><span class="cb">{</span><span class="g"><span><span class="frac"><span>2<i>x</i><i>y</i></span><span><i>x</i><sup>2</sup> + <i>y</i><sup>2</sup></span></span></span><span>(<i>x</i>, <i>y</i>) ≠ (0, 0)</span><span>0</span><span>(<i>x</i>, <i>y</i>) = (0, 0)</span></span></span></div>
+<div class="dm"><span class="tx">(1)</span> <i>f</i>(<i>x</i>, <i>y</i>) = <span class="cases" style="--r:2;--cc:2"><span class="cb">{</span><span class="g"><span><span class="frac"><span><i>x</i><sup>3</sup></span><span><i>x</i><sup>2</sup> + <i>y</i><sup>2</sup></span></span></span><span>(<i>x</i>, <i>y</i>) ≠ (0, 0)</span><span>0</span><span>(<i>x</i>, <i>y</i>) = (0, 0)</span></span></span><span class="q2"></span><span class="tx">(2)</span> <i>f</i>(<i>x</i>, <i>y</i>) = <span class="cases" style="--r:2;--cc:2"><span class="cb">{</span><span class="g"><span><span class="frac"><span>2<i>x</i><i>y</i></span><span><i>x</i><sup>2</sup> + <i>y</i><sup>2</sup></span></span></span><span>(<i>x</i>, <i>y</i>) ≠ (0, 0)</span><span>0</span><span>(<i>x</i>, <i>y</i>) = (0, 0)</span></span></span></div>
 <details><summary>解答を見る</summary>
 <p>(1) 極座標で <span class="m"><span class="mn">|<i>f</i>(<i>x</i>, <i>y</i>)| =</span> <span class="mn"><i>r</i>|<span class="s1"></span><span class="fn">cos</span><sup>3</sup><span class="s1"></span><i>θ</i>| ≤</span> <span class="mn"><i>r</i> →</span> <span class="mn">0 =</span> <span class="mn"><i>f</i>(0, 0)</span></span>。<strong>連続</strong>。</p>
 <p>(2) <span class="m"><span class="mn"><i>y</i> =</span> <span class="mn"><i>m</i><i>x</i></span></span> に沿うと <span class="m"><span class="mn"><span class="frac"><span>2<i>m</i></span><span>1 + <i>m</i><sup>2</sup></span></span></span></span> で <span class="m"><span class="mn"><i>m</i></span></span> によって変わるので極限が存在しない。よって<strong>連続でない</strong>。（上のデモで <code>2xy/(x^2+y^2)</code> を見ると、原点のまわりで曲面がねじれているのがわかります。）</p>
@@ -416,7 +420,7 @@ const GREEK={alpha:"α",beta:"β",gamma:"γ",delta:"δ",epsilon:"ε",varepsilon:
 const UGREEK={Gamma:"Γ",Delta:"Δ",Theta:"Θ",Lambda:"Λ",Xi:"Ξ",Pi:"Π",Sigma:"Σ",Phi:"Φ",Psi:"Ψ",Omega:"Ω"};
 const ORD={partial:"∂",nabla:"∇",infty:"∞",ldots:"…",cdots:"⋯",dots:"…",vdots:"⋮",R:"ℝ",emptyset:"∅",varnothing:"∅",forall:"∀",exists:"∃",prime:"′",ell:"ℓ","|":"‖",lvert:"|",rvert:"|",therefore:"∴",because:"∵",square:"□",checkmark:"✓",star:"★"};
 const BIN={pm:"±",mp:"∓",times:"×",cdot:"·",cap:"∩",cup:"∪",setminus:"∖",circ:"∘",div:"÷"};
-const REL={mid:"|",le:"≤",leq:"≤",ge:"≥",geq:"≥",ne:"≠",neq:"≠",approx:"≈",to:"→",rightarrow:"→",leftarrow:"←",mapsto:"↦",in:"∈",notin:"∉",ni:"∋",subset:"⊂",subseteq:"⊆",supset:"⊃",Rightarrow:"⇒",implies:"⇒",Leftarrow:"⇐",iff:"⇔",Leftrightarrow:"⇔",equiv:"≡",sim:"∼",simeq:"≃",perp:"⊥",parallel:"∥",ll:"≪",gg:"≫",lt:"&lt;",gt:"&gt;",colon:":",nearrow:"↗",searrow:"↘",uparrow:"↑",downarrow:"↓",longrightarrow:"⟶"};
+const REL={Longleftrightarrow:"⟺",Longrightarrow:"⟹",mid:"|",le:"≤",leq:"≤",ge:"≥",geq:"≥",ne:"≠",neq:"≠",approx:"≈",to:"→",rightarrow:"→",leftarrow:"←",mapsto:"↦",in:"∈",notin:"∉",ni:"∋",subset:"⊂",subseteq:"⊆",supset:"⊃",Rightarrow:"⇒",implies:"⇒",Leftarrow:"⇐",iff:"⇔",Leftrightarrow:"⇔",equiv:"≡",sim:"∼",simeq:"≃",perp:"⊥",parallel:"∥",ll:"≪",gg:"≫",lt:"&lt;",gt:"&gt;",colon:":",nearrow:"↗",searrow:"↘",uparrow:"↑",downarrow:"↓",longrightarrow:"⟶"};
 const FN=new Set(["sin","cos","tan","cot","sec","csc","log","ln","exp","arcsin","arccos","arctan","sinh","cosh","tanh","det","dim","rank","grad","sgn","deg","Im","Ker","Tan","Arctan","Arcsin","Arccos"]);
 const UNDER=new Set(["lim","max","min","sup","inf","sum","prod","limsup","liminf"]);
 const INTS={int:"∫",iint:"∬",iiint:"∭",oint:"∮"};
@@ -520,7 +524,7 @@ function render(src,display){
     if(name==="aligned"||name==="align"||name==="align*")
       return {h:'<span class="eqs" style="--c:'+nc+'">'+cells+"</span>",c:"ord"};
     if(name==="cases")
-      return {h:'<span class="cases" style="--r:'+rows.length+'"><span class="cb">{</span><span class="g">'+cells+"</span></span>",c:"ord"};
+      return {h:'<span class="cases" style="--r:'+rows.length+';--cc:'+nc+'"><span class="cb">{</span><span class="g">'+cells+"</span></span>",c:"ord"};
     const cls=name==="vmatrix"?"mat det":name==="bmatrix"?"mat sq":name==="matrix"?"mat bare":"mat";
     return {h:'<span class="'+cls+'"><span class="g" style="--c:'+nc+'">'+cells+"</span></span>",c:"ord"};
   }
@@ -586,6 +590,18 @@ function render(src,display){
           a={h:'<span class="lr l'+L+" r"+R+'"><span class="lri">'+join(inner,false)+"</span></span>",c:"ord"};
         }
         else if(v==="right") return null;
+        else if(/^(big|Big|bigg|Bigg)(l|r|m)?$/.test(v)){
+          const t=next(); const ch=t?(t.k==="ch"?t.v:t.k==="cmd"?({"{":"{","}":"}","|":"‖",langle:"⟨",rangle:"⟩"}[t.v]||""):""):"";
+          const sz={big:1.2,Big:1.5,bigg:1.8,Bigg:2.1}[v.replace(/[lrm]$/,"")];
+          a={h:'<span style="font-size:'+sz+'em;line-height:1;vertical-align:-.08em">'+esc(ch)+"</span>",c:/[(\[{⟨]/.test(ch)?"open":/[)\]}⟩]/.test(ch)?"close":"ord"};
+        }
+        else if(v==="not"){
+          const t=next(); let h="";
+          if(t&&t.k==="cmd"){ const m={Rightarrow:"⇏",to:"↛",rightarrow:"↛",in:"∉",subset:"⊄",equiv:"≢",iff:"⇎",Leftrightarrow:"⇎",parallel:"∦"}; h=m[t.v]||((REL[t.v]||"")+"\u0338"); }
+          else if(t&&t.k==="ch") h=t.v==="="?"≠":esc(t.v)+"\u0338";
+          a={h,c:"rel"};
+        }
+        else if(v==="xrightarrow"){ const g=group(); a={h:'<span class="xa"><span class="xal">'+g+'</span><span class="xar">⟶</span></span>',c:"rel"}; }
         else if(v==="{"||v==="langle") a={h:v==="{"?"{":"⟨",c:"open"};
         else if(v==="}"||v==="rangle") a={h:v==="}"?"}":"⟩",c:"close"};
         else if(v===",") a={h:'<span class="s1"></span>',c:"sp"};
@@ -1010,8 +1026,9 @@ function T(e,ctx){
           if(rs.t==="+") return T(mul(rs,...common),Object.assign({},ctx,{nofac:false}));
         }
       }
-      let s="";
-      e.a.forEach((t,i)=>{
+      let s="", terms=e.a.slice();
+      const fp=terms.findIndex(t=>coefOf(t)>0); if(fp>0) terms.unshift(terms.splice(fp,1)[0]);
+      terms.forEach((t,i)=>{
         if(i===0){ s+=T(t,ctx); return; }
         if(coefOf(t)<0) s+=" - "+T(negate(t),ctx); else s+=" + "+T(t,ctx);
       });
@@ -1157,6 +1174,7 @@ class Plot2D{
     if(this.onBack) this.onBack(this);
     if(this.o.grid) this.drawGrid();
     if(this.onDraw) this.onDraw(this);
+    if(this.o.grid&&this.o.axesOnTop!==false) this.drawAxesOnly();
     for(const h of this.handles){ if(h.hidden&&h.hidden()) continue; const p=h.get(); this.dot(p,h.color||cssv("c5"),{r:7,ring:true}); if(h.label) this.text(p,h.label,h.color||cssv("c5"),{dx:9,dy:-9,bold:true}); }
   }
   drawGrid(){
@@ -1180,18 +1198,23 @@ class Plot2D{
       for(let y=Math.ceil(v.ymin/big)*big;y<v.ymax-big*0.3;y+=big){ if(Math.abs(y)<1e-9||this.Y(y)>this.h-8) continue; this.text([x0,y],fnum(y),ax,{dx:-4,dy:4,size:11,italic:false,align:"right"}); }
     }
   }
+  drawAxesOnly(){
+    const c=this.ctx, v=this.v; c.strokeStyle=rgba(cssv("axis"),0.55); c.lineWidth=1.2; c.beginPath();
+    if(v.ymin<=0&&v.ymax>=0){ c.moveTo(0,this.Y(0)); c.lineTo(this.w,this.Y(0)); }
+    if(v.xmin<=0&&v.xmax>=0){ c.moveTo(this.X(0),0); c.lineTo(this.X(0),this.h); }
+    c.stroke();
+  }
   /* 色の塗り分け（ヒートマップ）：f の値を [lo,hi] で色に */
   heat(f,lo,hi,o={}){
     const c=this.ctx, step=o.step||4, nx=Math.ceil(this.w/step), ny=Math.ceil(this.h/step);
     const off=document.createElement("canvas"); off.width=nx; off.height=ny;
     const oc=off.getContext("2d"), img=oc.createImageData(nx,ny), a=o.alpha==null?0.55:o.alpha;
-    const bg=hex2rgb(cssv("card"));
     for(let j=0;j<ny;j++) for(let i=0;i<nx;i++){
       const [x,y]=this.toWorld((i+0.5)*step,(j+0.5)*step); const z=f(x,y), k=(j*nx+i)*4;
       if(!isFinite(z)){ img.data[k+3]=0; continue; }
       const col=cmap((z-lo)/(hi-lo));
-      for(let q=0;q<3;q++) img.data[k+q]=bg[q]*(1-a)+col[q]*a;
-      img.data[k+3]=255;
+      for(let q=0;q<3;q++) img.data[k+q]=col[q];
+      img.data[k+3]=255*a;
     }
     oc.putImageData(img,0,0); c.imageSmoothingEnabled=true; c.drawImage(off,0,0,nx*step,ny*step);
   }
@@ -1416,6 +1439,22 @@ function lc(terms,dg=3){
     s+=s===""?(c<0?"-":"")+body:(c<0?"-":"+")+body;
   }
   return s===""?"0":s;
+}
+/* 確認クイズ（.quiz .q[data-a] の選択式） */
+function quizInit(){
+  const qs=[...document.querySelectorAll(".quiz .q")];
+  const score=()=>{ const done=qs.filter(q=>q.dataset.done), ok=done.filter(q=>q.dataset.done==="ok"); $("#score").textContent=done.length?`（${done.length}問中 ${ok.length}問正解）`:""; };
+  qs.forEach(q=>{
+    const bs=[...q.querySelectorAll(".opts button")], a=+q.dataset.a;
+    bs.forEach((b,i)=>b.addEventListener("click",()=>{
+      if(q.dataset.done) return;
+      q.dataset.done=i===a?"ok":"ng"; bs[a].classList.add("right"); if(i!==a) b.classList.add("wrong");
+      const fb=q.querySelector(".fb"); fb.hidden=false; fb.innerHTML=(i===a?'<span class="ok">正解！</span> ':'<span class="ng">ざんねん。</span> ')+fb.dataset.base;
+      score();
+    }));
+    const fb=q.querySelector(".fb"); fb.dataset.base=fb.innerHTML;
+  });
+  $("#reset").addEventListener("click",()=>{ qs.forEach(q=>{ delete q.dataset.done; q.querySelectorAll("button").forEach(b=>b.classList.remove("right","wrong")); q.querySelector(".fb").hidden=true; }); score(); });
 }
 
 </script>

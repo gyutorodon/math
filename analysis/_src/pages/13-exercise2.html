@@ -1,0 +1,208 @@
+<!--
+title: 演習II（条件付き極値問題, 2重積分の基本計算）
+lead: ラグランジュの未定乗数法と、2重積分（累次積分・順序変更・極座標・1次変換）を型ごとに練習します。下の積分計算機で、自分で立てた積分の範囲と答えを確かめられます。
+desc: ラグランジュの未定乗数法と2重積分の型別演習、累次積分・極座標の数値計算機
+-->
+<section id="s1">
+<h2>1. 解き方のまとめ</h2>
+<div class="box note">
+<div class="box-t">条件付き極値（ラグランジュ）</div>
+<ol class="steps">
+<li>$f_x=\lambda g_x$, $f_y=\lambda g_y$, $g=0$ を立てる。</li>
+<li>$\lambda$ を消去する：$f_xg_y-f_yg_x=0$（2式を割るときは $0$ の場合を別に調べる）。</li>
+<li>$g=0$ と連立して候補点を求め、$\nabla g=\bm0$ となる点がないかも確認。</li>
+<li>候補点での $f$ の値を比較。曲線が有界閉集合なら最大・最小が決まる。</li>
+</ol>
+</div>
+<div class="box note">
+<div class="box-t">2重積分</div>
+<ol class="steps">
+<li><strong>図をかく</strong>：境界の曲線・交点。</li>
+<li><strong>座標を選ぶ</strong>：円・扇形・$x^2+y^2$ を含む → 極座標。平行四辺形・$x\pm y$ を含む → 1次変換。それ以外 → 累次積分。</li>
+<li><strong>範囲を決める</strong>：外側は定数、内側は外側の変数の式。極座標は $dx\,dy=r\,dr\,d\theta$、1次変換は $|J|$。</li>
+<li><strong>計算</strong>：内側から。計算できなければ順序変更。対称性で $0$ になる部分は先に消す。</li>
+</ol>
+</div>
+</section>
+
+<section id="s2">
+<h2>2. 型別の例題</h2>
+<div class="ex">
+<div class="ex-t">型 A：ラグランジュ（双曲線上の最短距離）</div>
+<p>双曲線 $xy=1$ 上で原点に最も近い点。$f=x^2+y^2$, $g=xy-1$。$2x=\lambda y$, $2y=\lambda x$。$\lambda$ を消去：$2x\cdot x-2y\cdot y=0$ より $x^2=y^2$。$xy=1>0$ なので $y=x$、$x^2=1$。候補 $(1,1)$, $(-1,-1)$、$f=2$。</p>
+<p>曲線は有界でないが、遠くでは $f$ が大きくなるので最小値は存在し、<strong>最短距離 $\sqrt2$</strong>（点 $(\pm1,\pm1)$）。</p>
+</div>
+<div class="ex">
+<div class="ex-t">型 B：ラグランジュ（場合分け）</div>
+<p>条件 $x^4+y^4=1$ のもとで $f=x^2+y^2$。$2x=4\lambda x^3$, $2y=4\lambda y^3$ より「$x=0$ または $x^2=\frac{1}{2\lambda}$」「$y=0$ または $y^2=\frac{1}{2\lambda}$」。</p>
+<ul>
+<li>$x=0$：$y=\pm1$, $f=1$。$y=0$ も同様に $f=1$。</li>
+<li>$x^2=y^2=\frac{1}{2\lambda}$：$2x^4=1$, $x^2=\frac{1}{\sqrt2}$、$f=\sqrt2$。</li>
+</ul>
+<p>曲線は有界閉集合なので <strong>最大値 $\sqrt2$、最小値 $1$</strong>。</p>
+</div>
+<div class="ex">
+<div class="ex-t">型 C：累次積分（2曲線の間）</div>
+<p>$D:\ 0\le x\le1$, $x^2\le y\le\sqrt x$。</p>
+$$\iint_Dy\,dx\,dy=\int_0^1\left[\frac{y^2}{2}\right]_{x^2}^{\sqrt x}dx=\int_0^1\frac{x-x^4}{2}\,dx=\frac14-\frac1{10}=\frac{3}{20}$$
+</div>
+<div class="ex">
+<div class="ex-t">型 D：順序変更</div>
+$$\int_0^2\left(\int_{x/2}^1e^{y^2}dy\right)dx=\int_0^1\left(\int_0^{2y}e^{y^2}dx\right)dy=\int_0^12ye^{y^2}dy=e-1$$
+</div>
+<div class="ex">
+<div class="ex-t">型 E：極座標（対数）</div>
+<p>$D:\ 1\le x^2+y^2\le e^2$。$\dfrac{\log(x^2+y^2)}{x^2+y^2}=\dfrac{2\log r}{r^2}$ なので</p>
+$$\iint_D\frac{\log(x^2+y^2)}{x^2+y^2}\,dx\,dy=\int_0^{2\pi}\int_1^e\frac{2\log r}{r^2}\,r\,dr\,d\theta=2\pi\Bigl[(\log r)^2\Bigr]_1^e=2\pi$$
+</div>
+<div class="ex">
+<div class="ex-t">型 F：1次変換</div>
+<p>$D:\ 0\le x+2y\le2$, $0\le x-y\le1$。$u=x+2y$, $v=x-y$ とおくと $\frac{\partial(u,v)}{\partial(x,y)}=\begin{vmatrix}1&2\\ 1&-1\end{vmatrix}=-3$ なので $|J|=\frac13$。</p>
+$$\iint_D(x+2y)^2\,dx\,dy=\int_0^2\int_0^1u^2\cdot\frac13\,dv\,du=\frac13\cdot\frac83=\frac89$$
+</div>
+</section>
+
+<section id="s3">
+<h2>3. 積分計算機</h2>
+<div class="demo" id="demo" data-toc="▶ 2重積分の計算機">
+<div class="demo-t">立てた積分を数値で確かめる</div>
+<p class="small">積分の種類を選び、範囲と被積分関数を入力してください。領域の図と数値（＋見つかれば分数・$\pi$ などを使った形）を表示します。円周率は <code>pi</code>、極座標の角は <code>t</code>（θ の代わり）で入力します。</p>
+<div class="ctrl"><label>種類：<select id="kind"><option value="v">縦線 ∫∫ f dy dx</option><option value="h">横線 ∫∫ f dx dy</option><option value="p">極座標 ∫∫ f r dr dθ</option></select></label><label>例：<select id="pre"></select></label></div>
+<div class="ctrl" id="bnd"></div>
+<div class="ctrl"><label>$f(x,y)=$ <input id="ef" class="expr" autocomplete="off" spellcheck="false"></label></div>
+<div class="demo-grid">
+<div><canvas class="cv" id="cv"></canvas><p class="cap">積分領域</p></div>
+<div class="out" id="out" style="margin:0"></div>
+</div>
+</div>
+</section>
+
+<section id="s4">
+<h2>4. よくある間違い</h2>
+<div class="mis">
+<p class="bad">ラグランジュの式 $2x=\lambda y$, $2y=\lambda x$ から「$\lambda=2$」と決めつける。</p>
+<p class="good">$\lambda$ は未知数です。辺々掛けたり代入したりして $x,y$ の関係（$x^2=y^2$ など）を導くのが基本。$\lambda$ の値そのものは答えに不要なことが多いです。</p>
+</div>
+<div class="mis">
+<p class="bad">極座標で $\theta$ の範囲をいつも $0\le\theta\le2\pi$ にする。</p>
+<p class="good">上半円なら $0\le\theta\le\pi$、第1象限なら $0\le\theta\le\frac\pi2$、$x^2+y^2\le2x$ なら $-\frac\pi2\le\theta\le\frac\pi2$。領域の図から読みます。</p>
+</div>
+<div class="mis">
+<p class="bad">順序変更した後の積分 $\int_0^1\int_0^{2y}e^{y^2}dx\,dy$ で、内側を $e^{y^2}$ の原始関数で計算しようとする。</p>
+<p class="good">内側は $dx$ の積分なので、$e^{y^2}$ は<strong>定数</strong>：$\int_0^{2y}e^{y^2}dx=2ye^{y^2}$。これが順序変更の目的です。</p>
+</div>
+</section>
+
+<section id="s5">
+<h2>5. 練習問題</h2>
+<div class="prob">
+<div class="prob-t">問題 1 <span class="lv">ラグランジュ</span></div>
+<p>(1) 条件 $x^2+y^2=1$ のもとで $3x+4y$ の最大値・最小値。</p>
+<p>(2) 条件 $x+y=4$ のもとで $xy$ の最大値。</p>
+<p>(3) 条件 $x^2+4y^2=8$ のもとで $xy$ の最大値・最小値。</p>
+<details><summary>解答を見る</summary>
+<p>(1) $3=2\lambda x$, $4=2\lambda y$ より $y=\frac43x$。$x^2+\frac{16}{9}x^2=1$、$x=\pm\frac35$, $y=\pm\frac45$。<strong>最大値 $5$、最小値 $-5$</strong>（コーシー・シュワルツの不等式と一致）。</p>
+<p>(2) $y=\lambda$, $x=\lambda$ より $x=y=2$、$f=4$。直線上で $|x|\to\infty$ なら $xy\to-\infty$ なので最小値はなく、<strong>最大値 $4$</strong>。</p>
+<p>(3) $y=2\lambda x$, $x=8\lambda y$ より（$x,y\ne0$ のとき）$x^2=4y^2$。$8y^2=8$、$y=\pm1$, $x=\pm2$。$xy=\pm2$。楕円は有界閉集合なので <strong>最大値 $2$、最小値 $-2$</strong>。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 2 <span class="lv">累次積分</span></div>
+<p>(1) $\displaystyle\int_0^1\int_0^1(x^2+2xy)\,dy\,dx$　(2) $\iint_D(x+y)\,dx\,dy$, $D$：$y=x^2$ と $y=2-x^2$ で囲まれた部分</p>
+<details><summary>解答を見る</summary>
+<p>(1) $\int_0^1(x^2+x)\,dx=\frac13+\frac12=\frac56$</p>
+<p>(2) 交点 $x=\pm1$。$x$ の部分は対称性で $0$。$\int_{-1}^1\left[\frac{y^2}{2}\right]_{x^2}^{2-x^2}dx=\int_{-1}^1(2-2x^2)\,dx=\frac83$</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 3 <span class="lv">順序変更</span></div>
+<p>$\displaystyle\int_0^1\left(\int_{\sqrt y}^1\sqrt{1+x^3}\,dx\right)dy$ を計算してください。</p>
+<details><summary>解答を見る</summary>
+<p>領域 $0\le y\le1$, $\sqrt y\le x\le1$ ⇔ $0\le x\le1$, $0\le y\le x^2$。</p>
+$$\int_0^1x^2\sqrt{1+x^3}\,dx=\left[\frac29(1+x^3)^{3/2}\right]_0^1=\frac29\left(2\sqrt2-1\right)$$
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 4 <span class="lv">極座標</span></div>
+<p>(1) $\iint_{x^2+y^2\le a^2}\dfrac{dx\,dy}{1+x^2+y^2}$　(2) $\iint_D\dfrac{y}{x}\,dx\,dy$, $D:\ 1\le x^2+y^2\le4,\ 0\le y\le x$</p>
+<details><summary>解答を見る</summary>
+<p>(1) $2\pi\int_0^a\frac{r}{1+r^2}\,dr=\pi\log(1+a^2)$</p>
+<p>(2) $\frac yx=\tan\theta$、$0\le\theta\le\frac\pi4$, $1\le r\le2$。$\int_0^{\pi/4}\tan\theta\,d\theta\int_1^2r\,dr=\left[-\log\cos\theta\right]_0^{\pi/4}\cdot\frac32=\frac12\log2\cdot\frac32=\frac34\log2$</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 5 <span class="lv">体積</span></div>
+<p>球 $x^2+y^2+z^2\le4$ のうち、円柱 $x^2+y^2\le1$ の内部にある部分の体積を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>上半分は $z=\sqrt{4-x^2-y^2}$ の下なので、体積 $=2\iint_{x^2+y^2\le1}\sqrt{4-x^2-y^2}\,dx\,dy$。</p>
+$$2\cdot2\pi\int_0^1\sqrt{4-r^2}\,r\,dr=4\pi\left[-\frac13(4-r^2)^{3/2}\right]_0^1=\frac{4\pi}{3}\left(8-3\sqrt3\right)$$
+</details>
+</div>
+</section>
+
+<script>
+const KINDS={
+ v:{o:"x",i:"y",lab:["a","b","\\varphi_1(x)","\\varphi_2(x)"],tx:(B)=>"\\int_{"+B[0]+"}^{"+B[1]+"}\\int_{"+B[2]+"}^{"+B[3]+"}f\\,dy\\,dx"},
+ h:{o:"y",i:"x",lab:["c","d","\\psi_1(y)","\\psi_2(y)"],tx:(B)=>"\\int_{"+B[0]+"}^{"+B[1]+"}\\int_{"+B[2]+"}^{"+B[3]+"}f\\,dx\\,dy"},
+ p:{o:"t",i:"r",lab:["\\alpha","\\beta","r_1(\\theta)","r_2(\\theta)"],tx:(B)=>"\\int_{"+B[0]+"}^{"+B[1]+"}\\int_{"+B[2]+"}^{"+B[3]+"}f\\,r\\,dr\\,d\\theta"}};
+const PRE=[
+ {n:"型C：x² ≤ y ≤ √x で y",k:"v",b:["0","1","x^2","sqrt(x)"],f:"y"},
+ {n:"型D：順序変更後",k:"h",b:["0","1","0","2y"],f:"exp(y^2)"},
+ {n:"型E：1 ≤ r ≤ e の対数",k:"p",b:["0","2pi","1","e"],f:"log(x^2+y^2)/(x^2+y^2)"},
+ {n:"問題2(2)",k:"v",b:["-1","1","x^2","2-x^2"],f:"x+y"},
+ {n:"問題4(2)",k:"p",b:["0","pi/4","1","2"],f:"y/x"},
+ {n:"x² + y² ≤ 2x（第12回 問題2）",k:"p",b:["-pi/2","pi/2","0","2cos(t)"],f:"sqrt(x^2+y^2)"},
+ {n:"三角形（第11回 問題4）",k:"h",b:["0","1","y","2-y"],f:"x+y"}];
+fillSelect($("#pre"),PRE.map(p=>p.n));
+let kind="v";
+const PL=new Plot2D($("#cv"),{xmin:-1,xmax:2,ymin:-1,ymax:2});
+function mkBounds(){
+  const K=KINDS[kind], box=$("#bnd"); box.innerHTML="";
+  const names=[K.o+" の下端",K.o+" の上端",K.i+" の下端",K.i+" の上端"];
+  K.lab.forEach((l,i)=>{ const lab=document.createElement("label"); lab.innerHTML=tex(l)+"="; const inp=document.createElement("input"); inp.className="expr"; inp.style.width="7em"; inp.id="b"+i; inp.setAttribute("aria-label",names[i]); inp.autocomplete="off"; inp.spellcheck=false; inp.addEventListener("input",calc); lab.appendChild(inp); box.appendChild(lab); });
+}
+function P(s,vars){ const r=EX.tryParse(String(s).replace(/θ/g,"t")); if(!r.ok) return {err:r.err}; const bad=EX.vars(r.e).filter(v=>!vars.includes(v)); if(bad.length) return {err:"使えない文字："+bad.join(",")}; return {e:r.e,f:EX.fn(r.e,vars)}; }
+// 端点の特異性に強い積分（x = a + (b-a)(1-cos πs)/2 と置換してシンプソン）
+function integ(g,a,b,n=160){ if(!(b>a)) return b<a?-integ(g,b,a,n):0; return NUM.simpson(s=>{ const x=a+(b-a)*(1-Math.cos(Math.PI*s))/2, w=(b-a)*Math.PI/2*Math.sin(Math.PI*s); const v=g(x); return w===0||!isFinite(v)?0:v*w; },0,1,n); }
+function guess(v){
+  if(!isFinite(v)) return null;
+  const bases=[[1,""],[Math.PI,"\\pi"],[Math.sqrt(2),"\\sqrt2"],[Math.sqrt(3),"\\sqrt3"],[Math.E-1,"(e-1)"],[Math.E,"e"],[Math.LN2,"\\log2"],[Math.log(3),"\\log3"],[Math.PI*Math.PI,"\\pi^2"]];
+  if(Math.abs(v)<1e-9) return "0";
+  for(const [b,t] of bases){ const q=v/b; for(let d=1;d<=60;d++){ const n=Math.round(q*d); if(n!==0&&Math.abs(n/d-q)<2e-7*Math.max(1,Math.abs(q))){ const g=(x,y)=>{while(y){[x,y]=[y,x%y];}return x;}; const gg=g(Math.abs(n),d), N=n/gg, D=d/gg;
+    const num=Math.abs(N)===1&&t?t:String(Math.abs(N))+t; return (N<0?"-":"")+(D===1?num:"\\frac{"+num+"}{"+D+"}"); } } }
+  return null;
+}
+function calc(){
+  const K=KINDS[kind], vals=[0,1,2,3].map(i=>$("#b"+i).value), out=$("#out");
+  const ov=kind==="p"?["t"]:[K.o];
+  const a=P(vals[0],[]), b=P(vals[1],[]), lo=P(vals[2],ov), hi=P(vals[3],ov), f=P($("#ef").value,["x","y"]);
+  [a,b,lo,hi].forEach((r,i)=>$("#b"+i).classList.toggle("bad",!!r.err)); $("#ef").classList.toggle("bad",!!f.err);
+  const er=[a,b,lo,hi,f].find(r=>r.err); if(er){ out.innerHTML='<span class="ng">'+er.err+'</span>'; return; }
+  const A=a.f(), B=b.f();
+  let I, pred;
+  if(kind==="v"){ I=integ(x=>integ(y=>f.f(x,y),lo.f(x),hi.f(x)),A,B); pred=(x,y)=>x>=A&&x<=B&&y>=lo.f(x)&&y<=hi.f(x); }
+  else if(kind==="h"){ I=integ(y=>integ(x=>f.f(x,y),lo.f(y),hi.f(y)),A,B); pred=(x,y)=>y>=A&&y<=B&&x>=lo.f(y)&&x<=hi.f(y); }
+  else { I=integ(t=>integ(r=>f.f(r*Math.cos(t),r*Math.sin(t))*r,lo.f(t),hi.f(t)),A,B);
+    pred=(x,y)=>{ const r=Math.hypot(x,y); let t=Math.atan2(y,x); for(const k of [-2,-1,0,1,2]){ const tt=t+2*Math.PI*k; if(tt>=A&&tt<=B&&r>=lo.f(tt)&&r<=hi.f(tt)) return true; } return false; }; }
+  // 表示範囲
+  let xs=[],ys=[];
+  for(let i=0;i<=60;i++){ const s=A+(B-A)*i/60;
+    if(kind==="v"){ xs.push(s,s); ys.push(lo.f(s),hi.f(s)); } else if(kind==="h"){ ys.push(s,s); xs.push(lo.f(s),hi.f(s)); }
+    else { for(const r of [lo.f(s),hi.f(s)]){ xs.push(r*Math.cos(s)); ys.push(r*Math.sin(s)); } } }
+  xs=xs.filter(isFinite); ys=ys.filter(isFinite);
+  const x0=Math.min(0,...xs), x1=Math.max(0,...xs), y0=Math.min(0,...ys), y1=Math.max(0,...ys), m=Math.max(x1-x0,y1-y0,0.5)*0.12;
+  PL.onDraw=p=>{ p.region(pred,cssv("c1"),0.3,2); };
+  PL.setView({xmin:x0-m,xmax:x1+m,ymin:y0-m,ymax:y1+m});
+  const Bt=[a,b,lo,hi].map(r=>EX.tex(r.e).replace(/\bt\b/g,"\\theta"));
+  const gs=guess(I);
+  out.innerHTML=`<div class="row">${tex(K.tx(Bt))}</div><div class="row small">${tex("f="+EX.tex(f.e))}</div>`+
+    `<div class="row" style="font-size:1.1em">≈ <b style="color:var(--c1)">${isFinite(I)?I.toFixed(6):"計算できません"}</b></div>`+
+    (gs?`<div class="row">${tex("="+gs)} <span class="small muted">（数値から推定した形）</span></div>`:"")+
+    `<div class="row small muted">数値積分による近似値です。被積分関数が領域内で無限大になる場合は不正確です（第14回 広義積分）。</div>`;
+}
+function load(i){ const p=PRE[i]; kind=p.k; $("#kind").value=kind; mkBounds(); p.b.forEach((v,j)=>$("#b"+j).value=v); $("#ef").value=p.f; calc(); }
+$("#kind").addEventListener("change",e=>{ kind=e.target.value; mkBounds(); const d={v:["0","1","0","x"],h:["0","1","0","y"],p:["0","2pi","0","1"]}[kind]; d.forEach((v,j)=>$("#b"+j).value=v); calc(); });
+$("#pre").addEventListener("change",e=>load(+e.target.value));
+$("#ef").addEventListener("input",calc);
+load(0);
+</script>

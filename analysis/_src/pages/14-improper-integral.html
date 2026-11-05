@@ -1,0 +1,224 @@
+<!--
+title: 広義積分
+lead: 領域が無限に広い、または関数が無限大になる点がある場合の2重積分です。「少しずつ広げていく有界な領域（近似増加列）での積分の極限」として定めます。ハイライトはガウス積分 $\int_{-\infty}^{\infty}e^{-x^2}dx=\sqrt\pi$ です。
+desc: 近似増加列による広義2重積分、収束判定、ガウス積分 $\int_{-\infty}^{\infty}e^{-x^2}dx=\sqrt\pi$
+-->
+<section id="s1">
+<h2>1. 何の話か（直感）</h2>
+<p>1変数の広義積分 $\int_1^\infty\frac{dx}{x^2}=\lim_{R\to\infty}\int_1^R\frac{dx}{x^2}=1$ は、「有限の区間で積分してから極限をとる」ものでした。</p>
+<p>2変数でも同じです。積分したい領域 $D$ が無限に広い（$\mathbb{R}^2$ 全体など）とき、または $f$ が無限大になる点がある（$\frac{1}{\sqrt{x^2+y^2}}$ の原点など）ときは、</p>
+<ol>
+<li>$D$ を内側から近似する<strong>有界閉集合の列</strong> $K_1\subset K_2\subset\cdots$（悪い点を避け、だんだん $D$ 全体に広がる）をとり、</li>
+<li>$\iint_{K_n}f$ を計算して $n\to\infty$ の極限をとります。</li>
+</ol>
+<p>2変数では「広げ方」が無数にあります（円で広げる、正方形で広げる…）。<strong>$f\ge0$ なら、どの広げ方でも極限は同じ</strong>になる、というのが基本定理です。これを使うと、円で広げると計算しやすく、正方形で広げると $\left(\int e^{-x^2}dx\right)^2$ になる、という2通りの見方からガウス積分が求まります。</p>
+</section>
+
+<section id="s2">
+<h2>2. 定義・定理</h2>
+<div class="box def">
+<div class="box-t">定義（近似増加列・広義積分）</div>
+<p>$D$ に含まれる有界閉集合の列 $\{K_n\}$ が</p>
+<ol>
+<li>$K_1\subset K_2\subset K_3\subset\cdots$</li>
+<li>$D$ に含まれる任意の有界閉集合は、ある $K_n$ に含まれる</li>
+</ol>
+<p>をみたすとき、$\{K_n\}$ を $D$ の<strong>近似増加列</strong>といいます。$f$ が各 $K_n$ で積分可能で、極限</p>
+$$\lim_{n\to\infty}\iint_{K_n}f(x,y)\,dx\,dy$$
+<p>が近似増加列の選び方によらず存在するとき、この値を $\iint_Df\,dx\,dy$ と書き、広義積分は<strong>収束する</strong>といいます。</p>
+</div>
+<div class="box thm">
+<div class="box-t">定理 1（$f\ge0$ の場合）</div>
+<p>$D$ で $f\ge0$ のとき、<strong>1つの</strong>近似増加列 $\{K_n\}$ について $\lim\iint_{K_n}f$ が有限の値に収束すれば、他のすべての近似増加列でも同じ値に収束します。したがって計算しやすい近似増加列を1つ選べばよい。</p>
+<p class="small muted">$f$ が正負両方の値をとるときは、$|f|$ の広義積分が収束する（絶対収束）ことを確かめてから計算します。そうでないと、広げ方によって値が変わることがあります。</p>
+</div>
+<div class="box thm">
+<div class="box-t">定理 2（比較判定法）</div>
+<p>$D$ で $0\le f\le g$ のとき、$\iint_Dg$ が収束すれば $\iint_Df$ も収束します（$\iint_Df$ が発散すれば $\iint_Dg$ も発散）。</p>
+</div>
+<div class="box thm">
+<div class="box-t">定理 3（基準となる関数）</div>
+<p>$r=\sqrt{x^2+y^2}$ とします。極座標で $\iint r^{-2\alpha}\,dx\,dy=2\pi\int r^{1-2\alpha}\,dr$ なので</p>
+$$\iint_{r\le1}\frac{dx\,dy}{(x^2+y^2)^\alpha}\ \text{は}\ \alpha<1\ \text{で収束},\qquad \iint_{r\ge1}\frac{dx\,dy}{(x^2+y^2)^\alpha}\ \text{は}\ \alpha>1\ \text{で収束}$$
+<p class="small muted">1変数では $\int_0^1x^{-p}dx$ は $p<1$、$\int_1^\infty x^{-p}dx$ は $p>1$ で収束でした。2変数では $r^{-p}$ の境目が $p=2$（$\alpha=1$）にずれます（面積要素 $r\,dr\,d\theta$ の $r$ のため）。</p>
+</div>
+<div class="box thm">
+<div class="box-t">定理 4（ガウス積分）</div>
+$$\int_{-\infty}^{\infty}e^{-x^2}\,dx=\sqrt{\pi},\qquad \iint_{\mathbb{R}^2}e^{-(x^2+y^2)}\,dx\,dy=\pi$$
+</div>
+</section>
+
+<section id="s3">
+<h2>3. 具体例</h2>
+<div class="ex">
+<div class="ex-t">例 1：ガウス積分の証明</div>
+<p>$f=e^{-(x^2+y^2)}>0$ の $\mathbb{R}^2$ 上の広義積分を、2つの近似増加列で計算します。</p>
+<p><strong>円板</strong> $K_R=\{x^2+y^2\le R^2\}$：第12回 例2より $\iint_{K_R}f=\pi(1-e^{-R^2})\to\pi$。よって $\iint_{\mathbb{R}^2}f=\pi$。</p>
+<p><strong>正方形</strong> $Q_R=[-R,R]^2$：変数分離して $\iint_{Q_R}f=\left(\int_{-R}^Re^{-x^2}dx\right)^2$。</p>
+<p>定理1より正方形でも極限は $\pi$ なので $\left(\int_{-\infty}^\infty e^{-x^2}dx\right)^2=\pi$。$e^{-x^2}>0$ より</p>
+$$\int_{-\infty}^\infty e^{-x^2}\,dx=\sqrt\pi$$
+<p class="small muted">定理1を使わずに示すなら、$K_R\subset Q_R\subset K_{\sqrt2R}$ から $\pi(1-e^{-R^2})\le\left(\int_{-R}^Re^{-x^2}dx\right)^2\le\pi(1-e^{-2R^2})$ としてはさみうち。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 2：原点で無限大</div>
+<p>$D:\ 0<x^2+y^2\le1$, $f=\dfrac{1}{\sqrt{x^2+y^2}}$。$K_\varepsilon=\{\varepsilon^2\le x^2+y^2\le1\}$ とすると</p>
+$$\iint_{K_\varepsilon}\frac{dx\,dy}{\sqrt{x^2+y^2}}=\int_0^{2\pi}\int_\varepsilon^1\frac1r\cdot r\,dr\,d\theta=2\pi(1-\varepsilon)\to2\pi$$
+</div>
+<div class="ex">
+<div class="ex-t">例 3：変数分離</div>
+<p>$D=(0,1]\times(0,1]$, $f=\dfrac{1}{\sqrt{xy}}$。$K_n=\left[\frac1n,1\right]^2$ とすると</p>
+$$\iint_{K_n}\frac{dx\,dy}{\sqrt{xy}}=\left(\int_{1/n}^1\frac{dx}{\sqrt x}\right)^2=\left(2-\frac{2}{\sqrt n}\right)^2\to4$$
+</div>
+<div class="ex">
+<div class="ex-t">例 4：発散する例</div>
+<p>$\iint_{x^2+y^2\ge1}\dfrac{dx\,dy}{x^2+y^2}$：$K_R=\{1\le r\le R\}$ で $2\pi\int_1^R\frac{dr}{r}=2\pi\log R\to\infty$。<strong>発散</strong>（定理3で $\alpha=1$）。</p>
+</div>
+
+<div class="demo" id="demo" data-toc="▶ 近似増加列で広げる">
+<div class="demo-t">広げ方を変えても同じ値に近づく？</div>
+<div class="ctrl"><button id="mg" class="on">ガウス積分</button><button id="mp">r^(−2α) の収束・発散</button></div>
+<div id="pg">
+<p class="small">$e^{-(x^2+y^2)}$ を、<span style="color:var(--c1)">円板</span> $x^2+y^2\le R^2$ と<span style="color:var(--c2)">正方形</span> $[-R,R]^2$ の2通りで積分します。$R$ を大きくすると、どちらも $\pi$ に近づきます。</p>
+<div class="sl"><label>$R$ <input type="range" id="sR" min="0.1" max="3.5" step="0.01" value="1"><span class="sv" id="vR"></span></label></div>
+</div>
+<div id="pp" hidden>
+<p class="small">$f=\dfrac{1}{(x^2+y^2)^\alpha}$ を、原点の近く（$\varepsilon\le r\le1$）または遠く（$1\le r\le R$）で積分します。横軸は $\varepsilon=10^{-t}$（または $R=10^{t}$）。グラフが平らになれば収束、どこまでも増えれば発散です。</p>
+<div class="ctrl"><label>場所：<select id="pw"><option value="0">原点の近く（ε ≤ r ≤ 1）</option><option value="1">遠く（1 ≤ r ≤ R）</option></select></label></div>
+<div class="sl"><label>$\alpha$ <input type="range" id="sa" min="0.2" max="2" step="0.05" value="0.5"><span class="sv" id="va"></span></label><label>$t$ <input type="range" id="st" min="0" max="6" step="0.01" value="2"><span class="sv" id="vt"></span></label></div>
+</div>
+<div class="demo-grid">
+<div><canvas class="cv" id="cv"></canvas><p class="cap" id="cap1"></p></div>
+<div><canvas class="cv" id="cg"></canvas><p class="cap" id="cap2"></p></div>
+</div>
+<div class="out" id="out"></div>
+</div>
+</section>
+
+<section id="s4">
+<h2>4. よくある間違い</h2>
+<div class="mis">
+<p class="bad">$\int_0^\infty e^{-x^2}dx=\sqrt\pi$。</p>
+<p class="good">$\sqrt\pi$ は $-\infty$ から $\infty$ までの値です。偶関数なので $\int_0^\infty e^{-x^2}dx=\dfrac{\sqrt\pi}{2}$。</p>
+</div>
+<div class="mis">
+<p class="bad">$\iint_{r\le1}\frac{dx\,dy}{x^2+y^2}$ は、1変数の $\int_0^1\frac{dx}{x^2}$ と同じく…と考えて $\alpha$ の境目を $\frac12$ とする。</p>
+<p class="good">極座標で $r\,dr\,d\theta$ の $r$ が1つ増えるので、$r^{-p}$ の境目は $p=2$ です。$\frac{1}{x^2+y^2}=r^{-2}$ は原点の近くで<strong>発散</strong>（$2\pi\int_\varepsilon^1\frac{dr}{r}\to\infty$）、$\frac{1}{\sqrt{x^2+y^2}}=r^{-1}$ は収束します。</p>
+</div>
+<div class="mis">
+<p class="bad">正負の値をとる関数でも、好きな近似増加列で計算すればよい。</p>
+<p class="good">定理1は $f\ge0$ のときの話です。符号が変わる関数では、まず $\iint|f|$ が収束することを確認します。</p>
+</div>
+<div class="mis">
+<p class="bad">広義積分の計算で、極限をとらずに $\int_0^\infty$ に直接代入して $[\ ]_0^\infty$ の $\infty$ を数のように扱う。</p>
+<p class="good">慣れてきたら略記してもよいですが、本来は「$K_n$ で計算 → $n\to\infty$」です。答案ではまず有界な範囲で計算し、極限をとる形で書きましょう。</p>
+</div>
+</section>
+
+<section id="s5">
+<h2>5. 練習問題</h2>
+<div class="prob">
+<div class="prob-t">問題 1 <span class="lv">ℝ² 全体</span></div>
+<p>$\displaystyle\iint_{\mathbb{R}^2}\frac{dx\,dy}{(1+x^2+y^2)^2}$ を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>$K_R=\{r\le R\}$：$2\pi\int_0^R\frac{r}{(1+r^2)^2}dr=2\pi\left[-\frac{1}{2(1+r^2)}\right]_0^R=\pi\left(1-\frac{1}{1+R^2}\right)\to\pi$</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 2 <span class="lv">原点で発散する関数</span></div>
+<p>$\displaystyle\iint_{0<x^2+y^2\le1}\log(x^2+y^2)\,dx\,dy$ を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>$f\le0$ なので $-f\ge0$ に定理1を使えます。$K_\varepsilon=\{\varepsilon\le r\le1\}$：</p>
+$$\int_0^{2\pi}\int_\varepsilon^1(2\log r)\,r\,dr\,d\theta=4\pi\left[\frac{r^2}{2}\log r-\frac{r^2}{4}\right]_\varepsilon^1\to4\pi\left(-\frac14\right)=-\pi$$
+<p class="small muted">$\varepsilon^2\log\varepsilon\to0$ を使いました。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 3 <span class="lv">ガウス積分の応用</span></div>
+<p>(1) $\int_0^\infty e^{-x^2}dx$　　(2) $\int_{-\infty}^\infty e^{-ax^2}dx$ $(a>0)$　　(3) $\iint_{x\ge0,\,y\ge0}e^{-(x^2+y^2)}\,dx\,dy$</p>
+<details><summary>解答を見る</summary>
+<p>(1) $\frac{\sqrt\pi}{2}$　(2) $x=\frac{t}{\sqrt a}$ と置換して $\frac{1}{\sqrt a}\sqrt\pi=\sqrt{\frac\pi a}$　(3) 第1象限なので全体の $\frac14$：$\frac\pi4$（$=\left(\frac{\sqrt\pi}{2}\right)^2$ とも一致）</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 4 <span class="lv">収束判定</span></div>
+<p>(1) $\displaystyle\iint_{x^2+y^2\ge1}\frac{dx\,dy}{(x^2+y^2)^{3/2}}$ を求めてください。</p>
+<p>(2) $\displaystyle\iint_{0<x^2+y^2\le1}\frac{dx\,dy}{(x^2+y^2)^\alpha}$ が収束する $\alpha$ の範囲と、そのときの値を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>(1) $2\pi\int_1^R r^{-3}\cdot r\,dr=2\pi\left(1-\frac1R\right)\to2\pi$</p>
+<p>(2) $2\pi\int_\varepsilon^1r^{1-2\alpha}dr$。$\alpha<1$ なら $2\pi\cdot\frac{1-\varepsilon^{2-2\alpha}}{2-2\alpha}\to\frac{\pi}{1-\alpha}$。$\alpha=1$ なら $2\pi\log\frac1\varepsilon\to\infty$、$\alpha>1$ でも発散。<strong>収束 ⇔ $\alpha<1$、値 $\frac{\pi}{1-\alpha}$</strong>。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 5 <span class="lv">累次積分で</span></div>
+<p>$D=\{(x,y)\mid 0\le y\le x\}$ のとき $\displaystyle\iint_Dye^{-x^2}\,dx\,dy$ を求めてください（ヒント：$x$ を外側に）。</p>
+<details><summary>解答を見る</summary>
+<p>被積分関数 $\ge0$。$K_R=\{0\le y\le x\le R\}$：$\int_0^R\left(\int_0^xy\,dy\right)e^{-x^2}dx=\int_0^R\frac{x^2}{2}e^{-x^2}dx$。</p>
+<p>部分積分 $\int_0^\infty x^2e^{-x^2}dx=\left[-\frac x2e^{-x^2}\right]_0^\infty+\frac12\int_0^\infty e^{-x^2}dx=\frac{\sqrt\pi}{4}$ より、答えは $\frac12\cdot\frac{\sqrt\pi}{4}=\frac{\sqrt\pi}{8}$。</p>
+</details>
+</div>
+</section>
+
+<script>
+let mode=0, R=1, al=0.5, tt=2, pw=0;
+const PL=new Plot2D($("#cv"),{xmin:-3.6,xmax:3.6,ymin:-3.6,ymax:3.6});
+const PG=new Plot2D($("#cg"),{xmin:0,xmax:3.5,ymin:0,ymax:3.6,equal:false,xl:"R",yl:""});
+const G=(x,y)=>Math.exp(-(x*x+y*y));
+const erfInt=R=>NUM.simpson(x=>Math.exp(-x*x),-R,R,200);
+const disk=R=>Math.PI*(1-Math.exp(-R*R)), sq=R=>erfInt(R)**2;
+const pv=(a,t)=>{ // 2π∫ r^{1-2α} dr
+  if(pw===0){ const e=Math.pow(10,-t); return Math.abs(a-1)<1e-9?2*Math.PI*Math.log(1/e):2*Math.PI*(1-Math.pow(e,2-2*a))/(2-2*a); }
+  const Rr=Math.pow(10,t); return Math.abs(a-1)<1e-9?2*Math.PI*Math.log(Rr):2*Math.PI*(Math.pow(Rr,2-2*a)-1)/(2-2*a); };
+PL.onDraw=p=>{
+  if(mode===0){
+    p.heat(G,0,1,{alpha:0.55});
+    p.poly([[-R,-R],[R,-R],[R,R],[-R,R]],cssv("c2"),{alpha:0.12,stroke:cssv("c2"),width:2.4});
+    p.curve(t=>[R*Math.cos(t),R*Math.sin(t)],0,2*Math.PI,cssv("c1"),{width:2.6});
+    p.curve(t=>[R*Math.SQRT2*Math.cos(t),R*Math.SQRT2*Math.sin(t)],0,2*Math.PI,cssv("c1"),{width:1.4,dash:[5,4]});
+  } else {
+    const f=(x,y)=>Math.pow(x*x+y*y,-al), lg=(x,y)=>Math.log10(f(x,y));
+    p.heat(lg,-1.5,3,{alpha:0.55});
+    if(pw===0){ const e=Math.pow(10,-tt), s=1; p.curve(t=>[s*Math.cos(t),s*Math.sin(t)],0,2*Math.PI,cssv("c1"),{width:2.4}); p.curve(t=>[e*Math.cos(t),e*Math.sin(t)],0,2*Math.PI,cssv("c2"),{width:2.4}); p.dot([0,0],cssv("c2"),{r:3}); }
+    else { const Rr=Math.pow(10,tt); p.curve(t=>[Math.cos(t),Math.sin(t)],0,2*Math.PI,cssv("c2"),{width:2.4}); if(Rr<p.v.xmax*1.5) p.curve(t=>[Rr*Math.cos(t),Rr*Math.sin(t)],0,2*Math.PI,cssv("c1"),{width:2.4}); }
+  }
+};
+PG.onDraw=p=>{
+  if(mode===0){
+    p.line([0,Math.PI],[3.5,Math.PI],cssv("fg"),{width:1.2,dash:[5,4]}); p.text([0.1,Math.PI],"π",cssv("fg"),{dy:-6});
+    p.curve(r=>[r,disk(r)],0,3.5,cssv("c1"),{width:2.6}); p.curve(r=>[r,sq(r)],0.001,3.5,cssv("c2"),{width:2.6,n:120});
+    p.dot([R,disk(R)],cssv("c1"),{r:5}); p.dot([R,sq(R)],cssv("c2"),{r:5});
+  } else {
+    const conv=pw===0?al<1:al>1, lim=pw===0?Math.PI/(1-al):Math.PI/(al-1);
+    if(conv) { p.line([0,lim],[6,lim],cssv("fg"),{width:1.2,dash:[5,4]}); p.text([0.1,lim],"極限 "+fnum(lim,3),cssv("fg"),{dy:-6}); }
+    p.curve(t=>[t,pv(al,t)],0,6,conv?cssv("c4"):cssv("c2"),{width:2.6});
+    p.dot([tt,pv(al,tt)],conv?cssv("c4"):cssv("c2"),{r:5});
+  }
+};
+function upd(){
+  const o=$("#out");
+  if(mode===0){
+    R=+$("#sR").value; $("#vR").textContent=fnum(R,2);
+    const d=disk(R), s=sq(R);
+    PL.setView({xmin:-3.6,xmax:3.6,ymin:-3.6,ymax:3.6}); PG.setView({xmin:0,xmax:3.5,ymin:0,ymax:3.6,xl:"R",yl:""});
+    $("#cap1").innerHTML="被積分関数 "+tex("e^{-(x^2+y^2)}")+"（明るいほど大）と領域";
+    $("#cap2").innerHTML="積分の値と "+tex("R")+" の関係";
+    o.innerHTML=`<div class="row"><span style="color:var(--c1)">円板</span>：${tex("\\pi(1-e^{-R^2})=")} <b>${fnum(d,6)}</b>　<span style="color:var(--c2)">正方形</span>：${tex("\\left(\\int_{-R}^{R}e^{-x^2}dx\\right)^2=")} <b>${fnum(s,6)}</b>　${tex("\\pi=3.141593")}</div>`+
+      `<div class="row small">正方形の値の平方根 ${tex("\\int_{-R}^{R}e^{-x^2}dx=")} ${fnum(Math.sqrt(s),6)}　→　${tex("\\sqrt\\pi=1.772454")}</div>`+
+      `<div class="row small muted">円板 ⊂ 正方形 ⊂ 半径 ${tex("\\sqrt2R")} の円板（点線）なので、正方形の値は2つの円板の値にはさまれます。</div>`;
+  } else {
+    al=+$("#sa").value; tt=+$("#st").value; pw=+$("#pw").value; $("#va").textContent=fnum(al,2); $("#vt").textContent=fnum(tt,2);
+    const conv=pw===0?al<1:al>1, v=pv(al,tt);
+    PL.setView(pw===0?{xmin:-1.3,xmax:1.3,ymin:-1.3,ymax:1.3}:{xmin:-6,xmax:6,ymin:-6,ymax:6});
+    let hi=conv?(pw===0?Math.PI/(1-al):Math.PI/(al-1))*1.3:Math.max(10,pv(al,6)*1.05); hi=Math.min(hi,Math.max(10,pv(al,6)*1.05));
+    PG.setView({xmin:0,xmax:6,ymin:0,ymax:hi,xl:"t",yl:""});
+    $("#cap1").innerHTML="積分範囲（2つの円にはさまれた部分）";
+    $("#cap2").innerHTML=pw===0?tex("\\varepsilon=10^{-t}")+" としたときの積分の値":tex("R=10^{t}")+" としたときの積分の値";
+    o.innerHTML=`<div class="row">${tex(pw===0?"\\iint_{\\varepsilon\\le r\\le1}\\frac{dx\\,dy}{(x^2+y^2)^{\\alpha}}=2\\pi\\int_\\varepsilon^1 r^{1-2\\alpha}dr":"\\iint_{1\\le r\\le R}\\frac{dx\\,dy}{(x^2+y^2)^{\\alpha}}=2\\pi\\int_1^R r^{1-2\\alpha}dr")} = <b>${fnum(v,4)}</b></div>`+
+      `<div class="row">${tex("\\alpha="+fnum(al,2))} では <span class="tag ${conv?"ok":"ng"}">${conv?"収束（極限 "+fnum(pw===0?Math.PI/(1-al):Math.PI/(al-1),4)+"）":"発散"}</span>　<span class="small muted">境目は ${tex("\\alpha=1")}（${pw===0?tex("\\alpha<1"):tex("\\alpha>1")} で収束）</span></div>`;
+  }
+  PL.draw(); PG.draw();
+}
+$("#mg").addEventListener("click",()=>{ mode=0; $("#mg").classList.add("on"); $("#mp").classList.remove("on"); $("#pg").hidden=false; $("#pp").hidden=true; upd(); });
+$("#mp").addEventListener("click",()=>{ mode=1; $("#mp").classList.add("on"); $("#mg").classList.remove("on"); $("#pg").hidden=true; $("#pp").hidden=false; upd(); });
+["#sR","#sa","#st"].forEach(id=>$(id).addEventListener("input",upd)); $("#pw").addEventListener("change",upd);
+upd();
+</script>

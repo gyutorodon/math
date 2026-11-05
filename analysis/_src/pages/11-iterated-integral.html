@@ -1,0 +1,206 @@
+<!--
+title: 累次積分
+lead: 2重積分は「1変数の積分を2回」で計算できます。立体を薄く切った断面積 $A(x)=\int f(x,y)\,dy$ を求め、それを $x$ で積分する。領域を縦線で見るか横線で見るかで積分の順序が変わり、順序を変えると計算できるようになる積分もあります。
+desc: フビニの定理、縦線集合・横線集合での累次積分、積分順序の変更
+-->
+<section id="s1">
+<h2>1. 何の話か（直感）</h2>
+<p>立体の体積は「断面積を積分」すれば求まりました（カヴァリエリの原理）。2重積分 $\iint_Df\,dx\,dy$ の立体を、<strong>$x$ を固定した平面で薄く切る</strong>と、断面積は</p>
+$$A(x)=\int_{\varphi_1(x)}^{\varphi_2(x)}f(x,y)\,dy\qquad(x\text{ は定数として }y\text{ で積分})$$
+<p>です。ここで $\varphi_1(x)\le y\le\varphi_2(x)$ は、その $x$ における領域 $D$ の「縦の範囲」。あとは $A(x)$ を $x$ について積分すれば体積になります：</p>
+$$\iint_Df(x,y)\,dx\,dy=\int_a^b A(x)\,dx=\int_a^b\left(\int_{\varphi_1(x)}^{\varphi_2(x)}f(x,y)\,dy\right)dx$$
+<p>$y$ を固定して横に切っても同じ体積が出ます。どちらで切るかが<strong>積分の順序</strong>です。</p>
+</section>
+
+<section id="s2">
+<h2>2. 定理</h2>
+<div class="box def">
+<div class="box-t">定義（縦線集合・横線集合）</div>
+<p><strong>縦線集合</strong>：$D=\{(x,y)\mid a\le x\le b,\ \varphi_1(x)\le y\le\varphi_2(x)\}$（縦線で切ると、下端 $\varphi_1$・上端 $\varphi_2$ の線分になる）</p>
+<p><strong>横線集合</strong>：$D=\{(x,y)\mid c\le y\le d,\ \psi_1(y)\le x\le\psi_2(y)\}$（横線で切ると、左端 $\psi_1$・右端 $\psi_2$ の線分になる）</p>
+</div>
+<div class="box thm">
+<div class="box-t">定理（累次積分：フビニの定理）</div>
+<p>$f$ が $D$ で連続のとき、</p>
+$$\text{縦線集合なら}\quad\iint_Df\,dx\,dy=\int_a^b\left(\int_{\varphi_1(x)}^{\varphi_2(x)}f(x,y)\,dy\right)dx$$
+$$\text{横線集合なら}\quad\iint_Df\,dx\,dy=\int_c^d\left(\int_{\psi_1(y)}^{\psi_2(y)}f(x,y)\,dx\right)dy$$
+<p>とくに長方形 $[a,b]\times[c,d]$ では、どちらの順に積分しても同じで、$f(x,y)=g(x)h(y)$ なら</p>
+$$\iint_{[a,b]\times[c,d]}g(x)h(y)\,dx\,dy=\left(\int_a^bg(x)\,dx\right)\left(\int_c^dh(y)\,dy\right)$$
+<p class="small muted">かっこを省略して $\int_a^b\int_{\varphi_1(x)}^{\varphi_2(x)}f\,dy\,dx$ や $\int_a^bdx\int_{\varphi_1(x)}^{\varphi_2(x)}f\,dy$ とも書きます。<strong>内側の積分から先に</strong>計算します。</p>
+</div>
+<div class="box note">
+<div class="box-t">累次積分の手順</div>
+<ol class="steps">
+<li><strong>領域 $D$ の図をかく</strong>（境界の曲線と交点を求める）。</li>
+<li>縦線か横線かを選び、外側の変数の範囲（定数）と、内側の変数の範囲（外側の変数の式）を図から読む。</li>
+<li>内側の積分を計算（外側の変数は定数扱い）→ 外側の積分を計算。</li>
+<li>内側の積分が計算できないとき（$e^{y^2}$, $\frac{\sin y}{y}$ など）は、<strong>積分順序を変更</strong>する。</li>
+</ol>
+</div>
+</section>
+
+<section id="s3">
+<h2>3. 具体例</h2>
+<div class="ex">
+<div class="ex-t">例 1：長方形</div>
+$$\iint_{[0,1]\times[0,2]}(x+y^2)\,dx\,dy=\int_0^1\left(\int_0^2(x+y^2)\,dy\right)dx=\int_0^1\left[xy+\frac{y^3}{3}\right]_{y=0}^{y=2}dx=\int_0^1\left(2x+\frac83\right)dx=\frac{11}{3}$$
+</div>
+<div class="ex">
+<div class="ex-t">例 2：三角形</div>
+<p>$D:\ 0\le y\le x\le1$（縦線で見ると $0\le x\le1$, $0\le y\le x$）。</p>
+$$\iint_Dxy\,dx\,dy=\int_0^1\left(\int_0^xxy\,dy\right)dx=\int_0^1x\cdot\frac{x^2}{2}\,dx=\frac18$$
+<p class="check">横線で見ると $0\le y\le1$, $y\le x\le1$：$\int_0^1\left(\int_y^1xy\,dx\right)dy=\int_0^1y\cdot\frac{1-y^2}{2}dy=\frac14-\frac18=\frac18$。同じ値です。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 3：2曲線の間</div>
+<p>$D$：$y=x^2$ と $y=x$ で囲まれた部分。交点は $x^2=x$ より $x=0,1$。$0\le x\le1$ で $x^2\le x$ なので</p>
+$$\iint_D(x+y)\,dx\,dy=\int_0^1\left[xy+\frac{y^2}{2}\right]_{x^2}^{x}dx=\int_0^1\left(\frac32x^2-x^3-\frac12x^4\right)dx=\frac12-\frac14-\frac1{10}=\frac{3}{20}$$
+</div>
+<div class="ex">
+<div class="ex-t">例 4：積分順序の変更</div>
+<p>$\displaystyle\int_0^1\left(\int_x^1e^{y^2}\,dy\right)dx$ は、$e^{y^2}$ の原始関数が初等関数で書けないので、このままでは計算できません。</p>
+<p>領域は $0\le x\le1$, $x\le y\le1$、つまり三角形 $0\le x\le y\le1$。横線で見直すと $0\le y\le1$, $0\le x\le y$ なので</p>
+$$\int_0^1\left(\int_0^ye^{y^2}\,dx\right)dy=\int_0^1ye^{y^2}\,dy=\left[\frac12e^{y^2}\right]_0^1=\frac{e-1}{2}$$
+</div>
+
+<div class="demo" id="demo" data-toc="▶ 縦に切る・横に切る">
+<div class="demo-t">領域を切って断面を積分する</div>
+<p class="small">領域を選び、切り方（縦線／横線）を選んでスライダーを動かします。左の図の<span style="color:var(--c2)">赤い線分</span>が内側の積分の範囲、右のグラフはその断面積（内側の積分の値）です。右のグラフの下の面積が2重積分の値になり、どちらの順序でも一致します。</p>
+<div class="ctrl"><label>領域：<select id="reg"></select></label><label>$f=$ <input id="ex" class="expr" value="x+y" autocomplete="off" spellcheck="false"></label></div>
+<div class="ctrl"><button id="mv" class="on">縦線（先に y で積分）</button><button id="mh">横線（先に x で積分）</button></div>
+<div class="sl"><label><span id="lv">$x$</span> <input type="range" id="sp" min="0" max="1" step="0.002" value="0.5"><span class="sv" id="vp"></span></label></div>
+<div class="demo-grid">
+<div><canvas class="cv" id="cv"></canvas><p class="cap">領域 $D$ と切り口</p></div>
+<div><canvas class="cv" id="cg"></canvas><p class="cap" id="capg"></p></div>
+</div>
+<div class="out" id="out"></div>
+</div>
+</section>
+
+<section id="s4">
+<h2>4. よくある間違い</h2>
+<div class="mis">
+<p class="bad">$\displaystyle\int_0^x\left(\int_0^1f\,dy\right)dx$ のように、外側の積分の端に変数が入っている。</p>
+<p class="good">外側の積分の端は<strong>定数</strong>、内側の積分の端は<strong>外側の変数の式</strong>です。結果は数になるはずなので、外側の端に変数が残るのはおかしい、と気づけます。</p>
+</div>
+<div class="mis">
+<p class="bad">順序を変えるとき、積分の端の値をそのまま入れ替える：$\int_0^1\int_x^1\cdots dy\,dx\ \to\ \int_x^1\int_0^1\cdots dx\,dy$。</p>
+<p class="good">端をそのまま入れ替えることはできません。<strong>必ず領域の図をかき</strong>、横線で見たときの範囲を読み直します（例4）。</p>
+</div>
+<div class="mis">
+<p class="bad">$\int_0^1\left(\int_0^x xy\,dy\right)dx$ の内側を計算するとき、$x$ も積分して $\frac{x^2}{2}\cdot\frac{y^2}{2}$ とする。</p>
+<p class="good">内側の $dy$ の積分では $x$ は<strong>定数</strong>です：$\int_0^xxy\,dy=x\left[\frac{y^2}{2}\right]_0^x=\frac{x^3}{2}$。</p>
+</div>
+<div class="mis">
+<p class="bad">三角形 (0,0),(2,0),(1,1) を縦線で見て、$0\le x\le2$, $0\le y\le x$ とする。</p>
+<p class="good">上側の境界が途中（$x=1$）で $y=x$ から $y=2-x$ に変わります。縦線なら2つに分けるか、横線（$0\le y\le1$, $y\le x\le2-y$）で1回にまとめます。</p>
+</div>
+</section>
+
+<section id="s5">
+<h2>5. 練習問題</h2>
+<div class="prob">
+<div class="prob-t">問題 1 <span class="lv">長方形</span></div>
+<p>(1) $\iint_{[1,2]\times[0,\pi]}x\sin y\,dx\,dy$　　(2) $\iint_{[0,1]\times[0,1]}e^{x+y}\,dx\,dy$</p>
+<details><summary>解答を見る</summary>
+<p>(1) 変数分離：$\int_1^2x\,dx\cdot\int_0^\pi\sin y\,dy=\frac32\cdot2=3$</p>
+<p>(2) $\left(\int_0^1e^x\,dx\right)^2=(e-1)^2$</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 2 <span class="lv">一般の領域</span></div>
+<p>(1) $D$：$y=x^2$ と $y=2x$ で囲まれた部分。$\iint_Dx\,dx\,dy$。</p>
+<p>(2) $D$：$x\ge0$, $y\ge0$, $x^2+y^2\le1$。$\iint_Dy\,dx\,dy$（極座標を使わずに）。</p>
+<details><summary>解答を見る</summary>
+<p>(1) 交点 $x=0,2$。$\int_0^2\left(\int_{x^2}^{2x}x\,dy\right)dx=\int_0^2(2x^2-x^3)\,dx=\frac{16}{3}-4=\frac43$</p>
+<p>(2) $\int_0^1\left(\int_0^{\sqrt{1-x^2}}y\,dy\right)dx=\int_0^1\frac{1-x^2}{2}\,dx=\frac12\cdot\frac23=\frac13$</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 3 <span class="lv">積分順序の変更</span></div>
+<p>積分の順序を変えて計算してください。</p>
+<p>(1) $\displaystyle\int_0^\pi\left(\int_x^\pi\frac{\sin y}{y}\,dy\right)dx$　　(2) $\displaystyle\int_0^4\left(\int_{\sqrt x}^2\frac{1}{1+y^3}\,dy\right)dx$</p>
+<details><summary>解答を見る</summary>
+<p>(1) 領域 $0\le x\le y\le\pi$。$\int_0^\pi\left(\int_0^y\frac{\sin y}{y}\,dx\right)dy=\int_0^\pi\sin y\,dy=2$</p>
+<p>(2) 領域 $0\le x\le4$, $\sqrt x\le y\le2$ ⇔ $0\le y\le2$, $0\le x\le y^2$。</p>
+$$\int_0^2\frac{y^2}{1+y^3}\,dy=\left[\frac13\log(1+y^3)\right]_0^2=\frac13\log9=\frac23\log3$$
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 4 <span class="lv">順序の選び方</span></div>
+<p>$D$ を3点 $(0,0)$, $(2,0)$, $(1,1)$ を頂点とする三角形とします。$\iint_D(x+y)\,dx\,dy$ を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>横線で見ると $0\le y\le1$, $y\le x\le2-y$。</p>
+$$\int_0^1\left[\frac{x^2}{2}+xy\right]_{x=y}^{x=2-y}dy=\int_0^1(2-2y^2)\,dy=\frac43$$
+<p class="check">上のデモで領域「三角形 (0,0),(2,0),(1,1)」、$f=x+y$ を選ぶと確かめられます。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 5 <span class="lv">領域を読む</span></div>
+<p>$\displaystyle\int_0^1\left(\int_{y^2}^{\sqrt y}f(x,y)\,dx\right)dy$ の積分順序を変更してください。</p>
+<details><summary>解答を見る</summary>
+<p>領域は $0\le y\le1$, $y^2\le x\le\sqrt y$、つまり2曲線 $x=y^2$ と $y=x^2$ で囲まれた部分。縦線で見ると $0\le x\le1$, $x^2\le y\le\sqrt x$。</p>
+$$\int_0^1\left(\int_{x^2}^{\sqrt x}f(x,y)\,dy\right)dx$$
+</details>
+</div>
+</section>
+
+<script>
+const REG=[
+ {n:"長方形 [0,2]×[0,1]",a:0,b:2,lo:x=>0,hi:x=>1,c:0,d:1,l:y=>0,r:y=>2,tv:"\\int_0^2\\left(\\int_0^1 f\\,dy\\right)dx",th:"\\int_0^1\\left(\\int_0^2 f\\,dx\\right)dy"},
+ {n:"三角形 0 ≤ y ≤ x ≤ 1（例2）",a:0,b:1,lo:x=>0,hi:x=>x,c:0,d:1,l:y=>y,r:y=>1,tv:"\\int_0^1\\left(\\int_0^x f\\,dy\\right)dx",th:"\\int_0^1\\left(\\int_y^1 f\\,dx\\right)dy"},
+ {n:"y = x² と y = x の間（例3）",a:0,b:1,lo:x=>x*x,hi:x=>x,c:0,d:1,l:y=>y,r:y=>Math.sqrt(y),tv:"\\int_0^1\\left(\\int_{x^2}^{x} f\\,dy\\right)dx",th:"\\int_0^1\\left(\\int_y^{\\sqrt y} f\\,dx\\right)dy"},
+ {n:"四分円 x²+y² ≤ 1, x,y ≥ 0",a:0,b:1,lo:x=>0,hi:x=>Math.sqrt(Math.max(0,1-x*x)),c:0,d:1,l:y=>0,r:y=>Math.sqrt(Math.max(0,1-y*y)),tv:"\\int_0^1\\left(\\int_0^{\\sqrt{1-x^2}} f\\,dy\\right)dx",th:"\\int_0^1\\left(\\int_0^{\\sqrt{1-y^2}} f\\,dx\\right)dy"},
+ {n:"y = √x, x = 4, x 軸",a:0,b:4,lo:x=>0,hi:x=>Math.sqrt(x),c:0,d:2,l:y=>y*y,r:y=>4,tv:"\\int_0^4\\left(\\int_0^{\\sqrt x} f\\,dy\\right)dx",th:"\\int_0^2\\left(\\int_{y^2}^{4} f\\,dx\\right)dy"},
+ {n:"三角形 (0,0),(2,0),(1,1)（問題4）",a:0,b:2,lo:x=>0,hi:x=>x<=1?x:2-x,c:0,d:1,l:y=>y,r:y=>2-y,tv:"\\int_0^1\\left(\\int_0^x f\\,dy\\right)dx+\\int_1^2\\left(\\int_0^{2-x} f\\,dy\\right)dx",th:"\\int_0^1\\left(\\int_y^{2-y} f\\,dx\\right)dy"},
+ {n:"2曲線 x = y², y = x² の間（問題5）",a:0,b:1,lo:x=>x*x,hi:x=>Math.sqrt(x),c:0,d:1,l:y=>y*y,r:y=>Math.sqrt(y),tv:"\\int_0^1\\left(\\int_{x^2}^{\\sqrt x} f\\,dy\\right)dx",th:"\\int_0^1\\left(\\int_{y^2}^{\\sqrt y} f\\,dx\\right)dy"}];
+fillSelect($("#reg"),REG.map(r=>r.n));
+let F, ri=0, vert=true, s=0.5;
+const PL=new Plot2D($("#cv"),{xmin:-0.3,xmax:2.3,ymin:-0.3,ymax:2.3});
+const PG=new Plot2D($("#cg"),{xmin:0,xmax:1,ymin:0,ymax:1,equal:false,ticks:true});
+const Ax=x=>{ const g=REG[ri], lo=g.lo(x), hi=g.hi(x); return hi>lo?NUM.simpson(y=>F(x,y),lo,hi,60):0; };
+const By=y=>{ const g=REG[ri], l=g.l(y), r=g.r(y); return r>l?NUM.simpson(x=>F(x,y),l,r,60):0; };
+const pos=()=>{ const g=REG[ri]; return vert?g.a+(g.b-g.a)*s:g.c+(g.d-g.c)*s; };
+PL.onDraw=p=>{
+  const g=REG[ri];
+  p.region((x,y)=>x>=g.a&&x<=g.b&&y>=g.lo(x)-1e-9&&y<=g.hi(x)+1e-9,cssv("c1"),0.22,2);
+  p.curve(x=>[x,g.lo(x)],g.a,g.b,cssv("c1"),{width:2}); p.curve(x=>[x,g.hi(x)],g.a,g.b,cssv("c1"),{width:2});
+  p.line([g.a,g.lo(g.a)],[g.a,g.hi(g.a)],cssv("c1"),{width:2}); p.line([g.b,g.lo(g.b)],[g.b,g.hi(g.b)],cssv("c1"),{width:2});
+  const t=pos();
+  if(vert){ const lo=g.lo(t), hi=g.hi(t); p.line([t,p.v.ymin],[t,p.v.ymax],rgba(cssv("c2"),0.35),{width:1,dash:[4,4]}); p.line([t,lo],[t,hi],cssv("c2"),{width:4});
+    p.dot([t,lo],cssv("c2"),{r:4,label:"φ₁(x)",dx:6,dy:14}); p.dot([t,hi],cssv("c2"),{r:4,label:"φ₂(x)"}); }
+  else { const l=g.l(t), r=g.r(t); p.line([p.v.xmin,t],[p.v.xmax,t],rgba(cssv("c2"),0.35),{width:1,dash:[4,4]}); p.line([l,t],[r,t],cssv("c2"),{width:4});
+    p.dot([l,t],cssv("c2"),{r:4,label:"ψ₁(y)",dx:-44,dy:-6}); p.dot([r,t],cssv("c2"),{r:4,label:"ψ₂(y)",dx:6,dy:-6}); }
+};
+PG.onDraw=p=>{
+  const g=REG[ri], h=vert?Ax:By, t0=vert?g.a:g.c, t1=vert?g.b:g.d, N=120, pts=[[t0,0]];
+  for(let i=0;i<=N;i++){ const t=t0+(t1-t0)*i/N; pts.push([t,h(t)]); } pts.push([t1,0]);
+  p.poly(pts,cssv("c4"),{alpha:0.2});
+  p.curve(t=>[t,h(t)],t0,t1,cssv("c4"),{width:2.6,n:N});
+  const t=pos(), v=h(t); p.line([t,0],[t,v],cssv("c2"),{width:3}); p.dot([t,v],cssv("c2"),{r:5});
+};
+function rangesG(){
+  const g=REG[ri], h=vert?Ax:By, t0=vert?g.a:g.c, t1=vert?g.b:g.d; let lo=0,hi=0;
+  for(let i=0;i<=80;i++){ const v=h(t0+(t1-t0)*i/80); if(isFinite(v)){lo=Math.min(lo,v);hi=Math.max(hi,v);} }
+  const pd=(hi-lo)*0.12+0.05; PG.o.xmin=t0-(t1-t0)*0.05; PG.o.xmax=t1+(t1-t0)*0.05; PG.o.ymin=lo-pd*(lo<0?1:0.3); PG.o.ymax=hi+pd;
+  PG.o.xl=vert?"x":"y"; PG.o.yl=vert?"A(x)":"B(y)";
+  $("#capg").innerHTML=vert?tex("A(x)=\\int_{\\varphi_1(x)}^{\\varphi_2(x)}f(x,y)\\,dy")+" のグラフ":tex("B(y)=\\int_{\\psi_1(y)}^{\\psi_2(y)}f(x,y)\\,dx")+" のグラフ";
+}
+function upd(){
+  s=+$("#sp").value; const g=REG[ri], t=pos(); $("#vp").textContent=fnum(t,2);
+  $("#lv").innerHTML=tex(vert?"x":"y");
+  const I1=NUM.simpson(Ax,g.a,g.b,120), I2=NUM.simpson(By,g.c,g.d,120);
+  let o=`<div class="row"><b>縦線</b>：${tex("\\iint_D f\\,dx\\,dy="+g.tv)} ≈ <b>${fnum(I1,5)}</b></div>`;
+  o+=`<div class="row"><b>横線</b>：${tex("\\iint_D f\\,dx\\,dy="+g.th)} ≈ <b>${fnum(I2,5)}</b></div>`;
+  o+=vert?`<div class="row small">いまの切り口：${tex("x="+fnum(t,3))} で ${tex(fnum(g.lo(t),3)+"\\le y\\le"+fnum(g.hi(t),3))}、断面積 ${tex("A(x)\\approx"+fnum(Ax(t),4))}</div>`
+         :`<div class="row small">いまの切り口：${tex("y="+fnum(t,3))} で ${tex(fnum(g.l(t),3)+"\\le x\\le"+fnum(g.r(t),3))}、${tex("B(y)\\approx"+fnum(By(t),4))}</div>`;
+  $("#out").innerHTML=o; PL.draw(); PG.draw();
+}
+function setReg(){ const g=REG[ri], m=Math.max(g.b-g.a,g.d-g.c)*0.15; PL.setView({xmin:g.a-m,xmax:g.b+m,ymin:g.c-m,ymax:g.d+m}); rangesG(); upd(); }
+const run=exprField($("#ex"),["x","y"],(e,f)=>{ F=f; setReg(); });
+$("#reg").addEventListener("change",e=>{ ri=+e.target.value; setReg(); });
+$("#sp").addEventListener("input",upd);
+$("#mv").addEventListener("click",()=>{ vert=true; $("#mv").classList.add("on"); $("#mh").classList.remove("on"); rangesG(); upd(); });
+$("#mh").addEventListener("click",()=>{ vert=false; $("#mh").classList.add("on"); $("#mv").classList.remove("on"); rangesG(); upd(); });
+run();
+</script>

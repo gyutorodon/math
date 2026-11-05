@@ -1,0 +1,156 @@
+<!--
+title: まとめ
+lead: 解析学II全体（多変数の微分と2重積分）の総まとめです。後半の積分の公式と計算の流れを整理し、クイズと総合問題で全範囲を確認しましょう。前半の詳しいまとめは第9回にあります。
+desc: 全範囲の要点・積分の公式集・計算の流れ・確認クイズ・総合問題
+-->
+<section id="s1">
+<h2>1. 全体の見取り図</h2>
+<div class="tablewrap"><table class="t">
+<tr><th>テーマ</th><th class="l">キーワード</th><th>回</th></tr>
+<tr><td>多変数関数</td><td class="l">グラフと等高線、2変数の極限（近づき方・極座標評価）、連続</td><td>1</td></tr>
+<tr><td>微分</td><td class="l">偏微分、全微分可能性、接平面、$C^n$ 級、$f_{xy}=f_{yx}$</td><td>2, 4</td></tr>
+<tr><td>連鎖律</td><td class="l">$z_u=z_xx_u+z_yy_u$、極座標での偏微分</td><td>3, 4</td></tr>
+<tr><td>近似</td><td class="l">テイラーの定理、1次・2次近似、近似値</td><td>5</td></tr>
+<tr><td>勾配</td><td class="l">$D_{\bm u}f=\nabla f\cdot\bm u$、最急上昇、等高線に垂直</td><td>6</td></tr>
+<tr><td>極値</td><td class="l">停留点、$H=f_{xx}f_{yy}-f_{xy}^2$ による判定</td><td>7</td></tr>
+<tr><td>条件付き極値</td><td class="l">陰関数定理、ラグランジュの未定乗数法</td><td>8, 13</td></tr>
+<tr><td>2重積分</td><td class="l">リーマン和、体積・面積、性質と対称性</td><td>10</td></tr>
+<tr><td>累次積分</td><td class="l">縦線集合・横線集合、フビニの定理、順序変更</td><td>11, 13</td></tr>
+<tr><td>変数変換</td><td class="l">ヤコビアン $|J|$、極座標 $r\,dr\,d\theta$、1次変換</td><td>12, 13</td></tr>
+<tr><td>広義積分</td><td class="l">近似増加列、収束判定、ガウス積分</td><td>14</td></tr>
+</table></div>
+<p class="small muted">前半（第1〜8回）の公式集・論理関係は <a href="09-midterm-review.html">第9回 中間まとめ</a> を見てください。</p>
+</section>
+
+<section id="s2">
+<h2>2. 積分の公式集</h2>
+<div class="tablewrap"><table class="t">
+<tr><th>項目</th><th class="l">公式</th></tr>
+<tr><td>リーマン和</td><td class="l">$\displaystyle\iint_Kf\,dx\,dy=\lim_{|\Delta|\to0}\sum_{i,j}f(\xi_{ij},\eta_{ij})\Delta x_i\Delta y_j$</td></tr>
+<tr><td>面積</td><td class="l">$|D|=\iint_D1\,dx\,dy$</td></tr>
+<tr><td>縦線集合</td><td class="l">$\displaystyle\iint_Df=\int_a^b\left(\int_{\varphi_1(x)}^{\varphi_2(x)}f\,dy\right)dx$</td></tr>
+<tr><td>横線集合</td><td class="l">$\displaystyle\iint_Df=\int_c^d\left(\int_{\psi_1(y)}^{\psi_2(y)}f\,dx\right)dy$</td></tr>
+<tr><td>変数分離</td><td class="l">$\iint_{[a,b]\times[c,d]}g(x)h(y)=\int_a^bg\cdot\int_c^dh$</td></tr>
+<tr><td>変数変換</td><td class="l">$\iint_Df(x,y)\,dx\,dy=\iint_Ef(x(u,v),y(u,v))\,|J|\,du\,dv$, $\ J=\begin{vmatrix}x_u&x_v\\ y_u&y_v\end{vmatrix}$</td></tr>
+<tr><td>極座標</td><td class="l">$dx\,dy=r\,dr\,d\theta$</td></tr>
+<tr><td>1次変換</td><td class="l">$x=au+bv$, $y=cu+dv$ なら $|J|=|ad-bc|$</td></tr>
+<tr><td>ガウス積分</td><td class="l">$\int_{-\infty}^\infty e^{-x^2}dx=\sqrt\pi$, $\ \iint_{\mathbb{R}^2}e^{-(x^2+y^2)}=\pi$</td></tr>
+<tr><td>収束の目安</td><td class="l">$\iint_{r\le1}r^{-2\alpha}$ は $\alpha<1$、$\iint_{r\ge1}r^{-2\alpha}$ は $\alpha>1$ で収束</td></tr>
+</table></div>
+</section>
+
+<section id="s3">
+<h2>3. 2重積分の計算の流れ</h2>
+<div class="box note">
+<div class="box-t">迷ったらこの順に</div>
+<ol class="steps">
+<li><strong>領域 $D$ の図</strong>をかく（境界の式・交点・対称性）。</li>
+<li><strong>対称性</strong>で消える部分はないか？（$D$ が $y$ 軸対称で $x$ について奇関数 → $0$）</li>
+<li><strong>座標を選ぶ</strong>：
+<ul><li>円・扇形・円環、$x^2+y^2$ を含む → <strong>極座標</strong>（$r\,dr\,d\theta$）</li>
+<li>平行四辺形、$x\pm y$ や $ax+by$ のかたまり → <strong>1次変換</strong>（$|J|$）</li>
+<li>それ以外 → <strong>累次積分</strong>（縦線か横線か）</li></ul></li>
+<li><strong>範囲を書く</strong>：外側は定数、内側は外側の変数の式。</li>
+<li><strong>内側から計算</strong>。内側が計算できなければ<strong>順序変更</strong>。</li>
+<li>無限に広い領域・無限大になる点があれば<strong>広義積分</strong>（有界な $K_n$ で計算して極限）。</li>
+</ol>
+</div>
+<div class="box note">
+<div class="box-t">極値問題の流れ（前半の復習）</div>
+<ol class="steps">
+<li>条件なし：$f_x=f_y=0$ → $H$ と $f_{xx}$ で判定（$H=0$ は個別に）。</li>
+<li>条件 $g=0$ つき：$f_xg_y-f_yg_x=0$ と $g=0$ を連立 → 候補の値を比較。</li>
+<li>有界閉領域での最大・最小：内部の停留点 ＋ 境界（条件付き極値）を比較。</li>
+</ol>
+</div>
+</section>
+
+<section id="s4">
+<h2>4. 確認クイズ</h2>
+<div class="demo quiz" id="quiz">
+<div class="demo-t">全範囲から12問</div>
+<p class="small"><span id="score" class="kw"></span></p>
+<div class="q" data-a="1"><p><b>Q1.</b> $\displaystyle\lim_{(x,y)\to(0,0)}\frac{x^2y}{x^2+y^2}$ は？</p><div class="opts"><button>存在しない</button><button>$0$</button><button>$1$</button></div><div class="fb" hidden>極座標で $|f|\le r\to0$。</div></div>
+<div class="q" data-a="2"><p><b>Q2.</b> $f_x=f_y=0$ の点で $f_{xx}=1$, $f_{xy}=2$, $f_{yy}=1$。この点は？</p><div class="opts"><button>極大</button><button>極小</button><button>鞍点</button></div><div class="fb" hidden>$H=1-4=-3<0$ なので鞍点。</div></div>
+<div class="q" data-a="0"><p><b>Q3.</b> ラグランジュの未定乗数法で、条件 $g=0$ のもとでの $f$ の極値の候補がみたすのは？</p><div class="opts"><button>$\nabla f=\lambda\nabla g$</button><button>$\nabla f=\bm0$</button><button>$\nabla f\perp\nabla g$</button></div><div class="fb" hidden>極値の点では $f$ の等高線と曲線 $g=0$ が接し、法線（勾配）が平行。</div></div>
+<div class="q" data-a="0"><p><b>Q4.</b> $\iint_{[0,1]\times[0,2]}xy\,dx\,dy$ は？</p><div class="opts"><button>$1$</button><button>$\frac12$</button><button>$2$</button></div><div class="fb" hidden>$\int_0^1x\,dx\cdot\int_0^2y\,dy=\frac12\cdot2=1$。</div></div>
+<div class="q" data-a="1"><p><b>Q5.</b> 極座標に変換したとき $dx\,dy$ は？</p><div class="opts"><button>$dr\,d\theta$</button><button>$r\,dr\,d\theta$</button><button>$r^2\,dr\,d\theta$</button></div><div class="fb" hidden>$J=\begin{vmatrix}\cos\theta&-r\sin\theta\\ \sin\theta&r\cos\theta\end{vmatrix}=r$。</div></div>
+<div class="q" data-a="0"><p><b>Q6.</b> $\int_0^1\left(\int_x^1f\,dy\right)dx$ の順序を変更すると？</p><div class="opts"><button>$\int_0^1\left(\int_0^yf\,dx\right)dy$</button><button>$\int_0^1\left(\int_y^1f\,dx\right)dy$</button><button>$\int_x^1\left(\int_0^1f\,dx\right)dy$</button></div><div class="fb" hidden>領域は $0\le x\le y\le1$。横線で見ると $0\le y\le1$, $0\le x\le y$。</div></div>
+<div class="q" data-a="2"><p><b>Q7.</b> $x=2u+v$, $y=u-v$ のとき $|J|$ は？</p><div class="opts"><button>$1$</button><button>$\frac13$</button><button>$3$</button></div><div class="fb" hidden>$J=\begin{vmatrix}2&1\\ 1&-1\end{vmatrix}=-3$、$|J|=3$。</div></div>
+<div class="q" data-a="0"><p><b>Q8.</b> $\iint_{x^2+y^2\le1}(x+x^3y^2)\,dx\,dy$ は？</p><div class="opts"><button>$0$</button><button>$\pi$</button><button>$\frac\pi2$</button></div><div class="fb" hidden>円板は $y$ 軸に関して対称で、被積分関数は $x$ について奇関数。</div></div>
+<div class="q" data-a="1"><p><b>Q9.</b> $\int_{-\infty}^{\infty}e^{-x^2}\,dx$ は？</p><div class="opts"><button>$\pi$</button><button>$\sqrt\pi$</button><button>$\frac{\sqrt\pi}{2}$</button></div><div class="fb" hidden>$\left(\int e^{-x^2}dx\right)^2=\iint e^{-(x^2+y^2)}=\pi$。</div></div>
+<div class="q" data-a="0"><p><b>Q10.</b> $\iint_{0<x^2+y^2\le1}\frac{dx\,dy}{\sqrt{x^2+y^2}}$ は？</p><div class="opts"><button>$2\pi$（収束）</button><button>$\pi$（収束）</button><button>発散</button></div><div class="fb" hidden>$\int_0^{2\pi}\int_\varepsilon^1\frac1r\cdot r\,dr\,d\theta=2\pi(1-\varepsilon)\to2\pi$。</div></div>
+<div class="q" data-a="2"><p><b>Q11.</b> $\iint_{x^2+y^2\ge1}\frac{dx\,dy}{x^2+y^2}$ は？</p><div class="opts"><button>$2\pi$</button><button>$\pi$</button><button>発散</button></div><div class="fb" hidden>$2\pi\int_1^R\frac{dr}{r}=2\pi\log R\to\infty$。</div></div>
+<div class="q" data-a="1"><p><b>Q12.</b> 極座標で円板 $x^2+y^2\le2y$ の $r$ の範囲は？</p><div class="opts"><button>$0\le r\le\sqrt2$</button><button>$0\le r\le2\sin\theta$（$0\le\theta\le\pi$）</button><button>$0\le r\le2\cos\theta$</button></div><div class="fb" hidden>$r^2\le2r\sin\theta$ より $r\le2\sin\theta$。$\sin\theta\ge0$ の範囲 $0\le\theta\le\pi$。</div></div>
+<button id="reset">もう一度</button>
+</div>
+</section>
+
+<section id="s5">
+<h2>5. 総合問題</h2>
+<div class="prob">
+<div class="prob-t">問題 1 <span class="lv">極値</span></div>
+<p>$f(x,y)=x^2+y^2-xy-x-y$ の極値を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>$f_x=2x-y-1=0$, $f_y=2y-x-1=0$ より $(1,1)$。$A=2$, $B=-1$, $C=2$, $H=3>0$, $A>0$ → <strong>極小値 $f(1,1)=-1$</strong>。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 2 <span class="lv">条件付き極値</span></div>
+<p>条件 $x^2+y^2=3$ のもとで $f=x^2y$ の最大値・最小値を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>$\nabla f=(2xy,x^2)$, $\nabla g=(2x,2y)$。平行条件 $2xy\cdot2y-x^2\cdot2x=2x(2y^2-x^2)=0$。</p>
+<p>$x=0$：$y=\pm\sqrt3$, $f=0$。$x^2=2y^2$：$3y^2=3$, $y=\pm1$, $x^2=2$、$f=2y=\pm2$。</p>
+<p>円は有界閉集合なので <strong>最大値 $2$（$(\pm\sqrt2,1)$）、最小値 $-2$（$(\pm\sqrt2,-1)$）</strong>。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 3 <span class="lv">累次積分</span></div>
+<p>$D$：$y=x^2$ と $y=2-x^2$ で囲まれた部分。$\iint_D(x+y)\,dx\,dy$ を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>交点 $x=\pm1$。$x$ の項は対称性で $0$。$\int_{-1}^1\frac{(2-x^2)^2-x^4}{2}dx=\int_{-1}^1(2-2x^2)\,dx=\frac83$。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 4 <span class="lv">順序変更</span></div>
+<p>$\displaystyle\int_0^1\left(\int_{\sqrt y}^1\sqrt{1+x^3}\,dx\right)dy$ を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>$0\le x\le1$, $0\le y\le x^2$ に変更：$\int_0^1x^2\sqrt{1+x^3}\,dx=\frac29(2\sqrt2-1)$。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 5 <span class="lv">極座標・広義積分</span></div>
+<p>$I(a)=\iint_{x^2+y^2\le a^2}e^{-(x^2+y^2)}\,dx\,dy$ を求め、$a\to\infty$ の極限から $\int_{-\infty}^\infty e^{-x^2}dx$ の値を導いてください。</p>
+<details><summary>解答を見る</summary>
+<p>$I(a)=\pi(1-e^{-a^2})\to\pi$。正方形 $[-a,a]^2$ で近似すると $\left(\int_{-a}^ae^{-x^2}dx\right)^2\to\pi$ でもあるので、$\int_{-\infty}^\infty e^{-x^2}dx=\sqrt\pi$。（第14回 例1）</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 6 <span class="lv">体積</span></div>
+<p>放物面 $z=4-x^2-y^2$ と平面 $z=0$ で囲まれた立体の体積を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>$z\ge0$ の部分は $x^2+y^2\le4$。体積 $=\iint_{r\le2}(4-r^2)\,r\,dr\,d\theta=2\pi\left[2r^2-\frac{r^4}{4}\right]_0^2=2\pi(8-4)=8\pi$。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 7 <span class="lv">連鎖律＋変数変換</span></div>
+<p>$x=r\cos\theta$, $y=r\sin\theta$ のヤコビアンを求め、それを使って $\iint_{x^2+y^2\le1,\ x\ge0,\ y\ge0}\dfrac{xy}{x^2+y^2}\,dx\,dy$ を計算してください。</p>
+<details><summary>解答を見る</summary>
+<p>$J=r$（第12回）。$\frac{xy}{x^2+y^2}=\cos\theta\sin\theta$。</p>
+$$\int_0^{\pi/2}\int_0^1\cos\theta\sin\theta\cdot r\,dr\,d\theta=\frac12\cdot\frac12=\frac14$$
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 8 <span class="lv">全微分と接平面</span></div>
+<p>曲面 $z=\log(1+x^2+y^2)$ の点 $(1,1,\log3)$ における接平面と、点 $(1,1)$ で $f$ が最も急に増加する向きを求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>$z_x=\frac{2x}{1+x^2+y^2}=\frac23$, $z_y=\frac23$。接平面 $z=\log3+\frac23(x-1)+\frac23(y-1)$。</p>
+<p>最も急に増加する向きは $\nabla f=\left(\frac23,\frac23\right)$ の向き、単位ベクトルで $\frac{1}{\sqrt2}(1,1)$。</p>
+</details>
+</div>
+<p class="small muted" style="margin-top:2em">おつかれさまでした。わからないところは各回のページに戻って、「動かしてみよう」で図を動かしながら確認しましょう。 → <a href="index.html">目次へ</a></p>
+</section>
+
+<script>
+quizInit();
+</script>

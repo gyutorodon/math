@@ -9,7 +9,7 @@ const GREEK={alpha:"α",beta:"β",gamma:"γ",delta:"δ",epsilon:"ε",varepsilon:
 const UGREEK={Gamma:"Γ",Delta:"Δ",Theta:"Θ",Lambda:"Λ",Xi:"Ξ",Pi:"Π",Sigma:"Σ",Phi:"Φ",Psi:"Ψ",Omega:"Ω"};
 const ORD={partial:"∂",nabla:"∇",infty:"∞",ldots:"…",cdots:"⋯",dots:"…",vdots:"⋮",R:"ℝ",emptyset:"∅",varnothing:"∅",forall:"∀",exists:"∃",prime:"′",ell:"ℓ","|":"‖",lvert:"|",rvert:"|",therefore:"∴",because:"∵",square:"□",checkmark:"✓",star:"★"};
 const BIN={pm:"±",mp:"∓",times:"×",cdot:"·",cap:"∩",cup:"∪",setminus:"∖",circ:"∘",div:"÷"};
-const REL={mid:"|",le:"≤",leq:"≤",ge:"≥",geq:"≥",ne:"≠",neq:"≠",approx:"≈",to:"→",rightarrow:"→",leftarrow:"←",mapsto:"↦",in:"∈",notin:"∉",ni:"∋",subset:"⊂",subseteq:"⊆",supset:"⊃",Rightarrow:"⇒",implies:"⇒",Leftarrow:"⇐",iff:"⇔",Leftrightarrow:"⇔",equiv:"≡",sim:"∼",simeq:"≃",perp:"⊥",parallel:"∥",ll:"≪",gg:"≫",lt:"&lt;",gt:"&gt;",colon:":",nearrow:"↗",searrow:"↘",uparrow:"↑",downarrow:"↓",longrightarrow:"⟶"};
+const REL={Longleftrightarrow:"⟺",Longrightarrow:"⟹",mid:"|",le:"≤",leq:"≤",ge:"≥",geq:"≥",ne:"≠",neq:"≠",approx:"≈",to:"→",rightarrow:"→",leftarrow:"←",mapsto:"↦",in:"∈",notin:"∉",ni:"∋",subset:"⊂",subseteq:"⊆",supset:"⊃",Rightarrow:"⇒",implies:"⇒",Leftarrow:"⇐",iff:"⇔",Leftrightarrow:"⇔",equiv:"≡",sim:"∼",simeq:"≃",perp:"⊥",parallel:"∥",ll:"≪",gg:"≫",lt:"&lt;",gt:"&gt;",colon:":",nearrow:"↗",searrow:"↘",uparrow:"↑",downarrow:"↓",longrightarrow:"⟶"};
 const FN=new Set(["sin","cos","tan","cot","sec","csc","log","ln","exp","arcsin","arccos","arctan","sinh","cosh","tanh","det","dim","rank","grad","sgn","deg","Im","Ker","Tan","Arctan","Arcsin","Arccos"]);
 const UNDER=new Set(["lim","max","min","sup","inf","sum","prod","limsup","liminf"]);
 const INTS={int:"∫",iint:"∬",iiint:"∭",oint:"∮"};
@@ -113,7 +113,7 @@ function render(src,display){
     if(name==="aligned"||name==="align"||name==="align*")
       return {h:'<span class="eqs" style="--c:'+nc+'">'+cells+"</span>",c:"ord"};
     if(name==="cases")
-      return {h:'<span class="cases" style="--r:'+rows.length+'"><span class="cb">{</span><span class="g">'+cells+"</span></span>",c:"ord"};
+      return {h:'<span class="cases" style="--r:'+rows.length+';--cc:'+nc+'"><span class="cb">{</span><span class="g">'+cells+"</span></span>",c:"ord"};
     const cls=name==="vmatrix"?"mat det":name==="bmatrix"?"mat sq":name==="matrix"?"mat bare":"mat";
     return {h:'<span class="'+cls+'"><span class="g" style="--c:'+nc+'">'+cells+"</span></span>",c:"ord"};
   }
@@ -179,6 +179,18 @@ function render(src,display){
           a={h:'<span class="lr l'+L+" r"+R+'"><span class="lri">'+join(inner,false)+"</span></span>",c:"ord"};
         }
         else if(v==="right") return null;
+        else if(/^(big|Big|bigg|Bigg)(l|r|m)?$/.test(v)){
+          const t=next(); const ch=t?(t.k==="ch"?t.v:t.k==="cmd"?({"{":"{","}":"}","|":"‖",langle:"⟨",rangle:"⟩"}[t.v]||""):""):"";
+          const sz={big:1.2,Big:1.5,bigg:1.8,Bigg:2.1}[v.replace(/[lrm]$/,"")];
+          a={h:'<span style="font-size:'+sz+'em;line-height:1;vertical-align:-.08em">'+esc(ch)+"</span>",c:/[(\[{⟨]/.test(ch)?"open":/[)\]}⟩]/.test(ch)?"close":"ord"};
+        }
+        else if(v==="not"){
+          const t=next(); let h="";
+          if(t&&t.k==="cmd"){ const m={Rightarrow:"⇏",to:"↛",rightarrow:"↛",in:"∉",subset:"⊄",equiv:"≢",iff:"⇎",Leftrightarrow:"⇎",parallel:"∦"}; h=m[t.v]||((REL[t.v]||"")+"\u0338"); }
+          else if(t&&t.k==="ch") h=t.v==="="?"≠":esc(t.v)+"\u0338";
+          a={h,c:"rel"};
+        }
+        else if(v==="xrightarrow"){ const g=group(); a={h:'<span class="xa"><span class="xal">'+g+'</span><span class="xar">⟶</span></span>',c:"rel"}; }
         else if(v==="{"||v==="langle") a={h:v==="{"?"{":"⟨",c:"open"};
         else if(v==="}"||v==="rangle") a={h:v==="}"?"}":"⟩",c:"close"};
         else if(v===",") a={h:'<span class="s1"></span>',c:"sp"};

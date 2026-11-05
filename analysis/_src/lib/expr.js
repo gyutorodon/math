@@ -360,8 +360,9 @@ function T(e,ctx){
           if(rs.t==="+") return T(mul(rs,...common),Object.assign({},ctx,{nofac:false}));
         }
       }
-      let s="";
-      e.a.forEach((t,i)=>{
+      let s="", terms=e.a.slice();
+      const fp=terms.findIndex(t=>coefOf(t)>0); if(fp>0) terms.unshift(terms.splice(fp,1)[0]);
+      terms.forEach((t,i)=>{
         if(i===0){ s+=T(t,ctx); return; }
         if(coefOf(t)<0) s+=" - "+T(negate(t),ctx); else s+=" + "+T(t,ctx);
       });

@@ -78,6 +78,7 @@ class Plot2D{
     if(this.onBack) this.onBack(this);
     if(this.o.grid) this.drawGrid();
     if(this.onDraw) this.onDraw(this);
+    if(this.o.grid&&this.o.axesOnTop!==false) this.drawAxesOnly();
     for(const h of this.handles){ if(h.hidden&&h.hidden()) continue; const p=h.get(); this.dot(p,h.color||cssv("c5"),{r:7,ring:true}); if(h.label) this.text(p,h.label,h.color||cssv("c5"),{dx:9,dy:-9,bold:true}); }
   }
   drawGrid(){
@@ -101,18 +102,23 @@ class Plot2D{
       for(let y=Math.ceil(v.ymin/big)*big;y<v.ymax-big*0.3;y+=big){ if(Math.abs(y)<1e-9||this.Y(y)>this.h-8) continue; this.text([x0,y],fnum(y),ax,{dx:-4,dy:4,size:11,italic:false,align:"right"}); }
     }
   }
+  drawAxesOnly(){
+    const c=this.ctx, v=this.v; c.strokeStyle=rgba(cssv("axis"),0.55); c.lineWidth=1.2; c.beginPath();
+    if(v.ymin<=0&&v.ymax>=0){ c.moveTo(0,this.Y(0)); c.lineTo(this.w,this.Y(0)); }
+    if(v.xmin<=0&&v.xmax>=0){ c.moveTo(this.X(0),0); c.lineTo(this.X(0),this.h); }
+    c.stroke();
+  }
   /* 色の塗り分け（ヒートマップ）：f の値を [lo,hi] で色に */
   heat(f,lo,hi,o={}){
     const c=this.ctx, step=o.step||4, nx=Math.ceil(this.w/step), ny=Math.ceil(this.h/step);
     const off=document.createElement("canvas"); off.width=nx; off.height=ny;
     const oc=off.getContext("2d"), img=oc.createImageData(nx,ny), a=o.alpha==null?0.55:o.alpha;
-    const bg=hex2rgb(cssv("card"));
     for(let j=0;j<ny;j++) for(let i=0;i<nx;i++){
       const [x,y]=this.toWorld((i+0.5)*step,(j+0.5)*step); const z=f(x,y), k=(j*nx+i)*4;
       if(!isFinite(z)){ img.data[k+3]=0; continue; }
       const col=cmap((z-lo)/(hi-lo));
-      for(let q=0;q<3;q++) img.data[k+q]=bg[q]*(1-a)+col[q]*a;
-      img.data[k+3]=255;
+      for(let q=0;q<3;q++) img.data[k+q]=col[q];
+      img.data[k+3]=255*a;
     }
     oc.putImageData(img,0,0); c.imageSmoothingEnabled=true; c.drawImage(off,0,0,nx*step,ny*step);
   }
@@ -337,4 +343,20 @@ function lc(terms,dg=3){
     s+=s===""?(c<0?"-":"")+body:(c<0?"-":"+")+body;
   }
   return s===""?"0":s;
+}
+/* 確認クイズ（.quiz .q[data-a] の選択式） */
+function quizInit(){
+  const qs=[...document.querySelectorAll(".quiz .q")];
+  const score=()=>{ const done=qs.filter(q=>q.dataset.done), ok=done.filter(q=>q.dataset.done==="ok"); $("#score").textContent=done.length?`（${done.length}問中 ${ok.length}問正解）`:""; };
+  qs.forEach(q=>{
+    const bs=[...q.querySelectorAll(".opts button")], a=+q.dataset.a;
+    bs.forEach((b,i)=>b.addEventListener("click",()=>{
+      if(q.dataset.done) return;
+      q.dataset.done=i===a?"ok":"ng"; bs[a].classList.add("right"); if(i!==a) b.classList.add("wrong");
+      const fb=q.querySelector(".fb"); fb.hidden=false; fb.innerHTML=(i===a?'<span class="ok">正解！</span> ':'<span class="ng">ざんねん。</span> ')+fb.dataset.base;
+      score();
+    }));
+    const fb=q.querySelector(".fb"); fb.dataset.base=fb.innerHTML;
+  });
+  $("#reset").addEventListener("click",()=>{ qs.forEach(q=>{ delete q.dataset.done; q.querySelectorAll("button").forEach(b=>b.classList.remove("right","wrong")); q.querySelector(".fb").hidden=true; }); score(); });
 }

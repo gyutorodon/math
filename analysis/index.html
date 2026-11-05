@@ -34,6 +34,7 @@
   }
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--textfont);font-size:16.5px;line-height:1.85;}
 .wrap{max-width:860px;margin:0 auto;padding:24px 16px 64px}
@@ -96,10 +97,13 @@ sub.is{vertical-align:-.65em;margin-left:-.12em}
 .dm .ul{vertical-align:top}
 .s1{display:inline-block;width:.17em}.s2{display:inline-block;width:.28em}.sn{display:inline-block;margin-left:-.17em}
 .q1{display:inline-block;width:1em}.q2{display:inline-block;width:2em}
+.xa{display:inline-flex;flex-direction:column;align-items:center;vertical-align:-.1em;line-height:1}
+.xal{font-size:.7em;padding:0 .3em;white-space:nowrap}
+.xar{font-size:1.25em;line-height:.6;transform:scaleX(1.6);margin:0 .4em}
 .hlm{background:var(--accent-soft);border-radius:4px;padding:0 .15em;box-shadow:0 0 0 1px var(--accent)}
 .bxd{border:1.5px solid currentColor;padding:.1em .35em;border-radius:3px}
 .lr{display:inline-flex;align-items:stretch;vertical-align:middle;margin:0 .06em}
-.lr>.lri{display:inline-flex;align-items:center;padding:.1em .12em}
+.lr>.lri{display:block;align-self:center;padding:.1em .12em}
 .lr::before,.lr::after{content:"";flex:none;width:.34em}
 .lr.lp::before{border-left:1.4px solid currentColor;border-radius:.6em 0 0 .6em / 50% 0 0 50%}
 .lr.rp::after{border-right:1.4px solid currentColor;border-radius:0 .6em .6em 0 / 0 50% 50% 0}
@@ -122,7 +126,7 @@ sub.is{vertical-align:-.65em;margin-left:-.12em}
 .mat>.g{display:grid;grid-template-columns:repeat(var(--c),auto);column-gap:.8em;row-gap:.12em;padding:.2em .35em;align-items:center;justify-items:center}
 .cases{display:inline-flex;align-items:center;vertical-align:middle}
 .cases .cb{font-size:calc(var(--r) * 1.05em + .3em);line-height:1;font-weight:300;transform:scaleX(.7);margin-right:.05em}
-.cases>.g{display:grid;grid-template-columns:auto auto;column-gap:1.2em;row-gap:.1em;justify-items:start;align-items:center}
+.cases>.g{display:grid;grid-template-columns:repeat(var(--cc,2),auto);column-gap:1.2em;row-gap:.1em;justify-items:start;align-items:center}
 .eqs{display:inline-grid;grid-template-columns:auto auto;column-gap:.1em;row-gap:.35em;align-items:center;text-align:left}
 .eqs>span:nth-child(odd){text-align:right;justify-self:end}
 .eqs>span:nth-child(even){text-align:left;justify-self:start}
@@ -238,17 +242,23 @@ footer.pn a{text-decoration:none}
 <p class="part">前半：多変数関数の微分</p>
 <ol class="idx">
 <li><a href="01-multivariable.html"><span class="no">第1回</span><span class="ti">多変数関数</span></a><span class="ds">2変数関数のグラフと等高線、定義域、2変数の極限と連続性</span></li>
-<li><a href="02-partial-derivative.html"><span class="no">第2回</span><span class="ti">偏微分</span></a><span class="ds">偏微分係数・偏導関数、高次偏導関数、全微分可能性と接平面、C¹級</span></li>
-<li><a href="03-chain-rule.html"><span class="no">第3回</span><span class="ti">合成関数の偏微分</span></a><span class="ds">連鎖律 dz/dt = f_x x′ + f_y y′、変数変換 (u,v)・極座標での偏微分</span></li>
+<li><a href="02-partial-derivative.html"><span class="no">第2回</span><span class="ti">偏微分</span></a><span class="ds">偏微分係数・偏導関数、高次偏導関数、全微分可能性と接平面、<span class="m"><span class="mn"><i>C</i><sup>1</sup></span></span> 級</span></li>
+<li><a href="03-chain-rule.html"><span class="no">第3回</span><span class="ti">合成関数の偏微分</span></a><span class="ds">連鎖律 <span class="m"><span class="mn"><span class="frac"><span><i>d</i><i>z</i></span><span><i>d</i><i>t</i></span></span> =</span> <span class="mn"><i>f</i><sub><i>x</i></sub><i>x</i><span class="pr">′</span> + <i>f</i><sub><i>y</i></sub><i>y</i><span class="pr">′</span></span></span>、変数変換 <span class="m"><span class="mn">(<i>u</i>, <i>v</i>)</span></span>・極座標での偏微分</span></li>
 <li><a href="04-exercise1.html"><span class="no">第4回</span><span class="ti">演習I（偏微分の基本計算）</span></a><span class="ds">偏導関数・2次偏導関数・連鎖律・定義による計算の型別演習と答え合わせ計算機</span></li>
 <li><a href="05-taylor.html"><span class="no">第5回</span><span class="ti">Taylor展開, 近似</span></a><span class="ds">2変数のテイラーの定理、1次近似・2次近似、近似値の計算</span></li>
-<li><a href="06-gradient.html"><span class="no">第6回</span><span class="ti">方向微分と勾配</span></a><span class="ds">方向微分係数 D_u f = ∇f·u、勾配ベクトルの意味、等高線の接線と法線</span></li>
-<li><a href="07-extremum.html"><span class="no">第7回</span><span class="ti">極値問題</span></a><span class="ds">停留点 f_x=f_y=0、ヘッセ行列式による極大・極小・鞍点の判定</span></li>
-<li><a href="08-implicit-lagrange.html"><span class="no">第8回</span><span class="ti">陰関数定理, 条件付き極値問題</span></a><span class="ds">陰関数の存在と微分 dy/dx = −g_x/g_y、ラグランジュの未定乗数法</span></li>
+<li><a href="06-gradient.html"><span class="no">第6回</span><span class="ti">方向微分と勾配</span></a><span class="ds">方向微分係数 <span class="m"><span class="mn"><i>D</i><sub><b class="vec"><i>u</i></b></sub><i>f</i> =</span> <span class="mn">∇<i>f</i> · <b class="vec"><i>u</i></b></span></span>、勾配ベクトルの意味、等高線の接線と法線</span></li>
+<li><a href="07-extremum.html"><span class="no">第7回</span><span class="ti">極値問題</span></a><span class="ds">停留点 <span class="m"><span class="mn"><i>f</i><sub><i>x</i></sub> =</span> <span class="mn"><i>f</i><sub><i>y</i></sub> =</span> <span class="mn">0</span></span>、ヘッセ行列式による極大・極小・鞍点の判定</span></li>
+<li><a href="08-implicit-lagrange.html"><span class="no">第8回</span><span class="ti">陰関数定理, 条件付き極値問題</span></a><span class="ds">陰関数の存在と微分 <span class="m"><span class="mn"><span class="frac"><span><i>d</i><i>y</i></span><span><i>d</i><i>x</i></span></span> =</span> <span class="mn">−<span class="frac"><span><i>g</i><sub><i>x</i></sub></span><span><i>g</i><sub><i>y</i></sub></span></span></span></span>、ラグランジュの未定乗数法</span></li>
+<li><a href="09-midterm-review.html"><span class="no">第9回</span><span class="ti">中間まとめ</span></a><span class="ds">前半（多変数の微分）の公式集・論理関係・確認クイズ・総合問題</span></li>
 </ol>
 <p class="part">後半：2重積分</p>
 <ol class="idx">
-
+<li><a href="10-double-integral.html"><span class="no">第10回</span><span class="ti">2重積分</span></a><span class="ds">リーマン和による2重積分の定義、体積・面積としての意味、基本性質と対称性</span></li>
+<li><a href="11-iterated-integral.html"><span class="no">第11回</span><span class="ti">累次積分</span></a><span class="ds">フビニの定理、縦線集合・横線集合での累次積分、積分順序の変更</span></li>
+<li><a href="12-change-of-variables.html"><span class="no">第12回</span><span class="ti">変数変換</span></a><span class="ds">ヤコビアン、変数変換の公式、極座標 <span class="m"><span class="mn"><i>d</i><i>x</i><span class="s1"></span><i>d</i><i>y</i> =</span> <span class="mn"><i>r</i><span class="s1"></span><i>d</i><i>r</i><span class="s1"></span><i>d</i><i>θ</i></span></span>、1次変換</span></li>
+<li><a href="13-exercise2.html"><span class="no">第13回</span><span class="ti">演習II（条件付き極値問題, 2重積分の基本計算）</span></a><span class="ds">ラグランジュの未定乗数法と2重積分の型別演習、累次積分・極座標の数値計算機</span></li>
+<li><a href="14-improper-integral.html"><span class="no">第14回</span><span class="ti">広義積分</span></a><span class="ds">近似増加列による広義2重積分、収束判定、ガウス積分 <span class="m"><span class="mn"><span class="int">∫</span><span class="il"><span>∞</span><span>−∞</span></span><span class="s1"></span><i>e</i><sup>−<i>x</i><sup>2</sup></sup><i>d</i><i>x</i> =</span> <span class="mn"><span class="sqrt"><span class="rt">√</span><span class="rd"><i>π</i></span></span></span></span></span></li>
+<li><a href="15-final-review.html"><span class="no">第15回</span><span class="ti">まとめ</span></a><span class="ds">全範囲の要点・積分の公式集・計算の流れ・確認クイズ・総合問題</span></li>
 </ol>
 </main>
 </div>

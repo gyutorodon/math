@@ -37,6 +37,14 @@ ${css}</style>
 
 pages.forEach((p,i)=>{
   let body=TEX.texify(p.body);
+  // SVG の属性に書いた var(--x) を style に移す（どのブラウザでも効くように）
+  body=body.replace(/<svg[\s\S]*?<\/svg>/g,svg=>svg.replace(/<([a-zA-Z]+)([^>]*)>/g,(m,tag,attrs)=>{
+    const st=[]; attrs=attrs.replace(/\s(fill|stroke|font-family)="(var\(--[\w-]+\))"/g,(mm,k,v)=>{ st.push(k+":"+v); return ""; });
+    if(!st.length) return m;
+    if(/\sstyle="/.test(attrs)) attrs=attrs.replace(/\sstyle="([^"]*)"/,(mm,v)=>' style="'+v.replace(/;?$/,";")+st.join(";")+'"');
+    else attrs+=' style="'+st.join(";")+'"';
+    return "<"+tag+attrs+">";
+  }));
   // 目次：h2 と data-toc
   const toc=[];
   body.replace(/<section id="([\w-]+)">\s*<h2>([\s\S]*?)<\/h2>|<[^>]*\bid="([\w-]+)"[^>]*\bdata-toc="([^"]*)"/g,(m,id,h,id2,lab)=>{

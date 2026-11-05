@@ -26,6 +26,7 @@
   }
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--textfont);font-size:16.5px;line-height:1.85;}
 .wrap{max-width:860px;margin:0 auto;padding:24px 16px 64px}
@@ -88,10 +89,13 @@ sub.is{vertical-align:-.65em;margin-left:-.12em}
 .dm .ul{vertical-align:top}
 .s1{display:inline-block;width:.17em}.s2{display:inline-block;width:.28em}.sn{display:inline-block;margin-left:-.17em}
 .q1{display:inline-block;width:1em}.q2{display:inline-block;width:2em}
+.xa{display:inline-flex;flex-direction:column;align-items:center;vertical-align:-.1em;line-height:1}
+.xal{font-size:.7em;padding:0 .3em;white-space:nowrap}
+.xar{font-size:1.25em;line-height:.6;transform:scaleX(1.6);margin:0 .4em}
 .hlm{background:var(--accent-soft);border-radius:4px;padding:0 .15em;box-shadow:0 0 0 1px var(--accent)}
 .bxd{border:1.5px solid currentColor;padding:.1em .35em;border-radius:3px}
 .lr{display:inline-flex;align-items:stretch;vertical-align:middle;margin:0 .06em}
-.lr>.lri{display:inline-flex;align-items:center;padding:.1em .12em}
+.lr>.lri{display:block;align-self:center;padding:.1em .12em}
 .lr::before,.lr::after{content:"";flex:none;width:.34em}
 .lr.lp::before{border-left:1.4px solid currentColor;border-radius:.6em 0 0 .6em / 50% 0 0 50%}
 .lr.rp::after{border-right:1.4px solid currentColor;border-radius:0 .6em .6em 0 / 0 50% 50% 0}
@@ -114,7 +118,7 @@ sub.is{vertical-align:-.65em;margin-left:-.12em}
 .mat>.g{display:grid;grid-template-columns:repeat(var(--c),auto);column-gap:.8em;row-gap:.12em;padding:.2em .35em;align-items:center;justify-items:center}
 .cases{display:inline-flex;align-items:center;vertical-align:middle}
 .cases .cb{font-size:calc(var(--r) * 1.05em + .3em);line-height:1;font-weight:300;transform:scaleX(.7);margin-right:.05em}
-.cases>.g{display:grid;grid-template-columns:auto auto;column-gap:1.2em;row-gap:.1em;justify-items:start;align-items:center}
+.cases>.g{display:grid;grid-template-columns:repeat(var(--cc,2),auto);column-gap:1.2em;row-gap:.1em;justify-items:start;align-items:center}
 .eqs{display:inline-grid;grid-template-columns:auto auto;column-gap:.1em;row-gap:.35em;align-items:center;text-align:left}
 .eqs>span:nth-child(odd){text-align:right;justify-self:end}
 .eqs>span:nth-child(even){text-align:left;justify-self:start}

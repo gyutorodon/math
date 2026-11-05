@@ -1,0 +1,192 @@
+<!--
+title: 2重積分
+lead: 1変数の定積分が「面積」だったように、2重積分 $\iint_D f(x,y)\,dx\,dy$ は曲面 $z=f(x,y)$ と領域 $D$ の間の「体積」です。小さな長方形の柱の体積を足し合わせ（リーマン和）、細かくした極限として定義します。
+desc: リーマン和による2重積分の定義、体積・面積としての意味、基本性質と対称性
+-->
+<section id="s1">
+<h2>1. 何の話か（直感）</h2>
+<p>1変数の定積分 $\int_a^b f(x)\,dx$ は、区間を細かく分けて「細長い長方形の面積 $f(\xi_i)\Delta x_i$」を足し、分割を細かくした極限でした。</p>
+<p>2変数では、平面の領域 $D$ を<strong>小さな長方形（タイル）</strong>に分け、各タイルの上に高さ $f(\xi,\eta)$ の<strong>柱</strong>を立てます。柱の体積 $f(\xi_{ij},\eta_{ij})\,\Delta x_i\,\Delta y_j$ を全部足したもの（<strong>リーマン和</strong>）は、タイルを細かくしていくと曲面の下の<strong>体積</strong>に近づきます。この極限が2重積分です。</p>
+<ul>
+<li>$f\ge0$ なら、$\iint_D f\,dx\,dy$ は「$D$ の上、曲面 $z=f$ の下」の立体の体積。</li>
+<li>$f=1$ なら、$\iint_D 1\,dx\,dy$ は $D$ の<strong>面積</strong>。</li>
+<li>$f$ が負の所では体積を<strong>マイナス</strong>として数えます（符号付き体積）。</li>
+</ul>
+<p class="small muted">実際の計算は、次回の<strong>累次積分</strong>（1変数の積分を2回）で行います。今回は定義と意味、性質をおさえます。</p>
+</section>
+
+<section id="s2">
+<h2>2. 定義・性質</h2>
+<div class="box def">
+<div class="box-t">定義（長方形上の2重積分）</div>
+<p>長方形 $K=[a,b]\times[c,d]$ を、$a=x_0<x_1<\cdots<x_m=b$, $c=y_0<y_1<\cdots<y_n=d$ で小長方形 $K_{ij}=[x_{i-1},x_i]\times[y_{j-1},y_j]$ に分割し（分割 $\Delta$）、各 $K_{ij}$ から点 $(\xi_{ij},\eta_{ij})$ を選んで</p>
+$$S(\Delta)=\sum_{i=1}^{m}\sum_{j=1}^{n}f(\xi_{ij},\eta_{ij})\,\Delta x_i\,\Delta y_j\qquad(\Delta x_i=x_i-x_{i-1},\ \Delta y_j=y_j-y_{j-1})$$
+<p>とします（リーマン和）。分割を細かくしたとき（小長方形の対角線の長さの最大値 $|\Delta|\to0$）、点の選び方によらず $S(\Delta)$ が一定の値に近づくなら、$f$ は $K$ で<strong>積分可能</strong>といい、その値を</p>
+$$\iint_K f(x,y)\,dx\,dy$$
+<p>と書きます。</p>
+</div>
+<div class="box def">
+<div class="box-t">定義（一般の有界領域）</div>
+<p>有界な領域 $D$ に対しては、$D$ を含む長方形 $K$ をとり、$D$ の外では $0$ とした関数 $\tilde f$ を考えて $\displaystyle\iint_Df\,dx\,dy=\iint_K\tilde f\,dx\,dy$ と定めます。また $|D|=\displaystyle\iint_D1\,dx\,dy$ を $D$ の<strong>面積</strong>といいます。</p>
+</div>
+<div class="box thm">
+<div class="box-t">定理 1（積分可能性）</div>
+<p>$D$ が有界閉領域で境界がなめらかな曲線（いくつかつないだものでもよい）のとき、$D$ 上の連続関数は積分可能です。</p>
+</div>
+<div class="box thm">
+<div class="box-t">定理 2（基本性質）</div>
+<ol>
+<li><strong>線形性</strong>：$\iint_D(\alpha f+\beta g)=\alpha\iint_Df+\beta\iint_Dg$</li>
+<li><strong>単調性</strong>：$D$ 上 $f\le g$ なら $\iint_Df\le\iint_Dg$。とくに $\left|\iint_Df\right|\le\iint_D|f|$</li>
+<li><strong>領域の加法性</strong>：$D=D_1\cup D_2$（重なりは面積0）なら $\iint_D=\iint_{D_1}+\iint_{D_2}$</li>
+<li><strong>評価</strong>：$D$ 上 $m\le f\le M$ なら $m|D|\le\iint_Df\le M|D|$</li>
+<li><strong>平均値の定理</strong>：$f$ が連続で $D$ が連結な有界閉領域なら、ある $(\xi,\eta)\in D$ で $\iint_Df=f(\xi,\eta)\,|D|$</li>
+</ol>
+</div>
+<div class="box note">
+<div class="box-t">対称性の利用</div>
+<p>$D$ が $y$ 軸に関して対称（$(x,y)\in D\Rightarrow(-x,y)\in D$）で、$f(-x,y)=-f(x,y)$（$x$ について奇関数）なら $\iint_Df=0$。左右の体積がちょうど打ち消し合います。偶関数なら右半分の2倍です。</p>
+</div>
+</section>
+
+<section id="s3">
+<h2>3. 具体例</h2>
+<div class="ex">
+<div class="ex-t">例 1：定義に従って計算する</div>
+<p>$\iint_{[0,1]\times[0,1]}xy\,dx\,dy$ を、$n\times n$ 等分・各小長方形の右上の点で計算します。$\Delta x=\Delta y=\frac1n$, $(\xi_{ij},\eta_{ij})=\left(\frac in,\frac jn\right)$。</p>
+$$S_n=\sum_{i=1}^n\sum_{j=1}^n\frac in\cdot\frac jn\cdot\frac1{n^2}=\frac{1}{n^4}\left(\sum_{i=1}^ni\right)\left(\sum_{j=1}^nj\right)=\frac{1}{n^4}\left(\frac{n(n+1)}{2}\right)^2\ \to\ \frac14$$
+<p>よって $\iint_{[0,1]^2}xy\,dx\,dy=\dfrac14$。（下のデモで $n$ を増やして確かめられます。）</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 2：体積として見る</div>
+<p>$D=\{(x,y)\mid x\ge0,\ y\ge0,\ x+y\le1\}$（直角三角形）上の $\iint_D(1-x-y)\,dx\,dy$ は、平面 $z=1-x-y$ と3つの座標平面で囲まれた<strong>四面体の体積</strong> $\frac13\cdot\frac12\cdot1=\frac16$ に等しい。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 3：対称性</div>
+<p>$D:\ x^2+y^2\le1$ は $y$ 軸に関して対称で、$x$, $x^3$, $xy^2$, $\sin x$ は $x$ について奇関数なので</p>
+$$\iint_D(x^3+xy^2+\sin x)\,dx\,dy=0,\qquad \iint_D(x+2)\,dx\,dy=0+2|D|=2\pi$$
+</div>
+<div class="ex">
+<div class="ex-t">例 4：評価</div>
+<p>$D=[0,1]\times[0,1]$ 上で $0\le x^2y^2\le1$ より $1\le e^{x^2y^2}\le e$、$|D|=1$ なので</p>
+$$1\le\iint_De^{x^2y^2}\,dx\,dy\le e$$
+<p class="small muted">$e^{x^2y^2}$ の積分は初等関数では計算できませんが、このように範囲は簡単にわかります。</p>
+</div>
+
+<div class="demo" id="demo" data-toc="▶ リーマン和の柱">
+<div class="demo-t">柱の体積を足して、体積に近づける</div>
+<p class="small">長方形 $[a,b]\times[c,d]$ を $n\times n$ 個に分け、各小長方形の代表点での高さの柱を立てます。$n$ を大きくすると、リーマン和が2重積分（真の値）に近づきます。</p>
+<div class="ctrl"><label>例：<select id="pre"></select></label><label>$f=$ <input id="ex" class="expr" value="x y" autocomplete="off" spellcheck="false"></label></div>
+<div class="ctrl"><label>$[a,b]=$ [<input id="ia" class="num" value="0">, <input id="ib" class="num" value="1">]</label><label>$[c,d]=$ [<input id="ic" class="num" value="0">, <input id="id" class="num" value="1">]</label></div>
+<div class="sl"><label>分割数 $n$ <input type="range" id="sn" min="1" max="24" step="1" value="4"><span class="sv" id="vn"></span></label><label>代表点 <select id="pt"><option value="1">右上</option><option value="0">左下</option><option value="0.5">中点</option></select></label></div>
+<canvas class="cv wide" id="cv3"></canvas>
+<p class="cap">ドラッグで回転（薄い網目は曲面 $z=f(x,y)$）</p>
+<div class="out" id="out"></div>
+</div>
+</section>
+
+<section id="s4">
+<h2>4. よくある間違い</h2>
+<div class="mis">
+<p class="bad">2重積分はいつも体積なので正の値になる。</p>
+<p class="good">$f<0$ の部分はマイナスとして数えます。例3の $\iint x\,dx\,dy=0$ のように、打ち消し合って $0$ になることもあります。「体積そのもの」を求めたいときは $\iint|f|$ です。</p>
+</div>
+<div class="mis">
+<p class="bad">$D$ が円板 $x^2+y^2\le1$ で $f=x+y^2$ なので、$f$ は奇関数だから $\iint_Df=0$。</p>
+<p class="good">対称性が使えるのは、<strong>その変数について奇関数の部分</strong>だけです。$x$ の部分は $0$ になりますが、$y^2$ は残ります：$\iint_D(x+y^2)=\iint_Dy^2$。</p>
+</div>
+<div class="mis">
+<p class="bad">$\iint_D 1\,dx\,dy$ は体積なので単位は「長さの3乗」。</p>
+<p class="good">高さが $1$ の柱の体積は底面積と同じ値なので、$\iint_D1\,dx\,dy$ は $D$ の<strong>面積</strong>を表します。</p>
+</div>
+</section>
+
+<section id="s5">
+<h2>5. 練習問題</h2>
+<div class="prob">
+<div class="prob-t">問題 1 <span class="lv">定義（リーマン和）</span></div>
+<p>$[0,1]\times[0,1]$ を $n\times n$ 等分し、各小長方形の右上の点を代表点とするリーマン和の極限として $\iint_{[0,1]^2}(x+y)\,dx\,dy$ を求めてください。</p>
+<details><summary>解答を見る</summary>
+$$S_n=\sum_{i=1}^n\sum_{j=1}^n\left(\frac in+\frac jn\right)\frac1{n^2}=\frac{1}{n^3}\left(n\sum_{i=1}^n i+n\sum_{j=1}^n j\right)=\frac{2}{n^2}\cdot\frac{n(n+1)}{2}=\frac{n+1}{n}\to1$$
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 2 <span class="lv">対称性</span></div>
+<p>$D:\ x^2+y^2\le4$ のとき、次の値を求めてください。</p>
+<p>(1) $\iint_D(x^3y+3)\,dx\,dy$　　(2) $\iint_D(2x-5y+1)\,dx\,dy$</p>
+<details><summary>解答を見る</summary>
+<p>(1) $x^3y$ は $x$ について奇関数なので $0$。$3|D|=3\cdot4\pi=12\pi$。</p>
+<p>(2) $2x$, $-5y$ はそれぞれ $x$, $y$ について奇関数（$D$ は両軸に関して対称）なので $0$。$|D|=4\pi$。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 3 <span class="lv">評価</span></div>
+<p>$D=[0,1]\times[0,1]$ のとき $\dfrac13\le\iint_D\dfrac{dx\,dy}{1+x^2+y^2}\le1$ を示してください。</p>
+<details><summary>解答を見る</summary>
+<p>$D$ 上 $0\le x^2+y^2\le2$ なので $\dfrac13\le\dfrac{1}{1+x^2+y^2}\le1$。$|D|=1$ を掛ければよい。（実際の値は約 $0.64$。）</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 4 <span class="lv">平均値</span></div>
+<p>$f(x,y)=x+y$ の $D=[0,2]\times[0,2]$ における平均値 $\dfrac{1}{|D|}\iint_Df\,dx\,dy$ を、対称性を使って求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>$D$ は点 $(1,1)$ に関して対称で、$f(x,y)-2=(x-1)+(y-1)$ はこの対称移動で符号が変わるので $\iint_D(f-2)=0$。よって $\iint_Df=2|D|=8$、平均値は $2$（中心 $(1,1)$ での値）。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 5 <span class="lv">考え方</span></div>
+<p>$f$ は有界閉領域 $D$ 上で連続かつ $f\ge0$ で、$\iint_Df\,dx\,dy=0$ とします。$D$ の内部の点 $(a,b)$ で $f(a,b)>0$ だとすると矛盾することを説明してください。</p>
+<details><summary>解答を見る</summary>
+<p>連続性より、$(a,b)$ を中心とする小さな円板 $U\subset D$ 上で $f\ge\frac12f(a,b)=:c>0$。すると $\iint_Df\ge\iint_Uf\ge c|U|>0$ となり矛盾。よって $D$ の内部で $f=0$。</p>
+</details>
+</div>
+</section>
+
+<script>
+const PRE=[["x y","xy（例1）",[0,1,0,1]],["x+y","x+y（問題1）",[0,1,0,1]],["1-x^2/2-y^2/2","1−x²/2−y²/2",[-1,1,-1,1]],["exp(-x^2-y^2)","e^(−x²−y²)",[-1.5,1.5,-1.5,1.5]],["sin(x)sin(y)","sin x sin y",[0,3.1416,0,3.1416]],["x","x（符号付き）",[-1,1,-1,1]]];
+fillSelect($("#pre"),PRE.map(p=>p[1]));
+let F, R=[0,1,0,1], n=4, pt=1;
+const S3=new Surface3D($("#cv3"),{xr:[0,1],yr:[0,1],n:24,surface:false,az:-0.8,el:0.55});
+S3.extra=api=>{
+  const [a,b,c,d]=R, dx=(b-a)/n, dy=(d-c)/n, zr=S3.zr, base=Math.max(zr[0],Math.min(zr[1],0));
+  for(let i=0;i<n;i++) for(let j=0;j<n;j++){
+    const x0=a+i*dx, y0=c+j*dy, z=F(x0+pt*dx,y0+pt*dy); if(!isFinite(z)) continue;
+    const zt=Math.max(zr[0],Math.min(zr[1],z));
+    const base0=z>=0?cssv("c1"):cssv("c2");
+    const sh=k=>{ const c=hex2rgb(base0).map(v=>Math.round(Math.min(255,v*k))); return "#"+c.map(v=>v.toString(16).padStart(2,"0")).join(""); };
+    const P=(x,y,zz)=>[x,y,zz], E={stroke:rgba(cssv("card"),0.8)};
+    api.quad([P(x0,y0,zt),P(x0+dx,y0,zt),P(x0+dx,y0+dy,zt),P(x0,y0+dy,zt)],sh(1.08),0.97,E);
+    api.quad([P(x0,y0,base),P(x0+dx,y0,base),P(x0+dx,y0,zt),P(x0,y0,zt)],sh(0.82),0.97,E);
+    api.quad([P(x0,y0+dy,base),P(x0+dx,y0+dy,base),P(x0+dx,y0+dy,zt),P(x0,y0+dy,zt)],sh(0.82),0.97,E);
+    api.quad([P(x0,y0,base),P(x0,y0+dy,base),P(x0,y0+dy,zt),P(x0,y0,zt)],sh(0.66),0.97,E);
+    api.quad([P(x0+dx,y0,base),P(x0+dx,y0+dy,base),P(x0+dx,y0+dy,zt),P(x0+dx,y0,zt)],sh(0.66),0.97,E);
+  }
+  const m=16, lc=rgba(cssv("fg"),0.45);
+  for(let k=0;k<=m;k++){
+    const xs=[],ys=[]; for(let t=0;t<=40;t++){ const x=a+(b-a)*k/m, y=c+(d-c)*t/40; xs.push([x,y,F(x,y)]); const x2=a+(b-a)*t/40, y2=c+(d-c)*k/m; ys.push([x2,y2,F(x2,y2)]); }
+    api.path(xs,lc,{width:1,bias:-0.02}); api.path(ys,lc,{width:1,bias:-0.02});
+  }
+};
+function upd(){
+  n=+$("#sn").value; pt=+$("#pt").value; $("#vn").textContent=n;
+  const [a,b,c,d]=R, dx=(b-a)/n, dy=(d-c)/n; let S=0;
+  for(let i=0;i<n;i++) for(let j=0;j<n;j++) S+=F(a+i*dx+pt*dx,c+j*dy+pt*dy)*dx*dy;
+  const exact=NUM.dbl(F,a,b,()=>c,()=>d,80);
+  S3.draw();
+  $("#out").innerHTML=`<div class="row"><b>リーマン和</b> ${tex("S_{"+n+"}=\\sum_{i,j}f(\\xi_{ij},\\eta_{ij})\\,\\Delta x\\,\\Delta y")} = <b style="color:var(--c1)">${fnum(S,5)}</b>　（柱 ${n*n} 本）</div>`+
+    `<div class="row"><b>2重積分</b>（数値計算）${tex("\\iint f\\,dx\\,dy")} ≈ <b>${fnum(exact,5)}</b>　　誤差 ${fnum(Math.abs(S-exact),5)}</div>`+
+    `<div class="row small muted">${tex("f<0")} の柱は赤で、体積をマイナスとして数えます。</div>`;
+}
+function setR(){
+  const v=["#ia","#ib","#ic","#id"].map(id=>{ const r=EX.tryParse($(id).value); const ok=r.ok&&!EX.vars(r.e).length; $(id).classList.toggle("bad",!ok); return ok?EX.fn(r.e,[])():NaN; });
+  if(v.some(t=>!isFinite(t))||v[1]<=v[0]||v[3]<=v[2]) return false;
+  R=v; S3.set({xr:[R[0],R[1]],yr:[R[2],R[3]],zr:null});
+  const zr=S3.grid().zr; S3.o.zr=[Math.min(0,zr[0]),Math.max(0,zr[1])]; S3.cache.zr=S3.o.zr;
+  return true;
+}
+const run=exprField($("#ex"),["x","y"],(e,f)=>{ F=f; S3.f=F; S3.cache=null; S3.o.zr=null; if(setR()) upd(); });
+$("#pre").addEventListener("change",e=>{ const p=PRE[+e.target.value]; $("#ex").value=p[0]; ["#ia","#ib","#ic","#id"].forEach((id,i)=>$(id).value=String(+p[2][i].toFixed(4))); run(); });
+["#ia","#ib","#ic","#id"].forEach(id=>$(id).addEventListener("input",()=>{ S3.o.zr=null; if(setR()) upd(); }));
+$("#sn").addEventListener("input",upd); $("#pt").addEventListener("change",upd);
+run();
+</script>

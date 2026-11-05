@@ -1,0 +1,204 @@
+<!--
+title: 変数変換
+lead: $x=x(u,v)$, $y=y(u,v)$ と変数を取りかえると、小さな長方形 $du\,dv$ は面積がおよそ $|J|\,du\,dv$ の平行四辺形に写ります。この「面積の拡大率」ヤコビアン $J$ を掛けるのが変数変換の公式。極座標なら $dx\,dy=r\,dr\,d\theta$ です。
+desc: ヤコビアン、変数変換の公式、極座標 $dx\,dy=r\,dr\,d\theta$、1次変換
+-->
+<section id="s1">
+<h2>1. 何の話か（直感）</h2>
+<p>円板 $x^2+y^2\le4$ 上の積分は、$x,y$ のままだと $\int_{-2}^{2}\int_{-\sqrt{4-x^2}}^{\sqrt{4-x^2}}\cdots$ と面倒です。極座標 $x=r\cos\theta$, $y=r\sin\theta$ を使えば、領域は長方形 $0\le r\le2$, $0\le\theta\le2\pi$ になって簡単です。</p>
+<p>ただし $dx\,dy$ を $dr\,d\theta$ に置きかえるだけではいけません。$(r,\theta)$ 平面の小さな長方形（辺 $\Delta r$, $\Delta\theta$）は、$(x,y)$ 平面では<strong>扇形のかけら</strong>に写り、その面積は</p>
+$$(\text{弧の長さ }r\,\Delta\theta)\times(\text{幅 }\Delta r)=r\,\Delta r\,\Delta\theta$$
+<p>だからです。外側ほど同じ $\Delta\theta$ でも面積が大きい。この拡大率 $r$ を掛けて $dx\,dy=r\,dr\,d\theta$ とします。</p>
+<p>一般の変換でも、小さな長方形は（ほぼ）平行四辺形に写り、その面積の拡大率が<strong>ヤコビアン</strong>の絶対値 $|J|$ です。1変数の置換積分 $dx=x'(t)\,dt$ の「$x'(t)$」にあたるものです。</p>
+</section>
+
+<section id="s2">
+<h2>2. 定義・定理</h2>
+<div class="box def">
+<div class="box-t">定義（ヤコビアン）</div>
+<p>変換 $x=x(u,v)$, $y=y(u,v)$ に対して</p>
+$$J=\frac{\partial(x,y)}{\partial(u,v)}=\begin{vmatrix}x_u&x_v\\ y_u&y_v\end{vmatrix}=x_uy_v-x_vy_u$$
+<p>をヤコビアン（ヤコビ行列式）といいます。</p>
+</div>
+<div class="box thm">
+<div class="box-t">定理（変数変換の公式）</div>
+<p>$C^1$ 級の変換 $(u,v)\mapsto(x,y)$ が $uv$ 平面の領域 $E$ を $xy$ 平面の領域 $D$ に1対1に写し、$J\ne0$（面積 $0$ の集合を除く）ならば</p>
+$$\iint_Df(x,y)\,dx\,dy=\iint_Ef\bigl(x(u,v),\,y(u,v)\bigr)\,|J|\,du\,dv$$
+<p>$J$ ではなく<strong>絶対値 $|J|$</strong> を掛けることに注意。</p>
+</div>
+<div class="box thm">
+<div class="box-t">極座標</div>
+<p>$x=r\cos\theta$, $y=r\sin\theta$ のとき</p>
+$$J=\begin{vmatrix}\cos\theta&-r\sin\theta\\ \sin\theta&r\cos\theta\end{vmatrix}=r,\qquad \iint_Df(x,y)\,dx\,dy=\iint_Ef(r\cos\theta,r\sin\theta)\,r\,dr\,d\theta$$
+<p class="small muted">原点（$r=0$）では1対1でなく $J=0$ ですが、1点は面積 $0$ なので公式はそのまま使えます。</p>
+</div>
+<div class="box thm">
+<div class="box-t">1次変換</div>
+<p>$x=au+bv$, $y=cu+dv$ なら $J=ad-bc$（定数）。長方形は平行四辺形に写り、面積は $|ad-bc|$ 倍になります（線形代数の「行列式＝面積の拡大率」）。</p>
+<p class="small muted">$u,v$ を $x,y$ の式で与えられたとき（例：$u=x+y$, $v=x-y$）は、$\dfrac{\partial(u,v)}{\partial(x,y)}$ を計算して $J=\dfrac{1}{\partial(u,v)/\partial(x,y)}$ としてもよい（逆行列の行列式は逆数）。</p>
+</div>
+</section>
+
+<section id="s3">
+<h2>3. 具体例</h2>
+<div class="ex">
+<div class="ex-t">例 1：極座標（円板）</div>
+<p>$D:\ x^2+y^2\le a^2$ のとき、$E:\ 0\le r\le a$, $0\le\theta\le2\pi$ で</p>
+$$\iint_D(x^2+y^2)\,dx\,dy=\int_0^{2\pi}\int_0^ar^2\cdot r\,dr\,d\theta=2\pi\cdot\frac{a^4}{4}=\frac{\pi a^4}{2}$$
+</div>
+<div class="ex">
+<div class="ex-t">例 2：極座標（ガウス型）</div>
+$$\iint_{x^2+y^2\le R^2}e^{-(x^2+y^2)}\,dx\,dy=\int_0^{2\pi}\int_0^Re^{-r^2}r\,dr\,d\theta=2\pi\left[-\frac12e^{-r^2}\right]_0^R=\pi\left(1-e^{-R^2}\right)$$
+<p class="small muted">$R\to\infty$ とすると $\pi$。第14回でガウス積分 $\int_{-\infty}^\infty e^{-x^2}dx=\sqrt\pi$ を導くのに使います。</p>
+</div>
+<div class="ex">
+<div class="ex-t">例 3：円環の一部</div>
+<p>$D:\ 1\le x^2+y^2\le4$, $x\ge0$, $y\ge0$ では $E:\ 1\le r\le2$, $0\le\theta\le\frac\pi2$。</p>
+$$\iint_Dxy\,dx\,dy=\int_0^{\pi/2}\cos\theta\sin\theta\,d\theta\int_1^2r^3\,dr=\frac12\cdot\frac{15}{4}=\frac{15}{8}$$
+</div>
+<div class="ex">
+<div class="ex-t">例 4：1次変換</div>
+<p>$D:\ 0\le x+y\le1$, $0\le x-y\le2$（平行四辺形）。$u=x+y$, $v=x-y$ とおくと $E=[0,1]\times[0,2]$。</p>
+<p>$x=\frac{u+v}{2}$, $y=\frac{u-v}{2}$ より $J=\begin{vmatrix}\frac12&\frac12\\ \frac12&-\frac12\end{vmatrix}=-\frac12$、$|J|=\frac12$。</p>
+$$\iint_D(x+y)^2\,dx\,dy=\int_0^1\int_0^2u^2\cdot\frac12\,dv\,du=\frac12\cdot2\cdot\frac13=\frac13$$
+</div>
+<div class="ex">
+<div class="ex-t">例 5：楕円の面積</div>
+<p>$x=ar\cos\theta$, $y=br\sin\theta$ とおくと $J=abr$。楕円 $\frac{x^2}{a^2}+\frac{y^2}{b^2}\le1$ は $0\le r\le1$, $0\le\theta\le2\pi$ に対応し、面積 $=\int_0^{2\pi}\int_0^1abr\,dr\,d\theta=\pi ab$。</p>
+</div>
+
+<div class="demo" id="demo" data-toc="▶ 小さな長方形の行き先">
+<div class="demo-t">面積の拡大率 |J| を見る</div>
+<p class="small">左の $uv$ 平面の格子が、変換で右の $xy$ 平面にどう写るかを表示します。<span style="color:var(--c2)">赤い小長方形</span>の中心 ● をドラッグすると、行き先の図形の面積と $|J|\,\Delta u\,\Delta v$ がほぼ等しいことがわかります。</p>
+<div class="ctrl"><label>変換：<select id="map"></select></label></div>
+<div class="sl" id="lin" hidden><label>$a$ <input type="range" id="ma" min="-2" max="2" step="0.1" value="1"><span class="sv" id="va"></span></label><label>$b$ <input type="range" id="mb" min="-2" max="2" step="0.1" value="0.5"><span class="sv" id="vb"></span></label><label>$c$ <input type="range" id="mc" min="-2" max="2" step="0.1" value="0"><span class="sv" id="vc"></span></label><label>$d$ <input type="range" id="md" min="-2" max="2" step="0.1" value="1"><span class="sv" id="vd"></span></label></div>
+<div class="sl"><label>小長方形の大きさ <input type="range" id="sz" min="0.05" max="0.6" step="0.01" value="0.3"><span class="sv" id="vsz"></span></label></div>
+<div class="demo-grid">
+<div><canvas class="cv" id="cu"></canvas><p class="cap" id="capu"></p></div>
+<div><canvas class="cv" id="cx"></canvas><p class="cap">$xy$ 平面（行き先）</p></div>
+</div>
+<div class="out" id="out"></div>
+</div>
+</section>
+
+<section id="s4">
+<h2>4. よくある間違い</h2>
+<div class="mis">
+<p class="bad">極座標で $dx\,dy=dr\,d\theta$ とする。</p>
+<p class="good">$dx\,dy=r\,dr\,d\theta$。$r$ を忘れると、たとえば円板の面積が $\int_0^{2\pi}\int_0^a1\,dr\,d\theta=2\pi a$（周の長さ）になってしまいます。</p>
+</div>
+<div class="mis">
+<p class="bad">$J=-\frac12$ なので $-\frac12$ を掛ける。</p>
+<p class="good">掛けるのは<strong>絶対値</strong> $|J|=\frac12$ です。面積は負になりません。</p>
+</div>
+<div class="mis">
+<p class="bad">円板 $x^2+y^2\le2x$ を極座標で $0\le r\le\sqrt2$ とする。</p>
+<p class="good">$r^2\le2r\cos\theta$ より $0\le r\le2\cos\theta$、$-\frac\pi2\le\theta\le\frac\pi2$（問題2）。中心が原点でない円では、$r$ の範囲が $\theta$ によって変わります。必ず図をかいて範囲を読みましょう。</p>
+</div>
+<div class="mis">
+<p class="bad">$u=x+y$, $v=x-y$ のとき、$J=\begin{vmatrix}u_x&u_y\\ v_x&v_y\end{vmatrix}=-2$ を掛ける。</p>
+<p class="good">それは逆向き $\frac{\partial(u,v)}{\partial(x,y)}$ です。公式で掛けるのは $\frac{\partial(x,y)}{\partial(u,v)}=\frac{1}{-2}$ の絶対値 $\frac12$。</p>
+</div>
+</section>
+
+<section id="s5">
+<h2>5. 練習問題</h2>
+<div class="prob">
+<div class="prob-t">問題 1 <span class="lv">極座標</span></div>
+<p>(1) $\iint_{x^2+y^2\le1}\sqrt{1-x^2-y^2}\,dx\,dy$　　(2) $\iint_{x^2+y^2\le4,\ y\ge0}y\,dx\,dy$</p>
+<details><summary>解答を見る</summary>
+<p>(1) $\int_0^{2\pi}\int_0^1\sqrt{1-r^2}\,r\,dr\,d\theta=2\pi\left[-\frac13(1-r^2)^{3/2}\right]_0^1=\frac{2\pi}{3}$（半球の体積）</p>
+<p>(2) $\int_0^\pi\int_0^2r\sin\theta\cdot r\,dr\,d\theta=\int_0^\pi\sin\theta\,d\theta\cdot\frac83=\frac{16}{3}$</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 2 <span class="lv">中心がずれた円</span></div>
+<p>$D:\ x^2+y^2\le2x$ のとき $\iint_D\sqrt{x^2+y^2}\,dx\,dy$ を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>$r^2\le2r\cos\theta$ より $E:\ -\frac\pi2\le\theta\le\frac\pi2$, $0\le r\le2\cos\theta$。</p>
+$$\int_{-\pi/2}^{\pi/2}\int_0^{2\cos\theta}r\cdot r\,dr\,d\theta=\int_{-\pi/2}^{\pi/2}\frac{8\cos^3\theta}{3}\,d\theta=\frac83\cdot\frac43=\frac{32}{9}$$
+<p class="small muted">$\int_{-\pi/2}^{\pi/2}\cos^3\theta\,d\theta=\int(1-\sin^2\theta)\cos\theta\,d\theta=\left[\sin\theta-\frac{\sin^3\theta}{3}\right]_{-\pi/2}^{\pi/2}=\frac43$</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 3 <span class="lv">1次変換</span></div>
+<p>$D:\ 0\le x+y\le1$, $0\le x-y\le1$ のとき $\iint_D(x-y)e^{x+y}\,dx\,dy$ を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>$u=x+y$, $v=x-y$、$|J|=\frac12$、$E=[0,1]^2$。</p>
+$$\int_0^1\int_0^1ve^u\cdot\frac12\,du\,dv=\frac12(e-1)\cdot\frac12=\frac{e-1}{4}$$
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 4 <span class="lv">楕円</span></div>
+<p>$D:\ \dfrac{x^2}{4}+\dfrac{y^2}{9}\le1$ のとき $\iint_Dx^2\,dx\,dy$ を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>$x=2r\cos\theta$, $y=3r\sin\theta$、$J=6r$。</p>
+$$\int_0^{2\pi}\int_0^14r^2\cos^2\theta\cdot6r\,dr\,d\theta=24\cdot\frac14\cdot\pi=6\pi$$
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 5 <span class="lv">ヤコビアンの計算</span></div>
+<p>(1) $x=u^2-v^2$, $y=2uv$ のヤコビアン　(2) $x=e^u\cos v$, $y=e^u\sin v$ のヤコビアン</p>
+<details><summary>解答を見る</summary>
+<p>(1) $\begin{vmatrix}2u&-2v\\ 2v&2u\end{vmatrix}=4(u^2+v^2)$　　(2) $\begin{vmatrix}e^u\cos v&-e^u\sin v\\ e^u\sin v&e^u\cos v\end{vmatrix}=e^{2u}$</p>
+</details>
+</div>
+</section>
+
+<script>
+const MAPS=[
+ {n:"極座標 x = r cos θ, y = r sin θ",u:"r",v:"θ",ur:[0,2],vr:[0,2*Math.PI],f:(r,t)=>[r*Math.cos(t),r*Math.sin(t)],J:(r,t)=>r,jt:"J=r",c:[1.2,0.8],xr:2.3},
+ {n:"1次変換 x = au + bv, y = cu + dv",u:"u",v:"v",ur:[-1,1],vr:[-1,1],lin:true,c:[0.3,0.2],xr:3},
+ {n:"x = (u+v)/2, y = (u−v)/2（例4）",u:"u",v:"v",ur:[0,1],vr:[0,2],f:(u,v)=>[(u+v)/2,(u-v)/2],J:()=>-0.5,jt:"J=-\\frac12",c:[0.5,1],xr:1.6},
+ {n:"楕円座標 x = 2r cos θ, y = r sin θ",u:"r",v:"θ",ur:[0,1],vr:[0,2*Math.PI],f:(r,t)=>[2*r*Math.cos(t),r*Math.sin(t)],J:(r,t)=>2*r,jt:"J=2r",c:[0.6,1],xr:2.3},
+ {n:"x = u² − v², y = 2uv（問題5）",u:"u",v:"v",ur:[0,1.4],vr:[0,1.4],f:(u,v)=>[u*u-v*v,2*u*v],J:(u,v)=>4*(u*u+v*v),jt:"J=4(u^2+v^2)",c:[0.9,0.5],xr:2.2}];
+fillSelect($("#map"),MAPS.map(m=>m.n));
+let mi=0, C=[1.2,0.8], h=0.3, L={a:1,b:0.5,c:0,d:1};
+const M=()=>MAPS[mi];
+const T=(u,v)=>M().lin?[L.a*u+L.b*v,L.c*u+L.d*v]:M().f(u,v);
+const Jv=(u,v)=>M().lin?L.a*L.d-L.b*L.c:M().J(u,v);
+const PU=new Plot2D($("#cu"),{xmin:0,xmax:2,ymin:0,ymax:6.3,equal:false});
+const PX=new Plot2D($("#cx"),{xmin:-2.3,xmax:2.3,ymin:-2.3,ymax:2.3});
+PU.addHandle({get:()=>C,set:p=>{C=p; upd();},color:cssv("c2")});
+REDRAW.add(()=>PU.handles[0].color=cssv("c2"));
+function cellPts(n=24){ const [u0,v0]=C, a=h*(M().ur[1]-M().ur[0])/2, b=h*(M().vr[1]-M().vr[0])/2, P=[];
+  const cs=[[u0-a/2,v0-b/2],[u0+a/2,v0-b/2],[u0+a/2,v0+b/2],[u0-a/2,v0+b/2]];
+  for(let k=0;k<4;k++){ const p=cs[k], q=cs[(k+1)%4]; for(let i=0;i<n;i++){ const t=i/n; P.push([p[0]+(q[0]-p[0])*t,p[1]+(q[1]-p[1])*t]); } }
+  return {P,du:a,dv:b}; }
+PU.onDraw=p=>{
+  const m=M(), N=8;
+  p.poly([[m.ur[0],m.vr[0]],[m.ur[1],m.vr[0]],[m.ur[1],m.vr[1]],[m.ur[0],m.vr[1]]],cssv("c1"),{alpha:0.12});
+  for(let i=0;i<=N;i++){ const u=m.ur[0]+(m.ur[1]-m.ur[0])*i/N, v=m.vr[0]+(m.vr[1]-m.vr[0])*i/N;
+    p.line([u,m.vr[0]],[u,m.vr[1]],cssv("c1"),{width:1.3,alpha:0.7}); p.line([m.ur[0],v],[m.ur[1],v],cssv("c4"),{width:1.3,alpha:0.7}); }
+  p.poly(cellPts(1).P,cssv("c2"),{alpha:0.35,stroke:cssv("c2"),width:2});
+};
+PX.onDraw=p=>{
+  const m=M(), N=8, S=60;
+  for(let i=0;i<=N;i++){ const u=m.ur[0]+(m.ur[1]-m.ur[0])*i/N, v=m.vr[0]+(m.vr[1]-m.vr[0])*i/N;
+    p.curve(t=>T(u,m.vr[0]+(m.vr[1]-m.vr[0])*t),0,1,cssv("c1"),{width:1.3,n:S}); p.curve(t=>T(m.ur[0]+(m.ur[1]-m.ur[0])*t,v),0,1,cssv("c4"),{width:1.3,n:S}); }
+  p.poly(cellPts().P.map(q=>T(...q)),cssv("c2"),{alpha:0.35,stroke:cssv("c2"),width:2});
+};
+function area(P){ let s=0; for(let i=0;i<P.length;i++){ const a=P[i], b=P[(i+1)%P.length]; s+=a[0]*b[1]-a[1]*b[0]; } return Math.abs(s)/2; }
+function upd(){
+  const m=M(); if(m.lin){ for(const k of "abcd"){ L[k]=+$("#m"+k).value; $("#v"+k).textContent=fnum(L[k],1); } }
+  h=+$("#sz").value; $("#vsz").textContent=fnum(h,2);
+  const {P,du,dv}=cellPts(), A=area(P.map(q=>T(...q))), J=Jv(...C);
+  const tv=m.v==="θ"?"\\theta":m.v;
+  const jt=m.lin?"J=ad-bc="+fnum(J,3):m.jt+"="+fnum(J,3);
+  let s=`<div class="row">${tex(jt)}（中心 ${tex("("+m.u+","+tv+")=("+fnum(C[0],2)+","+fnum(C[1],2)+")")} で）</div>`;
+  s+=`<div class="row">行き先の面積 ≈ <b style="color:var(--c2)">${fnum(A,4)}</b>　　${tex("|J|\\,\\Delta "+m.u+"\\,\\Delta "+tv+"="+fnum(Math.abs(J),3)+"\\times"+fnum(du,3)+"\\times"+fnum(dv,3))} = <b>${fnum(Math.abs(J)*du*dv,4)}</b></div>`;
+  s+=`<div class="row small muted">小長方形を小さくするほど、2つの値はよく一致します。${m.lin?"1次変換では "+tex("J")+" が定数なので、大きさによらず一致します。":""}</div>`;
+  $("#out").innerHTML=s; PU.draw(); PX.draw();
+}
+function setup(){
+  const m=M(); $("#lin").hidden=!m.lin; C=m.c.slice();
+  const pu=(m.ur[1]-m.ur[0])*0.08, pv=(m.vr[1]-m.vr[0])*0.08;
+  PU.setView({xmin:m.ur[0]-pu,xmax:m.ur[1]+pu,ymin:m.vr[0]-pv,ymax:m.vr[1]+pv,xl:m.u,yl:m.v});
+  PX.setView({xmin:-m.xr,xmax:m.xr,ymin:-m.xr,ymax:m.xr});
+  $("#capu").innerHTML=tex(m.u+(m.v==="θ"?"\\theta":m.v))+" 平面（もとの領域 "+tex("E")+"）";
+  upd();
+}
+$("#map").addEventListener("change",e=>{ mi=+e.target.value; setup(); });
+["#ma","#mb","#mc","#md","#sz"].forEach(id=>$(id).addEventListener("input",upd));
+setup();
+</script>

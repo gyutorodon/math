@@ -1,0 +1,159 @@
+<!--
+title: 中間まとめ
+lead: 第1回〜第8回（多変数関数の微分）の要点を1ページにまとめました。公式集で整理し、確認クイズと総合問題で仕上げましょう。
+desc: 前半（多変数の微分）の公式集・論理関係・確認クイズ・総合問題
+-->
+<section id="s1">
+<h2>1. 前半の地図</h2>
+<div class="dm">
+<svg viewBox="0 0 640 250" width="640" height="250" style="max-width:100%" role="img" aria-label="前半の内容の関係図">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--muted)"/></marker></defs>
+<g font-family="var(--textfont)" font-size="14" text-anchor="middle">
+<g fill="var(--card)" stroke="var(--accent)" stroke-width="1.5">
+<rect x="10" y="20" width="130" height="44" rx="10"/><rect x="180" y="20" width="130" height="44" rx="10"/><rect x="350" y="20" width="130" height="44" rx="10"/><rect x="500" y="20" width="130" height="44" rx="10"/>
+<rect x="180" y="110" width="130" height="44" rx="10"/><rect x="350" y="110" width="130" height="44" rx="10"/><rect x="500" y="110" width="130" height="44" rx="10"/>
+<rect x="350" y="196" width="130" height="44" rx="10"/><rect x="500" y="196" width="130" height="44" rx="10"/></g>
+<g fill="var(--fg)">
+<text x="75" y="40">第1回</text><text x="75" y="57" font-weight="700">極限・連続</text>
+<text x="245" y="40">第2回</text><text x="245" y="57" font-weight="700">偏微分・全微分</text>
+<text x="415" y="40">第3回</text><text x="415" y="57" font-weight="700">連鎖律</text>
+<text x="565" y="40">第6回</text><text x="565" y="57" font-weight="700">方向微分・勾配</text>
+<text x="245" y="130">第2回</text><text x="245" y="147" font-weight="700">接平面</text>
+<text x="415" y="130">第5回</text><text x="415" y="147" font-weight="700">テイラー展開</text>
+<text x="565" y="130">第7回</text><text x="565" y="147" font-weight="700">極値の判定</text>
+<text x="415" y="216">第8回</text><text x="415" y="233" font-weight="700">陰関数定理</text>
+<text x="565" y="216">第8回</text><text x="565" y="233" font-weight="700">条件付き極値</text></g>
+<g stroke="var(--muted)" stroke-width="1.5" fill="none" marker-end="url(#ah)">
+<line x1="140" y1="42" x2="178" y2="42"/><line x1="310" y1="42" x2="348" y2="42"/><line x1="480" y1="42" x2="498" y2="42"/>
+<line x1="245" y1="64" x2="245" y2="108"/><line x1="310" y1="132" x2="348" y2="132"/><line x1="480" y1="132" x2="498" y2="132"/>
+<line x1="415" y1="64" x2="415" y2="108"/><line x1="415" y1="64" x2="415" y2="194" stroke-dasharray="4 3"/><line x1="480" y1="218" x2="498" y2="218"/><line x1="565" y1="64" x2="565" y2="108"/><line x1="565" y1="154" x2="565" y2="194"/></g>
+</g></svg>
+</div>
+<p class="small muted">連鎖律はテイラー展開の証明（直線上に制限）、陰関数の微分、勾配と等高線の直交など、あらゆる所で使われる「道具」です。</p>
+</section>
+
+<section id="s2">
+<h2>2. 公式集</h2>
+<div class="tablewrap"><table class="t">
+<tr><th>項目</th><th class="l">公式・判定法</th></tr>
+<tr><td>極限がない</td><td class="l">2つの近づき方（$y=mx$, $y=kx^2$ など）で値が異なる</td></tr>
+<tr><td>極限がある</td><td class="l">極座標で $|f-L|\le g(r)\to0$（$g$ は $\theta$ によらない）</td></tr>
+<tr><td>偏微分係数</td><td class="l">$f_x(a,b)=\displaystyle\lim_{h\to0}\frac{f(a+h,b)-f(a,b)}{h}$</td></tr>
+<tr><td>全微分可能</td><td class="l">$\dfrac{f(a+h,b+k)-f(a,b)-f_xh-f_yk}{\sqrt{h^2+k^2}}\to0$</td></tr>
+<tr><td>接平面</td><td class="l">$z=f(a,b)+f_x(a,b)(x-a)+f_y(a,b)(y-b)$</td></tr>
+<tr><td>連鎖律</td><td class="l">$\dfrac{dz}{dt}=f_x\dfrac{dx}{dt}+f_y\dfrac{dy}{dt}$, $\ z_u=z_xx_u+z_yy_u$</td></tr>
+<tr><td>極座標</td><td class="l">$z_r=z_x\cos\theta+z_y\sin\theta$, $\ z_\theta=-z_xr\sin\theta+z_yr\cos\theta$</td></tr>
+<tr><td>テイラー（2次）</td><td class="l">$f(a+h,b+k)\approx f+f_xh+f_yk+\frac12(f_{xx}h^2+2f_{xy}hk+f_{yy}k^2)$</td></tr>
+<tr><td>方向微分</td><td class="l">$D_{\bm u}f=\nabla f\cdot\bm u$（$|\bm u|=1$）、最大値 $|\nabla f|$</td></tr>
+<tr><td>等高線の接線</td><td class="l">$f_x(a,b)(x-a)+f_y(a,b)(y-b)=0$</td></tr>
+<tr><td>極値の判定</td><td class="l">$f_x=f_y=0$ で $H=f_{xx}f_{yy}-f_{xy}^2$：$H>0,f_{xx}>0$ 極小／$H>0,f_{xx}<0$ 極大／$H<0$ 鞍点</td></tr>
+<tr><td>陰関数</td><td class="l">$\dfrac{dy}{dx}=-\dfrac{g_x}{g_y}$、極値の候補 $g_x=0$ で $\varphi''=-\dfrac{g_{xx}}{g_y}$</td></tr>
+<tr><td>ラグランジュ</td><td class="l">$f_x=\lambda g_x$, $f_y=\lambda g_y$, $g=0$（$\lambda$ を消すと $f_xg_y-f_yg_x=0$）</td></tr>
+</table></div>
+<div class="box thm">
+<div class="box-t">論理関係（どれが成り立ち、どれが成り立たないか）</div>
+<div class="dm">$C^1$ 級 $\Rightarrow$ 全微分可能 $\Rightarrow$ $\begin{cases}\text{連続}\\ \text{偏微分可能}\\ \text{全方向に方向微分可能}\end{cases}$</div>
+<ul>
+<li>偏微分可能 $\not\Rightarrow$ 連続（$\frac{xy}{x^2+y^2}$）</li>
+<li>連続かつ偏微分可能 $\not\Rightarrow$ 全微分可能（$\sqrt{|xy|}$）</li>
+<li>極値 $\Rightarrow$ 停留点、だが 停留点 $\not\Rightarrow$ 極値（鞍点）</li>
+<li>$C^2$ 級 $\Rightarrow$ $f_{xy}=f_{yx}$</li>
+</ul>
+</div>
+</section>
+
+<section id="s3">
+<h2>3. チェックリスト</h2>
+<ul class="small">
+<li>☐ 2変数の極限が存在しないことを、近づき方を2つ挙げて示せる</li>
+<li>☐ 極座標を使って極限が $0$ であることを示せる</li>
+<li>☐ 偏導関数・2次偏導関数を正確に計算できる（第4回の計算機で検算）</li>
+<li>☐ 場合分けされた関数の $(0,0)$ での偏微分係数を定義から計算できる</li>
+<li>☐ 全微分可能かどうかを定義に従って判定できる</li>
+<li>☐ 接平面の方程式を書ける</li>
+<li>☐ 連鎖律で $dz/dt$, $z_u$, $z_v$, 極座標の $z_r$, $z_\theta$ を計算できる</li>
+<li>☐ 2次までのテイラー展開を書き、近似値を計算できる</li>
+<li>☐ 方向微分係数・勾配・最大の傾きを求められる</li>
+<li>☐ 停留点をすべて求め、$H$ で極値を判定できる（$H=0$ の扱いも）</li>
+<li>☐ 陰関数の導関数・極値を求められる</li>
+<li>☐ ラグランジュの未定乗数法で最大・最小を求められる</li>
+</ul>
+</section>
+
+<section id="s4">
+<h2>4. 確認クイズ</h2>
+<div class="demo quiz" id="quiz">
+<div class="demo-t">選択肢をクリックして答えよう</div>
+<p class="small">全12問。答えるとすぐに解説が表示されます。<span id="score" class="kw"></span></p>
+<div class="q" data-a="2"><p><b>Q1.</b> $\displaystyle\lim_{(x,y)\to(0,0)}\frac{x^2}{x^2+y^2}$ は？</p><div class="opts"><button>0</button><button>1</button><button>存在しない</button></div><div class="fb" hidden>$x$ 軸に沿うと $1$、$y$ 軸に沿うと $0$。近づき方で値が違うので存在しない。</div></div>
+<div class="q" data-a="0"><p><b>Q2.</b> $f=x^2y^3$ のとき $f_{xy}$ は？</p><div class="opts"><button>$6xy^2$</button><button>$6x^2y$</button><button>$2xy^3$</button></div><div class="fb" hidden>$f_x=2xy^3$ をさらに $y$ で偏微分して $6xy^2$。</div></div>
+<div class="q" data-a="1"><p><b>Q3.</b> 「偏微分可能ならば連続」は正しい？</p><div class="opts"><button>正しい</button><button>正しくない</button></div><div class="fb" hidden>反例 $\frac{xy}{x^2+y^2}$（原点で $0$）。偏微分可能だが原点で不連続。連続性を保証するのは全微分可能性。</div></div>
+<div class="q" data-a="0"><p><b>Q4.</b> $z=x^2+y^2$ の点 $(1,1,2)$ での接平面は？</p><div class="opts"><button>$z=2x+2y-2$</button><button>$z=2x+2y$</button><button>$z=x+y$</button></div><div class="fb" hidden>$z=2+2(x-1)+2(y-1)=2x+2y-2$。</div></div>
+<div class="q" data-a="0"><p><b>Q5.</b> $z=f(x,y)$, $x=t^2$, $y=t^3$ のとき $\frac{dz}{dt}$ は？</p><div class="opts"><button>$2tf_x+3t^2f_y$</button><button>$f_x+f_y$</button><button>$6t^3f_xf_y$</button></div><div class="fb" hidden>連鎖律 $f_x\frac{dx}{dt}+f_y\frac{dy}{dt}$。</div></div>
+<div class="q" data-a="0"><p><b>Q6.</b> 2次のテイラー多項式で、$hk$ の項の係数は？</p><div class="opts"><button>$f_{xy}$</button><button>$2f_{xy}$</button><button>$\frac12f_{xy}$</button></div><div class="fb" hidden>$\frac12(f_{xx}h^2+2f_{xy}hk+f_{yy}k^2)$ なので $\frac12\cdot2f_{xy}=f_{xy}$。</div></div>
+<div class="q" data-a="1"><p><b>Q7.</b> 勾配 $\nabla f$ の向きは？</p><div class="opts"><button>等高線の接線方向</button><button>等高線に垂直で、$f$ が増える向き</button><button>等高線に垂直で、$f$ が減る向き</button></div><div class="fb" hidden>$\nabla f$ は最も急に増加する向きで、等高線と直交する。</div></div>
+<div class="q" data-a="0"><p><b>Q8.</b> $f=x^2+3xy$ の点 $(1,2)$ における、$\bm u=(0,1)$ 方向の方向微分係数は？</p><div class="opts"><button>$3$</button><button>$8$</button><button>$11$</button></div><div class="fb" hidden>$\bm u=(0,1)$ 方向は $f_y=3x=3$。</div></div>
+<div class="q" data-a="2"><p><b>Q9.</b> 停留点で $f_{xx}=2$, $f_{xy}=3$, $f_{yy}=4$。この点は？</p><div class="opts"><button>極大</button><button>極小</button><button>鞍点</button><button>判定できない</button></div><div class="fb" hidden>$H=2\cdot4-3^2=-1<0$ なので鞍点。</div></div>
+<div class="q" data-a="0"><p><b>Q10.</b> 停留点で $f_{xx}=-1$, $f_{xy}=0$, $f_{yy}=-3$。この点は？</p><div class="opts"><button>極大</button><button>極小</button><button>鞍点</button><button>判定できない</button></div><div class="fb" hidden>$H=3>0$, $f_{xx}<0$ なので極大。</div></div>
+<div class="q" data-a="0"><p><b>Q11.</b> 円 $x^2+y^2=25$ の点 $(3,4)$ での $\frac{dy}{dx}$ は？</p><div class="opts"><button>$-\frac34$</button><button>$\frac34$</button><button>$-\frac43$</button></div><div class="fb" hidden>$-\frac{g_x}{g_y}=-\frac{2x}{2y}=-\frac34$。</div></div>
+<div class="q" data-a="1"><p><b>Q12.</b> 条件 $x^2+y^2=2$ のもとでの $x+y$ の最大値は？</p><div class="opts"><button>$\sqrt2$</button><button>$2$</button><button>$4$</button></div><div class="fb" hidden>$1=2\lambda x$, $1=2\lambda y$ より $x=y$、$x=y=\pm1$。最大値 $2$（点 $(1,1)$）。</div></div>
+<button id="reset">もう一度</button>
+</div>
+</section>
+
+<section id="s5">
+<h2>5. 総合問題</h2>
+<div class="prob">
+<div class="prob-t">問題 1 <span class="lv">極限・偏微分・全微分</span></div>
+<p>$f(x,y)=\dfrac{x^3-y^3}{x^2+y^2}$ $((x,y)\ne(0,0))$, $f(0,0)=0$ について、(1) 原点で連続か、(2) $f_x(0,0)$, $f_y(0,0)$、(3) 原点で全微分可能か、を調べてください。</p>
+<details><summary>解答を見る</summary>
+<p>(1) 極座標で $|f|=r|\cos^3\theta-\sin^3\theta|\le2r\to0$。<strong>連続</strong>。</p>
+<p>(2) $f_x(0,0)=\lim\frac{h^3/h^2}{h}=1$, $f_y(0,0)=\lim\frac{-k^3/k^2}{k}=-1$。</p>
+<p>(3) $\varepsilon=f(h,k)-h+k=\dfrac{h^3-k^3-(h-k)(h^2+k^2)}{h^2+k^2}=\dfrac{hk(h-k)}{h^2+k^2}$。</p>
+<p>$\dfrac{\varepsilon}{\sqrt{h^2+k^2}}=\cos\theta\sin\theta(\cos\theta-\sin\theta)$ は $r$ によらず、$\theta=-\frac\pi4$ で $-\frac{\sqrt2}{2}\ne0$。<strong>全微分可能でない</strong>。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 2 <span class="lv">極値</span></div>
+<p>$f(x,y)=x^3-6xy+3y^2$ の極値を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>$f_x=3x^2-6y=0$, $f_y=-6x+6y=0$ より $y=x$, $3x^2-6x=0$。停留点 $(0,0)$, $(2,2)$。$A=6x$, $B=-6$, $C=6$。</p>
+<p>$(0,0)$：$H=-36<0$ 鞍点。$(2,2)$：$H=72-36=36>0$, $A=12>0$ → <strong>極小値 $f(2,2)=-4$</strong>。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 3 <span class="lv">テイラー展開</span></div>
+<p>$f(x,y)=e^x\log(1+y)$ のマクローリン展開を2次の項まで求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>$(1+x+\cdots)(y-\frac{y^2}{2}+\cdots)$ の2次まで：$y+xy-\dfrac12y^2$。</p>
+<p class="check">偏微分係数：$f=0$, $f_x=0$, $f_y=1$, $f_{xx}=0$, $f_{xy}=1$, $f_{yy}=-1$。$y+\frac12(2xy-y^2)$ と一致。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 4 <span class="lv">連鎖律</span></div>
+<p>$z=f(x,y)$ は $C^1$ 級、定数 $\alpha$ に対し $x=u\cos\alpha-v\sin\alpha$, $y=u\sin\alpha+v\cos\alpha$（回転）とします。$z_u^2+z_v^2=z_x^2+z_y^2$ を示してください。</p>
+<details><summary>解答を見る</summary>
+<p>$z_u=z_x\cos\alpha+z_y\sin\alpha$, $z_v=-z_x\sin\alpha+z_y\cos\alpha$。2乗して足すと交差項が打ち消し合い、$z_x^2+z_y^2$。（勾配の長さは座標を回転しても変わらない。）</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 5 <span class="lv">条件付き極値</span></div>
+<p>条件 $x^2+y^2=1$ のもとで $f=x^2+2y^2$ の最大値・最小値を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>$2x=2\lambda x$, $4y=2\lambda y$ より $x(1-\lambda)=0$, $y(2-\lambda)=0$。</p>
+<p>$x=0$ なら $y=\pm1$、$f=2$。$x\ne0$ なら $\lambda=1$、$y=0$、$x=\pm1$、$f=1$。円は有界閉集合なので <strong>最大値 $2$、最小値 $1$</strong>。</p>
+</details>
+</div>
+<div class="prob">
+<div class="prob-t">問題 6 <span class="lv">勾配</span></div>
+<p>$f(x,y)=\log(x^2+y^2)$ の点 $(1,2)$ について、最大の傾きとその向き、および等高線の接線を求めてください。</p>
+<details><summary>解答を見る</summary>
+<p>$\nabla f=\left(\frac{2x}{x^2+y^2},\frac{2y}{x^2+y^2}\right)=\left(\frac25,\frac45\right)$。最大の傾き $|\nabla f|=\frac{2}{\sqrt5}$、向き $\frac{1}{\sqrt5}(1,2)$。</p>
+<p>接線：$\frac25(x-1)+\frac45(y-2)=0$、すなわち $x+2y=5$。（等高線は原点中心の円なので、接線は半径に垂直。）</p>
+</details>
+</div>
+</section>
+
+<script>
+quizInit();
+</script>
